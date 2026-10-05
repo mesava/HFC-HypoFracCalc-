@@ -377,7 +377,7 @@ export function CompareRegimensView({
               throw new Error(
                 tx(
                   language,
-                  `Manual α/β для ${label} должно быть >0 Гр.`,
+                  `Пользовательское α/β для ${label} должно быть >0 Гр.`,
                   `Manual α/β for ${label} must be >0 Gy.`,
                 ),
               );
@@ -448,7 +448,7 @@ export function CompareRegimensView({
         id,
         label:
           language === "ru"
-            ? `Схема ${current.length + 1}`
+            ? `Режим ${current.length + 1}`
             : `Regimen ${current.length + 1}`,
         fractions: "5",
         dosePerFractionGy: "5",
