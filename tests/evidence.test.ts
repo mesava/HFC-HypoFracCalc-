@@ -3,6 +3,8 @@ import {
   alphaBetaEstimates,
   endpoints,
   evidenceManifest,
+  repairHalfTimeEstimates,
+  repopulationRateEstimates,
   sources,
 } from "../src/data/evidence/v0.1/index.js";
 import {
@@ -25,15 +27,26 @@ describe("evidence-v0.1 integrity", () => {
     expectUnique(sources.map((source) => source.id));
     expectUnique(endpoints.map((endpoint) => endpoint.id));
     expectUnique(alphaBetaEstimates.map((record) => record.id));
+    expectUnique(repairHalfTimeEstimates.map((record) => record.id));
+    expectUnique(repopulationRateEstimates.map((record) => record.id));
   });
 
-  it("all alpha/beta records reference existing sources and endpoints", () => {
+  it("all evidence records reference existing sources and endpoints", () => {
     const sourceIds = new Set(sources.map((source) => source.id));
     const endpointIds = new Set(endpoints.map((endpoint) => endpoint.id));
 
-    for (const record of alphaBetaEstimates) {
+    for (const record of [
+      ...alphaBetaEstimates,
+      ...repairHalfTimeEstimates,
+      ...repopulationRateEstimates,
+    ]) {
       expect(sourceIds.has(record.sourceId)).toBe(true);
       expect(endpointIds.has(record.endpointId)).toBe(true);
+    }
+  });
+
+  it("all alpha/beta point estimates are positive and CIs contain the point estimate when finite", () => {
+    for (const record of alphaBetaEstimates) {
       expect(record.valueGy).toBeGreaterThan(0);
 
       if (record.ci95) {
@@ -43,9 +56,52 @@ describe("evidence-v0.1 integrity", () => {
     }
   });
 
-  it("has no more than one auto-default per endpoint", () => {
+  it("all repair records have either a point value or a range/bound", () => {
+    for (const record of repairHalfTimeEstimates) {
+      expect(
+        record.valueHours !== undefined || record.rangeHours !== undefined,
+      ).toBe(true);
+
+      if (record.valueHours !== undefined) {
+        expect(record.valueHours).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("all repopulation rates declare EQD2 or BED basis", () => {
+    for (const record of repopulationRateEstimates) {
+      expect(["EQD2", "BED"]).toContain(record.basis);
+      expect(record.rateGyPerDay).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("has no more than one auto-default alpha/beta per endpoint", () => {
     for (const endpoint of endpoints) {
       const defaults = alphaBetaEstimates.filter(
+        (record) =>
+          record.endpointId === endpoint.id &&
+          record.status === "preferred" &&
+          record.defaultEligible,
+      );
+      expect(defaults.length).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("has no more than one auto-default repair half-time per endpoint", () => {
+    for (const endpoint of endpoints) {
+      const defaults = repairHalfTimeEstimates.filter(
+        (record) =>
+          record.endpointId === endpoint.id &&
+          record.status === "preferred" &&
+          record.defaultEligible,
+      );
+      expect(defaults.length).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("has no more than one auto-default repopulation rate per endpoint", () => {
+    for (const endpoint of endpoints) {
+      const defaults = repopulationRateEstimates.filter(
         (record) =>
           record.endpointId === endpoint.id &&
           record.status === "preferred" &&
@@ -113,6 +169,80 @@ describe("preferred alpha/beta selections", () => {
     );
     expect(record?.valueGy).toBe(2.1);
     expect(record?.ci95).toEqual({ level: 0.95, low: 1.6, high: 2.6 });
+  });
+
+  it("selects evidence-based HN, lung and mucosal defaults", () => {
+    expect(
+      getPreferredAlphaBetaEstimate("head-neck-tumour-control")?.valueGy,
+    ).toBe(10.5);
+    expect(
+      getPreferredAlphaBetaEstimate("head-neck-various-late-effects")?.valueGy,
+    ).toBe(4.0);
+    expect(
+      getPreferredAlphaBetaEstimate("nsclc-stage-i-local-control")?.valueGy,
+    ).toBe(8.2);
+    expect(
+      getPreferredAlphaBetaEstimate("oral-mucosa-mucositis")?.valueGy,
+    ).toBe(9.3);
+  });
+
+  it("does not auto-select a spinal-cord alpha/beta because human estimates conflict", () => {
+    expect(
+      getPreferredAlphaBetaEstimate("spinal-cord-radiation-myelopathy"),
+    ).toBeUndefined();
+
+    const alternatives = alphaBetaEstimates.filter(
+      (record) =>
+        record.endpointId === "spinal-cord-radiation-myelopathy",
+    );
+    expect(alternatives.map((record) => record.valueGy).sort()).toEqual([
+      0.87,
+      3.7,
+    ]);
+  });
+});
+
+describe("repair and repopulation evidence", () => {
+  it("stores endpoint-specific CHART repair half-times", () => {
+    const larynx = repairHalfTimeEstimates.find(
+      (record) => record.endpointId === "larynx-edema",
+    );
+    const fibrosis = repairHalfTimeEstimates.find(
+      (record) => record.endpointId === "subcutis-fibrosis",
+    );
+
+    expect(larynx?.valueHours).toBe(4.9);
+    expect(larynx?.ci95).toEqual({ level: 0.95, low: 3.2, high: 6.4 });
+    expect(fibrosis?.valueHours).toBe(4.4);
+  });
+
+  it("does not turn lower-bound repair evidence into a point default", () => {
+    const cord = repairHalfTimeEstimates.find(
+      (record) =>
+        record.endpointId === "spinal-cord-radiation-myelopathy",
+    );
+    expect(cord?.qualifier).toBe("lower-bound");
+    expect(cord?.rangeHours?.low).toBe(5);
+    expect(cord?.defaultEligible).toBe(false);
+  });
+
+  it("stores a preferred HN Dprolif with explicit EQD2 basis and Tk", () => {
+    const hn = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-hn-various-bcr2025",
+    );
+    expect(hn?.basis).toBe("EQD2");
+    expect(hn?.rateGyPerDay).toBe(0.8);
+    expect(hn?.kickOffDays).toBe(21);
+    expect(hn?.defaultEligible).toBe(true);
+  });
+
+  it("keeps prostate time-loss evidence available but not automatic", () => {
+    const prostate = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-prostate-bcr2025",
+    );
+    expect(prostate?.rateGyPerDay).toBe(0.24);
+    expect(prostate?.kickOffDays).toBe(52);
+    expect(prostate?.defaultEligible).toBe(false);
   });
 });
 
