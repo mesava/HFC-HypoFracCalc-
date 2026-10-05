@@ -14,10 +14,16 @@ function sourceKindLabel(language: Language, kind: string): string {
         return "Meta-analysis";
       case "modeling-study":
         return "Modelling study";
+      case "systematic-review":
+        return "Systematic review";
+      case "cohort":
+        return "Cohort study";
       case "guideline":
         return "Guideline / consensus";
       case "textbook":
         return "Textbook";
+      case "other":
+        return "Other source";
       default:
         return kind;
     }
@@ -30,12 +36,18 @@ function sourceKindLabel(language: Language, kind: string): string {
       return "Метаанализ";
     case "modeling-study":
       return "Моделирующее исследование";
+    case "systematic-review":
+      return "Систематический обзор";
+    case "cohort":
+      return "Когортное исследование";
     case "guideline":
       return "Рекомендации / консенсус";
     case "textbook":
       return "Учебное издание";
+    case "other":
+      return "Другой источник";
     default:
-      return kind;
+      return "Источник";
   }
 }
 
