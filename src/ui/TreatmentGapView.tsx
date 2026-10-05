@@ -286,7 +286,7 @@ export function TreatmentGapView({
       <section className="panel gap-config-panel">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">treatment gap</span>
+            <span className="eyebrow">{tx(language, "перерывы в лечении", "treatment gap")}</span>
             <h2>
               {tx(
                 language,
@@ -299,7 +299,7 @@ export function TreatmentGapView({
 
         <label className="field">
           <span>
-            {tx(language, "Опухолевый endpoint", "Tumour endpoint")}
+            {tx(language, "Опухолевый исход", "Tumour endpoint")}
           </span>
           <select
             value={endpointId}
@@ -339,7 +339,7 @@ export function TreatmentGapView({
           </label>
           <label className="field compact-field">
             <span>
-              {tx(language, "Плановый OTT, дни", "Planned OTT, days")}
+              {tx(language, "Плановая общая продолжительность лечения, дни", "Planned OTT, days")}
             </span>
             <input
               type="number"
@@ -353,7 +353,7 @@ export function TreatmentGapView({
             <span>
               {tx(
                 language,
-                "Проведено до перерыва",
+                "Фракций проведено до перерыва",
                 "Fractions delivered before gap",
               )}
             </span>
@@ -369,7 +369,7 @@ export function TreatmentGapView({
           </label>
           <label className="field compact-field">
             <span>
-              {tx(language, "Прерывание, дни", "Interruption, days")}
+              {tx(language, "Продолжительность перерыва, дни", "Interruption, days")}
             </span>
             <input
               type="number"
@@ -384,7 +384,7 @@ export function TreatmentGapView({
         <p className="field-note">
           {tx(
             language,
-            "OTT — общая продолжительность курса в календарных днях в той же конвенции, которая используется локально для клинического расчёта. HFC не пытается сам угадывать даты на этом этапе.",
+            "Общая продолжительность лечения — это длительность курса в календарных днях в той же конвенции, которая используется локально для клинического расчёта. На этом этапе HFC не пытается самостоятельно восстанавливать даты.",
             "OTT is the overall treatment duration in calendar days using the convention applied locally for the clinical calculation. HFC does not infer treatment dates at this stage.",
           )}
         </p>
@@ -393,7 +393,7 @@ export function TreatmentGapView({
 
         <div className="section-heading compact">
           <div>
-            <span className="eyebrow">radiobiology</span>
+            <span className="eyebrow">{tx(language, "радиобиология", "radiobiology")}</span>
             <h2>α/β + time-loss model</h2>
           </div>
         </div>
@@ -404,7 +404,7 @@ export function TreatmentGapView({
             className={alphaMode === "evidence" ? "selected" : ""}
             onClick={() => setAlphaMode("evidence")}
           >
-            {tx(language, "α/β из evidence", "Evidence α/β")}
+            {tx(language, "α/β из доказательной базы", "Evidence α/β")}
           </button>
           <button
             type="button"
@@ -417,7 +417,7 @@ export function TreatmentGapView({
 
         {alphaMode === "evidence" ? (
           <label className="field">
-            <span>α/β estimate</span>
+            <span>{tx(language, "Оценка α/β", "α/β estimate")}</span>
             <select
               value={alphaRecordId}
               onChange={(event) =>
@@ -480,7 +480,7 @@ export function TreatmentGapView({
           >
             {tx(
               language,
-              "Dprolif из evidence",
+              "Dprolif из доказательной базы",
               "Evidence Dprolif",
             )}
           </button>
@@ -491,7 +491,7 @@ export function TreatmentGapView({
           >
             {tx(
               language,
-              "свой Dprolif / Tk",
+              "свои Dprolif / Tk",
               "custom Dprolif / Tk",
             )}
           </button>
@@ -500,7 +500,7 @@ export function TreatmentGapView({
         {timeMode === "evidence" ? (
           <>
             <label className="field">
-              <span>Time-loss estimate</span>
+              <span>{tx(language, "Оценка временной поправки", "Time-loss estimate")}</span>
               <select
                 value={timeRecordId}
                 onChange={(event) => {
@@ -563,7 +563,7 @@ export function TreatmentGapView({
               <small>
                 {tx(
                   language,
-                  "Если значение отличается от публикации, HFC сохраняет provenance Dprolif, но маркирует Tk как user-specified.",
+                  "Если значение отличается от публикации, HFC сохраняет источник Dprolif, но явно отмечает Tk как заданный пользователем.",
                   "If the value differs from the publication, HFC preserves Dprolif provenance but marks Tk as user-specified.",
                 )}
               </small>
@@ -621,7 +621,7 @@ export function TreatmentGapView({
 
         <div className="section-heading compact">
           <div>
-            <span className="eyebrow">strategy inputs</span>
+            <span className="eyebrow">{tx(language, "параметры стратегий", "strategy inputs")}</span>
             <h2>
               {tx(
                 language,
@@ -652,7 +652,7 @@ export function TreatmentGapView({
           <small>
             {tx(
               language,
-              "RCR: минимум 6 ч; BCR 2025 рекомендует максимально практичный интервал, около 8 ч и более, когда это возможно.",
+              "RCR: минимум 6 ч; BCR 2025 рекомендует максимально практичный интервал — около 8 ч и более, когда это возможно.",
               "RCR: minimum 6 h; BCR 2025 recommends the maximum practical interval, about 8 h or longer when feasible.",
             )}
           </small>
@@ -663,7 +663,7 @@ export function TreatmentGapView({
             <span>
               {tx(
                 language,
-                "Фракций после gap для dose-compensation",
+                "Число фракций после перерыва для компенсации дозой",
                 "Post-gap fractions for dose compensation",
               )}
             </span>
@@ -681,7 +681,7 @@ export function TreatmentGapView({
             <span>
               {tx(
                 language,
-                "Фактический OTT, дни",
+                "Фактическая общая продолжительность лечения, дни",
                 "Actual OTT, days",
               )}
             </span>
@@ -701,11 +701,11 @@ export function TreatmentGapView({
       <section className="panel gap-results-panel">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">strategy comparison</span>
+            <span className="eyebrow">{tx(language, "сравнение стратегий", "strategy comparison")}</span>
             <h2>
               {tx(
                 language,
-                "Что происходит с tumour EQD₂?",
+                "Что происходит с EQD₂ опухоли?",
                 "What happens to tumour EQD₂?",
               )}
             </h2>
@@ -730,7 +730,7 @@ export function TreatmentGapView({
                 <span>
                   {tx(
                     language,
-                    "Плановый effective EQD₂",
+                    "Плановый эффективный EQD₂",
                     "Planned effective EQD₂",
                   )}
                 </span>
@@ -788,19 +788,19 @@ export function TreatmentGapView({
                 <div className="strategy-card-top">
                   <div>
                     <span className="eyebrow">strategy 1</span>
-                    <h3>Weekend recovery</h3>
+                    <h3>{tx(language, "Компенсация в выходные", "Weekend recovery")}</h3>
                   </div>
-                  <span className="strategy-tag">RCR first-line</span>
+                  <span className="strategy-tag">{tx(language, "приоритет RCR", "RCR first-line")}</span>
                 </div>
                 <p>
                   {tx(
                     language,
-                    "Все исходные фракции и d сохраняются, курс возвращается к плановому OTT.",
+                    "Все исходные фракции и доза за фракцию сохраняются, а курс возвращается к плановой общей продолжительности лечения.",
                     "All original fractions and dose per fraction are preserved and the course returns to the planned OTT.",
                   )}
                 </p>
                 <div className="strategy-result">
-                  <span>Δ effective EQD₂</span>
+                  <span>Δ {tx(language, "эффективного EQD₂", "effective EQD₂")}</span>
                   <strong>
                     {signed(
                       language,
@@ -822,9 +822,9 @@ export function TreatmentGapView({
                 <div className="strategy-card-top">
                   <div>
                     <span className="eyebrow">strategy 2</span>
-                    <h3>BID recovery</h3>
+                    <h3>{tx(language, "Компенсация двумя фракциями в сутки", "BID recovery")}</h3>
                   </div>
-                  <span className="strategy-tag">conditional</span>
+                  <span className="strategy-tag">{tx(language, "при соблюдении условий", "conditional")}</span>
                 </div>
                 {"error" in calculation.bid ? (
                   <div className="inline-alert">
@@ -833,7 +833,7 @@ export function TreatmentGapView({
                 ) : (
                   <>
                     <div className="strategy-result">
-                      <span>Δ effective EQD₂</span>
+                      <span>Δ {tx(language, "эффективного EQD₂", "effective EQD₂")}</span>
                       <strong>
                         {signed(
                           language,
@@ -857,9 +857,9 @@ export function TreatmentGapView({
                 <div className="strategy-card-top">
                   <div>
                     <span className="eyebrow">strategy 3</span>
-                    <h3>Biological dose compensation</h3>
+                    <h3>{tx(language, "Радиобиологическая компенсация дозой", "Biological dose compensation")}</h3>
                   </div>
-                  <span className="strategy-tag">last resort</span>
+                  <span className="strategy-tag">{tx(language, "последний вариант", "last resort")}</span>
                 </div>
 
                 {"error" in calculation.doseCompensation ? (
@@ -871,7 +871,7 @@ export function TreatmentGapView({
                     <div className="strategy-metrics">
                       <div>
                         <span>
-                          {tx(language, "Новый d", "New d")}
+                          {tx(language, "Новая доза за фракцию", "New d")}
                         </span>
                         <strong>
                           {formatUiNumber(
@@ -901,7 +901,7 @@ export function TreatmentGapView({
                         </strong>
                       </div>
                       <div>
-                        <span>Δ effective EQD₂</span>
+                        <span>Δ {tx(language, "эффективного EQD₂", "effective EQD₂")}</span>
                         <strong>
                           {signed(
                             language,
@@ -932,7 +932,7 @@ export function TreatmentGapView({
                 <strong>
                   {tx(
                     language,
-                    "Предупреждения модели / evidence",
+                    "Предупреждения модели и доказательной базы",
                     "Model / evidence warnings",
                   )}
                 </strong>
@@ -953,7 +953,7 @@ export function TreatmentGapView({
               <p>
                 {tx(
                   language,
-                  "В соответствии с RCR сначала следует пытаться сохранить исходные OTT и dose/fraction: weekend treatment или, если допустимо, BID. Радиобиологическое увеличение дозы — вариант, когда ускоренная компенсация невозможна.",
+                  "В соответствии с RCR сначала следует пытаться сохранить исходную общую продолжительность лечения и дозу за фракцию: использовать лечение в выходные дни или, если допустимо, две фракции в сутки. Радиобиологическое увеличение дозы рассматривается, когда ускоренная компенсация невозможна.",
                   "In line with RCR guidance, the first goal is to preserve the original OTT and dose per fraction using weekend treatment or, when appropriate, BID. Biological dose escalation is considered when accelerated compensation is not feasible.",
                 )}
               </p>
@@ -965,14 +965,14 @@ export function TreatmentGapView({
           <strong>
             {tx(
               language,
-              "Treatment Gap v0.1 моделирует tumour effect.",
+              "Модуль «Перерывы в лечении» v0.1 моделирует эффект для опухоли.",
               "Treatment Gap v0.1 models tumour effect.",
             )}
           </strong>
           <p>
             {tx(
               language,
-              "Увеличение d не должно приниматься без отдельной оценки OAR, incomplete repair, dose-volume constraints и клинической допустимости. OAR-aware compensation будет следующим этапом.",
+              "Увеличение дозы за фракцию не должно приниматься без отдельной оценки органов риска, неполного восстановления, ограничений доза–объём и клинической допустимости. Следующим этапом станет компенсация с явным учётом органов риска.",
               "An increase in d should not be accepted without a separate assessment of OARs, incomplete repair, dose-volume constraints, and clinical acceptability. OAR-aware compensation is the next development step.",
             )}
           </p>
