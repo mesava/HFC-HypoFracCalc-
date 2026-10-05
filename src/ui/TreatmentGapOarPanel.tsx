@@ -21,7 +21,7 @@ import {
   evaluateOarDoseCompensation,
   proportionalOarDosePerFraction,
 } from "../workflows/treatmentGapOar.js";
-import { localizeWarning, tx } from "./i18n.js";
+import { estimateChoiceLabel, localizeWarning, tx } from "./i18n.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -513,9 +513,11 @@ function TreatmentGapOarCard({
                   2,
                 )}{" "}
                 {gy}
-                {record.defaultEligible
-                  ? " · preferred"
-                  : " · alternative"}
+                {" · "}
+                {estimateChoiceLabel(
+                  language,
+                  record.defaultEligible,
+                )}
               </option>
             ))}
           </select>
