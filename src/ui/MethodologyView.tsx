@@ -3,6 +3,7 @@ import {
   endpoints,
   evidenceManifest,
   hytecClinicalConstraints,
+  reirradiationGuidanceSets,
   repairHalfTimeEstimates,
   repopulationRateEstimates,
   sources,
@@ -72,6 +73,16 @@ export function MethodologyView({
               )}
             </span>
             <strong>{hytecClinicalConstraints.length}</strong>
+          </div>
+          <div>
+            <span>
+              {tx(
+                language,
+                "Наборы для повторного облучения",
+                "Reirradiation guidance sets",
+              )}
+            </span>
+            <strong>{reirradiationGuidanceSets.length}</strong>
           </div>
           <div>
             <span>{tx(language, "Источники", "Sources")}</span>
@@ -162,8 +173,8 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Восстановление между курсами не выводится автоматически из временного интервала: любое снижение вклада предыдущей эквивалентной дозы задаётся пользователем явно и требует обоснования.",
-              "Recovery between courses is never inferred automatically from elapsed time: any discount applied to prior equieffective dose is explicit and requires a rationale.",
+              "Восстановление между курсами не выводится автоматически из временного интервала. Reirradiation-specific клинические критерии хранят собственную опубликованную основу расчёта и не наследуют пользовательские допущения, если источник их не использует.",
+              "Recovery between courses is never inferred automatically from elapsed time. Reirradiation-specific clinical guidance keeps its own published calculation basis and does not inherit user assumptions unless the source defines them.",
             )}
           </p>
         </article>
