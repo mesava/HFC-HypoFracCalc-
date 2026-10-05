@@ -122,6 +122,70 @@ function metricLabel(
   return metric.kind;
 }
 
+function spinalCriterionLabel(
+  language: Language,
+  id: string,
+): string {
+  switch (id) {
+    case "cumulative-eqd2-max":
+      return tx(
+        language,
+        "Кумулятивный Dmax оболочки спинного мозга",
+        "Cumulative thecal-sac Dmax",
+      );
+    case "current-sbrt-eqd2-max":
+      return tx(
+        language,
+        "Dmax оболочки спинного мозга в текущем SBRT",
+        "Current SBRT thecal-sac Dmax",
+      );
+    case "current-to-cumulative-ratio":
+      return tx(
+        language,
+        "Доля текущего SBRT в кумулятивном EQD₂",
+        "Current SBRT / cumulative EQD₂ ratio",
+      );
+    case "minimum-interval":
+      return tx(
+        language,
+        "Интервал между курсами",
+        "Interval between courses",
+      );
+    default:
+      return id;
+  }
+}
+
+function guidanceStatusLabel(
+  language: Language,
+  status: "met" | "not-met" | "not-assessable",
+): string {
+  switch (status) {
+    case "met":
+      return tx(language, "критерий выполнен", "criterion met");
+    case "not-met":
+      return tx(language, "критерий не выполнен", "criterion not met");
+    case "not-assessable":
+      return tx(language, "недостаточно данных", "not assessable");
+  }
+}
+
+function guidanceUnitLabel(
+  language: Language,
+  unit: "Gy EQD2_2" | "ratio" | "months" | undefined,
+): string {
+  switch (unit) {
+    case "Gy EQD2_2":
+      return language === "ru" ? "Гр EQD₂₂" : "Gy EQD₂₂";
+    case "ratio":
+      return "";
+    case "months":
+      return tx(language, "мес.", "months");
+    default:
+      return "";
+  }
+}
+
 export function ReirradiationView({
   language,
 }: {
@@ -1521,6 +1585,193 @@ export function ReirradiationView({
                           gy}
                     </strong>
                   </div>
+                </div>
+              ) : null}
+
+
+              {endpointId === "spinal-cord-radiation-myelopathy" &&
+              metricKind === "Dmax" ? (
+                <div className="reirradiation-guidance-card">
+                  <div className="reirradiation-guidance-heading">
+                    <div>
+                      <span className="eyebrow">
+                        {tx(
+                          language,
+                          "HyTEC · повторное облучение позвоночника",
+                          "HyTEC · spine reirradiation",
+                        )}
+                      </span>
+                      <h3>
+                        {tx(
+                          language,
+                          "Факторы, связанные с более низким риском лучевой миелопатии",
+                          "Factors associated with a lower radiation-myelopathy risk",
+                        )}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <label className="guidance-confirmation">
+                    <input
+                      type="checkbox"
+                      checked={confirmThecalSacDmax}
+                      onChange={(event) =>
+                        setConfirmThecalSacDmax(
+                          event.target.checked,
+                        )
+                      }
+                    />
+                    <span>
+                      {tx(
+                        language,
+                        "Подтверждаю, что введённый Dmax относится к оболочке спинного мозга (thecal sac), как в публикации HyTEC.",
+                        "I confirm that the entered Dmax represents the thecal sac, as defined in the HyTEC publication.",
+                      )}
+                    </span>
+                  </label>
+
+                  {hytecSpinalGuidance ? (
+                    hytecSpinalGuidance.applicable ? (
+                      <>
+                        <div className="guidance-basis-note">
+                          {tx(
+                            language,
+                            "Сравнение выполняется независимо от выбранного выше α/β: публикация использует EQD₂ с α/β = 2 Гр. Пользовательские скидки на восстановление здесь не применяются.",
+                            "The comparison is independent of the α/β selected above: the publication uses EQD₂ with α/β = 2 Gy. User recovery discounts are not applied here.",
+                          )}
+                        </div>
+
+                        <div className="guidance-criteria-list">
+                          {hytecSpinalGuidance.criteria.map(
+                            (criterion) => (
+                              <div
+                                className={
+                                  "guidance-criterion " +
+                                  criterion.status
+                                }
+                                key={criterion.id}
+                              >
+                                <div>
+                                  <strong>
+                                    {spinalCriterionLabel(
+                                      language,
+                                      criterion.id,
+                                    )}
+                                  </strong>
+                                  <small>
+                                    {guidanceStatusLabel(
+                                      language,
+                                      criterion.status,
+                                    )}
+                                  </small>
+                                </div>
+                                <div className="guidance-criterion-values">
+                                  <span>
+                                    {criterion.observedValue ===
+                                    undefined
+                                      ? "—"
+                                      : formatUiNumber(
+                                          language,
+                                          criterion.observedValue,
+                                          criterion.unit === "ratio"
+                                            ? 3
+                                            : 1,
+                                        )}{" "}
+                                    {guidanceUnitLabel(
+                                      language,
+                                      criterion.unit,
+                                    )}
+                                  </span>
+                                  <small>
+                                    {criterion.relation}{" "}
+                                    {criterion.limitValue ===
+                                    undefined
+                                      ? "—"
+                                      : formatUiNumber(
+                                          language,
+                                          criterion.limitValue,
+                                          criterion.unit === "ratio"
+                                            ? 2
+                                            : 1,
+                                        )}{" "}
+                                    {guidanceUnitLabel(
+                                      language,
+                                      criterion.unit,
+                                    )}
+                                  </small>
+                                </div>
+                              </div>
+                            ),
+                          )}
+                        </div>
+
+                        <div className="guidance-overall">
+                          <strong>
+                            {hytecSpinalGuidance
+                              .allAssessableCriteriaMet === true
+                              ? tx(
+                                  language,
+                                  "Все четыре опубликованных фактора выполнены.",
+                                  "All four published factors are met.",
+                                )
+                              : hytecSpinalGuidance
+                                    .allAssessableCriteriaMet === false
+                                ? tx(
+                                    language,
+                                    "По крайней мере один опубликованный фактор не выполнен.",
+                                    "At least one published factor is not met.",
+                                  )
+                                : tx(
+                                    language,
+                                    "Не все факторы можно оценить по введённым данным.",
+                                    "Not all factors can be assessed from the available inputs.",
+                                  )}
+                          </strong>
+                          <p>
+                            {tx(
+                              language,
+                              "Это не означает автоматическую безопасность или допустимость лечения: HyTEC описывает факторы, связанные с более низким риском, и подчёркивает ограничения доказательной базы.",
+                              "This does not establish automatic safety or treatment acceptability: HyTEC reports factors associated with lower risk and emphasizes the limitations of the evidence.",
+                            )}
+                          </p>
+                        </div>
+
+                        {sourceFor(
+                          hytecSpinalGuidance.sourceId,
+                        ) ? (
+                          <p className="guidance-source">
+                            {
+                              sourceFor(
+                                hytecSpinalGuidance.sourceId,
+                              )!.citation
+                            }
+                          </p>
+                        ) : null}
+                      </>
+                    ) : (
+                      <div className="inline-alert">
+                        <strong>
+                          {tx(
+                            language,
+                            "Проверка HyTEC пока неприменима.",
+                            "HyTEC assessment is not applicable yet.",
+                          )}
+                        </strong>
+                        <ul>
+                          {hytecSpinalGuidance.applicabilityReasons.map(
+                            (reason) => (
+                              <li key={reason}>
+                                {localizeWarning(
+                                  language,
+                                  reason,
+                                )}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </div>
+                    )
+                  ) : null}
                 </div>
               ) : null}
 
