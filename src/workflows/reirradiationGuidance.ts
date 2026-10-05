@@ -1,71 +1,105 @@
 import { eqdGy } from "../core/lq.js";
+import { reirradiationGuidanceSets } from "../data/evidence/v0.1/index.js";
 import type { ReirradiationCourse } from "../domain/reirradiation.js";
 import type {
   ReirradiationGuidanceAssessment,
   ReirradiationGuidanceCriterion,
+  ReirradiationGuidanceCriterionDefinition,
+  ReirradiationGuidanceQuantity,
 } from "../domain/reirradiationGuidance.js";
 
-const SOURCE_ID = "sahgal-2021-hytec-spinal-cord";
-const GUIDANCE_ID = "hytec-spinal-cord-reirradiation-lower-risk-factors";
-const ENDPOINT_ID = "spinal-cord-radiation-myelopathy";
-const ALPHA_BETA_GY = 2;
+const HYTEC_SPINAL_GUIDANCE_ID =
+  "hytec-spinal-cord-reirradiation-lower-risk-factors";
 
-function criterion(
-  id: string,
-  label: string,
+function guidanceRecord() {
+  const record = reirradiationGuidanceSets.find(
+    (candidate) => candidate.id === HYTEC_SPINAL_GUIDANCE_ID,
+  );
+  if (!record) {
+    throw new Error(
+      "Evidence dataset error: HyTEC spinal reirradiation guidance record is missing.",
+    );
+  }
+  return record;
+}
+
+function observedValueFor(
+  quantity: ReirradiationGuidanceQuantity,
+  previousEqd2: number,
+  currentEqd2: number,
+  intervalMonths: number | undefined,
+): number | undefined {
+  const cumulativeEqd2 = previousEqd2 + currentEqd2;
+
+  switch (quantity) {
+    case "cumulative-eqd2":
+      return cumulativeEqd2;
+    case "current-eqd2":
+      return currentEqd2;
+    case "current-to-cumulative-ratio":
+      return cumulativeEqd2 > 0
+        ? currentEqd2 / cumulativeEqd2
+        : undefined;
+    case "interval-months":
+      return intervalMonths;
+  }
+}
+
+function evaluateCriterion(
+  definition: ReirradiationGuidanceCriterionDefinition,
   observedValue: number | undefined,
-  relation: "<=" | ">=",
-  limitValue: number,
-  unit: "Gy EQD2_2" | "ratio" | "months",
-  note?: string,
 ): ReirradiationGuidanceCriterion {
   if (
     observedValue === undefined ||
     !Number.isFinite(observedValue)
   ) {
     return {
-      id,
-      label,
+      id: definition.id,
+      label: definition.label,
       status: "not-assessable",
-      relation,
-      limitValue,
-      unit,
-      ...(note ? { note } : {}),
+      relation: definition.relation,
+      limitValue: definition.limitValue,
+      unit: definition.unit,
+      ...(definition.note
+        ? { note: definition.note }
+        : {}),
     };
   }
 
   const met =
-    relation === "<="
-      ? observedValue <= limitValue
-      : observedValue >= limitValue;
+    definition.relation === "<="
+      ? observedValue <= definition.limitValue
+      : observedValue >= definition.limitValue;
 
   return {
-    id,
-    label,
+    id: definition.id,
+    label: definition.label,
     status: met ? "met" : "not-met",
     observedValue,
-    relation,
-    limitValue,
-    unit,
-    ...(note ? { note } : {}),
+    relation: definition.relation,
+    limitValue: definition.limitValue,
+    unit: definition.unit,
+    ...(definition.note
+      ? { note: definition.note }
+      : {}),
   };
 }
 
 /**
- * Evaluates the lower-risk factors reported in the HyTEC spinal-cord review
- * for reirradiation spine SBRT.
+ * Evaluates the HyTEC spinal-cord factors associated with lower risk of
+ * radiation myelopathy for reirradiation spine SBRT.
  *
- * This deliberately uses raw EQD2_2 with alpha/beta = 2 and ignores any
- * user-entered recovery discount. The published guidance is defined on that
- * basis and must not silently inherit a separate recovery assumption.
+ * The evidence record defines EQD2_2 (alpha/beta = 2 Gy), thecal-sac Dmax,
+ * 1-5 current SBRT fractions, one previous course, and four simultaneous
+ * factors. User recovery discounts are deliberately ignored because the
+ * published guidance is not defined on a recovery-discounted basis.
  */
 export function assessHytecSpinalCordReirradiation(
   courses: ReirradiationCourse[],
   metricConfirmedAsThecalSacDmax: boolean,
 ): ReirradiationGuidanceAssessment {
-  const warnings: string[] = [
-    "HyTEC describes these values as factors associated with a lower risk of radiation myelopathy; they are suggestions rather than absolute tolerance limits.",
-  ];
+  const guidance = guidanceRecord();
+  const warnings = [...guidance.notes];
   const applicabilityReasons: string[] = [];
 
   const previous = courses.filter(
@@ -81,14 +115,20 @@ export function assessHytecSpinalCordReirradiation(
     );
   }
 
-  if (previous.length !== 1) {
+  if (
+    previous.length !==
+    guidance.maxPreviousCoursesSupported
+  ) {
     applicabilityReasons.push(
       "This HyTEC reirradiation assessment is limited in HFC v0.1 to one previous course plus one current SBRT course.",
     );
   }
 
   if (
-    courses.some((course) => course.metric.kind !== "Dmax")
+    courses.some(
+      (course) =>
+        course.metric.kind !== guidance.requiredMetric,
+    )
   ) {
     applicabilityReasons.push(
       "The HyTEC guidance is defined for thecal-sac point maximum dose (Dmax).",
@@ -105,8 +145,10 @@ export function assessHytecSpinalCordReirradiation(
 
   if (
     currentCourse &&
-    (currentCourse.schedule.fractions < 1 ||
-      currentCourse.schedule.fractions > 5)
+    (currentCourse.schedule.fractions <
+      guidance.currentFractionCountRange.min ||
+      currentCourse.schedule.fractions >
+        guidance.currentFractionCountRange.max)
   ) {
     applicabilityReasons.push(
       "The current SBRT course must contain 1 to 5 fractions for this HyTEC guidance.",
@@ -130,18 +172,18 @@ export function assessHytecSpinalCordReirradiation(
 
   if (!applicable || !currentCourse || previous.length !== 1) {
     return {
-      guidanceId: GUIDANCE_ID,
-      sourceId: SOURCE_ID,
-      endpointId: ENDPOINT_ID,
+      guidanceId: guidance.id,
+      sourceId: guidance.sourceId,
+      endpointId: guidance.endpointId,
       applicable: false,
       applicabilityReasons,
       criteria: [],
       allAssessableCriteriaMet: null,
       warnings,
       calculationBasis: {
-        alphaBetaGy: ALPHA_BETA_GY,
-        metric: "Dmax",
-        structure: "thecal-sac",
+        alphaBetaGy: guidance.alphaBetaGy,
+        metric: guidance.requiredMetric,
+        structure: guidance.requiredStructure,
         recoveryDiscountApplied: false,
       },
     };
@@ -150,55 +192,26 @@ export function assessHytecSpinalCordReirradiation(
   const previousCourse = previous[0]!;
   const previousEqd2 = eqdGy(
     previousCourse.schedule,
-    ALPHA_BETA_GY,
+    guidance.alphaBetaGy,
     2,
   );
   const currentEqd2 = eqdGy(
     currentCourse.schedule,
-    ALPHA_BETA_GY,
+    guidance.alphaBetaGy,
     2,
   );
-  const cumulativeEqd2 = previousEqd2 + currentEqd2;
-  const ratio =
-    cumulativeEqd2 > 0 ? currentEqd2 / cumulativeEqd2 : undefined;
-  const intervalMonths =
-    previousCourse.intervalToCurrentMonths;
 
-  const criteria = [
-    criterion(
-      "cumulative-eqd2-max",
-      "Cumulative thecal-sac EQD2_2 Dmax",
-      cumulativeEqd2,
-      "<=",
-      70,
-      "Gy EQD2_2",
+  const criteria = guidance.criteria.map((definition) =>
+    evaluateCriterion(
+      definition,
+      observedValueFor(
+        definition.quantity,
+        previousEqd2,
+        currentEqd2,
+        previousCourse.intervalToCurrentMonths,
+      ),
     ),
-    criterion(
-      "current-sbrt-eqd2-max",
-      "Current SBRT thecal-sac EQD2_2 Dmax",
-      currentEqd2,
-      "<=",
-      25,
-      "Gy EQD2_2",
-    ),
-    criterion(
-      "current-to-cumulative-ratio",
-      "Current SBRT EQD2_2 / cumulative EQD2_2 ratio",
-      ratio,
-      "<=",
-      0.5,
-      "ratio",
-    ),
-    criterion(
-      "minimum-interval",
-      "Interval between courses",
-      intervalMonths,
-      ">=",
-      5,
-      "months",
-      "The interval is stored independently and is not converted into an automatic tissue-recovery percentage.",
-    ),
-  ];
+  );
 
   const assessable = criteria.filter(
     (item) => item.status !== "not-assessable",
@@ -219,18 +232,18 @@ export function assessHytecSpinalCordReirradiation(
   }
 
   return {
-    guidanceId: GUIDANCE_ID,
-    sourceId: SOURCE_ID,
-    endpointId: ENDPOINT_ID,
+    guidanceId: guidance.id,
+    sourceId: guidance.sourceId,
+    endpointId: guidance.endpointId,
     applicable: true,
     applicabilityReasons: [],
     criteria,
     allAssessableCriteriaMet,
     warnings,
     calculationBasis: {
-      alphaBetaGy: ALPHA_BETA_GY,
-      metric: "Dmax",
-      structure: "thecal-sac",
+      alphaBetaGy: guidance.alphaBetaGy,
+      metric: guidance.requiredMetric,
+      structure: guidance.requiredStructure,
       recoveryDiscountApplied: false,
     },
   };
