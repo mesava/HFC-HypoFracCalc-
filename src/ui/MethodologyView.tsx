@@ -25,7 +25,7 @@ export function MethodologyView({
   return (
     <main className="methodology-page">
       <section className="panel methodology-hero">
-        <span className="eyebrow">methodology</span>
+        <span className="eyebrow">{tx(language, "методология", "methodology")}</span>
         <h2>
           {tx(
             language,
@@ -36,30 +36,30 @@ export function MethodologyView({
         <p>
           {tx(
             language,
-            "HFC разделяет математическое ядро, evidence database и клинические workflows. Формулы не содержат скрытых organ defaults; выбор параметра всегда остаётся отдельным проверяемым шагом.",
+            "HFC разделяет математическое ядро, доказательную базу и клинические сценарии расчёта. Формулы не содержат скрытых значений по умолчанию для органов; выбор параметра всегда остаётся отдельным проверяемым шагом.",
             "HFC separates the mathematical core, evidence database, and clinical workflows. Equations do not contain hidden organ defaults; parameter selection always remains an explicit, auditable step.",
           )}
         </p>
 
         <div className="dataset-stat-grid">
           <div>
-            <span>Endpoints</span>
+            <span>{tx(language, "Клинические исходы", "Endpoints")}</span>
             <strong>{endpoints.length}</strong>
           </div>
           <div>
-            <span>α/β records</span>
+            <span>{tx(language, "Записи α/β", "α/β records")}</span>
             <strong>{alphaBetaEstimates.length}</strong>
           </div>
           <div>
-            <span>Auto-default α/β</span>
+            <span>{tx(language, "α/β с автоматическим выбором", "Auto-default α/β")}</span>
             <strong>{preferredAlpha}</strong>
           </div>
           <div>
-            <span>T½ records</span>
+            <span>{tx(language, "Записи T½", "T½ records")}</span>
             <strong>{repairHalfTimeEstimates.length}</strong>
           </div>
           <div>
-            <span>Dprolif records</span>
+            <span>{tx(language, "Записи Dprolif", "Dprolif records")}</span>
             <strong>{repopulationRateEstimates.length}</strong>
           </div>
           <div>
@@ -71,7 +71,7 @@ export function MethodologyView({
 
       <section className="methodology-grid">
         <article className="panel methodology-card">
-          <span className="eyebrow">model</span>
+          <span className="eyebrow">{tx(language, "модель", "model")}</span>
           <h3>LQ / BED / EQD₂</h3>
           <p>
             {tx(
@@ -85,19 +85,19 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "При высоких дозах за фракцию HFC не переключает модель автоматически, а сохраняет расчёт и добавляет applicability warning.",
+              "При высоких дозах за фракцию HFC не переключает модель автоматически, а сохраняет расчёт и добавляет предупреждение об ограничениях применимости.",
               "At high doses per fraction, HFC does not silently switch models; it keeps the calculation and adds an applicability warning.",
             )}
           </p>
         </article>
 
         <article className="panel methodology-card">
-          <span className="eyebrow">time</span>
+          <span className="eyebrow">{tx(language, "время", "time")}</span>
           <h3>Overall treatment time</h3>
           <p>
             {tx(
               language,
-              "Time-loss хранится с явной биологической основой. В Treatment Gap v0.1 используются EQD₂-based Dprolif и Tk:",
+              "Поправка на продолжительность лечения хранится с явным указанием биологической основы. В модуле «Перерывы в лечении» v0.1 используются Dprolif и Tk в единицах EQD₂:",
               "Time loss is stored with an explicit biological-dose basis. Treatment Gap v0.1 uses EQD₂-based Dprolif and Tk:",
             )}
           </p>
@@ -105,45 +105,45 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Dprolif не смешивается с BED-based K. Если Tk неизвестен, программа требует явного пользовательского допущения.",
+              "Dprolif не смешивается с коэффициентом K, заданным в единицах BED. Если Tk неизвестен, программа требует явного пользовательского допущения.",
               "Dprolif is not mixed with BED-based K. If Tk is unknown, the program requires an explicit user assumption.",
             )}
           </p>
         </article>
 
         <article className="panel methodology-card">
-          <span className="eyebrow">repair</span>
-          <h3>Incomplete repair</h3>
+          <span className="eyebrow">{tx(language, "восстановление", "repair")}</span>
+          <h3>{tx(language, "Неполное восстановление", "Incomplete repair")}</h3>
           <p>
             {tx(
               language,
-              "T½ хранится endpoint-specific. Значения вида >5 ч или диапазоны 2–4 ч не преобразуются в искусственный point default.",
+              "T½ хранится для конкретного клинического исхода. Значения вида >5 ч или диапазоны 2–4 ч не преобразуются в искусственное точечное значение по умолчанию.",
               "T½ is stored per endpoint. Bounds such as >5 h or ranges such as 2–4 h are not converted into arbitrary point defaults.",
             )}
           </p>
           <p>
             {tx(
               language,
-              "Для BID минимум RCR 6 h и более консервативная позиция BCR 2025 отображаются отдельно, а не сливаются в одно правило.",
+              "Для двух фракций в сутки минимальный интервал RCR 6 ч и более консервативная позиция BCR 2025 отображаются отдельно, а не сливаются в одно правило.",
               "For BID, the RCR 6 h minimum and the more conservative BCR 2025 position are displayed separately rather than collapsed into a single rule.",
             )}
           </p>
         </article>
 
         <article className="panel methodology-card">
-          <span className="eyebrow">uncertainty</span>
-          <h3>Confidence intervals</h3>
+          <span className="eyebrow">{tx(language, "неопределённость", "uncertainty")}</span>
+          <h3>{tx(language, "Доверительные интервалы", "Confidence intervals")}</h3>
           <p>
             {tx(
               language,
-              "95% CI α/β используется как one-parameter sensitivity envelope. Это не объявляется полной клинической неопределённостью.",
+              "95% ДИ α/β используется как однопараметрический диапазон чувствительности. Он не трактуется как полная клиническая неопределённость.",
               "The 95% CI of α/β is used as a one-parameter sensitivity envelope. It is not presented as full clinical uncertainty.",
             )}
           </p>
           <p>
             {tx(
               language,
-              "Если CI α/β достигает нуля, BED upper sensitivity становится unbounded, а EQD₂ рассчитывается через конечный предел при α/β→0+.",
+              "Если ДИ α/β достигает нуля, верхняя граница чувствительности BED становится неограниченной, а EQD₂ рассчитывается через конечный предел при α/β→0+.",
               "If the α/β CI reaches zero, the upper BED sensitivity becomes unbounded, while EQD₂ uses the finite α/β→0+ limit.",
             )}
           </p>
@@ -152,14 +152,14 @@ export function MethodologyView({
 
       <section className="panel evidence-governance">
         <div>
-          <span className="eyebrow">dataset governance</span>
+          <span className="eyebrow">{tx(language, "управление набором данных", "dataset governance")}</span>
           <h2>{evidenceManifest.datasetVersion}</h2>
           <p>
             {tx(language, "Статус", "Status")}:{" "}
             <strong>{evidenceManifest.releaseStatus}</strong>.{" "}
             {tx(
               language,
-              "Данные и calculation engine версионируются независимо.",
+              "Данные и расчётное ядро версионируются независимо.",
               "Evidence data and the calculation engine are versioned independently.",
             )}
           </p>
@@ -171,7 +171,7 @@ export function MethodologyView({
                 alphaBetaEstimates.length +
                 " записей α/β " +
                 secondaryAlpha +
-                " пока остаются secondary-source records из Basic Clinical Radiobiology 2025 и должны по мере необходимости заменяться или дополняться independently curated primary sources."
+                " пока основаны на вторичном источнике Basic Clinical Radiobiology 2025 и по мере необходимости должны заменяться или дополняться независимо проверенными первичными источниками."
               : "Of " +
                 alphaBetaEstimates.length +
                 " α/β records, " +
@@ -181,7 +181,7 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Dataset не переводится в validated до независимой проверки чисел, regression tests и project-owner review.",
+              "Набор данных не переводится в статус «проверен» до независимой проверки чисел, регрессионных тестов и проверки владельцем проекта.",
               "The dataset is not promoted to validated until numerical cross-checking, regression tests, and project-owner review are complete.",
             )}
           </p>
@@ -193,7 +193,7 @@ export function MethodologyView({
         <p>
           {tx(
             language,
-            "HFC разрабатывается как прозрачный clinical decision-support / независимый радиобиологический калькулятор для квалифицированных специалистов лучевой терапии. Он не является prescription system и не заменяет клинический протокол, DVH/dose-volume constraints или независимую проверку.",
+            "HFC разрабатывается как прозрачный инструмент поддержки клинических решений и независимый радиобиологический калькулятор для квалифицированных специалистов лучевой терапии. Он не является системой назначения лечения и не заменяет клинический протокол, ограничения по DVH/доза–объём или независимую проверку.",
             "HFC is being developed as a transparent clinical decision-support / independent radiobiological calculator for qualified radiotherapy professionals. It is not a prescription system and does not replace clinical protocols, DVH/dose-volume constraints, or independent verification.",
           )}
         </p>
