@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main", "architecture-v0.1"]
+    branches: ["main", "architecture-v0.1", "evidence-v0.1"]
   pull_request:
 
 jobs:
