@@ -182,6 +182,38 @@ const warningMapRu = new Map<string, string>([
     "All courses must refer to the same dose metric before scalar cumulative equieffective doses can be summed.",
     "Для скалярного суммирования эквивалентной дозы все курсы должны относиться к одной и той же дозовой метрике.",
   ],
+  [
+    "HyTEC describes these values as factors associated with a lower risk of radiation myelopathy; they are suggestions rather than absolute tolerance limits.",
+    "HyTEC описывает эти значения как факторы, связанные с более низким риском лучевой миелопатии; это ориентиры, а не абсолютные пределы толерантности.",
+  ],
+  [
+    "User-specified recovery discounts are ignored for this HyTEC comparison. The published criteria are evaluated using raw cumulative EQD2_2.",
+    "Пользовательские скидки на восстановление не применяются в этой проверке HyTEC. Опубликованные критерии оцениваются по исходному кумулятивному EQD₂ с α/β = 2 Гр.",
+  ],
+  [
+    "One or more HyTEC factors could not be assessed because the required input was missing.",
+    "Один или несколько факторов HyTEC невозможно оценить из-за отсутствующих исходных данных.",
+  ],
+  [
+    "Exactly one current course is required.",
+    "Для этой проверки требуется ровно один текущий курс.",
+  ],
+  [
+    "This HyTEC reirradiation assessment is limited in HFC v0.1 to one previous course plus one current SBRT course.",
+    "В HFC v0.1 эта проверка HyTEC ограничена одним предыдущим курсом и одним текущим курсом SBRT.",
+  ],
+  [
+    "The HyTEC guidance is defined for thecal-sac point maximum dose (Dmax).",
+    "Рекомендации HyTEC сформулированы для максимальной точечной дозы Dmax на оболочку спинного мозга.",
+  ],
+  [
+    "The user must explicitly confirm that the entered Dmax represents the thecal-sac maximum dose.",
+    "Необходимо явно подтвердить, что введённый Dmax относится к оболочке спинного мозга.",
+  ],
+  [
+    "The current SBRT course must contain 1 to 5 fractions for this HyTEC guidance.",
+    "Для применения этих данных HyTEC текущий курс SBRT должен содержать от 1 до 5 фракций.",
+  ],
 ]);
 
 export function localizeWarning(
