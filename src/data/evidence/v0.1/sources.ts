@@ -2,6 +2,59 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "andratschke-2022-estro-eortc-reirradiation",
+    citation:
+      "Andratschke N, Willmann J, Appelt AL, et al. European Society for Radiotherapy and Oncology and European Organisation for Research and Treatment of Cancer consensus on re-irradiation: definition, reporting, and clinical decision making. Lancet Oncol. 2022;23(10):e469-e478.",
+    year: 2022,
+    doi: "10.1016/S1470-2045(22)00447-8",
+    pmid: "36174633",
+    kind: "consensus",
+    notes:
+      "Defines reirradiation as a new radiotherapy course with geometric overlap of previously irradiated volumes (type I) or without overlap when cumulative dose raises toxicity concerns (type II).",
+  },
+  {
+    id: "rcr-2024-principles-reirradiation",
+    citation:
+      "The Royal College of Radiologists. Principles of reirradiation. London: The Royal College of Radiologists; 2024.",
+    year: 2024,
+    kind: "guideline",
+    notes:
+      "General clinical principles for highly individualised reirradiation, including accounting for previous dose, original and new dose distributions, dose constraints, technique, uncertainty, and explicit recovery assumptions.",
+  },
+  {
+    id: "appelt-2026-cumulative-dose-reirradiation",
+    citation:
+      "Appelt AL, Andrzejewski P, Hoffmann L, et al. Cumulative dose evaluation in clinical reirradiation - Consensus guidance on technical considerations by the ESTRO reirradiation focus group. Radiother Oncol. 2026;214:111313.",
+    year: 2026,
+    doi: "10.1016/j.radonc.2025.111313",
+    pmid: "41318002",
+    kind: "consensus",
+    notes:
+      "Consensus guidance for cumulative dose evaluation. OAR dose summation should use equieffective dose rescaling before summation; physical 3D dose should not be quantitatively summed. Recovery, if assumed, is applied to previously delivered equieffective dose.",
+  },
+  {
+    id: "paradis-2026-recog-consensus",
+    citation:
+      "Paradis KC, Appelt AL, Bentzen SM, et al. Reirradiation Collaborative Group (ReCOG) consensus on standards for dose evaluation and reporting in patients with multiple courses of radiation therapy. Lancet Oncol. 2026;27(2):e101-e110.",
+    year: 2026,
+    doi: "10.1016/S1470-2045(25)00562-5",
+    pmid: "41643699",
+    kind: "consensus",
+    notes:
+      "International consensus on cumulative dose evaluation, documentation and reporting for patients receiving multiple courses of radiotherapy.",
+  },
+  {
+    id: "zhang-2026-recog-case-guide",
+    citation:
+      "Zhang C, Mayo CS, Matrosic CK, et al. A Case-Based Guide: Demonstrating the Reirradiation Collaborative Group (ReCOG) Consensus for Dosimetric Assessment and Reporting in Reirradiation. Pract Radiat Oncol. 2026. Published online April 14, 2026.",
+    year: 2026,
+    doi: "10.1016/j.prro.2026.03.010",
+    pmid: "41985779",
+    kind: "consensus",
+    notes:
+      "Case-based implementation examples using direct point-dose summation, point-dose summation within overlap regions, and image-registration-based 3D equieffective dose summation.",
+  },
+  {
     id: "milano-2021-hytec-optic",
     citation:
       "Milano MT, Grimm J, Soltys SG, et al. Single- and Multi-Fraction Stereotactic Radiosurgery Dose Tolerances of the Optic Pathways. Int J Radiat Oncol Biol Phys. 2021;110(1):87-99.",
