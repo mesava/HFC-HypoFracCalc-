@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main", "architecture-v0.1", "evidence-v0.1"]
+    branches: ["main", "architecture-v0.1", "evidence-v0.1", "ui-v0.1"]
   pull_request:
 
 jobs:
@@ -25,3 +25,6 @@ jobs:
 
       - name: Unit tests
         run: npm test
+
+      - name: Build web app
+        run: npm run build
