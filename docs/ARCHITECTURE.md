@@ -80,12 +80,23 @@ The UI will be added only after the core and evidence schema are stable.
 
 Recommended stack: React + TypeScript + Vite, deployed as a static site.
 
+For endpoint-linked biological parameters, the default interaction will be:
+
+1. HFC selects the curated `preferred` estimate for the selected endpoint.
+2. The value, confidence interval, source and applicability notes remain visible.
+3. The user may choose an alternative curated estimate.
+4. The user may enable **manual override** and enter a custom value.
+
+A manual override never changes the evidence database. It is stored only with that calculation and must be clearly labelled in the audit/report as `user-specified`, together with an optional rationale.
+
 ### 2.5 Audit/reporting
 
 Every clinical calculation should ultimately emit a machine-readable audit object containing:
 
 - all input schedules;
 - parameter values and source IDs;
+- whether each parameter was evidence-selected or manually overridden;
+- any manual-override rationale;
 - model version;
 - dataset version;
 - assumptions;
@@ -106,7 +117,19 @@ BED is retained because it is mathematically useful and remains common in clinic
 
 The database is endpoint-specific. Generic values such as 3 Gy for late effects or 10 Gy for tumours may be exposed only as explicitly labelled exploratory fallbacks, never as silent defaults.
 
-### 3.3 Dprolif and K are not synonyms
+### 3.3 Evidence default + user override
+
+HFC may automatically select a curated `preferred` parameter for a chosen endpoint, but it must never hide that selection.
+
+The user can always:
+
+- inspect the source and uncertainty;
+- switch to another curated estimate;
+- enter a custom value.
+
+Custom values are calculation inputs, not evidence records. They must not silently become defaults for future users.
+
+### 3.4 Dprolif and K are not synonyms
 
 Two common time-correction quantities use similar units but different biological dose bases:
 
@@ -115,19 +138,19 @@ Two common time-correction quantities use similar units but different biological
 
 HFC stores the basis explicitly and refuses ambiguous repopulation-rate records.
 
-### 3.4 Tk belongs to the evidence record
+### 3.5 Tk belongs to the evidence record
 
 There is no global “after 21 days” switch. Delayed proliferation is tied to the disease/endpoint and source.
 
-### 3.5 Incomplete repair is endpoint-specific
+### 3.6 Incomplete repair is endpoint-specific
 
 No universal T1/2 default. The v0.1 repair model assumes equally spaced fractions and complete overnight repair. A future timeline model will support arbitrary timestamps and residual repair across days.
 
-### 3.6 High-dose evidence is not reduced to one EQD2 number
+### 3.7 High-dose evidence is not reduced to one EQD2 number
 
 HyTEC-style evidence often depends on volume metric, fraction number, prior irradiation and endpoint. Those values belong in a separate clinical-constraint/outcome layer.
 
-### 3.7 Reirradiation is a strategy, not a scalar addition
+### 3.8 Reirradiation is a strategy, not a scalar addition
 
 Future cumulative-dose evaluation will support explicit strategies:
 
