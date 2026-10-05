@@ -1,41 +1,43 @@
 # HFC — HypoFracCalc
 
-HFC is an evidence-traceable radiobiology calculator under development for comparing radiotherapy fractionation schedules.
+HFC is an evidence-traceable radiobiology calculator under development for comparing photon radiotherapy fractionation schedules.
 
 ## Design goals
 
 - Keep the mathematical core independent from the user interface.
 - Treat **endpoint-specific clinical evidence** as data, not hard-coded constants.
-- Keep the provenance of every biological parameter visible.
-- Allow the user to override a curated biological parameter explicitly without altering the evidence database.
-- Distinguish EQD-based proliferation parameters from BED-based proliferation parameters.
+- Keep the provenance and applicability of every biological parameter visible.
+- Allow explicit user overrides without altering the curated evidence database.
+- Distinguish EQD2-based proliferation parameters from BED-based time-loss parameters.
 - Represent uncertainty and model-applicability warnings explicitly.
 - Build treatment-gap and reirradiation workflows on top of the same audited core.
-- Never silently choose a tissue parameter or clinical constraint.
+- Never silently invent a tissue parameter or clinical constraint.
 
 ## Current status
 
-This repository is at **v0.1 architecture stage**. The first implementation contains:
+The project currently contains:
 
-- LQ BED and EQD calculations;
-- inverse EQD calculations;
+- LQ BED, EQDx and inverse calculations;
 - explicit time/proliferation correction primitives;
-- Thames-style incomplete-repair factor for equally spaced fractions;
-- typed evidence and clinical-constraint schemas;
-- evidence-selected vs user-specified parameter provenance;
-- regression tests based on published worked examples.
+- Thames-style incomplete-repair calculations;
+- a draft versioned evidence dataset for photon EBRT;
+- endpoint-specific alpha/beta selection with preferred, alternative and non-default records;
+- manual parameter override provenance;
+- selected repair half-time and Dprolif/Tk evidence;
+- regression, integrity and end-to-end evidence-driven tests;
+- GitHub Actions typecheck/test CI.
 
-No clinical parameter database is enabled as a default yet. Evidence curation will be versioned separately from calculation code.
+The evidence dataset is **draft** and is not yet a validated clinical release.
 
 ## Planned layers
 
 1. **Core mathematics** — pure deterministic functions.
-2. **Evidence layer** — parameter estimates, confidence intervals, applicability domains and citations.
-3. **Clinical workflow layer** — schedule comparison, treatment gaps, multiple fractions/day, later reirradiation.
+2. **Evidence layer** — estimates, confidence intervals, applicability and citations.
+3. **Clinical workflow layer** — regimen comparison, treatment gaps, multiple fractions/day and later reirradiation.
 4. **UI layer** — calculator, timeline and evidence inspector.
-5. **Audit layer** — assumptions, source IDs, user overrides, warnings and reproducible calculation report.
+5. **Audit layer** — assumptions, source IDs, user overrides, warnings and reproducible calculation reports.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/EVIDENCE_MODEL.md](docs/EVIDENCE_MODEL.md).
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/EVIDENCE_MODEL.md](docs/EVIDENCE_MODEL.md) and [src/data/evidence/v0.1/README.md](src/data/evidence/v0.1/README.md).
 
 ## Scope
 
