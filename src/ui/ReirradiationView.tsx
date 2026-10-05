@@ -102,7 +102,7 @@ function classificationLabel(
     case "repeat-irradiation":
       return tx(
         language,
-        "Повторное облучение вне определения reirradiation",
+        "Повторное облучение вне определения ESTRO–EORTC",
         "Repeat irradiation outside the reirradiation definition",
       );
   }
@@ -274,6 +274,109 @@ export function ReirradiationView({
             language,
             "Для пользовательской дозовой метрики требуется название.",
             "A custom dose metric requires a label.",
+          ),
+        );
+      }
+
+      if (parameterMode === "evidence" && !recordId) {
+        throw new Error(
+          tx(
+            language,
+            "Выберите опубликованное значение α/β или задайте его вручную.",
+            "Select a published α/β estimate or enter a manual value.",
+          ),
+        );
+      }
+
+      if (
+        parameterMode === "manual" &&
+        (!Number.isFinite(Number(manualAlphaBeta)) ||
+          Number(manualAlphaBeta) <= 0)
+      ) {
+        throw new Error(
+          tx(
+            language,
+            "Пользовательское α/β должно быть больше 0 Гр.",
+            "Manual α/β must be greater than 0 Gy.",
+          ),
+        );
+      }
+
+      for (const course of previousCourses) {
+        if (
+          !Number.isInteger(Number(course.fractions)) ||
+          Number(course.fractions) <= 0
+        ) {
+          throw new Error(
+            tx(
+              language,
+              "Число фракций каждого предыдущего курса должно быть положительным целым числом.",
+              "Each previous course must have a positive integer fraction count.",
+            ),
+          );
+        }
+        if (
+          !Number.isFinite(Number(course.dosePerFractionGy)) ||
+          Number(course.dosePerFractionGy) <= 0
+        ) {
+          throw new Error(
+            tx(
+              language,
+              "Доза за фракцию каждого предыдущего курса должна быть больше 0 Гр.",
+              "Each previous course dose per fraction must be greater than 0 Gy.",
+            ),
+          );
+        }
+        if (
+          course.recoveryMode === "manual" &&
+          course.recoveryRationale.trim() === ""
+        ) {
+          throw new Error(
+            tx(
+              language,
+              "Для ручного допущения о восстановлении необходимо указать обоснование.",
+              "A manual recovery assumption requires a rationale.",
+            ),
+          );
+        }
+      }
+
+      if (
+        !Number.isInteger(Number(currentFractions)) ||
+        Number(currentFractions) <= 0
+      ) {
+        throw new Error(
+          tx(
+            language,
+            "Число фракций текущего курса должно быть положительным целым числом.",
+            "Current-course fraction count must be a positive integer.",
+          ),
+        );
+      }
+
+      if (
+        !Number.isFinite(Number(currentDosePerFraction)) ||
+        Number(currentDosePerFraction) <= 0
+      ) {
+        throw new Error(
+          tx(
+            language,
+            "Доза за фракцию текущего курса должна быть больше 0 Гр.",
+            "Current-course dose per fraction must be greater than 0 Gy.",
+          ),
+        );
+      }
+
+      if (
+        cumulativeLimit.trim() !== "" &&
+        (!Number.isFinite(Number(cumulativeLimit)) ||
+          Number(cumulativeLimit) <= 0)
+      ) {
+        throw new Error(
+          tx(
+            language,
+            "Кумулятивная граница EQD₂ должна быть больше 0 Гр.",
+            "The cumulative EQD₂ limit must be greater than 0 Gy.",
           ),
         );
       }
