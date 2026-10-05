@@ -18,21 +18,28 @@ import {
   evaluatePreserveTimeStrategy,
   solveDoseCompensationStrategy,
 } from "../workflows/treatmentGap.js";
-import { endpointLabelRu, organLabelRu } from "./labels.js";
+import { localizeWarning, tx } from "./i18n.js";
+import {
+  endpointLabel,
+  formatUiNumber,
+  organLabel,
+  type Language,
+} from "./labels.js";
 
 type ParameterMode = "evidence" | "manual";
 type TimeMode = "evidence" | "manual";
 
-function formatNumber(value: number, digits = 2): string {
-  return new Intl.NumberFormat("ru-RU", {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  }).format(value);
-}
-
-function signed(value: number, digits = 2): string {
+function signed(
+  language: Language,
+  value: number,
+  digits = 2,
+): string {
   if (Math.abs(value) < 1e-10) return "0";
-  return `${value > 0 ? "+" : "−"}${formatNumber(Math.abs(value), digits)}`;
+  return `${value > 0 ? "+" : "−"}${formatUiNumber(
+    language,
+    Math.abs(value),
+    digits,
+  )}`;
 }
 
 function sourceFor(sourceId: string | undefined) {
@@ -40,7 +47,11 @@ function sourceFor(sourceId: string | undefined) {
   return sources.find((source) => source.id === sourceId);
 }
 
-export function TreatmentGapView() {
+export function TreatmentGapView({
+  language,
+}: {
+  language: Language;
+}) {
   const tumourEndpoints = useMemo(
     () =>
       endpoints
@@ -95,7 +106,6 @@ export function TreatmentGapView() {
     useState("15");
   const [compActualOtt, setCompActualOtt] = useState("51");
 
-  const endpoint = endpoints.find((item) => item.id === endpointId);
   const alphaRecords = getAlphaBetaEstimates(endpointId);
   const timeRecords = getRepopulationEstimates(endpointId);
   const alphaRecord = alphaBetaEstimates.find(
@@ -106,6 +116,9 @@ export function TreatmentGapView() {
   );
   const alphaSource = sourceFor(alphaRecord?.sourceId);
   const timeSource = sourceFor(timeRecord?.sourceId);
+  const gy = language === "ru" ? "Гр" : "Gy";
+  const day = language === "ru" ? "дней" : "days";
+  const hour = language === "ru" ? "ч" : "h";
 
   function changeEndpoint(nextId: string) {
     setEndpointId(nextId);
@@ -193,7 +206,11 @@ export function TreatmentGapView() {
           error:
             error instanceof Error
               ? error.message
-              : "Не удалось оценить BID.",
+              : tx(
+                  language,
+                  "Не удалось оценить BID.",
+                  "BID strategy could not be evaluated.",
+                ),
         };
       }
 
@@ -215,7 +232,11 @@ export function TreatmentGapView() {
           error:
             error instanceof Error
               ? error.message
-              : "Не удалось решить dose compensation.",
+              : tx(
+                  language,
+                  "Не удалось решить dose compensation.",
+                  "Dose compensation could not be solved.",
+                ),
         };
       }
 
@@ -230,7 +251,11 @@ export function TreatmentGapView() {
         error:
           error instanceof Error
             ? error.message
-            : "Не удалось построить Treatment Gap scenario.",
+            : tx(
+                language,
+                "Не удалось построить Treatment Gap scenario.",
+                "Treatment Gap scenario could not be constructed.",
+              ),
       };
     }
   }, [
@@ -251,6 +276,7 @@ export function TreatmentGapView() {
     bidHours,
     compRemainingFractions,
     compActualOtt,
+    language,
   ]);
 
   const hasError = "error" in calculation;
@@ -261,20 +287,28 @@ export function TreatmentGapView() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">treatment gap</span>
-            <h2>Исходный курс и прерывание</h2>
+            <h2>
+              {tx(
+                language,
+                "Исходный курс и прерывание",
+                "Planned course and interruption",
+              )}
+            </h2>
           </div>
         </div>
 
         <label className="field">
-          <span>Опухолевый endpoint</span>
+          <span>
+            {tx(language, "Опухолевый endpoint", "Tumour endpoint")}
+          </span>
           <select
             value={endpointId}
             onChange={(event) => changeEndpoint(event.target.value)}
           >
             {tumourEndpoints.map((item) => (
               <option key={item.id} value={item.id}>
-                {organLabelRu(item.organ)} ·{" "}
-                {endpointLabelRu(item.id, item.endpoint)}
+                {organLabel(language, item.organ)} ·{" "}
+                {endpointLabel(language, item.id, item.endpoint)}
               </option>
             ))}
           </select>
@@ -282,7 +316,7 @@ export function TreatmentGapView() {
 
         <div className="gap-grid">
           <label className="field compact-field">
-            <span>План, n</span>
+            <span>{tx(language, "План, n", "Planned n")}</span>
             <input
               type="number"
               min="1"
@@ -292,7 +326,7 @@ export function TreatmentGapView() {
             />
           </label>
           <label className="field compact-field">
-            <span>d, Гр</span>
+            <span>d, {gy}</span>
             <input
               type="number"
               min="0.01"
@@ -304,7 +338,9 @@ export function TreatmentGapView() {
             />
           </label>
           <label className="field compact-field">
-            <span>Плановый OTT, дни</span>
+            <span>
+              {tx(language, "Плановый OTT, дни", "Planned OTT, days")}
+            </span>
             <input
               type="number"
               min="1"
@@ -314,7 +350,13 @@ export function TreatmentGapView() {
             />
           </label>
           <label className="field compact-field">
-            <span>Проведено до перерыва</span>
+            <span>
+              {tx(
+                language,
+                "Проведено до перерыва",
+                "Fractions delivered before gap",
+              )}
+            </span>
             <input
               type="number"
               min="0"
@@ -326,7 +368,9 @@ export function TreatmentGapView() {
             />
           </label>
           <label className="field compact-field">
-            <span>Прерывание, дни</span>
+            <span>
+              {tx(language, "Прерывание, дни", "Interruption, days")}
+            </span>
             <input
               type="number"
               min="0"
@@ -338,9 +382,11 @@ export function TreatmentGapView() {
         </div>
 
         <p className="field-note">
-          OTT — общая продолжительность курса в календарных днях в той же
-          конвенции, которая используется локально для клинического
-          расчёта. HFC не пытается сам угадывать даты на этом этапе.
+          {tx(
+            language,
+            "OTT — общая продолжительность курса в календарных днях в той же конвенции, которая используется локально для клинического расчёта. HFC не пытается сам угадывать даты на этом этапе.",
+            "OTT is the overall treatment duration in calendar days using the convention applied locally for the clinical calculation. HFC does not infer treatment dates at this stage.",
+          )}
         </p>
 
         <div className="section-divider" />
@@ -348,7 +394,7 @@ export function TreatmentGapView() {
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">radiobiology</span>
-            <h2>α/β и time-loss model</h2>
+            <h2>α/β + time-loss model</h2>
           </div>
         </div>
 
@@ -358,14 +404,14 @@ export function TreatmentGapView() {
             className={alphaMode === "evidence" ? "selected" : ""}
             onClick={() => setAlphaMode("evidence")}
           >
-            α/β из evidence
+            {tx(language, "α/β из evidence", "Evidence α/β")}
           </button>
           <button
             type="button"
             className={alphaMode === "manual" ? "selected" : ""}
             onClick={() => setAlphaMode("manual")}
           >
-            своё α/β
+            {tx(language, "своё α/β", "custom α/β")}
           </button>
         </div>
 
@@ -378,18 +424,24 @@ export function TreatmentGapView() {
                 setAlphaRecordId(event.target.value)
               }
             >
-              <option value="">— выбрать —</option>
+              <option value="">
+                {tx(language, "— выбрать —", "— select —")}
+              </option>
               {alphaRecords.map((record) => (
                 <option key={record.id} value={record.id}>
-                  {formatNumber(record.valueGy, 2)} Гр
-                  {record.defaultEligible ? " · preferred" : " · alternative"}
+                  {formatUiNumber(language, record.valueGy, 2)} {gy}
+                  {record.defaultEligible
+                    ? " · preferred"
+                    : " · alternative"}
                 </option>
               ))}
             </select>
           </label>
         ) : (
           <label className="field">
-            <span>Своё α/β, Гр</span>
+            <span>
+              {tx(language, "Своё α/β, Гр", "Custom α/β, Gy")}
+            </span>
             <input
               type="number"
               min="0.01"
@@ -405,12 +457,15 @@ export function TreatmentGapView() {
         {alphaRecord && alphaMode === "evidence" ? (
           <div className="evidence-mini">
             <strong>
-              α/β = {formatNumber(alphaRecord.valueGy, 2)} Гр
+              α/β = {formatUiNumber(language, alphaRecord.valueGy, 2)}{" "}
+              {gy}
             </strong>
             {alphaRecord.ci95 ? (
               <span>
-                95% CI {formatNumber(alphaRecord.ci95.low, 1)}–
-                {formatNumber(alphaRecord.ci95.high, 1)} Гр
+                95% CI{" "}
+                {formatUiNumber(language, alphaRecord.ci95.low, 1)}–
+                {formatUiNumber(language, alphaRecord.ci95.high, 1)}{" "}
+                {gy}
               </span>
             ) : null}
             {alphaSource ? <small>{alphaSource.citation}</small> : null}
@@ -423,14 +478,22 @@ export function TreatmentGapView() {
             className={timeMode === "evidence" ? "selected" : ""}
             onClick={() => setTimeMode("evidence")}
           >
-            Dprolif из evidence
+            {tx(
+              language,
+              "Dprolif из evidence",
+              "Evidence Dprolif",
+            )}
           </button>
           <button
             type="button"
             className={timeMode === "manual" ? "selected" : ""}
             onClick={() => setTimeMode("manual")}
           >
-            свой Dprolif / Tk
+            {tx(
+              language,
+              "свой Dprolif / Tk",
+              "custom Dprolif / Tk",
+            )}
           </button>
         </div>
 
@@ -451,13 +514,24 @@ export function TreatmentGapView() {
                   );
                 }}
               >
-                <option value="">— выбрать —</option>
+                <option value="">
+                  {tx(language, "— выбрать —", "— select —")}
+                </option>
                 {timeRecords.map((record) => (
                   <option key={record.id} value={record.id}>
-                    {formatNumber(record.rateGyPerDay, 2)} Гр/день
+                    {formatUiNumber(
+                      language,
+                      record.rateGyPerDay,
+                      2,
+                    )}{" "}
+                    {gy}/{tx(language, "день", "day")}
                     {record.kickOffDays !== undefined
                       ? ` · Tk ${record.kickOffDays} d`
-                      : " · Tk не определён"}
+                      : tx(
+                          language,
+                          " · Tk не определён",
+                          " · Tk not defined",
+                        )}
                     {record.defaultEligible ? " · preferred" : ""}
                   </option>
                 ))}
@@ -465,27 +539,40 @@ export function TreatmentGapView() {
             </label>
 
             <label className="field">
-              <span>Tk для этого расчёта, дни</span>
+              <span>
+                {tx(
+                  language,
+                  "Tk для этого расчёта, дни",
+                  "Tk for this calculation, days",
+                )}
+              </span>
               <input
                 type="number"
                 min="0"
                 step="1"
                 value={tkOverride}
-                placeholder="требуется, если в источнике нет Tk"
+                placeholder={tx(
+                  language,
+                  "требуется, если в источнике нет Tk",
+                  "required if the source provides no Tk",
+                )}
                 onChange={(event) =>
                   setTkOverride(event.target.value)
                 }
               />
               <small>
-                Если значение отличается от публикации, HFC сохраняет
-                provenance Dprolif, но маркирует Tk как user-specified.
+                {tx(
+                  language,
+                  "Если значение отличается от публикации, HFC сохраняет provenance Dprolif, но маркирует Tk как user-specified.",
+                  "If the value differs from the publication, HFC preserves Dprolif provenance but marks Tk as user-specified.",
+                )}
               </small>
             </label>
           </>
         ) : (
           <div className="two-columns">
             <label className="field">
-              <span>Dprolif, Гр EQD₂/день</span>
+              <span>Dprolif, {gy} EQD₂/{tx(language, "день", "day")}</span>
               <input
                 type="number"
                 min="0"
@@ -497,7 +584,7 @@ export function TreatmentGapView() {
               />
             </label>
             <label className="field">
-              <span>Tk, дни</span>
+              <span>Tk, {tx(language, "дни", "days")}</span>
               <input
                 type="number"
                 min="0"
@@ -512,14 +599,19 @@ export function TreatmentGapView() {
         {timeRecord && timeMode === "evidence" ? (
           <div className="evidence-mini">
             <strong>
-              Dprolif = {formatNumber(timeRecord.rateGyPerDay, 2)} Гр
-              EQD₂/день
+              Dprolif ={" "}
+              {formatUiNumber(language, timeRecord.rateGyPerDay, 2)}{" "}
+              {gy} EQD₂/{tx(language, "день", "day")}
             </strong>
             <span>
               Tk{" "}
               {timeRecord.kickOffDays !== undefined
-                ? `= ${timeRecord.kickOffDays} дней`
-                : "не определён однозначно"}
+                ? `= ${timeRecord.kickOffDays} ${day}`
+                : tx(
+                    language,
+                    "не определён однозначно",
+                    "not uniquely defined",
+                  )}
             </span>
             {timeSource ? <small>{timeSource.citation}</small> : null}
           </div>
@@ -530,12 +622,26 @@ export function TreatmentGapView() {
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">strategy inputs</span>
-            <h2>Параметры компенсации</h2>
+            <h2>
+              {tx(
+                language,
+                "Параметры компенсации",
+                "Compensation inputs",
+              )}
+            </h2>
           </div>
         </div>
 
         <label className="field">
-          <span>BID: интервал между фракциями, ч</span>
+          <span>
+            BID:{" "}
+            {tx(
+              language,
+              "интервал между фракциями",
+              "interfraction interval",
+            )},{" "}
+            {hour}
+          </span>
           <input
             type="number"
             min="0"
@@ -544,14 +650,23 @@ export function TreatmentGapView() {
             onChange={(event) => setBidHours(event.target.value)}
           />
           <small>
-            RCR: минимум 6 ч; BCR 2025 рекомендует максимально практичный
-            интервал, около 8 ч и более, когда это возможно.
+            {tx(
+              language,
+              "RCR: минимум 6 ч; BCR 2025 рекомендует максимально практичный интервал, около 8 ч и более, когда это возможно.",
+              "RCR: minimum 6 h; BCR 2025 recommends the maximum practical interval, about 8 h or longer when feasible.",
+            )}
           </small>
         </label>
 
         <div className="two-columns">
           <label className="field">
-            <span>Фракций после gap для dose-compensation</span>
+            <span>
+              {tx(
+                language,
+                "Фракций после gap для dose-compensation",
+                "Post-gap fractions for dose compensation",
+              )}
+            </span>
             <input
               type="number"
               min="1"
@@ -563,7 +678,13 @@ export function TreatmentGapView() {
             />
           </label>
           <label className="field">
-            <span>Фактический OTT, дни</span>
+            <span>
+              {tx(
+                language,
+                "Фактический OTT, дни",
+                "Actual OTT, days",
+              )}
+            </span>
             <input
               type="number"
               min="1"
@@ -581,53 +702,78 @@ export function TreatmentGapView() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">strategy comparison</span>
-            <h2>Что происходит с tumour EQD₂?</h2>
+            <h2>
+              {tx(
+                language,
+                "Что происходит с tumour EQD₂?",
+                "What happens to tumour EQD₂?",
+              )}
+            </h2>
           </div>
         </div>
 
         {hasError ? (
           <div className="empty-state">
-            <strong>Нужно уточнить параметры</strong>
+            <strong>
+              {tx(
+                language,
+                "Нужно уточнить параметры",
+                "Inputs need review",
+              )}
+            </strong>
             <p>{calculation.error}</p>
           </div>
         ) : (
           <>
             <div className="gap-summary-grid">
               <div className="gap-summary-card">
-                <span>Плановый effective EQD₂</span>
+                <span>
+                  {tx(
+                    language,
+                    "Плановый effective EQD₂",
+                    "Planned effective EQD₂",
+                  )}
+                </span>
                 <strong>
-                  {formatNumber(
+                  {formatUiNumber(
+                    language,
                     calculation.baseline.plannedEffectiveEqd2Gy,
                   )}{" "}
-                  Гр
+                  {gy}
                 </strong>
                 <small>
                   raw{" "}
-                  {formatNumber(
+                  {formatUiNumber(
+                    language,
                     calculation.baseline.plannedRawEqd2Gy,
                   )}{" "}
                   − time{" "}
-                  {formatNumber(
+                  {formatUiNumber(
+                    language,
                     calculation.baseline.plannedTimePenaltyGy,
                   )}
                 </small>
               </div>
 
               <div className="gap-summary-card alert">
-                <span>Без компенсации</span>
+                <span>
+                  {tx(language, "Без компенсации", "No compensation")}
+                </span>
                 <strong>
-                  {formatNumber(
+                  {formatUiNumber(
+                    language,
                     calculation.baseline.uncompensatedEffectiveEqd2Gy,
                   )}{" "}
-                  Гр
+                  {gy}
                 </strong>
                 <small>
                   Δ{" "}
                   {signed(
+                    language,
                     calculation.baseline
                       .uncompensatedDeltaEffectiveEqd2Gy,
                   )}{" "}
-                  Гр · OTT{" "}
+                  {gy} · OTT{" "}
                   {
                     calculation.baseline
                       .uncompensatedOverallTreatmentDays
@@ -647,21 +793,27 @@ export function TreatmentGapView() {
                   <span className="strategy-tag">RCR first-line</span>
                 </div>
                 <p>
-                  Все исходные фракции и d сохраняются, курс возвращается
-                  к плановому OTT.
+                  {tx(
+                    language,
+                    "Все исходные фракции и d сохраняются, курс возвращается к плановому OTT.",
+                    "All original fractions and dose per fraction are preserved and the course returns to the planned OTT.",
+                  )}
                 </p>
                 <div className="strategy-result">
                   <span>Δ effective EQD₂</span>
                   <strong>
                     {signed(
+                      language,
                       calculation.weekend.deltaEffectiveEqd2Gy,
                     )}{" "}
-                    Гр
+                    {gy}
                   </strong>
                 </div>
                 <ul>
                   {calculation.weekend.warnings.map((warning) => (
-                    <li key={warning}>{warning}</li>
+                    <li key={warning}>
+                      {localizeWarning(language, warning)}
+                    </li>
                   ))}
                 </ul>
               </article>
@@ -684,14 +836,17 @@ export function TreatmentGapView() {
                       <span>Δ effective EQD₂</span>
                       <strong>
                         {signed(
+                          language,
                           calculation.bid.deltaEffectiveEqd2Gy,
                         )}{" "}
-                        Гр
+                        {gy}
                       </strong>
                     </div>
                     <ul>
                       {calculation.bid.warnings.map((warning) => (
-                        <li key={warning}>{warning}</li>
+                        <li key={warning}>
+                          {localizeWarning(language, warning)}
+                        </li>
                       ))}
                     </ul>
                   </>
@@ -715,34 +870,45 @@ export function TreatmentGapView() {
                   <>
                     <div className="strategy-metrics">
                       <div>
-                        <span>Новый d</span>
+                        <span>
+                          {tx(language, "Новый d", "New d")}
+                        </span>
                         <strong>
-                          {formatNumber(
+                          {formatUiNumber(
+                            language,
                             calculation.doseCompensation
                               .requiredDosePerFractionGy,
                             3,
                           )}{" "}
-                          Гр
+                          {gy}
                         </strong>
                       </div>
                       <div>
-                        <span>Итоговая физическая доза</span>
+                        <span>
+                          {tx(
+                            language,
+                            "Итоговая физическая доза",
+                            "Final physical dose",
+                          )}
+                        </span>
                         <strong>
-                          {formatNumber(
+                          {formatUiNumber(
+                            language,
                             calculation.doseCompensation
                               .finalPhysicalDoseGy,
                           )}{" "}
-                          Гр
+                          {gy}
                         </strong>
                       </div>
                       <div>
                         <span>Δ effective EQD₂</span>
                         <strong>
                           {signed(
+                            language,
                             calculation.doseCompensation
                               .deltaEffectiveEqd2Gy,
                           )}{" "}
-                          Гр
+                          {gy}
                         </strong>
                       </div>
                     </div>
@@ -750,7 +916,9 @@ export function TreatmentGapView() {
                     <ul>
                       {calculation.doseCompensation.warnings.map(
                         (warning) => (
-                          <li key={warning}>{warning}</li>
+                          <li key={warning}>
+                            {localizeWarning(language, warning)}
+                          </li>
                         ),
                       )}
                     </ul>
@@ -761,33 +929,52 @@ export function TreatmentGapView() {
 
             {calculation.baseline.warnings.length ? (
               <div className="warning-card">
-                <strong>Model / evidence warnings</strong>
+                <strong>
+                  {tx(
+                    language,
+                    "Предупреждения модели / evidence",
+                    "Model / evidence warnings",
+                  )}
+                </strong>
                 <ul>
                   {calculation.baseline.warnings.map((warning) => (
-                    <li key={warning}>{warning}</li>
+                    <li key={warning}>
+                      {localizeWarning(language, warning)}
+                    </li>
                   ))}
                 </ul>
               </div>
             ) : null}
 
             <div className="gap-method-note">
-              <strong>Приоритет метода</strong>
+              <strong>
+                {tx(language, "Приоритет метода", "Method priority")}
+              </strong>
               <p>
-                В соответствии с RCR, сначала следует пытаться сохранить
-                исходные OTT и dose/fraction: weekend treatment или, если
-                допустимо, BID. Радиобиологическое увеличение дозы —
-                вариант, когда ускоренная компенсация невозможна.
+                {tx(
+                  language,
+                  "В соответствии с RCR сначала следует пытаться сохранить исходные OTT и dose/fraction: weekend treatment или, если допустимо, BID. Радиобиологическое увеличение дозы — вариант, когда ускоренная компенсация невозможна.",
+                  "In line with RCR guidance, the first goal is to preserve the original OTT and dose per fraction using weekend treatment or, when appropriate, BID. Biological dose escalation is considered when accelerated compensation is not feasible.",
+                )}
               </p>
             </div>
           </>
         )}
 
         <div className="safety-note">
-          <strong>Treatment Gap v0.1 моделирует tumour effect.</strong>
+          <strong>
+            {tx(
+              language,
+              "Treatment Gap v0.1 моделирует tumour effect.",
+              "Treatment Gap v0.1 models tumour effect.",
+            )}
+          </strong>
           <p>
-            Увеличение d не должно приниматься без отдельной оценки OAR,
-            incomplete repair, dose-volume constraints и клинической
-            допустимости. OAR-aware compensation будет следующим этапом.
+            {tx(
+              language,
+              "Увеличение d не должно приниматься без отдельной оценки OAR, incomplete repair, dose-volume constraints и клинической допустимости. OAR-aware compensation будет следующим этапом.",
+              "An increase in d should not be accepted without a separate assessment of OARs, incomplete repair, dose-volume constraints, and clinical acceptability. OAR-aware compensation is the next development step.",
+            )}
           </p>
         </div>
       </section>
