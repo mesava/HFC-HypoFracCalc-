@@ -13,7 +13,7 @@ import {
   type ComparisonEndpoint,
   type NamedRegimen,
 } from "../workflows/compareRegimens.js";
-import { localizeWarning, tx } from "./i18n.js";
+import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx, userSpecifiedLabel } from "./i18n.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -206,9 +206,12 @@ function EndpointParameterEditor({
           {records.map((estimate) => (
             <option key={estimate.id} value={`record:${estimate.id}`}>
               {formatUiNumber(language, estimate.valueGy, 2)} {gy}
-              {estimate.defaultEligible && estimate.status === "preferred"
-                ? " · preferred"
-                : " · alternative"}
+              {" · "}
+              {estimateChoiceLabel(
+                language,
+                estimate.defaultEligible &&
+                  estimate.status === "preferred",
+              )}
             </option>
           ))}
           <option value="manual">
@@ -242,7 +245,7 @@ function EndpointParameterEditor({
           <span>
             α/β {formatUiNumber(language, record.valueGy, 2)} {gy}
             {record.ci95
-              ? ` · 95% CI ${formatUiNumber(language, record.ci95.low, 1)}–${formatUiNumber(language, record.ci95.high, 1)}`
+              ? ` · ${confidenceIntervalLabel(language)} ${formatUiNumber(language, record.ci95.low, 1)}–${formatUiNumber(language, record.ci95.high, 1)}`
               : ""}
           </span>
           <span className={`support-dot ${record.support}`}>
@@ -772,7 +775,7 @@ export function CompareRegimensView({
                               <p>{source.citation}</p>
                             </details>
                           ) : selection?.choice.mode === "manual" ? (
-                            <small>user-specified</small>
+                            <small>{userSpecifiedLabel(language)}</small>
                           ) : null}
                         </th>
 
