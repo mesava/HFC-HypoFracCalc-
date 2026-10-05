@@ -90,7 +90,7 @@ export const sources = [
     year: 2010,
     doi: "10.1159/000262470",
     pmid: "19955801",
-    kind: "review",
+    kind: "other",
     notes:
       "Clinical dose-effect comparison of conventional fractionation and SBRT for stage I NSCLC; reports apparent alpha/beta 8.2 Gy (7.0-9.4).",
   },
@@ -112,7 +112,7 @@ export const sources = [
     year: 2000,
     doi: "10.1080/095530000138448",
     pmid: "10815624",
-    kind: "review",
+    kind: "other",
     notes:
       "Clinical-data synthesis used in Basic Clinical Radiobiology for lung pneumonitis alpha/beta and Dprolif estimates.",
   },
