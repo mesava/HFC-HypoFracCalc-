@@ -142,6 +142,33 @@ export function MethodologyView({
         </article>
 
         <article className="panel methodology-card">
+          <span className="eyebrow">
+            {tx(language, "повторное облучение", "reirradiation")}
+          </span>
+          <h3>
+            {tx(
+              language,
+              "Кумулятивная эквивалентная доза",
+              "Cumulative equieffective dose",
+            )}
+          </h3>
+          <p>
+            {tx(
+              language,
+              "Перед суммированием каждый курс пересчитывается в BED/EQD₂ с одним и тем же α/β для выбранного клинического исхода. Физические дозы не используются как количественная кумулятивная OAR-доза.",
+              "Each course is rescaled to BED/EQD₂ using the same α/β for the selected endpoint before summation. Physical dose is not used as quantitative cumulative OAR dose.",
+            )}
+          </p>
+          <p>
+            {tx(
+              language,
+              "Восстановление между курсами не выводится автоматически из временного интервала: любое снижение вклада предыдущей эквивалентной дозы задаётся пользователем явно и требует обоснования.",
+              "Recovery between courses is never inferred automatically from elapsed time: any discount applied to prior equieffective dose is explicit and requires a rationale.",
+            )}
+          </p>
+        </article>
+
+        <article className="panel methodology-card">
           <span className="eyebrow">{tx(language, "неопределённость", "uncertainty")}</span>
           <h3>{tx(language, "Доверительные интервалы", "Confidence intervals")}</h3>
           <p>
