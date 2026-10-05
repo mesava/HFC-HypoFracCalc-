@@ -12,6 +12,7 @@ import {
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
+import { ClinicalConstraintsView } from "./ClinicalConstraintsView.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, releaseStatusLabel, selectionModeLabel, supportLabel, tx, userSpecifiedLabel } from "./i18n.js";
 import {
   endpointLabel,
@@ -199,6 +200,12 @@ export function App() {
         return tx(language, "Сравнение режимов", "Compare Regimens");
       case "gap":
         return tx(language, "Перерывы в лечении", "Treatment Gap");
+      case "constraints":
+        return tx(
+          language,
+          "Клинические ограничения",
+          "Clinical Constraints",
+        );
       case "methodology":
         return tx(language, "Методология", "Methodology");
       case "about":
@@ -300,6 +307,17 @@ export function App() {
           {tx(language, "Перерывы в лечении", "Treatment Gap")}
         </button>
         <button
+          className={`module ${activeModule === "constraints" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("constraints")}
+        >
+          {tx(
+            language,
+            "Клинические ограничения",
+            "Clinical Constraints",
+          )}
+        </button>
+        <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
           type="button"
           onClick={() => navigate("methodology")}
@@ -351,6 +369,7 @@ export function App() {
                 "quick",
                 "compare",
                 "gap",
+                "constraints",
                 "methodology",
                 "about",
               ] as SitePage[]
@@ -905,6 +924,8 @@ export function App() {
         <CompareRegimensView language={language} />
       ) : activeModule === "gap" ? (
         <TreatmentGapView language={language} />
+      ) : activeModule === "constraints" ? (
+        <ClinicalConstraintsView language={language} />
       ) : activeModule === "methodology" ? (
         <MethodologyView language={language} />
       ) : (
