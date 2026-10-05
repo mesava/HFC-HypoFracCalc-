@@ -2418,3 +2418,208 @@ button.module-card:hover {
     width: 100%;
   }
 }
+
+
+/* --- Clinical constraints ---------------------------------------------- */
+
+.constraints-page {
+  display: grid;
+  gap: 16px;
+}
+
+.constraints-hero,
+.constraints-browser {
+  padding: 26px;
+}
+
+.constraints-hero h2 {
+  margin: 7px 0 10px;
+  color: #203f46;
+  font-size: clamp(1.45rem, 3vw, 2.05rem);
+  letter-spacing: -0.035em;
+}
+
+.constraints-hero > p {
+  max-width: 900px;
+  margin: 0;
+  color: #66747c;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.constraints-caution {
+  display: grid;
+  gap: 4px;
+  margin-top: 16px;
+  border-left: 3px solid #89a7ad;
+  padding: 8px 0 8px 12px;
+  color: #617078;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.constraints-caution strong {
+  color: #3b5960;
+}
+
+.constraints-filter-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(170px, 0.4fr);
+  gap: 10px;
+}
+
+.constraints-context-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 2px 0 14px;
+  color: #718087;
+  font-size: 0.72rem;
+}
+
+.constraints-context-line strong {
+  color: #36555c;
+}
+
+.constraint-card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.constraint-card {
+  border: 1px solid #d9e2e5;
+  border-radius: 13px;
+  padding: 15px;
+  background: #fbfcfc;
+}
+
+.constraint-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.constraint-card-top > div:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.constraint-guidance-kind {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 4px 7px;
+  background: #e8eff1;
+  color: #527178;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.constraint-card-top > div:first-child > strong {
+  color: #294950;
+  font-size: 1rem;
+}
+
+.constraint-risk {
+  min-width: 105px;
+  text-align: right;
+}
+
+.constraint-risk span,
+.constraint-risk strong {
+  display: block;
+}
+
+.constraint-risk span {
+  color: #829096;
+  font-size: 0.61rem;
+}
+
+.constraint-risk strong {
+  margin-top: 4px;
+  color: #365b62;
+  font-size: 0.88rem;
+}
+
+.constraint-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 13px 0 0;
+}
+
+.constraint-meta > div {
+  border-top: 1px solid #e2e8ea;
+  padding-top: 8px;
+}
+
+.constraint-meta dt {
+  color: #8a959a;
+  font-size: 0.58rem;
+}
+
+.constraint-meta dd {
+  margin: 3px 0 0;
+  color: #596970;
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.constraint-source {
+  margin-top: 12px;
+  border-top: 1px solid #e2e8ea;
+  padding-top: 10px;
+}
+
+.constraint-source > span {
+  color: #88949a;
+  font-size: 0.58rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.constraint-source p {
+  margin: 4px 0 7px;
+  color: #66747c;
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+.constraint-source > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.constraint-source a {
+  color: #315e64;
+  font-size: 0.64rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.constraint-source a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .constraints-hero,
+  .constraints-browser {
+    padding: 18px;
+  }
+
+  .constraints-filter-grid,
+  .constraint-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .constraint-card-top {
+    display: grid;
+  }
+
+  .constraint-risk {
+    text-align: left;
+  }
+}
