@@ -6,7 +6,7 @@ import {
   repopulationRateEstimates,
   sources,
 } from "../data/evidence/v0.1/index.js";
-import { tx } from "./i18n.js";
+import { releaseStatusLabel, tx } from "./i18n.js";
 import type { Language } from "./labels.js";
 
 export function MethodologyView({
@@ -156,7 +156,7 @@ export function MethodologyView({
           <h2>{evidenceManifest.datasetVersion}</h2>
           <p>
             {tx(language, "Статус", "Status")}:{" "}
-            <strong>{evidenceManifest.releaseStatus}</strong>.{" "}
+            <strong>{releaseStatusLabel(language, evidenceManifest.releaseStatus)}</strong>.{" "}
             {tx(
               language,
               "Данные и расчётное ядро версионируются независимо.",
