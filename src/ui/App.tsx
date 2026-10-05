@@ -23,6 +23,7 @@ import {
 import { MethodologyView } from "./MethodologyView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
+import { ReirradiationView } from "./ReirradiationView.js";
 
 type ParameterMode = "evidence" | "manual";
 
@@ -206,6 +207,12 @@ export function App() {
           "Клинические ограничения",
           "Clinical Constraints",
         );
+      case "reirradiation":
+        return tx(
+          language,
+          "Повторное облучение",
+          "Reirradiation",
+        );
       case "methodology":
         return tx(language, "Методология", "Methodology");
       case "about":
@@ -331,7 +338,11 @@ export function App() {
         >
           {tx(language, "О сайте", "About")}
         </button>
-        <button className="module" type="button" disabled>
+        <button
+          className={`module ${activeModule === "reirradiation" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("reirradiation")}
+        >
           {tx(language, "Повторное облучение", "Reirradiation")}
         </button>
       </nav>
@@ -370,6 +381,7 @@ export function App() {
                 "compare",
                 "gap",
                 "constraints",
+                "reirradiation",
                 "methodology",
                 "about",
               ] as SitePage[]
@@ -383,12 +395,6 @@ export function App() {
                 {pageLabel(page)}
               </button>
             ))}
-            <div className="mobile-nav-disabled">
-              <span>
-                {tx(language, "Повторное облучение", "Reirradiation")}
-              </span>
-              <small>{tx(language, "в разработке", "planned")}</small>
-            </div>
           </div>
         ) : null}
       </div>
@@ -926,6 +932,8 @@ export function App() {
         <TreatmentGapView language={language} />
       ) : activeModule === "constraints" ? (
         <ClinicalConstraintsView language={language} />
+      ) : activeModule === "reirradiation" ? (
+        <ReirradiationView language={language} />
       ) : activeModule === "methodology" ? (
         <MethodologyView language={language} />
       ) : (
