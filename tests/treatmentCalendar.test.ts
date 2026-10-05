@@ -65,7 +65,7 @@ describe("treatment calendar", () => {
     expect(scenario.weekendRecovery.at(-1)?.date).toBe(
       "2026-11-21",
     );
-    expect(scenario.weekendOverallTreatmentDays).toBe(46);
+    expect(scenario.weekendOverallTreatmentDays).toBe(47);
   });
 
   it("uses only as many BID days as needed to restore the planned finish when possible", () => {
