@@ -434,57 +434,261 @@ export function TreatmentGapView({
               }
             />
           </label>
-          <label className="field compact-field">
-            <span>
-              {tx(language, "Плановая общая продолжительность лечения, дни", "Planned OTT, days")}
-            </span>
-            <input
-              type="number"
-              min="1"
-              step="1"
-              value={plannedOtt}
-              onChange={(event) => setPlannedOtt(event.target.value)}
-            />
-          </label>
-          <label className="field compact-field">
-            <span>
-              {tx(
-                language,
-                "Фракций проведено до перерыва",
-                "Fractions delivered before gap",
-              )}
-            </span>
-            <input
-              type="number"
-              min="0"
-              step="1"
-              value={deliveredBeforeGap}
-              onChange={(event) =>
-                setDeliveredBeforeGap(event.target.value)
-              }
-            />
-          </label>
-          <label className="field compact-field">
-            <span>
-              {tx(language, "Продолжительность перерыва, дни", "Interruption, days")}
-            </span>
-            <input
-              type="number"
-              min="0"
-              step="1"
-              value={gapDays}
-              onChange={(event) => setGapDays(event.target.value)}
-            />
-          </label>
         </div>
 
-        <p className="field-note">
-          {tx(
-            language,
-            "Общая продолжительность лечения — это длительность курса в календарных днях в той же конвенции, которая используется локально для клинического расчёта. На этом этапе HFC не пытается самостоятельно восстанавливать даты.",
-            "OTT is the overall treatment duration in calendar days using the convention applied locally for the clinical calculation. HFC does not infer treatment dates at this stage.",
-          )}
-        </p>
+        <div className="segmented gap-input-mode">
+          <button
+            type="button"
+            className={courseInputMode === "calendar" ? "selected" : ""}
+            onClick={() => setCourseInputMode("calendar")}
+          >
+            {tx(language, "По календарю", "Calendar")}
+          </button>
+          <button
+            type="button"
+            className={courseInputMode === "manual" ? "selected" : ""}
+            onClick={() => setCourseInputMode("manual")}
+          >
+            {tx(language, "Ввести длительность вручную", "Manual duration")}
+          </button>
+        </div>
+
+        {courseInputMode === "calendar" ? (
+          <>
+            <div className="calendar-input-grid">
+              <label className="field compact-field">
+                <span>
+                  {tx(language, "Начало лечения", "Treatment start")}
+                </span>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(event) => setStartDate(event.target.value)}
+                />
+              </label>
+              <label className="field compact-field">
+                <span>
+                  {tx(language, "Начало перерыва", "Gap starts")}
+                </span>
+                <input
+                  type="date"
+                  value={gapStartDate}
+                  onChange={(event) =>
+                    setGapStartDate(event.target.value)
+                  }
+                />
+              </label>
+              <label className="field compact-field">
+                <span>
+                  {tx(language, "Конец перерыва", "Gap ends")}
+                </span>
+                <input
+                  type="date"
+                  value={gapEndDate}
+                  onChange={(event) =>
+                    setGapEndDate(event.target.value)
+                  }
+                />
+              </label>
+            </div>
+
+            <label className="field">
+              <span>
+                {tx(
+                  language,
+                  "Дополнительные нерабочие даты",
+                  "Additional unavailable dates",
+                )}
+              </span>
+              <input
+                value={excludedDatesText}
+                placeholder={tx(
+                  language,
+                  "например: 2026-11-04, 2026-11-12",
+                  "e.g. 2026-11-04, 2026-11-12",
+                )}
+                onChange={(event) =>
+                  setExcludedDatesText(event.target.value)
+                }
+              />
+              <small>
+                {tx(
+                  language,
+                  "Выходные суббота/воскресенье учитываются автоматически. Здесь можно указать праздники, технические дни или другие даты, когда лечение невозможно.",
+                  "Saturday/Sunday weekends are handled automatically. Add public holidays, maintenance days, or other dates when treatment is unavailable.",
+                )}
+              </small>
+            </label>
+
+            {calendarCalculation.error ? (
+              <div className="inline-alert">
+                {calendarCalculation.error}
+              </div>
+            ) : calendarCalculation.scenario ? (
+              <div className="calendar-summary-grid">
+                <div>
+                  <span>
+                    {tx(language, "Плановый конец", "Planned end")}
+                  </span>
+                  <strong>
+                    {calendarCalculation.scenario.plannedEndDate}
+                  </strong>
+                  <small>
+                    {calendarCalculation.scenario.plannedOverallTreatmentDays}{" "}
+                    {tx(language, "дней", "days")}
+                  </small>
+                </div>
+                <div>
+                  <span>
+                    {tx(
+                      language,
+                      "Пропущено фракций",
+                      "Missed fractions",
+                    )}
+                  </span>
+                  <strong>
+                    {calendarCalculation.scenario.missedPlannedFractions}
+                  </strong>
+                  <small>
+                    {calendarCalculation.scenario.gapCalendarDays}{" "}
+                    {tx(
+                      language,
+                      "календарных дней перерыва",
+                      "calendar gap days",
+                    )}
+                  </small>
+                </div>
+                <div>
+                  <span>
+                    {tx(
+                      language,
+                      "Без компенсации",
+                      "No compensation",
+                    )}
+                  </span>
+                  <strong>
+                    {
+                      calendarCalculation.scenario
+                        .uncompensatedOverallTreatmentDays
+                    }{" "}
+                    {tx(language, "дней", "days")}
+                  </strong>
+                  <small>
+                    {calendarCalculation.scenario.uncompensated.at(-1)?.date}
+                  </small>
+                </div>
+                <div>
+                  <span>
+                    {tx(
+                      language,
+                      "Лечение в выходные",
+                      "Weekend recovery",
+                    )}
+                  </span>
+                  <strong>
+                    {
+                      calendarCalculation.scenario
+                        .weekendOverallTreatmentDays
+                    }{" "}
+                    {tx(language, "дней", "days")}
+                  </strong>
+                  <small>
+                    {calendarCalculation.scenario.weekendRecoveredFractions}{" "}
+                    {tx(
+                      language,
+                      "фракций в выходные",
+                      "weekend fractions",
+                    )}
+                  </small>
+                </div>
+                <div>
+                  <span>
+                    {tx(
+                      language,
+                      "Две фракции в сутки",
+                      "BID recovery",
+                    )}
+                  </span>
+                  <strong>
+                    {calendarCalculation.scenario.bidOverallTreatmentDays}{" "}
+                    {tx(language, "дней", "days")}
+                  </strong>
+                  <small>
+                    {calendarCalculation.scenario.bidDays}{" "}
+                    {tx(
+                      language,
+                      "дней с двумя фракциями",
+                      "BID days",
+                    )}
+                  </small>
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <div className="gap-grid">
+              <label className="field compact-field">
+                <span>
+                  {tx(
+                    language,
+                    "Плановая общая продолжительность лечения, дни",
+                    "Planned OTT, days",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={plannedOtt}
+                  onChange={(event) => setPlannedOtt(event.target.value)}
+                />
+              </label>
+              <label className="field compact-field">
+                <span>
+                  {tx(
+                    language,
+                    "Фракций проведено до перерыва",
+                    "Fractions delivered before gap",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={deliveredBeforeGap}
+                  onChange={(event) =>
+                    setDeliveredBeforeGap(event.target.value)
+                  }
+                />
+              </label>
+              <label className="field compact-field">
+                <span>
+                  {tx(
+                    language,
+                    "Продолжительность перерыва, дни",
+                    "Interruption, days",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={gapDays}
+                  onChange={(event) => setGapDays(event.target.value)}
+                />
+              </label>
+            </div>
+
+            <p className="field-note">
+              {tx(
+                language,
+                "При ручном режиме HFC использует введённую общую продолжительность лечения и не восстанавливает реальные даты фракций.",
+                "In manual mode HFC uses the entered treatment duration and does not reconstruct actual fraction dates.",
+              )}
+            </p>
+          </>
+        )}
 
         <div className="section-divider" />
 
