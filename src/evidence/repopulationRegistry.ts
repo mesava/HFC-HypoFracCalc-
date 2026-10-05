@@ -4,6 +4,11 @@ import { repopulationRateEstimates } from "../data/evidence/v0.1/index.js";
 export interface EvidenceRepopulationSelection {
   selectionMode: "evidence";
   parameterRecordId: string;
+  /**
+   * Optional explicit Tk override while retaining the evidence provenance of
+   * the selected Dprolif rate. The override is always surfaced as a warning.
+   */
+  kickOffOverrideDays?: number;
 }
 
 export interface ManualRepopulationSelection {
@@ -132,7 +137,22 @@ export function resolveRepopulationSelection(
       "This time-loss estimate is not eligible for automatic default selection.",
     );
   }
-  if (record.kickOffDays === undefined) {
+  if (
+    selection.kickOffOverrideDays !== undefined &&
+    (!Number.isFinite(selection.kickOffOverrideDays) ||
+      selection.kickOffOverrideDays < 0)
+  ) {
+    throw new RangeError("Tk override must be >= 0 days.");
+  }
+
+  const effectiveTk =
+    selection.kickOffOverrideDays ?? record.kickOffDays;
+
+  if (selection.kickOffOverrideDays !== undefined) {
+    warnings.push(
+      "Tk is user-specified for this calculation while Dprolif remains evidence-sourced.",
+    );
+  } else if (record.kickOffDays === undefined) {
     warnings.push(
       "No single Tk value is available for this evidence record; time correction requires an explicit kick-off assumption.",
     );
@@ -142,8 +162,8 @@ export function resolveRepopulationSelection(
     selectionMode: "evidence",
     basis: "EQD2",
     rateGyPerDay: record.rateGyPerDay,
-    ...(record.kickOffDays !== undefined
-      ? { kickOffDays: record.kickOffDays }
+    ...(effectiveTk !== undefined
+      ? { kickOffDays: effectiveTk }
       : {}),
     parameterRecord: record,
     warnings,
