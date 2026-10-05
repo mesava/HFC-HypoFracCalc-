@@ -516,7 +516,7 @@ export function TreatmentGapView({
               <small>
                 {tx(
                   language,
-                  "Выходные суббота/воскресенье учитываются автоматически. Здесь можно указать праздники, технические дни или другие даты, когда лечение невозможно.",
+                  "Выходные суббота/воскресенье учитываются автоматически. Здесь указываются плановые нерабочие даты, например праздники. Неплановый технический простой следует включать в период перерыва, а не исключать из исходного плана.",
                   "Saturday/Sunday weekends are handled automatically. Add public holidays, maintenance days, or other dates when treatment is unavailable.",
                 )}
               </small>
