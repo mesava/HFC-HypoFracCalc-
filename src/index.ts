@@ -6,3 +6,4 @@ export * from "./domain/constraints.js";
 export * from "./evidence/alphaBetaRegistry.js";
 export * from "./data/evidence/v0.1/index.js";
 export * from "./workflows/evidenceLq.js";
+export * from "./workflows/compareRegimens.js";
