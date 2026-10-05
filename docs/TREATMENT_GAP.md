@@ -1,41 +1,120 @@
-# Treatment Gap v0.1
+# Перерывы в лечении — v0.2-dev
 
-## Purpose
+## Назначение
 
-Treatment Gap is a clinical decision-support workflow for modelling the radiobiological consequences of an unscheduled interruption in **photon EBRT**.
+Модуль предназначен для моделирования радиобиологических последствий незапланированного перерыва при **дистанционной лучевой терапии фотонными пучками**.
 
-It is deliberately structured around the priority order used in RCR guidance:
+Он не предлагает лечение автоматически. Его задача — показать, как разные варианты компенсации меняют:
 
-1. preserve the original overall treatment time and dose per fraction where possible;
-2. use weekend treatment where operationally feasible;
-3. use twice-daily treatment only when clinically appropriate and with adequate interfraction spacing;
-4. use biological dose modification only when accelerated compensation cannot be achieved.
+- общую продолжительность лечения;
+- модельный опухолевый эффект;
+- необходимую дозу после перерыва;
+- BED/EQD₂ выбранной дозовой метрики органа риска;
+- влияние неполного восстановления при двух фракциях в сутки.
 
-The module does **not** automatically recommend a treatment change.
+## Основные источники
 
-## Evidence basis
+Текущая логика опирается на:
 
-### RCR — The timely delivery of radical radiotherapy, 4th edition (2019)
+- Royal College of Radiologists. *The timely delivery of radical radiotherapy: guidelines for the management of unscheduled treatment interruptions*. 4-е издание;
+- *Basic Clinical Radiobiology*. 6-е издание, 2025.
 
-The current v0.1 workflow follows these points from the supplied RCR guidance:
+HFC сохраняет различия между рекомендациями источников, а не сводит их к одному безымянному правилу.
 
-- missed weekday fractions should preferentially be recovered at weekends when possible;
-- BID treatment may be used with a **minimum 6-hour** interval;
-- BID is not recommended when the individual fraction size is significantly greater than **2.2 Gy**;
-- biological BED-based compensation is intended for situations where accelerated recovery of the schedule is not feasible;
-- increasing fraction size to restore tumour effect can worsen the therapeutic index and increase late-normal-tissue effect.
+## Приоритет компенсации
 
-RCR expresses tumour repopulation in its worked biological-compensation framework using a **BED-based K factor**. HFC keeps this concept separate from EQD2-based Dprolif.
+Последовательность соответствует клинической логике RCR:
 
-### Basic Clinical Radiobiology, 6th ed. (2025)
+1. по возможности сохранить исходную дозу за фракцию и плановую общую продолжительность лечения;
+2. использовать лечение в выходные дни;
+3. при допустимости использовать две фракции в сутки;
+4. если восстановить график невозможно — рассматривать изменение биологической дозы.
 
-Treatment Gap v0.1 currently uses the alternative **EQD2-based Dprolif/Tk** formalism from Chapter 10:
+## Календарная модель
+
+### Входные данные
+
+В календарном режиме задаются:
+
+- дата первой фракции;
+- число фракций;
+- дата начала перерыва;
+- дата окончания перерыва;
+- при необходимости — плановые нерабочие даты.
+
+Базовый график v0.2-dev:
+
+- одна фракция в рабочий день;
+- понедельник–пятница;
+- суббота и воскресенье считаются стандартными выходными;
+- дополнительные плановые нерабочие даты исключаются из всех стратегий.
+
+Неплановый технический простой не следует добавлять как «плановую нерабочую дату»: он должен входить в интервал перерыва.
+
+### Общая продолжительность лечения
+
+HFC использует **прошедшее календарное время между первой и последней фракцией**.
+
+Пример:
 
 ```
-time penalty = Dprolif × max(0, OTT − Tk)
+понедельник → пятница через 7 недель
+35 фракций
+OTT = 46 дней
 ```
 
-For comparing two overall treatment times:
+Именно такая конвенция используется в примерах RCR для схемы:
+
+```
+70 Gy / 35 fractions / 46 days
+```
+
+Если пять фракций последней недели переносятся на следующую рабочую неделю:
+
+```
+46 дней → 53 дня
+```
+
+Этот пример включён в регрессионные тесты HFC.
+
+### Стратегии календаря
+
+Для одного и того же исходного курса строятся отдельные расписания:
+
+- план;
+- без компенсации;
+- компенсация в выходные;
+- компенсация двумя фракциями в сутки.
+
+Важно: лечение в выходные **не считается автоматически способным полностью восстановить плановый OTT**. Итог определяется доступными реальными датами.
+
+## Модель опухолевого эффекта
+
+### Базовый EQD₂
+
+Для выбранного опухолевого исхода:
+
+```
+EQD2 = nd(d + α/β) / (2 + α/β)
+```
+
+### Поправка на время
+
+В текущей реализации используется EQD₂-формализм Dprolif/Tk:
+
+```
+time penalty =
+Dprolif × max(0, OTT − Tk)
+```
+
+Эффективный EQD₂:
+
+```
+effective EQD2 =
+raw EQD2 − time penalty
+```
+
+Для сравнения планового и фактического курса:
 
 ```
 Δtime penalty =
@@ -45,23 +124,20 @@ Dprolif × [
 ]
 ```
 
-Important limitations retained in HFC:
+### Dprolif и K не являются одним параметром
 
-- Dprolif is a pragmatic local approximation, not a complete mechanistic model of repopulation;
-- a time difference of about one week may be a reasonable domain for a linear approximation, whereas extrapolation over three to four weeks is specifically cautioned against;
-- many tumour types have poorly established Dprolif and/or Tk;
-- for HNSCC, Tk is of the order of 21–24 days;
-- when BID treatment is used, BCR recommends the maximum practical interfraction interval, **at least about 8 hours and preferably more**.
+RCR в своих расчётных примерах использует BED-ориентированную величину K.
 
-HFC therefore distinguishes:
-- **RCR minimum:** 6 h;
-- **BCR 2025 preferred practical interval:** about 8 h or more.
+HFC хранит отдельно:
 
-It does not silently merge them into a single threshold.
+- `Dprolif` — Гр EQD₂/день;
+- `K` — Гр BED/день, если такой формализм будет использоваться.
 
-## Current HNSCC default
+Они не должны подменять друг друга без явного преобразования.
 
-The draft evidence dataset currently provides an automatic Treatment Gap default only for the general HNSCC tumour-control endpoint:
+## Текущий автоматически выбираемый временной параметр
+
+Для общего опухолевого исхода HNSCC текущий черновой набор данных содержит:
 
 ```
 Dprolif = 0.80 Gy EQD2/day
@@ -69,102 +145,184 @@ Dprolif = 0.80 Gy EQD2/day
 Tk      = 21 days
 ```
 
-Other published time-loss estimates remain available but are not automatically applied.
+Другие опубликованные оценки могут храниться в базе, но не обязаны автоматически становиться значением по умолчанию.
 
-## Baseline calculation
+## Две фракции в сутки
 
-For a planned schedule:
+Текущие правила интерфейса:
+
+- интервал <6 ч отклоняется;
+- 6–8 ч сопровождается предупреждением;
+- при дозе за фракцию >2,2 Гр выводится предупреждение RCR;
+- для органа риска отдельно оценивается неполное восстановление.
+
+RCR задаёт минимум 6 ч между двумя фракциями в сутки.
+
+BCR 2025 рекомендует использовать максимально практичный интервал — около 8 ч и более, когда это возможно.
+
+## Неполное восстановление
+
+Используется фактор Thames Hm.
+
+Для двух одинаковых фракций в сутки:
 
 ```
-planned raw EQD2 = LQ_EQD2(planned schedule)
+μ = ln(2) / T½
+φ = exp(−μΔt)
 
-planned effective EQD2 =
+Hm =
+(2/m) × [φ/(1−φ)] ×
+[m − (1−φ^m)/(1−φ)]
+```
+
+Для `m = 2` рассчитанный Hm применяется к BED/EQD₂ выбранного исхода органа риска.
+
+Текущие допущения v0.2-dev:
+
+- две суточные фракции имеют одинаковую дозу на выбранную метрику органа риска;
+- между следующими календарными днями лечения восстановление считается полным;
+- произвольные временные метки всех фракций пока не моделируются.
+
+## Выбор T½
+
+T½ хранится отдельно от α/β и привязан к клиническому исходу.
+
+HFC различает:
+
+- точечную оценку;
+- диапазон;
+- нижнюю границу;
+- верхнюю границу.
+
+Если источник сообщает, например:
+
+```
+T½ > 5 h
+```
+
+HFC **не превращает 5 ч в автоматическое точечное значение**.
+
+Для расчёта с двумя фракциями в сутки пользователь должен:
+
+- выбрать опубликованную точечную оценку, если она доступна;
+- либо явно ввести собственное значение T½.
+
+## Решатель компенсации дозой
+
+Если заданы:
+
+- число оставшихся фракций;
+- фактический итоговый OTT;
+
+HFC решает, какая доза за фракцию после перерыва нужна для восстановления **планового эффективного EQD₂ опухоли**.
+
+Цель:
+
+```
+delivered EQD2
++ remaining EQD2
+− final time penalty
+=
 planned raw EQD2
-− Dprolif × max(0, OTT_planned − Tk)
+− planned time penalty
 ```
 
-If all planned fractions are ultimately delivered unchanged but treatment is prolonged by a gap:
-
-```
-uncompensated effective EQD2 =
-planned raw EQD2
-− Dprolif × max(0, OTT_actual − Tk)
-```
-
-The difference from the planned effective dose is the modelled tumour loss from prolongation.
-
-## Preserve-time strategies
-
-### Weekend recovery
-
-If all planned fractions can be delivered with the original dose per fraction and original finish date:
-
-- raw EQD2 is unchanged;
-- planned OTT is restored;
-- modelled tumour effective EQD2 is unchanged.
-
-Operational feasibility and local QA remain outside the mathematical model.
-
-### BID recovery
-
-The same tumour-equivalence statement applies if all original fractions are delivered by the original finish date.
-
-However:
-
-- <6 h is rejected under the current RCR rule;
-- 6–8 h produces a caution;
-- >2.2 Gy/fraction produces an RCR caution;
-- late-tissue incomplete repair must be evaluated separately.
-
-Selective BID-day incomplete-repair modelling for OAR endpoints is planned for the next Treatment Gap iteration.
-
-## Biological dose-compensation solver
-
-When the user supplies:
-
-- number of post-gap fractions to deliver;
-- actual final OTT;
-
-HFC solves the post-gap fraction size required to restore the **planned tumour effective EQD2**.
-
-The target remaining raw EQD2 is:
+Отсюда:
 
 ```
 required remaining EQD2 =
 planned effective EQD2
 + final time penalty
-− already-delivered raw EQD2
+− delivered raw EQD2
 ```
 
-The standard inverse LQ quadratic is then solved for the remaining dose per fraction.
+После этого стандартное обратное LQ-уравнение решается относительно дозы за фракцию.
 
-This is a **tumour-equivalence calculation only**. It is not a statement of OAR safety.
+## Органы риска
 
-## OAR handling
+### Почему HFC не использует предписанную дозу автоматически
 
-Treatment Gap v0.1 intentionally does not infer OAR dose from prescription dose.
+Изменение дозы на опухоль не определяет однозначно:
 
-Increasing target dose per fraction does not uniquely determine:
-- spinal-cord dose per fraction;
-- bowel dose;
-- rectal DVH;
-- optic-pathway Dmax;
-- other organ-specific dose-volume metrics.
+- Dmax спинного мозга;
+- дозу на гортань;
+- дозу на кишечник;
+- прямокишечный DVH;
+- дозу на зрительные пути;
+- любую другую метрику органа риска.
 
-A future OAR-aware module will require explicit OAR dose/fraction or DVH-derived inputs rather than silently assuming that OAR dose scales one-to-one with prescription dose.
+Поэтому HFC требует **явно указать дозу за фракцию для выбранной дозовой метрики органа риска**.
 
-## Audit requirements
+### Расчёт при переносе фракций
 
-A Treatment Gap calculation should ultimately record:
+Если исходные фракции просто переносятся на выходные и их доза не меняется:
 
-- planned and actual OTT;
-- delivered fractions before the gap;
-- gap duration;
-- alpha/beta record or manual override;
-- Dprolif record or manual override;
-- Tk and whether it was evidence-derived or user-specified;
-- compensation strategy;
-- BID interval when used;
-- solved post-gap fraction size when used;
-- warnings and model limitations;
-- engine and dataset versions.
+- BED органа риска не изменяется из-за самого факта переноса;
+- EQD₂ не изменяется;
+- календарная стратегия влияет на опухолевую временную поправку, а не на поздний OAR BED при полном межфракционном восстановлении.
+
+### Расчёт при двух фракциях в сутки
+
+Для дней с двумя фракциями:
+
+- используется выбранное α/β;
+- используется выбранное T½;
+- рассчитывается Hm;
+- BED и EQD₂ органа риска сравниваются с исходным планом.
+
+### Расчёт при увеличении дозы после перерыва
+
+Пользователь выбирает один из двух режимов:
+
+1. **явный ввод** — доза на выбранную OAR-метрику после перерыва вводится вручную;
+2. **пропорциональное масштабирование** — HFC увеличивает дозу на OAR-метрику в той же пропорции, что и опухолевую дозу за фракцию.
+
+Второй режим является **явным пользовательским допущением**. HFC не применяет его автоматически.
+
+## Что OAR-модуль не делает
+
+Текущий модуль не является автоматической проверкой ограничения органа риска.
+
+Он не знает без дополнительных данных:
+
+- полного DVH;
+- пространственного распределения дозы;
+- изменения геометрии;
+- новой оптимизации плана;
+- частичного объёмного эффекта;
+- конкретного клинического ограничения D0.03cc, D1cc, Vx и т. п.
+
+Полученный BED/EQD₂ относится только к выбранной пользователем дозовой метрике.
+
+## Аудит расчёта
+
+Для воспроизводимого расчёта необходимо сохранять:
+
+- даты курса;
+- плановый и фактический OTT;
+- проведённые фракции до перерыва;
+- интервал перерыва;
+- дополнительные плановые нерабочие даты;
+- α/β и его источник;
+- Dprolif и его источник;
+- Tk и происхождение значения;
+- выбранную стратегию;
+- интервал между двумя фракциями;
+- T½ и его источник;
+- дозовую метрику органа риска;
+- исходную и post-gap дозу на эту метрику;
+- все пользовательские допущения;
+- предупреждения;
+- версию расчётного ядра;
+- версию доказательной базы.
+
+## Следующие этапы
+
+После v0.2 планируются:
+
+1. несколько органов риска одновременно;
+2. явные типы дозовых метрик — Dmax, D0.03cc, D1cc, D2cc, Dmean, Vx;
+3. связь с клиническими ограничениями;
+4. импорт DVH/DICOM;
+5. произвольная временная последовательность фракций;
+6. более полная оценка неопределённости.
