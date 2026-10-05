@@ -125,11 +125,11 @@ export function SiteHome({
             <p>
               {tx(
                 language,
-                "OTT, Dprolif/Tk, компенсация за счёт выходных дней или двух фракций в сутки и расчёт дозы за фракцию после перерыва для восстановления эквивалентного опухолевого эффекта.",
-                "OTT, Dprolif/Tk, weekend/BID compensation, and post-gap dose/fraction solution for tumour equivalence.",
+                "Календарь лечения, Dprolif/Tk, компенсация за счёт выходных дней или двух фракций в сутки, расчёт опухолевого эффекта и отдельная оценка выбранной дозовой метрики органа риска.",
+                "Treatment calendar, Dprolif/Tk, weekend/BID compensation, tumour-effect modelling, and explicit evaluation of a selected OAR dose metric.",
               )}
             </p>
-            <span className="module-state beta">v0.1</span>
+            <span className="module-state beta">v0.2-dev</span>
           </button>
 
           <div className="module-card disabled-card">
