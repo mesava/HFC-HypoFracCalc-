@@ -23,6 +23,7 @@ import {
   type TreatmentCalendarScenario,
 } from "../workflows/treatmentCalendar.js";
 import { localizeWarning, tx } from "./i18n.js";
+import { TreatmentCalendarPreview } from "./TreatmentCalendarPreview.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -525,7 +526,8 @@ export function TreatmentGapView({
                 {calendarCalculation.error}
               </div>
             ) : calendarCalculation.scenario ? (
-              <div className="calendar-summary-grid">
+              <>
+                <div className="calendar-summary-grid">
                 <div>
                   <span>
                     {tx(language, "Плановый конец", "Planned end")}
@@ -623,6 +625,11 @@ export function TreatmentGapView({
                   </small>
                 </div>
               </div>
+                <TreatmentCalendarPreview
+                  language={language}
+                  scenario={calendarCalculation.scenario}
+                />
+              </>
             ) : null}
           </>
         ) : (
