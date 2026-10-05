@@ -1687,3 +1687,30 @@ button.module-card:hover {
     grid-template-columns: 1fr;
   }
 }
+
+
+.language-switch {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  border: 1px solid #cbd5da;
+  border-radius: 999px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.language-switch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: transparent;
+  color: #687780;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+}
+
+.language-switch button.active {
+  background: #315e64;
+  color: #fff;
+}
