@@ -127,7 +127,7 @@ export function App() {
         return {
           error: tx(
             language,
-            "Для этого endpoint нет автоматического preferred-значения. Выберите опубликованную оценку или введите своё α/β.",
+            "Для этого клинического исхода нет автоматически выбранного предпочтительного значения. Выберите опубликованную оценку или введите своё α/β.",
             "This endpoint has no automatic preferred value. Select a published estimate or enter a custom α/β.",
           ),
         };
@@ -266,21 +266,21 @@ export function App() {
           type="button"
           onClick={() => setActiveModule("quick")}
         >
-          Quick EQD
+          {tx(language, "Быстрый EQD", "Quick EQD")}
         </button>
         <button
           className={`module ${activeModule === "compare" ? "active" : ""}`}
           type="button"
           onClick={() => setActiveModule("compare")}
         >
-          Compare Regimens
+          {tx(language, "Сравнение режимов", "Compare Regimens")}
         </button>
         <button
           className={`module ${activeModule === "gap" ? "active" : ""}`}
           type="button"
           onClick={() => setActiveModule("gap")}
         >
-          Treatment Gap
+          {tx(language, "Перерывы в лечении", "Treatment Gap")}
         </button>
         <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
@@ -290,7 +290,7 @@ export function App() {
           {tx(language, "Методология", "Methodology")}
         </button>
         <button className="module" type="button" disabled>
-          Reirradiation
+          {tx(language, "Повторное облучение", "Reirradiation")}
         </button>
       </nav>
 
@@ -301,7 +301,7 @@ export function App() {
           <section className="panel input-panel">
             <div className="section-heading">
               <div>
-                <span className="eyebrow">1 · endpoint</span>
+                <span className="eyebrow">1 · {tx(language, "исход", "endpoint")}</span>
                 <h2>
                   {tx(
                     language,
@@ -314,7 +314,7 @@ export function App() {
 
             <label className="field">
               <span>
-                {tx(language, "Клинический endpoint", "Clinical endpoint")}
+                {tx(language, "Клинический исход", "Clinical endpoint")}
               </span>
               <select
                 value={endpointId}
@@ -377,7 +377,7 @@ export function App() {
               >
                 {tx(
                   language,
-                  "Из evidence database",
+                  "Из доказательной базы",
                   "Evidence database",
                 )}
               </button>
@@ -452,7 +452,7 @@ export function App() {
                 <small>
                   {tx(
                     language,
-                    "Manual override не изменяет evidence database и будет отмечен в отчёте.",
+                    "Пользовательское значение не изменяет доказательную базу и будет явно отмечено в отчёте.",
                     "A manual override does not modify the evidence database and will be recorded in the audit.",
                   )}
                 </small>
@@ -538,7 +538,7 @@ export function App() {
 
                 {selectedEstimate.applicability?.notes?.length ? (
                   <details>
-                    <summary>Applicability / caveats</summary>
+                    <summary>{tx(language, "Область применимости и ограничения", "Applicability / caveats")}</summary>
                     <ul>
                       {selectedEstimate.applicability.notes.map((note) => (
                         <li key={note}>{note}</li>
@@ -553,7 +553,7 @@ export function App() {
 
             <div className="section-heading compact">
               <div>
-                <span className="eyebrow">3 · fractionation</span>
+                <span className="eyebrow">3 · {tx(language, "фракционирование", "fractionation")}</span>
                 <h2>
                   {tx(
                     language,
@@ -606,7 +606,7 @@ export function App() {
           <section className="panel results-panel">
             <div className="section-heading">
               <div>
-                <span className="eyebrow">result</span>
+                <span className="eyebrow">{tx(language, "результат", "result")}</span>
                 <h2>BED / EQD₂</h2>
               </div>
             </div>
@@ -664,14 +664,14 @@ export function App() {
                     <strong>
                       {formatUiNumber(language, result.bedGy)} {gy}
                     </strong>
-                    <small>LQ model</small>
+                    <small>{tx(language, "LQ-модель", "LQ model")}</small>
                   </div>
                 </div>
 
                 {result.alphaBetaSensitivity ? (
                   <div className="sensitivity-card">
                     <div>
-                      <span className="eyebrow">α/β sensitivity</span>
+                      <span className="eyebrow">α/β {tx(language, "чувствительность", "sensitivity")}</span>
                       <strong>
                         CI α/β:{" "}
                         {formatUiNumber(
@@ -693,7 +693,7 @@ export function App() {
 
                     <div className="sensitivity-values">
                       <div>
-                        <span>EQD₂ range</span>
+                        <span>{tx(language, "Диапазон EQD₂", "EQD₂ range")}</span>
                         <strong>
                           {formatUiNumber(
                             language,
@@ -708,7 +708,7 @@ export function App() {
                         </strong>
                       </div>
                       <div>
-                        <span>BED range</span>
+                        <span>{tx(language, "Диапазон BED", "BED range")}</span>
                         <strong>
                           {formatUiNumber(
                             language,
@@ -731,7 +731,7 @@ export function App() {
                     <p>
                       {tx(
                         language,
-                        "Это sensitivity envelope только по 95% CI α/β, а не полная многопараметрическая неопределённость.",
+                        "Это диапазон чувствительности только по 95% ДИ α/β, а не полная многопараметрическая неопределённость.",
                         "This is a sensitivity envelope based only on the 95% CI of α/β, not a full multiparameter uncertainty analysis.",
                       )}
                     </p>
@@ -766,10 +766,10 @@ export function App() {
                 )}
 
                 <div className="audit-preview">
-                  <span className="eyebrow">audit preview</span>
+                  <span className="eyebrow">{tx(language, "предпросмотр аудита", "audit preview")}</span>
                   <dl>
                     <div>
-                      <dt>Selection</dt>
+                      <dt>{tx(language, "Выбор параметра", "Selection")}</dt>
                       <dd>
                         {result.selectionMode === "evidence"
                           ? "evidence"
@@ -777,13 +777,13 @@ export function App() {
                       </dd>
                     </div>
                     <div>
-                      <dt>Parameter record</dt>
+                      <dt>{tx(language, "Запись параметра", "Parameter record")}</dt>
                       <dd>
                         {result.parameterRecordId ?? "user-specified"}
                       </dd>
                     </div>
                     <div>
-                      <dt>Source</dt>
+                      <dt>{tx(language, "Источник", "Source")}</dt>
                       <dd>{result.sourceId ?? "manual"}</dd>
                     </div>
                   </dl>
@@ -795,7 +795,7 @@ export function App() {
               <strong>
                 {tx(
                   language,
-                  "Только для clinical decision-support.",
+                  "Только для поддержки клинических решений.",
                   "Clinical decision-support only.",
                 )}
               </strong>
@@ -823,7 +823,7 @@ export function App() {
           <span>
             {tx(
               language,
-              "Прозрачный clinical decision-support для радиобиологии фотонной ДЛТ.",
+              "Прозрачный инструмент поддержки клинических решений для радиобиологии фотонной ДЛТ.",
               "Transparent clinical decision-support for photon radiobiology.",
             )}
           </span>
@@ -837,7 +837,7 @@ export function App() {
           >
             {tx(
               language,
-              "Evidence и методология",
+              "Доказательная база и методология",
               "Evidence & methodology",
             )}
           </button>
