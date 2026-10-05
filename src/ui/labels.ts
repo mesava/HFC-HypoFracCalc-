@@ -1,3 +1,5 @@
+export type Language = "ru" | "en";
+
 export const organLabelsRu: Record<string, string> = {
   Prostate: "Предстательная железа",
   Rectum: "Прямая кишка",
@@ -72,10 +74,30 @@ export const endpointLabelsRu: Record<string, string> = {
   "medulloblastoma-tumour-control": "Опухолевый контроль медуллобластомы",
 };
 
-export function endpointLabelRu(id: string, fallback: string): string {
-  return endpointLabelsRu[id] ?? fallback;
+export function endpointLabel(
+  language: Language,
+  id: string,
+  englishFallback: string,
+): string {
+  return language === "ru"
+    ? endpointLabelsRu[id] ?? englishFallback
+    : englishFallback;
 }
 
-export function organLabelRu(organ: string): string {
-  return organLabelsRu[organ] ?? organ;
+export function organLabel(
+  language: Language,
+  organ: string,
+): string {
+  return language === "ru" ? organLabelsRu[organ] ?? organ : organ;
+}
+
+export function formatUiNumber(
+  language: Language,
+  value: number,
+  digits = 2,
+): string {
+  return new Intl.NumberFormat(language === "ru" ? "ru-RU" : "en-US", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value);
 }
