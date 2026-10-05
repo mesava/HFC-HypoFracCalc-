@@ -10,6 +10,7 @@ import {
   getPreferredAlphaBetaEstimate,
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
+import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
 import { localizeWarning, releaseStatusLabel, supportLabel, tx } from "./i18n.js";
 import {
@@ -239,14 +240,6 @@ export function App() {
             Photon EBRT · {evidenceManifest.datasetVersion} ·{" "}
             {releaseStatusLabel(language, evidenceManifest.releaseStatus)}
           </div>
-          <a
-            className="github-link"
-            href="https://github.com/mesava/HFC-HypoFracCalc-"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
         </div>
       </header>
 
@@ -288,6 +281,13 @@ export function App() {
           onClick={() => setActiveModule("methodology")}
         >
           {tx(language, "Методология", "Methodology")}
+        </button>
+        <button
+          className={`module ${activeModule === "about" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("about")}
+        >
+          {tx(language, "О сайте", "About")}
         </button>
         <button className="module" type="button" disabled>
           {tx(language, "Повторное облучение", "Reirradiation")}
@@ -824,8 +824,10 @@ export function App() {
         <CompareRegimensView language={language} />
       ) : activeModule === "gap" ? (
         <TreatmentGapView language={language} />
-      ) : (
+      ) : activeModule === "methodology" ? (
         <MethodologyView language={language} />
+      ) : (
+        <AboutSiteView language={language} />
       )}
 
       <footer className="site-footer">
@@ -853,13 +855,12 @@ export function App() {
             )}
           </button>
           <span>·</span>
-          <a
-            href="https://github.com/mesava/HFC-HypoFracCalc-"
-            target="_blank"
-            rel="noreferrer"
+          <button
+            type="button"
+            onClick={() => setActiveModule("about")}
           >
-            {tx(language, "Исходный код", "Source")}
-          </a>
+            {tx(language, "О сайте", "About")}
+          </button>
         </div>
       </footer>
     </div>
