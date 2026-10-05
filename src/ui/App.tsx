@@ -11,6 +11,9 @@ import {
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
+import { MethodologyView } from "./MethodologyView.js";
+import { SiteHome, type SitePage } from "./SiteHome.js";
+import { TreatmentGapView } from "./TreatmentGapView.js";
 import { endpointLabelRu, organLabelRu } from "./labels.js";
 
 type ParameterMode = "evidence" | "manual";
@@ -48,7 +51,7 @@ function sourceFor(sourceId: string | undefined) {
 }
 
 export function App() {
-  const [activeModule, setActiveModule] = useState<"quick" | "compare">("quick");
+  const [activeModule, setActiveModule] = useState<SitePage>("home");
   const availableEndpoints = useMemo(
     () =>
       endpoints
@@ -169,22 +172,46 @@ export function App() {
 
   return (
     <div className="app-shell">
-      <header className="topbar">
-        <div>
+      <header className="topbar site-topbar">
+        <button
+          className="brand-button"
+          type="button"
+          onClick={() => setActiveModule("home")}
+          aria-label="HFC home"
+        >
           <div className="brand-row">
             <div className="brand-mark">HFC</div>
             <div>
               <h1>HypoFracCalc</h1>
-              <p>Evidence-traceable radiobiology calculator</p>
+              <p>Evidence-traceable photon radiobiology</p>
             </div>
           </div>
-        </div>
-        <div className="dataset-chip">
-          Photon EBRT · {evidenceManifest.datasetVersion} · draft
+        </button>
+
+        <div className="topbar-actions">
+          <div className="dataset-chip">
+            Photon EBRT · {evidenceManifest.datasetVersion} ·{" "}
+            {evidenceManifest.releaseStatus}
+          </div>
+          <a
+            className="github-link"
+            href="https://github.com/mesava/HFC-HypoFracCalc-"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
         </div>
       </header>
 
-      <nav className="module-nav" aria-label="Модули HFC">
+      <nav className="module-nav site-nav" aria-label="Разделы HFC">
+        <button
+          className={`module ${activeModule === "home" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("home")}
+        >
+          Главная
+        </button>
         <button
           className={`module ${activeModule === "quick" ? "active" : ""}`}
           type="button"
@@ -199,15 +226,28 @@ export function App() {
         >
           Compare regimens
         </button>
-        <button className="module" type="button" disabled>
+        <button
+          className={`module ${activeModule === "gap" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("gap")}
+        >
           Treatment gap
+        </button>
+        <button
+          className={`module ${activeModule === "methodology" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("methodology")}
+        >
+          Методология
         </button>
         <button className="module" type="button" disabled>
           Reirradiation
         </button>
       </nav>
 
-      {activeModule === "quick" ? (
+      {activeModule === "home" ? (
+        <SiteHome onNavigate={setActiveModule} />
+      ) : activeModule === "quick" ? (
       <main className="workspace">
         <section className="panel input-panel">
           <div className="section-heading">
@@ -542,10 +582,40 @@ export function App() {
           </div>
         </section>
       </main>
-      ) : (
+      ) : activeModule === "compare" ? (
         <CompareRegimensView />
+      ) : activeModule === "gap" ? (
+        <TreatmentGapView />
+      ) : (
+        <MethodologyView />
       )}
 
+      <footer className="site-footer">
+        <div>
+          <strong>HFC · HypoFracCalc</strong>
+          <span>
+            Transparent clinical decision-support for photon radiobiology.
+          </span>
+        </div>
+        <div>
+          <span>{evidenceManifest.datasetVersion}</span>
+          <span>·</span>
+          <button
+            type="button"
+            onClick={() => setActiveModule("methodology")}
+          >
+            Evidence & methodology
+          </button>
+          <span>·</span>
+          <a
+            href="https://github.com/mesava/HFC-HypoFracCalc-"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
