@@ -4,6 +4,11 @@ export type EvidenceStatus =
   | "preferred"
   | "deprecated";
 
+export type EstimateSupport =
+  | "supported"
+  | "limited"
+  | "poor-fit";
+
 export type EvidenceKind =
   | "randomized-trial"
   | "meta-analysis"
@@ -63,6 +68,17 @@ interface ParameterRecordBase {
   endpointId: string;
   sourceId: string;
   status: EvidenceStatus;
+  /**
+   * Whether this estimate may be automatically proposed as the default for
+   * its exact endpoint in the current evidence dataset.
+   */
+  defaultEligible: boolean;
+  /**
+   * Curation-level summary of how strongly the source supports the numerical
+   * estimate. This is separate from preferred/reviewed status.
+   */
+  support: EstimateSupport;
+  supportReason?: string;
   applicability?: ApplicabilityDomain;
   notes?: string[];
 }
@@ -122,6 +138,7 @@ export type ParameterSelection =
 
 export interface EvidenceDatasetManifest {
   datasetVersion: string;
+  releaseStatus: "draft" | "validated" | "retired";
   evidenceCutoffDate: string;
   createdAt: string;
   reviewers: string[];
