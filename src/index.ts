@@ -12,3 +12,4 @@ export * from "./workflows/treatmentGap.js";
 export * from "./evidence/repairRegistry.js";
 export * from "./workflows/treatmentCalendar.js";
 export * from "./workflows/treatmentGapOar.js";
+export * from "./evidence/constraintRegistry.js";
