@@ -171,4 +171,26 @@ export const sources = [
     notes:
       "Human cervical cord dose-response analysis; alpha/beta estimate 0.87 Gy. The paper cautions against uncritical application to hyperfractionation.",
   },
+  {
+    id: "bentzen-saunders-dische-1999-repair",
+    citation:
+      "Bentzen SM, Saunders MI, Dische S. Repair halftimes estimated from observations of treatment-related morbidity after CHART or conventional radiotherapy in head and neck cancer. Radiother Oncol. 1999;53(3):219-226.",
+    year: 1999,
+    doi: "10.1016/S0167-8140(99)00151-6",
+    pmid: "10660202",
+    kind: "modeling-study",
+    notes:
+      "CHART morbidity analysis; repair half-times 4.9 h for laryngeal edema, 3.8 h for skin telangiectasia and 4.4 h for subcutaneous fibrosis.",
+  },
+  {
+    id: "bentzen-saunders-dische-bond-2001-early",
+    citation:
+      "Bentzen SM, Saunders MI, Dische S, Bond SJ. Radiotherapy-related early morbidity in head and neck cancer: quantitative clinical radiobiology as deduced from the CHART trial. Radiother Oncol. 2001;60(2):123-135.",
+    year: 2001,
+    doi: "10.1016/S0167-8140(01)00358-9",
+    pmid: "11439207",
+    kind: "randomized-trial",
+    notes:
+      "CHART early-morbidity analysis; reports Dprolif 0.80 Gy/day (0.7-1.1) for mucosa and 0.12 Gy/day (-0.12-0.22) for skin erythema.",
+  },
 ] satisfies SourceReference[];
