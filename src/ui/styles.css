@@ -2900,3 +2900,145 @@ button.module-card:hover {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* --- Reirradiation evidence guidance ----------------------------------- */
+
+.reirradiation-guidance-card {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  border: 1px solid #d8e2e5;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fbfcfc;
+}
+
+.reirradiation-guidance-heading h3 {
+  margin: 4px 0 0;
+  color: #2e4e55;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.guidance-confirmation {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f1f6f7;
+  color: #52656d;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.guidance-confirmation input {
+  margin-top: 2px;
+}
+
+.guidance-basis-note {
+  border-left: 3px solid #789aa1;
+  padding: 7px 10px;
+  color: #63747b;
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.guidance-criteria-list {
+  display: grid;
+  gap: 7px;
+}
+
+.guidance-criterion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid #dfe6e8;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fff;
+}
+
+.guidance-criterion > div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.guidance-criterion strong {
+  color: #465d64;
+  font-size: 0.71rem;
+}
+
+.guidance-criterion small {
+  color: #7e898f;
+  font-size: 0.61rem;
+}
+
+.guidance-criterion.met {
+  border-left: 4px solid #759a84;
+}
+
+.guidance-criterion.not-met {
+  border-left: 4px solid #b77d6e;
+  background: #fff9f7;
+}
+
+.guidance-criterion.not-assessable {
+  border-left: 4px solid #b9a878;
+  background: #fffdf6;
+}
+
+.guidance-criterion-values {
+  min-width: 110px;
+  text-align: right;
+}
+
+.guidance-criterion-values span,
+.guidance-criterion-values small {
+  display: block;
+}
+
+.guidance-criterion-values span {
+  color: #294e55;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.guidance-overall {
+  border-radius: 10px;
+  padding: 11px;
+  background: #eef4f5;
+}
+
+.guidance-overall strong {
+  color: #31545b;
+  font-size: 0.73rem;
+}
+
+.guidance-overall p {
+  margin: 5px 0 0;
+  color: #68777e;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.guidance-source {
+  margin: 0;
+  color: #7c888e;
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .guidance-criterion {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .guidance-criterion-values {
+    min-width: 0;
+    text-align: left;
+  }
+}
