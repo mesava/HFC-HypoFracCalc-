@@ -61,7 +61,7 @@ describe("evidence-driven LQ workflow", () => {
     expect(result.warnings.join(" ")).toMatch(/User-specified/);
   });
 
-  it("orders the propagated alpha/beta CI envelope numerically", () => {
+  it("orders a finite alpha/beta sensitivity envelope numerically", () => {
     const result = calculateEvidenceLq(
       "breast-photographic-appearance",
       { fractions: 5, dosePerFractionGy: 6 },
@@ -69,7 +69,22 @@ describe("evidence-driven LQ workflow", () => {
 
     expect(result.alphaBetaSensitivity).toBeDefined();
     const envelope = result.alphaBetaSensitivity!;
-    expect(envelope.bedGy.low).toBeLessThanOrEqual(envelope.bedGy.high);
+    expect(envelope.bedGy.high).not.toBeNull();
+    expect(envelope.bedGy.low).toBeLessThanOrEqual(envelope.bedGy.high!);
     expect(envelope.eqd2Gy.low).toBeLessThanOrEqual(envelope.eqd2Gy.high);
+  });
+
+  it("handles an alpha/beta confidence interval reaching zero without division by zero", () => {
+    const result = calculateEvidenceLq(
+      "breast-induration",
+      { fractions: 5, dosePerFractionGy: 6 },
+    );
+
+    expect(result.alphaBetaGy).toBe(1.6);
+    expect(result.alphaBetaSensitivity).toBeDefined();
+    expect(result.alphaBetaSensitivity?.alphaBetaCi95Gy.low).toBe(0);
+    expect(result.alphaBetaSensitivity?.bedGy.high).toBeNull();
+    expect(result.alphaBetaSensitivity?.eqd2Gy.high).toBeGreaterThan(0);
+    expect(result.warnings.join(" ")).toMatch(/BED becomes unbounded/);
   });
 });
