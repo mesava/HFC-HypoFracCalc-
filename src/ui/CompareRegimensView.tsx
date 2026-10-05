@@ -140,7 +140,7 @@ function EndpointParameterEditor({
             className="icon-button"
             type="button"
             onClick={onRemove}
-            aria-label={tx(language, "Удалить endpoint", "Remove endpoint")}
+            aria-label={tx(language, "Удалить клинический исход", "Remove endpoint")}
           >
             ×
           </button>
@@ -148,7 +148,7 @@ function EndpointParameterEditor({
       </div>
 
       <label className="field compact-field">
-        <span>Endpoint</span>
+        <span>{tx(language, "Клинический исход", "Endpoint")}</span>
         <select
           value={selection.endpointId}
           onChange={(event) => changeEndpoint(event.target.value)}
@@ -254,17 +254,17 @@ function EndpointParameterEditor({
         <div className="inline-alert">
           {tx(
             language,
-            "Для этого endpoint HFC не выбирает α/β автоматически. Выберите опубликованную оценку или manual override.",
+            "Для этого клинического исхода HFC не выбирает α/β автоматически. Выберите опубликованную оценку или задайте своё значение.",
             "HFC does not automatically select α/β for this endpoint. Choose a published estimate or use a manual override.",
           )}
         </div>
       ) : (
         <div className="endpoint-evidence-line">
-          <span>Manual override</span>
+          <span>{tx(language, "Пользовательское значение", "Manual override")}</span>
           <small>
             {tx(
               language,
-              "Будет отмечен как user-specified во всех расчётах.",
+              "Во всех расчётах будет явно отмечено как значение, заданное пользователем.",
               "It will be recorded as user-specified in all calculations.",
             )}
           </small>
@@ -482,11 +482,11 @@ export function CompareRegimensView({
       <section className="panel compare-config-panel">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">compare regimens</span>
+            <span className="eyebrow">{tx(language, "сравнение режимов", "compare regimens")}</span>
             <h2>
               {tx(
                 language,
-                "Схемы фракционирования",
+                "Режимы фракционирования",
                 "Fractionation regimens",
               )}
             </h2>
@@ -497,7 +497,7 @@ export function CompareRegimensView({
             onClick={addRegimen}
             disabled={regimens.length >= 5}
           >
-            {tx(language, "+ схема", "+ regimen")}
+            {tx(language, "+ режим", "+ regimen")}
           </button>
         </div>
 
@@ -522,7 +522,7 @@ export function CompareRegimensView({
                       ? "Reference"
                       : tx(
                           language,
-                          `Схема ${index + 1}`,
+                          `Режим ${index + 1}`,
                           `Regimen ${index + 1}`,
                         )}
                   </span>
@@ -535,7 +535,7 @@ export function CompareRegimensView({
                     onClick={() => removeRegimen(regimen.id)}
                     aria-label={tx(
                       language,
-                      "Удалить схему",
+                      "Удалить режим",
                       "Remove regimen",
                     )}
                   >
@@ -593,11 +593,11 @@ export function CompareRegimensView({
 
         <div className="section-heading compact">
           <div>
-            <span className="eyebrow">endpoints</span>
+            <span className="eyebrow">{tx(language, "клинические исходы", "endpoints")}</span>
             <h2>
               {tx(
                 language,
-                "Tumour + органы риска",
+                "Опухоль + органы риска",
                 "Tumour + organs at risk",
               )}
             </h2>
@@ -608,7 +608,7 @@ export function CompareRegimensView({
           language={language}
           title={tx(
             language,
-            "Опухолевый endpoint",
+            "Опухолевый исход",
             "Tumour endpoint",
           )}
           selection={tumour}
@@ -651,7 +651,7 @@ export function CompareRegimensView({
         >
           {tx(
             language,
-            "+ добавить OAR endpoint",
+            "+ добавить исход для органа риска",
             "+ add OAR endpoint",
           )}
         </button>
@@ -660,7 +660,7 @@ export function CompareRegimensView({
       <section className="panel compare-results-panel">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">matrix</span>
+            <span className="eyebrow">{tx(language, "матрица", "matrix")}</span>
             <h2>{tx(language, "Сравнение EQD₂", "EQD₂ comparison")}</h2>
           </div>
         </div>
@@ -682,7 +682,7 @@ export function CompareRegimensView({
               <table className="compare-table">
                 <thead>
                   <tr>
-                    <th>Endpoint</th>
+                    <th>{tx(language, "Клинический исход", "Endpoint")}</th>
                     {comparison.regimens.map((regimen) => (
                       <th key={regimen.id}>
                         <span>{regimen.label}</span>
@@ -737,7 +737,7 @@ export function CompareRegimensView({
                                 : "normal"
                             }`}
                           >
-                            {endpoint?.role === "tumour" ? "Tumour" : "OAR"}
+                            {endpoint?.role === "tumour" ? tx(language, "Опухоль", "Tumour") : tx(language, "Орган риска", "OAR")}
                           </span>
                           <strong>
                             {endpointLabel(
@@ -870,7 +870,7 @@ export function CompareRegimensView({
                 <strong>ΔEQD₂</strong>{" "}
                 {tx(
                   language,
-                  "считается относительно выбранной reference-схемы для того же endpoint.",
+                  "считается относительно выбранного опорного режима для того же клинического исхода.",
                   "is calculated relative to the selected reference regimen for the same endpoint.",
                 )}
               </p>
@@ -878,14 +878,14 @@ export function CompareRegimensView({
                 <strong>Δ CI</strong>{" "}
                 {tx(
                   language,
-                  "— коррелированный one-parameter sensitivity range: обе схемы пересчитываются при одинаковых границах 95% CI α/β. Это не полная неопределённость лечения.",
+                  "— коррелированный однопараметрический диапазон чувствительности: оба режима пересчитываются при одинаковых границах 95% ДИ α/β. Это не полная неопределённость лечения.",
                   "is a correlated one-parameter sensitivity range: both regimens are recalculated at the same 95% CI α/β boundaries. It is not full treatment uncertainty.",
                 )}
               </p>
               <p>
                 {tx(
                   language,
-                  "Положительный Δ для tumour означает большую модельную эквивалентную дозу опухоли; положительный Δ для OAR означает большую модельную биологическую нагрузку на этот endpoint.",
+                  "Положительный Δ для опухоли означает большую модельную эквивалентную дозу опухоли; положительный Δ для органа риска означает большую модельную биологическую нагрузку для выбранного клинического исхода.",
                   "A positive Δ for tumour means a higher modelled tumour-equivalent dose; a positive Δ for an OAR means a higher modelled biological burden for that endpoint.",
                 )}
               </p>
@@ -897,14 +897,14 @@ export function CompareRegimensView({
           <strong>
             {tx(
               language,
-              "Не является рекомендацией схемы лечения.",
+              "Не является рекомендацией режима лечения.",
               "Not a treatment-regimen recommendation.",
             )}
           </strong>
           <p>
             {tx(
               language,
-              "Сравнение показывает поведение выбранной LQ-модели и evidence parameters. Клиническое решение требует dose-volume constraints, геометрии, времени лечения и независимой проверки.",
+              "Сравнение показывает поведение выбранной LQ-модели и параметров доказательной базы. Клиническое решение требует ограничений доза–объём, учёта геометрии, времени лечения и независимой проверки.",
               "The comparison shows the behaviour of the selected LQ model and evidence parameters. Clinical decisions require dose-volume constraints, geometry, treatment timing, and independent verification.",
             )}
           </p>
