@@ -18,3 +18,6 @@ export * from "./workflows/reirradiation.js";
 export * from "./workflows/evidenceReirradiation.js";
 export * from "./domain/reirradiationGuidance.js";
 export * from "./workflows/reirradiationGuidance.js";
+export * from "./domain/audit.js";
+export * from "./audit/reirradiationAudit.js";
+export * from "./version.js";
