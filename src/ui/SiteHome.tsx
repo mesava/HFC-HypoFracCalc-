@@ -7,6 +7,7 @@ export type SitePage =
   | "quick"
   | "compare"
   | "gap"
+  | "constraints"
   | "methodology"
   | "about";
 
@@ -132,8 +133,31 @@ export function SiteHome({
             <span className="module-state beta">v0.2-dev</span>
           </button>
 
-          <div className="module-card disabled-card">
+          <button
+            className="module-card"
+            type="button"
+            onClick={() => onNavigate("constraints")}
+          >
             <span className="module-index">04</span>
+            <strong>
+              {tx(
+                language,
+                "Клинические ограничения",
+                "Clinical Constraints",
+              )}
+            </strong>
+            <p>
+              {tx(
+                language,
+                "Доза–объём–риск с явным типом доказательства, числом фракций, источником и областью применимости. Начальный набор — HyTEC.",
+                "Dose-volume-risk evidence with explicit evidence type, fractionation, source, and applicability. Initial dataset: HyTEC.",
+              )}
+            </p>
+            <span className="module-state beta">v0.1</span>
+          </button>
+
+          <div className="module-card disabled-card">
+            <span className="module-index">05</span>
             <strong>{tx(language, "Повторное облучение", "Reirradiation")}</strong>
             <p>
               {tx(
