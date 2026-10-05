@@ -9,3 +9,6 @@ export * from "./workflows/evidenceLq.js";
 export * from "./workflows/compareRegimens.js";
 export * from "./evidence/repopulationRegistry.js";
 export * from "./workflows/treatmentGap.js";
+export * from "./evidence/repairRegistry.js";
+export * from "./workflows/treatmentCalendar.js";
+export * from "./workflows/treatmentGapOar.js";
