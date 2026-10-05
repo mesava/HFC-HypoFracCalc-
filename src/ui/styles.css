@@ -2623,3 +2623,280 @@ button.module-card:hover {
     text-align: left;
   }
 }
+
+
+/* --- Reirradiation ------------------------------------------------------ */
+
+.reirradiation-page {
+  display: grid;
+  gap: 16px;
+}
+
+.reirradiation-hero {
+  padding: 28px;
+}
+
+.reirradiation-hero h2 {
+  margin: 7px 0 10px;
+  color: #203f46;
+  font-size: clamp(1.45rem, 3vw, 2.05rem);
+  letter-spacing: -0.035em;
+}
+
+.reirradiation-hero p {
+  max-width: 920px;
+  margin: 0;
+  color: #66747c;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.reirradiation-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.reirradiation-config,
+.reirradiation-results {
+  padding: 22px;
+}
+
+.reirradiation-checkboxes {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.reirradiation-checkboxes label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid #dce4e7;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fbfcfc;
+  color: #5f6e76;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.reirradiation-checkboxes input {
+  margin-top: 2px;
+}
+
+.metric-context-card {
+  display: grid;
+  align-content: center;
+  border: 1px solid #dce4e7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fafcfc;
+}
+
+.metric-context-card span {
+  color: #879198;
+  font-size: 0.62rem;
+}
+
+.metric-context-card strong {
+  margin-top: 4px;
+  color: #31545b;
+  font-size: 0.82rem;
+}
+
+.prior-course-list {
+  display: grid;
+  gap: 10px;
+}
+
+.prior-course-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #d9e2e5;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fbfcfc;
+}
+
+.prior-course-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prior-course-heading > input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-bottom: 1px solid #d7e0e3;
+  padding: 5px 2px;
+  background: transparent;
+  color: #35545b;
+  font-weight: 800;
+}
+
+.three-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.recovery-grid {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.4fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.recovery-note {
+  color: #879198;
+  font-size: 0.62rem;
+  line-height: 1.4;
+}
+
+.reirradiation-classification {
+  display: grid;
+  gap: 3px;
+  border-left: 3px solid #6c9097;
+  padding: 8px 0 8px 11px;
+  margin-bottom: 14px;
+}
+
+.reirradiation-classification span {
+  color: #88949a;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reirradiation-classification strong {
+  color: #2e5057;
+  font-size: 0.9rem;
+}
+
+.reirradiation-classification small {
+  color: #728087;
+  font-size: 0.65rem;
+}
+
+.reirradiation-metrics {
+  margin-bottom: 14px;
+}
+
+.reirradiation-course-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #dde5e7;
+  border-radius: 11px;
+}
+
+.reirradiation-course-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 610px;
+  background: #fff;
+}
+
+.reirradiation-course-table th,
+.reirradiation-course-table td {
+  border-bottom: 1px solid #e5eaec;
+  padding: 9px 10px;
+  color: #5d6c73;
+  font-size: 0.67rem;
+  text-align: right;
+  vertical-align: top;
+}
+
+.reirradiation-course-table th:first-child,
+.reirradiation-course-table td:first-child {
+  text-align: left;
+}
+
+.reirradiation-course-table thead th {
+  background: #f6f9f9;
+  color: #78858c;
+  font-size: 0.59rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.reirradiation-course-table tbody th {
+  color: #3f5c63;
+  font-weight: 750;
+}
+
+.reirradiation-course-table small {
+  display: block;
+  margin-top: 2px;
+  color: #9a706a;
+}
+
+.remaining-budget-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.remaining-budget-card > div {
+  border: 1px solid #dce4e7;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fafcfc;
+}
+
+.remaining-budget-card span,
+.remaining-budget-card strong {
+  display: block;
+}
+
+.remaining-budget-card span {
+  color: #7d8a91;
+  font-size: 0.61rem;
+}
+
+.remaining-budget-card strong {
+  margin-top: 4px;
+  color: #2f5057;
+  font-size: 0.85rem;
+}
+
+.reirradiation-method-note {
+  display: grid;
+  gap: 5px;
+  margin-top: 14px;
+  border-top: 1px solid #e0e6e8;
+  padding-top: 12px;
+}
+
+.reirradiation-method-note strong {
+  color: #435d64;
+  font-size: 0.7rem;
+}
+
+.reirradiation-method-note p {
+  margin: 0;
+  color: #7a878e;
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 1040px) {
+  .reirradiation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .reirradiation-hero,
+  .reirradiation-config,
+  .reirradiation-results {
+    padding: 18px;
+  }
+
+  .three-columns,
+  .recovery-grid,
+  .remaining-budget-card {
+    grid-template-columns: 1fr;
+  }
+}
