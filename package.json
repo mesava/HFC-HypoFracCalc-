@@ -1,0 +1,16 @@
+{
+  "name": "hfc-hypofraccalc",
+  "version": "0.1.0-dev",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-traceable radiobiology calculation core for BED, EQD and treatment-course analysis.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}
