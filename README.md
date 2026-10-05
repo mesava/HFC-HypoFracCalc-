@@ -1,155 +1,173 @@
 # HFC — HypoFracCalc
 
-**HFC (HypoFracCalc)** is an evidence-traceable radiobiology website for photon external-beam radiotherapy.
+**HFC (HypoFracCalc)** — веб-калькулятор клинической радиобиологии для дистанционной лучевой терапии фотонными пучками с отслеживаемой доказательной базой.
 
-The project started from the useful clinical ideas demonstrated by `hypo-calc`, but the HFC implementation is independent and is being designed around:
+Проект вырос из полезных клинических идей, реализованных в `hypo-calc`, но HFC разрабатывается как независимая реализация со следующими принципами:
 
-- endpoint-specific biological parameters;
-- explicit source provenance;
-- uncertainty and applicability warnings;
-- treatment-course workflows;
-- reproducible calculation/audit data;
-- strict separation between mathematics, evidence and UI.
+- биологические параметры привязаны к конкретным клиническим endpoint, а не только к органу;
+- для каждого параметра сохраняется источник;
+- явно отображаются неопределённость и ограничения применимости;
+- математическое ядро, evidence database и пользовательский интерфейс разделены;
+- пользовательские значения сохраняются как manual override, а не изменяют доказательную базу;
+- расчёты должны быть воспроизводимыми и пригодными для аудита.
 
-> HFC is a clinical decision-support / independent radiobiological calculator under development. It is **not** a treatment prescription system.
+> HFC разрабатывается как инструмент **clinical decision-support / независимой радиобиологической проверки** для специалистов лучевой терапии. Это **не система назначения лечения**.
 
-## Website status
+## Язык сайта
 
-The site currently contains:
+Основной язык HFC — **русский**.
 
-| Module | Status | Main function |
+Сайт ориентирован прежде всего на русскоязычное сообщество медицинских физиков и радиационных онкологов. В интерфейсе предусмотрено переключение:
+
+```
+RU | EN
+```
+
+Русская версия является основной. Английская версия предназначена для международного использования и обмена результатами.
+
+## Текущее состояние сайта
+
+| Модуль | Статус | Назначение |
 |---|---|---|
-| Home | implemented | Project/module overview |
-| Quick EQD | implemented | BED, EQD2, alpha/beta evidence selection and manual override |
-| Compare Regimens | implemented | 2–5 regimens, tumour + multiple OAR endpoints, delta EQD2 |
-| Treatment Gap | v0.1 implemented | OTT, Dprolif/Tk, weekend/BID logic, tumour dose-compensation solver |
-| Methodology | implemented | Model assumptions, dataset status and evidence governance |
-| Reirradiation | planned | Cumulative equieffective dose and dose-accumulation strategies |
+| Главная | реализовано | Обзор проекта и модулей |
+| Quick EQD | реализовано | BED, EQD₂, выбор α/β из evidence database или вручную |
+| Compare Regimens | реализовано | Сравнение 2–5 схем для tumour и нескольких OAR endpoints |
+| Treatment Gap | v0.1 | OTT, Dprolif/Tk, weekend/BID compensation, решение post-gap dose/fraction |
+| Методология | реализовано | Формулы, структура evidence database и ограничения |
+| Reirradiation | запланировано | Кумулятивная эквивалентная доза и стратегии dose accumulation |
 
-See [docs/SITE.md](docs/SITE.md) for website/deployment details.
+Подробности по сайту и публикации: [docs/SITE.md](docs/SITE.md).
 
-## Core mathematics
+## Математическое ядро
 
-The current photon LQ core contains:
+Базовая LQ-модель:
 
 ```
-BED = n d (1 + d/(alpha/beta))
+BED = n d (1 + d/(α/β))
 
-EQDx = n d (d + alpha/beta)/(x + alpha/beta)
+EQDx = n d (d + α/β)/(x + α/β)
 ```
 
-For EQD2, `x = 2 Gy`.
+Для EQD₂:
 
-Implemented functions include:
+```
+x = 2 Gy
+```
 
-- physical dose;
+Реализованы:
+
+- физическая доза;
 - BED;
-- EQDx / EQD2;
-- inverse EQD calculation;
-- dose-per-fraction solution for a target EQD;
-- incomplete-repair Thames Hm calculation;
-- explicit overall-treatment-time correction primitives;
-- high-dose LQ applicability warnings.
+- EQDx / EQD₂;
+- обратный расчёт дозы за фракцию для заданного EQD;
+- Thames Hm для incomplete repair;
+- correction primitives для overall treatment time;
+- high-dose LQ warnings;
+- расчёты sensitivity по 95% CI α/β.
 
-The mathematical core has no React/UI dependencies.
+Математическое ядро не зависит от React/UI.
 
-## Evidence-first parameter model
+## Evidence-first модель параметров
 
-Biological parameters live outside calculation code.
+Биологические параметры не зашиваются непосредственно в формулы или UI.
 
-The draft dataset currently includes:
+Текущий draft dataset содержит:
 
-- endpoint-specific alpha/beta estimates;
-- 95% confidence intervals where available;
-- evidence support level;
-- preferred vs alternative vs non-default estimates;
-- source DOI/PMID metadata;
-- clinical applicability notes;
-- repair half-time (T1/2) records;
-- EQD2-based Dprolif and Tk records.
+- endpoint-specific α/β;
+- 95% CI, где он опубликован;
+- уровень поддержки оценки;
+- preferred / alternative / non-default records;
+- DOI/PMID и библиографию;
+- applicability notes;
+- T½ repair;
+- EQD₂-based Dprolif и Tk.
 
-Examples already curated from the supplied literature include:
+Уже курированы данные для:
 
 - prostate biochemical control — Vogelius & Bentzen 2020;
 - rectal toxicity — CHHiP / Brand et al. 2021;
 - GU toxicity — CHHiP / Brand et al. 2023;
-- breast — FAST and FAST-Forward, including 10-year FAST-Forward 2026 data;
-- head-and-neck tumour control and late effects;
+- breast — FAST и FAST-Forward, включая 10-летние данные 2026;
+- head-and-neck tumour control и late effects;
 - NSCLC;
 - lung pneumonitis/fibrosis;
 - bowel late effects;
 - oral mucositis;
 - skin/subcutaneous endpoints;
 - oesophageal pathologic complete response;
-- spinal-cord myelopathy alternatives.
+- spinal-cord myelopathy.
 
-A number reported by a paper is **not automatically a default**.
+**Опубликованное число не становится default автоматически.**
 
-For example, spinal-cord alpha/beta currently has conflicting published human estimates in the curated set, so HFC requires an explicit selection or a manual value.
+Например, для spinal cord в текущем наборе имеются существенно различающиеся человеческие оценки α/β, поэтому HFC не выбирает одно значение самостоятельно: пользователь должен явно выбрать источник или использовать manual override.
 
-Dataset documentation:
+Документация dataset:
 [src/data/evidence/v0.1/README.md](src/data/evidence/v0.1/README.md)
 
-## Manual override
+## Пользовательские значения
 
-For supported workflows the user can replace a curated parameter with a custom value.
+В поддерживаемых workflows пользователь может заменить curated parameter собственным значением.
 
-Manual values:
+Manual override:
 
-- do not modify the evidence database;
-- are stored as calculation-level inputs;
-- are marked as `user-specified`;
-- can carry a rationale.
+- не изменяет evidence database;
+- существует только внутри конкретного расчёта;
+- маркируется как `user-specified`;
+- может содержать rationale.
 
-This allows local-protocol or sensitivity-analysis values without corrupting source provenance.
+Это позволяет использовать локальный протокол или проводить sensitivity analysis без потери provenance.
 
-## Uncertainty
+## Неопределённость
 
-HFC currently provides **one-parameter sensitivity**, not a claim of complete clinical uncertainty propagation.
+HFC пока рассчитывает **one-parameter sensitivity**, а не полную клиническую неопределённость.
 
-For an alpha/beta estimate with a reported 95% CI, the calculation is repeated at the confidence limits.
+Для α/β с опубликованным 95% CI расчёт повторяется на его границах.
 
-If the alpha/beta confidence interval reaches or crosses 0 Gy:
+Если CI α/β достигает или пересекает 0 Gy:
 
-- BED becomes unbounded as alpha/beta approaches zero;
-- HFC reports an unbounded upper BED sensitivity;
-- EQD2 uses its finite alpha/beta→0+ limit.
+- BED становится неограниченным при α/β → 0;
+- верхняя sensitivity boundary для BED обозначается как unbounded;
+- для EQD₂ используется конечный предел при α/β → 0+.
 
-For Compare Regimens, delta-EQD2 sensitivity is **correlated**: the same alpha/beta boundary is applied to both compared schedules before taking the difference.
+В Compare Regimens sensitivity для ΔEQD₂ является **коррелированной**: одна и та же граница α/β применяется одновременно к обеим сравниваемым схемам.
 
 ## Treatment Gap v0.1
 
-The Treatment Gap workflow is based on the supplied RCR treatment-interruption guidance and Basic Clinical Radiobiology 2025.
+Модуль основан на:
 
-Priority order represented in the UI:
+- RCR *The timely delivery of radical radiotherapy*, 4th edition;
+- *Basic Clinical Radiobiology*, 6th edition, 2025.
 
-1. preserve planned OTT and dose/fraction;
-2. weekend recovery when feasible;
-3. BID recovery when appropriate;
-4. biological dose modification only when acceleration cannot solve the interruption.
+Приоритет логики:
 
-Current RCR/BCR rules represented explicitly:
+1. по возможности сохранить исходные OTT и dose/fraction;
+2. использовать weekend recovery;
+3. при допустимости рассмотреть BID;
+4. только если accelerated compensation невозможна — рассматривать изменение биологической дозы.
 
-- RCR BID minimum: **6 h**;
-- BCR 2025: use the maximum practical interval, about **8 h or more** when feasible;
-- RCR: BID is not recommended when fraction size is significantly greater than **2.2 Gy**;
-- linear Dprolif correction receives a warning for larger OTT extrapolations.
+Явно учитываются:
 
-The first automatic time-loss default is the general HNSCC record:
+- RCR: минимальный BID interval **6 h**;
+- BCR 2025: максимально практичный interval, около **8 h и более**, когда возможно;
+- RCR: BID не рекомендуется при fraction size существенно выше **2.2 Gy**;
+- linear Dprolif correction получает предупреждение при больших OTT extrapolations.
+
+Первый автоматический time-loss default:
 
 ```
+HNSCC
 Dprolif = 0.80 Gy EQD2/day
 95% CI  = 0.50–1.10
 Tk      = 21 days
 ```
 
-The dose-compensation solver restores **tumour effective EQD2** for a user-defined final OTT and number of remaining fractions.
+Dose-compensation solver восстанавливает **tumour effective EQD₂** для заданных пользователем final OTT и числа оставшихся фракций.
 
-It does **not** infer OAR safety from prescription dose.
+Он **не делает вывод об OAR safety по prescription dose**.
 
-See [docs/TREATMENT_GAP.md](docs/TREATMENT_GAP.md).
+Подробнее: [docs/TREATMENT_GAP.md](docs/TREATMENT_GAP.md).
 
-## Architecture
+## Архитектура
 
 ```
 src/
@@ -189,21 +207,31 @@ src/
    └─ styles.css
 ```
 
-More detail:
+Дополнительная документация:
+
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/EVIDENCE_MODEL.md](docs/EVIDENCE_MODEL.md)
 - [docs/LITERATURE_REVIEW.md](docs/LITERATURE_REVIEW.md)
+- [docs/SITE.md](docs/SITE.md)
 
-## Development
+## Ветки и `main`
 
-Requirements: Node.js 22+.
+`main` — стабильная production-ветка проекта.
+
+Разработка ведётся в отдельных feature/integration branches и проходит через pull request + CI. Это позволяет не публиковать неподтверждённые изменения непосредственно на основной сайт.
+
+После проверки релиза изменения попадают в `main`, а GitHub Pages собирает production-сайт именно из `main`.
+
+## Локальный запуск
+
+Требуется Node.js 22+.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Validation:
+Проверка:
 
 ```bash
 npm run typecheck
@@ -211,63 +239,68 @@ npm test
 npm run build
 ```
 
-## Deployment
+## Публикация сайта
 
-A GitHub Pages deployment workflow is included:
+В репозитории есть workflow:
 
 ```
 .github/workflows/deploy-pages.yml
 ```
 
-It runs on pushes to `main` and publishes the Vite `dist/` build.
+После push/merge в `main` он:
 
-The repository must have GitHub Pages configured to use **GitHub Actions** as its source.
+1. выполняет typecheck;
+2. запускает tests;
+3. собирает Vite;
+4. публикует `dist/` через GitHub Pages.
 
-## Evidence/data versioning
+В настройках репозитория GitHub Pages должен быть выбран источник **GitHub Actions**.
 
-Calculation engine and evidence data are versioned independently.
+## Версионирование
 
-Example:
+Calculation engine и evidence dataset версионируются независимо.
+
+Пример:
 
 ```
 HFC engine:       0.x
 Evidence dataset: 2026.10-v0.1
 ```
 
-A historical calculation should ultimately remain reproducible even after the evidence database is updated.
+Исторический расчёт в дальнейшем должен оставаться воспроизводимым после обновления evidence database.
 
-## Scope
+## Текущий scope
 
-Current scope:
+Входит:
 
 - megavoltage photon EBRT;
-- LQ-based fractionation comparisons;
-- treatment-course interruption modelling;
+- LQ-based fractionation comparison;
+- treatment interruption modelling;
 - evidence-traceable biological parameters.
 
-Not yet included:
+Пока не входит:
 
 - proton/RBE modelling;
 - brachytherapy dose-rate models;
 - validated OAR-aware Treatment Gap compensation;
-- voxel-wise DICOM EQD2 accumulation;
-- reirradiation workflow;
-- prescription or autonomous clinical recommendations.
+- voxel-wise DICOM EQD₂ accumulation;
+- reirradiation;
+- prescription/autonomous clinical recommendations.
 
-## Intended use and safety
+## Intended use и безопасность
 
-HFC is intended for qualified radiotherapy professionals as a transparent calculation and decision-support tool.
+HFC предназначен для квалифицированных специалистов лучевой терапии как прозрачный инструмент расчёта и decision-support.
 
-Clinical use requires:
+Для клинического применения необходимы:
 
-- independent verification;
-- local commissioning;
-- documented governance;
-- review of applicable dose-volume constraints;
-- clinical judgement.
+- независимая проверка;
+- локальный commissioning;
+- документированный governance;
+- проверка применимых dose-volume constraints;
+- клиническое решение специалиста.
 
-A mathematically equivalent BED/EQD2 result is not, by itself, evidence that two treatments are clinically interchangeable.
+Математическая эквивалентность BED/EQD₂ сама по себе **не означает клиническую взаимозаменяемость режимов**.
 
-## License
+## Лицензия
 
-MIT. See [LICENSE](LICENSE).
+MIT — см. [LICENSE](LICENSE).
