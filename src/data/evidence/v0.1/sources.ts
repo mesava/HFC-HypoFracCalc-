@@ -2,6 +2,39 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "milano-2021-hytec-optic",
+    citation:
+      "Milano MT, Grimm J, Soltys SG, et al. Single- and Multi-Fraction Stereotactic Radiosurgery Dose Tolerances of the Optic Pathways. Int J Radiat Oncol Biol Phys. 2021;110(1):87-99.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2018.01.053",
+    pmid: "29534899",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled analysis of radiation-induced optic neuropathy after SRS/fSRS. Prior irradiation substantially increased risk; numerical planning guidance is therefore restricted here to patients without prior radiotherapy.",
+  },
+  {
+    id: "milano-2021-hytec-brain",
+    citation:
+      "Milano MT, Grimm J, Niemierko A, et al. Single- and Multifraction Stereotactic Radiosurgery Dose/Volume Tolerances of the Brain. Int J Radiat Oncol Biol Phys. 2021;110(1):68-86.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.08.013",
+    pmid: "32921513",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled dose-volume analysis for radionecrosis/edema after SRS/fSRS, with separate risk relationships for single-fraction V12 and fractionated V20/V24.",
+  },
+  {
+    id: "sahgal-2021-hytec-spinal-cord",
+    citation:
+      "Sahgal A, Chang JH, Ma L, et al. Spinal Cord Dose Tolerance to Stereotactic Body Radiation Therapy. Int J Radiat Oncol Biol Phys. 2021;110(1):124-136.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2019.09.038",
+    pmid: "31606528",
+    kind: "systematic-review",
+    notes:
+      "HyTEC review and modelling of spinal-cord dose tolerance for de novo and reirradiation spine SBRT.",
+  },
+  {
     id: "vogelius-bentzen-2020-prostate",
     citation:
       "Vogelius IR, Bentzen SM. Diminishing returns from ultra-hypofractionated radiation therapy for prostate cancer. Int J Radiat Oncol Biol Phys. 2020;107(2):299-304.",
