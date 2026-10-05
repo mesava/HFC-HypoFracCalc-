@@ -2,6 +2,7 @@ import {
   alphaBetaEstimates,
   endpoints,
   evidenceManifest,
+  hytecClinicalConstraints,
   repairHalfTimeEstimates,
   repopulationRateEstimates,
   sources,
@@ -61,6 +62,16 @@ export function MethodologyView({
           <div>
             <span>{tx(language, "Записи Dprolif", "Dprolif records")}</span>
             <strong>{repopulationRateEstimates.length}</strong>
+          </div>
+          <div>
+            <span>
+              {tx(
+                language,
+                "Клинические ограничения",
+                "Clinical constraints",
+              )}
+            </span>
+            <strong>{hytecClinicalConstraints.length}</strong>
           </div>
           <div>
             <span>{tx(language, "Источники", "Sources")}</span>
