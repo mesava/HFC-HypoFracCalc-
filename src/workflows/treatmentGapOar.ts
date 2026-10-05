@@ -2,6 +2,7 @@ import type {
   EvidenceBasedParameterSelection,
   ManualParameterOverride,
 } from "../domain/evidence.js";
+import type { DoseMetric } from "../domain/constraints.js";
 import { thamesHm } from "../core/repair.js";
 import {
   defaultAlphaBetaSelection,
@@ -15,6 +16,7 @@ import type { CalendarFractionDay } from "./treatmentCalendar.js";
 
 export interface OarEffectResult {
   endpointId: string;
+  metric: DoseMetric;
   alphaBetaGy: number;
   alphaBetaSelectionMode: "evidence" | "manual";
   alphaBetaRecordId?: string;
@@ -31,6 +33,7 @@ export interface OarEffectResult {
 
 export interface OarCalendarEffectInput {
   endpointId: string;
+  metric: DoseMetric;
   calendar: CalendarFractionDay[];
   dosePerFractionGy: number;
   alphaBetaSelection?:
@@ -52,6 +55,7 @@ export interface OarCalendarComparisonResult {
 
 export interface OarDoseCompensationInput {
   endpointId: string;
+  metric: DoseMetric;
   deliveredFractionsBeforeGap: number;
   remainingFractions: number;
   plannedDosePerFractionGy: number;
@@ -63,6 +67,7 @@ export interface OarDoseCompensationInput {
 
 export interface OarDoseCompensationResult {
   endpointId: string;
+  metric: DoseMetric;
   alphaBetaGy: number;
   plannedEqd2Gy: number;
   finalEqd2Gy: number;
@@ -72,6 +77,23 @@ export interface OarDoseCompensationResult {
   deltaBedGy: number;
   finalPhysicalDoseGy: number;
   warnings: string[];
+}
+
+function validateDoseMetric(metric: DoseMetric): void {
+  if (metric.kind === "Vx") {
+    throw new Error(
+      "Vx is a volume metric and cannot be converted by this per-fraction OAR BED/EQD2 workflow. Use a dose-valued metric such as Dmax, D0.03cc, D1cc, D2cc, mean dose, or a custom dose metric.",
+    );
+  }
+
+  if (
+    metric.kind === "custom" &&
+    (!metric.customLabel || metric.customLabel.trim() === "")
+  ) {
+    throw new Error(
+      "A custom OAR dose metric requires a non-empty label.",
+    );
+  }
 }
 
 function assertPositive(value: number, name: string): void {
@@ -162,6 +184,7 @@ export function proportionalOarDosePerFraction(
 export function evaluateOarCalendarEffect(
   input: OarCalendarEffectInput,
 ): OarEffectResult {
+  validateDoseMetric(input.metric);
   assertPositive(
     input.dosePerFractionGy,
     "OAR dose per fraction",
@@ -253,6 +276,7 @@ export function evaluateOarCalendarEffect(
 
   return {
     endpointId: input.endpointId,
+    metric: input.metric,
     alphaBetaGy: alpha.valueGy,
     alphaBetaSelectionMode: alpha.selectionMode,
     ...(alpha.parameterRecord
@@ -285,6 +309,7 @@ export function compareOarCalendarStrategy(
 ): OarCalendarComparisonResult {
   const planned = evaluateOarCalendarEffect({
     endpointId: plannedInput.endpointId,
+    metric: plannedInput.metric,
     calendar: plannedInput.plannedCalendar,
     dosePerFractionGy: plannedInput.dosePerFractionGy,
     ...(plannedInput.alphaBetaSelection
@@ -294,6 +319,7 @@ export function compareOarCalendarStrategy(
 
   const strategy = evaluateOarCalendarEffect({
     endpointId: plannedInput.endpointId,
+    metric: plannedInput.metric,
     calendar: plannedInput.strategyCalendar,
     dosePerFractionGy: plannedInput.dosePerFractionGy,
     ...(plannedInput.alphaBetaSelection
@@ -325,6 +351,7 @@ export function compareOarCalendarStrategy(
 export function evaluateOarDoseCompensation(
   input: OarDoseCompensationInput,
 ): OarDoseCompensationResult {
+  validateDoseMetric(input.metric);
   assertNonNegativeInteger(
     input.deliveredFractionsBeforeGap,
     "delivered fractions before gap",
@@ -385,6 +412,7 @@ export function evaluateOarDoseCompensation(
 
   return {
     endpointId: input.endpointId,
+    metric: input.metric,
     alphaBetaGy: alpha.valueGy,
     plannedEqd2Gy: eqd2FromBed(
       plannedBedGy,
