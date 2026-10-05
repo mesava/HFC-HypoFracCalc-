@@ -2238,3 +2238,145 @@ button.module-card:hover {
     display: none;
   }
 }
+
+
+/* --- Treatment Gap OAR -------------------------------------------------- */
+
+.gap-oar-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  border-top: 1px solid #dce4e7;
+  padding-top: 18px;
+}
+
+.oar-intro {
+  margin: -6px 0 2px;
+  color: #6d7a82;
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.oar-strategy-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.oar-result-card {
+  border: 1px solid #dbe3e6;
+  border-radius: 11px;
+  padding: 11px;
+  background: #fafcfc;
+}
+
+.oar-result-card.warning {
+  border-color: #eadbb9;
+  background: #fffaf0;
+}
+
+.oar-result-card span,
+.oar-result-card strong,
+.oar-result-card small {
+  display: block;
+}
+
+.oar-result-card span {
+  color: #718087;
+  font-size: 0.66rem;
+  font-weight: 750;
+}
+
+.oar-result-card strong {
+  margin-top: 5px;
+  color: #294c53;
+  font-size: 0.9rem;
+}
+
+.oar-result-card small {
+  margin-top: 4px;
+  color: #7d898f;
+  font-size: 0.64rem;
+}
+
+.oar-result-card p {
+  margin: 7px 0 0;
+  color: #715f37;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.oar-dose-compensation {
+  display: grid;
+  gap: 10px;
+  border: 1px solid #dce4e7;
+  border-radius: 13px;
+  padding: 14px;
+  background: #fbfcfc;
+}
+
+.oar-dose-result {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.oar-dose-result > div {
+  border-radius: 9px;
+  padding: 10px;
+  background: #fff;
+}
+
+.oar-dose-result span,
+.oar-dose-result strong {
+  display: block;
+}
+
+.oar-dose-result span {
+  color: #78858c;
+  font-size: 0.63rem;
+}
+
+.oar-dose-result strong {
+  margin-top: 4px;
+  color: #2e4e55;
+  font-size: 0.82rem;
+}
+
+.oar-warning-details {
+  border: 1px solid #e0e6e8;
+  border-radius: 10px;
+  padding: 10px 11px;
+  background: #fafbfb;
+  color: #66757d;
+  font-size: 0.7rem;
+}
+
+.oar-warning-details summary {
+  cursor: pointer;
+  color: #4f626a;
+  font-weight: 750;
+}
+
+.oar-warning-details ul {
+  margin: 9px 0 0;
+  padding-left: 18px;
+}
+
+.oar-warning-details li {
+  margin-bottom: 5px;
+  line-height: 1.45;
+}
+
+.oar-context-line {
+  color: #879198;
+  font-size: 0.62rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 760px) {
+  .oar-strategy-results,
+  .oar-dose-result {
+    grid-template-columns: 1fr;
+  }
+}
