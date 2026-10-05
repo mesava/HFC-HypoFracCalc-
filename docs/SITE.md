@@ -1,24 +1,43 @@
-# HFC website
+# Сайт HFC
 
-HFC is implemented as a static React + TypeScript + Vite site.
+HFC реализован как статический сайт на React + TypeScript + Vite.
 
-## Site sections
+## Разделы сайта
 
-- **Home** — project overview and module status.
-- **Quick EQD** — evidence-driven BED/EQD2 calculator.
-- **Compare Regimens** — multi-regimen tumour/OAR comparison matrix.
-- **Treatment Gap** — interruption and compensation workflow.
-- **Methodology** — formulas, evidence governance and intended use.
-- **Reirradiation** — planned future module.
+- **Главная** — краткое описание проекта и состояние модулей.
+- **Быстрый EQD** — расчёт BED/EQD₂ с выбором α/β из доказательной базы.
+- **Сравнение режимов** — одновременное сравнение нескольких режимов для опухоли и органов риска.
+- **Перерывы в лечении** — моделирование удлинения курса и вариантов компенсации.
+- **Методология** — формулы, неопределённость, правила работы с доказательной базой и ограничения моделей.
+- **О сайте** — идея создания HFC, назначение проекта, статус и список литературы, используемой текущей доказательной базой.
+- **Повторное облучение** — запланированный модуль.
 
-## Local development
+## Языки
+
+Основной язык сайта — русский.
+
+В шапке доступно переключение **RU / EN**. Русская и английская версии должны быть полноценными самостоятельными текстами без смешивания языков в одной фразе, кроме общепринятых сокращений, формул, официальных названий и библиографии.
+
+## Раздел «О сайте»
+
+Список литературы на странице «О сайте» формируется непосредственно из:
+
+```
+src/data/evidence/v0.1/sources.ts
+```
+
+Это означает, что библиография сайта следует за версией доказательной базы. Если источник добавляется или удаляется из реестра, список на сайте меняется вместе с ним.
+
+Для публикаций с DOI и PMID отображаются ссылки на DOI и PubMed.
+
+## Локальный запуск
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Validation
+## Проверка
 
 ```bash
 npm run typecheck
@@ -26,18 +45,20 @@ npm test
 npm run build
 ```
 
-CI runs all three steps on pull requests.
+Автоматические проверки выполняют все три шага для запросов на слияние.
 
 ## GitHub Pages
 
-`.github/workflows/deploy-pages.yml` builds and deploys the site after a push to `main`.
+`.github/workflows/deploy-pages.yml` собирает и публикует сайт.
 
-Repository settings must allow **GitHub Actions** as the Pages source. Once enabled and the website branch stack is merged into `main`, the workflow will publish the generated `dist/` artifact.
+Рабочая версия должна публиковаться из ветки `main`. В период разработки отдельная разрешённая ветка может временно использоваться для предварительного просмотра.
 
-Vite currently uses a relative base path (`./`), allowing the same production bundle to work under the repository sub-path used by GitHub Pages.
+Vite использует относительный базовый путь `./`, поэтому собранный сайт работает в подпути репозитория GitHub Pages.
 
-## No backend in v0.1
+## Серверная часть
 
-All calculations and evidence lookups run locally in the browser. No patient identifiers or clinical inputs are sent to a server by the HFC application itself.
+В версии v0.1 серверная часть отсутствует.
 
-If future DICOM or account-backed functionality is introduced, privacy/security architecture must be reviewed separately before implementation.
+Все расчёты и обращения к доказательной базе выполняются локально в браузере. Само приложение HFC не отправляет идентификаторы пациента или клинические вводимые данные на сервер.
+
+Если в будущем появятся работа с DICOM, учётные записи или серверное хранение данных, архитектура конфиденциальности и безопасности должна быть отдельно пересмотрена до реализации.
