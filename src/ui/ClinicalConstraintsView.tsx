@@ -56,6 +56,15 @@ function metricLabel(metric: DoseMetric): string {
   return metric.kind;
 }
 
+function unitLabel(
+  language: Language,
+  unit: ClinicalConstraint["unit"],
+): string {
+  if (language === "ru" && unit === "cc") return "см³";
+  if (language === "ru" && unit === "Gy") return "Гр";
+  return unit;
+}
+
 function constraintValue(
   language: Language,
   constraint: ClinicalConstraint,
@@ -66,7 +75,7 @@ function constraintValue(
       "–" +
       formatUiNumber(language, constraint.valueRange.high, 1) +
       " " +
-      constraint.unit
+      unitLabel(language, constraint.unit)
     );
   }
   if (constraint.value === undefined) return "—";
@@ -79,7 +88,7 @@ function constraintValue(
       constraint.unit === "Gy" ? 1 : 0,
     ) +
     " " +
-    constraint.unit
+    unitLabel(language, constraint.unit)
   );
 }
 
