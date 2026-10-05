@@ -8,6 +8,7 @@ export type SitePage =
   | "compare"
   | "gap"
   | "constraints"
+  | "reirradiation"
   | "methodology"
   | "about";
 
@@ -156,20 +157,22 @@ export function SiteHome({
             <span className="module-state beta">v0.1</span>
           </button>
 
-          <div className="module-card disabled-card">
+          <button
+            className="module-card"
+            type="button"
+            onClick={() => onNavigate("reirradiation")}
+          >
             <span className="module-index">05</span>
             <strong>{tx(language, "Повторное облучение", "Reirradiation")}</strong>
             <p>
               {tx(
                 language,
-                "Кумулятивные EQD₂/BED, допущения о восстановлении и несколько стратегий суммирования доз.",
-                "Cumulative EQD₂/BED, recovery assumptions, and multiple dose-accumulation strategies.",
+                "Кумулятивные EQD₂/BED для одной и той же дозовой метрики, тип I/II, несколько способов оценки и только явные допущения о восстановлении.",
+                "Cumulative EQD₂/BED for the same dose metric, type I/II classification, multiple assessment strategies, and explicit recovery assumptions only.",
               )}
             </p>
-            <span className="module-state planned">
-              {tx(language, "следующий этап", "planned")}
-            </span>
-          </div>
+            <span className="module-state beta">v0.1</span>
+          </button>
         </div>
       </section>
 
