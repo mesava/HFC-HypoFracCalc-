@@ -530,21 +530,32 @@ export function App() {
                   </div>
                 ) : null}
 
-                {selectedEstimate.supportReason ? (
+                {selectedEstimate.supportReason && language === "en" ? (
                   <p className="support-reason">
                     {selectedEstimate.supportReason}
                   </p>
                 ) : null}
 
-                {selectedEstimate.applicability?.notes?.length ? (
+                {selectedEstimate.applicability?.notes?.length &&
+                language === "en" ? (
                   <details>
-                    <summary>{tx(language, "Область применимости и ограничения", "Applicability / caveats")}</summary>
+                    <summary>Applicability / caveats</summary>
                     <ul>
                       {selectedEstimate.applicability.notes.map((note) => (
                         <li key={note}>{note}</li>
                       ))}
                     </ul>
                   </details>
+                ) : null}
+
+                {language === "ru" &&
+                (selectedEstimate.supportReason ||
+                  selectedEstimate.applicability?.notes?.length) ? (
+                  <p className="support-reason">
+                    Подробные ограничения применимости этой оценки будут
+                    переведены в русскую версию базы данных; до этого
+                    первичным источником остаётся указанная публикация.
+                  </p>
                 ) : null}
               </div>
             ) : null}
