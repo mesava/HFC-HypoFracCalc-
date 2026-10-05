@@ -13,6 +13,7 @@ import {
   getPreferredRepairHalfTimeEstimate,
   getRepairHalfTimeEstimates,
 } from "../evidence/repairRegistry.js";
+import type { DoseMetric, DoseMetricKind } from "../domain/constraints.js";
 import type { DoseCompensationStrategyResult } from "../workflows/treatmentGap.js";
 import type { TreatmentCalendarScenario } from "../workflows/treatmentCalendar.js";
 import {
@@ -108,6 +109,9 @@ export function TreatmentGapOarPanel({
   const [manualRepairHalfTime, setManualRepairHalfTime] =
     useState("4.4");
 
+  const [metricKind, setMetricKind] =
+    useState<Exclude<DoseMetricKind, "Vx">>("Dmax");
+  const [customMetricLabel, setCustomMetricLabel] = useState("");
   const [plannedOarDosePerFraction, setPlannedOarDosePerFraction] =
     useState("1");
   const [postGapDoseMode, setPostGapDoseMode] =
@@ -145,6 +149,13 @@ export function TreatmentGapOarPanel({
       const plannedOarD = Number(
         plannedOarDosePerFraction,
       );
+      const metric: DoseMetric =
+        metricKind === "custom"
+          ? {
+              kind: "custom",
+              customLabel: customMetricLabel.trim(),
+            }
+          : { kind: metricKind };
       const alphaSelection =
         alphaMode === "manual"
           ? {
@@ -181,6 +192,7 @@ export function TreatmentGapOarPanel({
       if (calendarScenario) {
         weekend = compareOarCalendarStrategy({
           endpointId,
+          metric,
           plannedCalendar: calendarScenario.planned,
           strategyCalendar:
             calendarScenario.weekendRecovery,
@@ -191,6 +203,7 @@ export function TreatmentGapOarPanel({
         try {
           bid = compareOarCalendarStrategy({
             endpointId,
+            metric,
             plannedCalendar: calendarScenario.planned,
             strategyCalendar: calendarScenario.bidRecovery,
             dosePerFractionGy: plannedOarD,
@@ -228,6 +241,7 @@ export function TreatmentGapOarPanel({
         doseCompensationOar =
           evaluateOarDoseCompensation({
             endpointId,
+            metric,
             deliveredFractionsBeforeGap,
             remainingFractions:
               doseCompensation.remainingFractionsToDeliver,
@@ -257,6 +271,8 @@ export function TreatmentGapOarPanel({
     }
   }, [
     endpointId,
+    metricKind,
+    customMetricLabel,
     alphaMode,
     alphaRecordId,
     manualAlphaBeta,
@@ -342,6 +358,36 @@ export function TreatmentGapOarPanel({
           <span>
             {tx(
               language,
+              "Дозовая метрика",
+              "Dose metric",
+            )}
+          </span>
+          <select
+            value={metricKind}
+            onChange={(event) =>
+              setMetricKind(
+                event.target.value as Exclude<DoseMetricKind, "Vx">,
+              )
+            }
+          >
+            <option value="Dmax">Dmax</option>
+            <option value="D0.03cc">D0.03cc</option>
+            <option value="D0.1cc">D0.1cc</option>
+            <option value="D1cc">D1cc</option>
+            <option value="D2cc">D2cc</option>
+            <option value="mean-dose">
+              {tx(language, "Средняя доза", "Mean dose")}
+            </option>
+            <option value="custom">
+              {tx(language, "Другая дозовая метрика", "Custom dose metric")}
+            </option>
+          </select>
+        </label>
+
+        <label className="field">
+          <span>
+            {tx(
+              language,
               "Доза на выбранную метрику за фракцию, Гр",
               "Dose to selected metric per fraction, Gy",
             )}
@@ -358,6 +404,29 @@ export function TreatmentGapOarPanel({
             }
           />
         </label>
+
+        {metricKind === "custom" ? (
+          <label className="field">
+            <span>
+              {tx(
+                language,
+                "Название дозовой метрики",
+                "Dose metric label",
+              )}
+            </span>
+            <input
+              value={customMetricLabel}
+              placeholder={tx(
+                language,
+                "например: D0.5cc",
+                "e.g. D0.5cc",
+              )}
+              onChange={(event) =>
+                setCustomMetricLabel(event.target.value)
+              }
+            />
+          </label>
+        ) : null}
 
         <label className="field">
           <span>
@@ -911,7 +980,9 @@ export function TreatmentGapOarPanel({
           language,
           endpointId,
           endpoint?.endpoint ?? endpointId,
-        )} · n={plannedFractions}
+        )} · {metricKind === "custom"
+          ? customMetricLabel || tx(language, "другая метрика", "custom metric")
+          : metricKind} · n={plannedFractions}
       </small>
     </section>
   );
