@@ -11,7 +11,7 @@ import {
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
-import { localizeWarning, supportLabel, tx } from "./i18n.js";
+import { localizeWarning, releaseStatusLabel, supportLabel, tx } from "./i18n.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -237,7 +237,7 @@ export function App() {
 
           <div className="dataset-chip">
             Photon EBRT · {evidenceManifest.datasetVersion} ·{" "}
-            {evidenceManifest.releaseStatus}
+            {releaseStatusLabel(language, evidenceManifest.releaseStatus)}
           </div>
           <a
             className="github-link"
