@@ -167,7 +167,7 @@ export function SiteHome({
             <p>
               {tx(
                 language,
-                "Кумулятивные EQD₂/BED, тип I/II, явные допущения о восстановлении и отдельная проверка специальной проверки HyTEC для повторного облучения для спинного мозга.",
+                "Кумулятивные EQD₂/BED, тип I/II, явные допущения о восстановлении и отдельная проверка критериев HyTEC для повторного облучения спинного мозга.",
                 "Cumulative EQD₂/BED, type I/II classification, explicit recovery assumptions, and a dedicated HyTEC spinal reirradiation assessment.",
               )}
             </p>
