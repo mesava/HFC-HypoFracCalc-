@@ -7,6 +7,23 @@ import {
 } from "../src/workflows/treatmentCalendar.js";
 
 describe("treatment calendar", () => {
+  it("matches the RCR 70 Gy/35 fractions/46 days convention for a seven-week weekday course", () => {
+    const scenario = buildTreatmentCalendarScenario({
+      startDate: "2026-10-05",
+      fractions: 35,
+      gapStartDate: "2026-11-16",
+      gapEndDate: "2026-11-20",
+    });
+
+    expect(scenario.plannedEndDate).toBe("2026-11-20");
+    expect(scenario.plannedOverallTreatmentDays).toBe(46);
+    expect(scenario.missedPlannedFractions).toBe(5);
+    expect(scenario.uncompensated.at(-1)?.date).toBe(
+      "2026-11-27",
+    );
+    expect(scenario.uncompensatedOverallTreatmentDays).toBe(53);
+  });
+
   it("builds a Monday-Friday 35-fraction course", () => {
     const scenario = buildTreatmentCalendarScenario({
       startDate: "2026-10-05",
@@ -16,7 +33,7 @@ describe("treatment calendar", () => {
     });
 
     expect(scenario.plannedEndDate).toBe("2026-11-20");
-    expect(scenario.plannedOverallTreatmentDays).toBe(47);
+    expect(scenario.plannedOverallTreatmentDays).toBe(46);
     expect(scenario.deliveredFractionsBeforeGap).toBe(20);
     expect(scenario.missedPlannedFractions).toBe(5);
     expect(scenario.remainingFractionsAfterGap).toBe(15);
@@ -33,7 +50,7 @@ describe("treatment calendar", () => {
     expect(scenario.uncompensated.at(-1)?.date).toBe(
       "2026-11-27",
     );
-    expect(scenario.uncompensatedOverallTreatmentDays).toBe(54);
+    expect(scenario.uncompensatedOverallTreatmentDays).toBe(53);
   });
 
   it("uses weekend slots without pretending they always fully restore OTT", () => {
@@ -48,7 +65,7 @@ describe("treatment calendar", () => {
     expect(scenario.weekendRecovery.at(-1)?.date).toBe(
       "2026-11-21",
     );
-    expect(scenario.weekendOverallTreatmentDays).toBe(48);
+    expect(scenario.weekendOverallTreatmentDays).toBe(46);
   });
 
   it("uses only as many BID days as needed to restore the planned finish when possible", () => {
@@ -64,7 +81,7 @@ describe("treatment calendar", () => {
     expect(scenario.bidRecovery.at(-1)?.date).toBe(
       "2026-11-20",
     );
-    expect(scenario.bidOverallTreatmentDays).toBe(47);
+    expect(scenario.bidOverallTreatmentDays).toBe(46);
   });
 
   it("allows a shorter interruption to be recovered by weekends within the planned OTT", () => {
@@ -76,7 +93,7 @@ describe("treatment calendar", () => {
     });
 
     expect(scenario.missedPlannedFractions).toBe(4);
-    expect(scenario.weekendOverallTreatmentDays).toBe(47);
+    expect(scenario.weekendOverallTreatmentDays).toBe(46);
     expect(scenario.weekendRecovery.at(-1)?.date).toBe(
       "2026-11-20",
     );
