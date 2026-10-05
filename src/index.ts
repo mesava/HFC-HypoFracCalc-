@@ -15,3 +15,4 @@ export * from "./workflows/treatmentGapOar.js";
 export * from "./evidence/constraintRegistry.js";
 export * from "./domain/reirradiation.js";
 export * from "./workflows/reirradiation.js";
+export * from "./workflows/evidenceReirradiation.js";
