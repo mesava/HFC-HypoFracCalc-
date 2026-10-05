@@ -130,13 +130,11 @@ describe("HyTEC spinal-cord reirradiation guidance", () => {
   });
 
   it("marks the interval criterion not assessable when the interval is missing", () => {
+    const prior = previousCourse();
+    delete prior.intervalToCurrentMonths;
+
     const result = assessHytecSpinalCordReirradiation(
-      [
-        previousCourse({
-          intervalToCurrentMonths: undefined,
-        }),
-        currentCourse(),
-      ],
+      [prior, currentCourse()],
       true,
     );
 
