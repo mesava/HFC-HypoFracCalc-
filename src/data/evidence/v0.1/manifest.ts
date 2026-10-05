@@ -8,7 +8,8 @@ export const evidenceManifest = {
   reviewers: [],
   notes: [
     "Initial evidence-first dataset for photon external-beam radiotherapy.",
-    "This draft is model-assisted curation from supplied primary literature and requires project-owner review before clinical release.",
-    "Scope of this first dataset: prostate tumour control, late rectal toxicity, late genitourinary toxicity, and breast tumour/normal-tissue endpoints.",
+    "This draft is model-assisted curation from supplied literature and selected primary-source verification; it requires project-owner review before clinical release.",
+    "Current scope includes prostate, breast, rectal and GU endpoints plus selected head-and-neck, lung, esophagus, bowel, skin, mucosa and spinal-cord evidence.",
+    "The dataset also contains endpoint-specific repair half-time and EQD2-based repopulation records for treatment-gap and multiple-fractions-per-day workflows.",
   ],
 } satisfies EvidenceDatasetManifest;
