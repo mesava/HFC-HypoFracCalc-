@@ -86,7 +86,9 @@ export function resolveAlphaBetaSelection(
       endpoint,
       valueGy: selection.value,
       selectionMode: "manual",
-      rationale: selection.rationale,
+      ...(selection.rationale !== undefined
+        ? { rationale: selection.rationale }
+        : {}),
       warnings: [
         "User-specified alpha/beta overrides the curated evidence dataset for this calculation.",
       ],
