@@ -18,6 +18,8 @@ function sourceKindLabel(language: Language, kind: string): string {
         return "Systematic review";
       case "cohort":
         return "Cohort study";
+      case "consensus":
+        return "Consensus";
       case "guideline":
         return "Guideline / consensus";
       case "textbook":
@@ -40,6 +42,8 @@ function sourceKindLabel(language: Language, kind: string): string {
       return "Систематический обзор";
     case "cohort":
       return "Когортное исследование";
+    case "consensus":
+      return "Консенсус";
     case "guideline":
       return "Рекомендации / консенсус";
     case "textbook":
