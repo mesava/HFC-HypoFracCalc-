@@ -98,6 +98,28 @@ export type BiologicalParameterEstimate =
   | RepairHalfTimeEstimate
   | RepopulationRateEstimate;
 
+export interface EvidenceBasedParameterSelection {
+  selectionMode: "evidence";
+  parameterRecordId: string;
+}
+
+export interface ManualParameterOverride {
+  selectionMode: "manual";
+  parameter: "alpha-beta" | "repair-half-time" | "repopulation-rate";
+  value: number;
+  unit: "Gy" | "hours" | "Gy/day";
+  basis?: "EQD2" | "BED";
+  rationale?: string;
+}
+
+/**
+ * A calculation must record whether the biological parameter came from the
+ * curated evidence dataset or was explicitly supplied by the user.
+ */
+export type ParameterSelection =
+  | EvidenceBasedParameterSelection
+  | ManualParameterOverride;
+
 export interface EvidenceDatasetManifest {
   datasetVersion: string;
   evidenceCutoffDate: string;
