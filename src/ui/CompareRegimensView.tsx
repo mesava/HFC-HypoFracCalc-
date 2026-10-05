@@ -65,9 +65,10 @@ function makeEndpoint(
 }
 
 function selectedRecord(selection: UiEndpointSelection) {
-  if (selection.choice.mode !== "record") return undefined;
+  const choice = selection.choice;
+  if (choice.mode !== "record") return undefined;
   return alphaBetaEstimates.find(
-    (record) => record.id === selection.choice.recordId,
+    (record) => record.id === choice.recordId,
   );
 }
 
@@ -545,14 +546,14 @@ export function CompareRegimensView() {
                   ),
                 )
               }
-              onRemove={
-                oars.length > 1
-                  ? () =>
+              {...(oars.length > 1
+                ? {
+                    onRemove: () =>
                       setOars((current) =>
                         current.filter((item) => item.key !== oar.key),
-                      )
-                  : undefined
-              }
+                      ),
+                  }
+                : {})}
             />
           ))}
         </div>
