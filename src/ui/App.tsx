@@ -10,6 +10,7 @@ import {
   getPreferredAlphaBetaEstimate,
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
+import { CompareRegimensView } from "./CompareRegimensView.js";
 import { endpointLabelRu, organLabelRu } from "./labels.js";
 
 type ParameterMode = "evidence" | "manual";
@@ -47,6 +48,7 @@ function sourceFor(sourceId: string | undefined) {
 }
 
 export function App() {
+  const [activeModule, setActiveModule] = useState<"quick" | "compare">("quick");
   const availableEndpoints = useMemo(
     () =>
       endpoints
@@ -183,10 +185,18 @@ export function App() {
       </header>
 
       <nav className="module-nav" aria-label="Модули HFC">
-        <button className="module active" type="button">
+        <button
+          className={`module ${activeModule === "quick" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("quick")}
+        >
           Quick EQD
         </button>
-        <button className="module" type="button" disabled>
+        <button
+          className={`module ${activeModule === "compare" ? "active" : ""}`}
+          type="button"
+          onClick={() => setActiveModule("compare")}
+        >
           Compare regimens
         </button>
         <button className="module" type="button" disabled>
@@ -197,6 +207,7 @@ export function App() {
         </button>
       </nav>
 
+      {activeModule === "quick" ? (
       <main className="workspace">
         <section className="panel input-panel">
           <div className="section-heading">
@@ -531,6 +542,10 @@ export function App() {
           </div>
         </section>
       </main>
+      ) : (
+        <CompareRegimensView />
+      )}
+
     </div>
   );
 }
