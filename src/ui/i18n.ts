@@ -126,6 +126,62 @@ const warningMapRu = new Map<string, string>([
     "User-specified excluded dates were treated as unavailable treatment days in all calendar strategies.",
     "Указанные пользователем нерабочие даты считаются недоступными для лечения во всех календарных стратегиях.",
   ],
+  [
+    "Reirradiation v0.1 does not perform voxel-wise image registration or 3D dose accumulation. The selected 3D strategy is recorded for audit only; scalar course values must not be presented as a completed 3D accumulation.",
+    "Версия модуля повторного облучения v0.1 не выполняет воксельную регистрацию изображений или трёхмерное суммирование доз. Выбранный трёхмерный способ сохраняется только для аудита; скалярные значения курсов нельзя выдавать за выполненное трёхмерное суммирование.",
+  ],
+  [
+    "A conservative near-maximum point sum was selected despite complete prior DICOM data. Confirm why spatial cumulative dose evaluation is not appropriate or necessary.",
+    "Выбрано консервативное суммирование околомаксимальных доз при наличии полных предыдущих DICOM-данных. Следует обосновать, почему пространственная оценка кумулятивной дозы не требуется или неприменима.",
+  ],
+  [
+    "The selected 3D accumulation strategy conflicts with uncertain or unsuitable registration. A conservative point-based scenario should be considered instead.",
+    "Выбранное трёхмерное суммирование противоречит неопределённой или непригодной регистрации. Следует рассмотреть консервативную точечную оценку.",
+  ],
+  [
+    "Previous treatment data are incomplete. Cumulative dose evaluation should document the missing information and use an appropriately conservative assessment strategy.",
+    "Данные предыдущего лечения неполны. В оценке кумулятивной дозы необходимо задокументировать отсутствующую информацию и использовать достаточно консервативный способ оценки.",
+  ],
+  [
+    "Physical doses from separate courses are shown for audit only. Quantitative cumulative OAR evaluation must use consistently rescaled equieffective dose such as EQD2 or BED before summation.",
+    "Физические дозы отдельных курсов показаны только для аудита. Для количественной оценки кумулятивной дозы на орган риска перед суммированием необходимо последовательно пересчитать все курсы в эквивалентную дозу, например EQD₂ или BED.",
+  ],
+  [
+    "A user-specified recovery discount was applied to previously delivered equieffective dose. HFC does not infer recovery automatically from elapsed time.",
+    "К ранее подведённой эквивалентной дозе применено заданное пользователем снижение вклада из-за предполагаемого восстановления. HFC не рассчитывает восстановление автоматически по прошедшему времени.",
+  ],
+  [
+    "This scenario has neither geometric overlap nor a stated cumulative-dose toxicity concern and therefore does not meet the ESTRO-EORTC reirradiation definition.",
+    "В сценарии нет ни геометрического перекрытия, ни указанного опасения по кумулятивной токсичности, поэтому он не соответствует определению повторного облучения ESTRO–EORTC.",
+  ],
+  [
+    "Near-maximum point-dose addition represents a conservative worst-case scenario and does not establish spatial co-location of dose maxima.",
+    "Суммирование околомаксимальных точечных доз представляет консервативный наихудший сценарий и не доказывает пространственного совпадения максимумов дозы.",
+  ],
+  [
+    "The remaining dose budget is a mathematical EQD2 budget for the selected metric. It is not an autonomous prescription or proof of clinical safety.",
+    "Остаточный дозовый бюджет является математическим бюджетом EQD₂ для выбранной метрики. Он не является самостоятельным назначением лечения или доказательством клинической безопасности.",
+  ],
+  [
+    "The remaining dose budget depends on user-specified recovery discount assumptions applied to prior equieffective dose.",
+    "Остаточный дозовый бюджет зависит от заданных пользователем допущений о снижении вклада предыдущей эквивалентной дозы вследствие восстановления.",
+  ],
+  [
+    "The adjusted prior cumulative EQD2 already meets or exceeds the supplied cumulative limit.",
+    "Скорректированный предыдущий кумулятивный EQD₂ уже достиг или превысил указанную кумулятивную границу.",
+  ],
+  [
+    "Recovery may only be applied to previously delivered courses, never to the current course.",
+    "Допущение о восстановлении можно применять только к ранее проведённым курсам, но не к текущему курсу.",
+  ],
+  [
+    "A manual recovery discount requires an explicit rationale.",
+    "Ручное допущение о восстановлении требует обязательного обоснования.",
+  ],
+  [
+    "All courses must refer to the same dose metric before scalar cumulative equieffective doses can be summed.",
+    "Для скалярного суммирования эквивалентной дозы все курсы должны относиться к одной и той же дозовой метрике.",
+  ],
 ]);
 
 export function localizeWarning(
