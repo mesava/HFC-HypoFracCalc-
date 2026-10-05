@@ -22,7 +22,7 @@ import {
   buildTreatmentCalendarScenario,
   type TreatmentCalendarScenario,
 } from "../workflows/treatmentCalendar.js";
-import { localizeWarning, tx } from "./i18n.js";
+import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx } from "./i18n.js";
 import { TreatmentCalendarPreview } from "./TreatmentCalendarPreview.js";
 import { TreatmentGapOarPanel } from "./TreatmentGapOarPanel.js";
 import {
@@ -739,9 +739,11 @@ export function TreatmentGapView({
               {alphaRecords.map((record) => (
                 <option key={record.id} value={record.id}>
                   {formatUiNumber(language, record.valueGy, 2)} {gy}
-                  {record.defaultEligible
-                    ? " · preferred"
-                    : " · alternative"}
+                  {" · "}
+                  {estimateChoiceLabel(
+                    language,
+                    record.defaultEligible,
+                  )}
                 </option>
               ))}
             </select>
@@ -771,7 +773,7 @@ export function TreatmentGapView({
             </strong>
             {alphaRecord.ci95 ? (
               <span>
-                95% CI{" "}
+                {confidenceIntervalLabel(language)}{" "}
                 {formatUiNumber(language, alphaRecord.ci95.low, 1)}–
                 {formatUiNumber(language, alphaRecord.ci95.high, 1)}{" "}
                 {gy}
@@ -841,7 +843,9 @@ export function TreatmentGapView({
                           " · Tk не определён",
                           " · Tk not defined",
                         )}
-                    {record.defaultEligible ? " · preferred" : ""}
+                    {record.defaultEligible
+                      ? " · " + estimateChoiceLabel(language, true)
+                      : ""}
                   </option>
                 ))}
               </select>
