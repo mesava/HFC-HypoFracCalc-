@@ -18,6 +18,10 @@ import {
   evaluatePreserveTimeStrategy,
   solveDoseCompensationStrategy,
 } from "../workflows/treatmentGap.js";
+import {
+  buildTreatmentCalendarScenario,
+  type TreatmentCalendarScenario,
+} from "../workflows/treatmentCalendar.js";
 import { localizeWarning, tx } from "./i18n.js";
 import {
   endpointLabel,
@@ -28,6 +32,7 @@ import {
 
 type ParameterMode = "evidence" | "manual";
 type TimeMode = "evidence" | "manual";
+type CourseInputMode = "calendar" | "manual";
 
 function signed(
   language: Language,
@@ -96,6 +101,12 @@ export function TreatmentGapView({
 
   const [fractions, setFractions] = useState("35");
   const [dosePerFraction, setDosePerFraction] = useState("2");
+  const [courseInputMode, setCourseInputMode] =
+    useState<CourseInputMode>("calendar");
+  const [startDate, setStartDate] = useState("2026-10-05");
+  const [gapStartDate, setGapStartDate] = useState("2026-11-02");
+  const [gapEndDate, setGapEndDate] = useState("2026-11-06");
+  const [excludedDatesText, setExcludedDatesText] = useState("");
   const [plannedOtt, setPlannedOtt] = useState("46");
   const [deliveredBeforeGap, setDeliveredBeforeGap] =
     useState("20");
@@ -120,6 +131,49 @@ export function TreatmentGapView({
   const day = language === "ru" ? "дней" : "days";
   const hour = language === "ru" ? "ч" : "h";
 
+  const calendarCalculation = useMemo(() => {
+    if (courseInputMode !== "calendar") {
+      return { scenario: undefined as TreatmentCalendarScenario | undefined };
+    }
+
+    try {
+      const excludedDates = excludedDatesText
+        .split(/[\s,;]+/)
+        .map((value) => value.trim())
+        .filter(Boolean);
+
+      return {
+        scenario: buildTreatmentCalendarScenario({
+          startDate,
+          fractions: Number(fractions),
+          gapStartDate,
+          gapEndDate,
+          ...(excludedDates.length > 0 ? { excludedDates } : {}),
+        }),
+      };
+    } catch (error) {
+      return {
+        scenario: undefined,
+        error:
+          error instanceof Error
+            ? error.message
+            : tx(
+                language,
+                "Не удалось построить календарь лечения.",
+                "The treatment calendar could not be constructed.",
+              ),
+      };
+    }
+  }, [
+    courseInputMode,
+    startDate,
+    fractions,
+    gapStartDate,
+    gapEndDate,
+    excludedDatesText,
+    language,
+  ]);
+
   function changeEndpoint(nextId: string) {
     setEndpointId(nextId);
 
@@ -137,9 +191,31 @@ export function TreatmentGapView({
     try {
       const n = Number(fractions);
       const d = Number(dosePerFraction);
-      const plannedOverallTreatmentDays = Number(plannedOtt);
-      const deliveredFractionsBeforeGap = Number(deliveredBeforeGap);
-      const gap = Number(gapDays);
+      const calendarScenario = calendarCalculation.scenario;
+
+      if (
+        courseInputMode === "calendar" &&
+        !calendarScenario
+      ) {
+        throw new Error(
+          calendarCalculation.error ??
+            tx(
+              language,
+              "Календарь лечения содержит ошибку.",
+              "The treatment calendar contains an error.",
+            ),
+        );
+      }
+
+      const plannedOverallTreatmentDays =
+        calendarScenario?.plannedOverallTreatmentDays ??
+        Number(plannedOtt);
+      const deliveredFractionsBeforeGap =
+        calendarScenario?.deliveredFractionsBeforeGap ??
+        Number(deliveredBeforeGap);
+      const gap =
+        calendarScenario?.gapCalendarDays ??
+        Number(gapDays);
 
       const alphaSelection =
         alphaMode === "manual"
@@ -185,6 +261,12 @@ export function TreatmentGapView({
         plannedOverallTreatmentDays,
         deliveredFractionsBeforeGap,
         gapDays: gap,
+        ...(calendarScenario
+          ? {
+              uncompensatedOverallTreatmentDays:
+                calendarScenario.uncompensatedOverallTreatmentDays,
+            }
+          : {}),
         alphaBetaSelection: alphaSelection,
         repopulationSelection,
       });
@@ -192,6 +274,12 @@ export function TreatmentGapView({
       const weekend = evaluatePreserveTimeStrategy(
         baseline,
         "weekend",
+        calendarScenario
+          ? {
+              actualOverallTreatmentDays:
+                calendarScenario.weekendOverallTreatmentDays,
+            }
+          : undefined,
       );
 
       let bid:
@@ -200,6 +288,12 @@ export function TreatmentGapView({
       try {
         bid = evaluatePreserveTimeStrategy(baseline, "bid", {
           bidInterfractionHours: Number(bidHours),
+          ...(calendarScenario
+            ? {
+                actualOverallTreatmentDays:
+                  calendarScenario.bidOverallTreatmentDays,
+              }
+            : {}),
         });
       } catch (error) {
         bid = {
@@ -242,6 +336,7 @@ export function TreatmentGapView({
 
       return {
         baseline,
+        calendarScenario,
         weekend,
         bid,
         doseCompensation,
@@ -270,6 +365,8 @@ export function TreatmentGapView({
     manualTk,
     fractions,
     dosePerFraction,
+    courseInputMode,
+    calendarCalculation,
     plannedOtt,
     deliveredBeforeGap,
     gapDays,
