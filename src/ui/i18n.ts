@@ -106,6 +106,26 @@ const warningMapRu = new Map<string, string>([
     "The overall-treatment-time extension exceeds one week; the simple linear Dprolif approximation becomes increasingly uncertain.",
     "Удлинение общей продолжительности лечения превышает одну неделю; неопределённость простой линейной аппроксимации Dprolif возрастает.",
   ],
+  [
+    "User-specified repair half-time overrides the curated evidence dataset for this calculation.",
+    "Пользовательское T½ заменяет значение из доказательной базы только для этого расчёта.",
+  ],
+  [
+    "This repair half-time estimate is not eligible for automatic default selection.",
+    "Эта оценка T½ не может автоматически выбираться как значение по умолчанию.",
+  ],
+  [
+    "Incomplete-repair correction assumes two equal OAR fractions on each BID day and complete repair before the next daily treatment group.",
+    "Поправка на неполное восстановление предполагает две одинаковые по дозе фракции на орган риска в каждый день с двумя фракциями и полное восстановление до следующего дня лечения.",
+  ],
+  [
+    "The OAR result is tied to the explicitly entered dose-per-fraction metric. It must not be interpreted as a whole-organ or DVH constraint unless that metric is clinically appropriate.",
+    "Результат для органа риска относится только к явно введённой дозовой метрике за фракцию. Его нельзя трактовать как ограничение для всего органа или DVH, если выбранная метрика для этого клинически не подходит.",
+  ],
+  [
+    "User-specified excluded dates were treated as unavailable treatment days in all calendar strategies.",
+    "Указанные пользователем нерабочие даты считаются недоступными для лечения во всех календарных стратегиях.",
+  ],
 ]);
 
 export function localizeWarning(
