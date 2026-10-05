@@ -12,7 +12,7 @@ import {
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
-import { localizeWarning, releaseStatusLabel, supportLabel, tx } from "./i18n.js";
+import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, releaseStatusLabel, selectionModeLabel, supportLabel, tx, userSpecifiedLabel } from "./i18n.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -260,7 +260,8 @@ export function App() {
           </div>
 
           <div className="dataset-chip">
-            Photon EBRT · {evidenceManifest.datasetVersion} ·{" "}
+            {tx(language, "Фотонная ДЛТ", "Photon EBRT")} ·{" "}
+            {evidenceManifest.datasetVersion} ·{" "}
             {releaseStatusLabel(language, evidenceManifest.releaseStatus)}
           </div>
         </div>
@@ -501,9 +502,8 @@ export function App() {
                           2,
                         )}{" "}
                         {gy}
-                        {preferred
-                          ? " · preferred"
-                          : " · alternative"}{" "}
+                        {" · "}
+                        {estimateChoiceLabel(language, preferred)}{" "}
                         · {supportLabel(language, estimate.support)}
                       </option>
                     );
@@ -553,7 +553,7 @@ export function App() {
                     </span>
                     {selectedEstimate.ci95 ? (
                       <span className="ci">
-                        95% CI:{" "}
+                        {confidenceIntervalLabel(language)}:{" "}
                         {formatUiNumber(
                           language,
                           selectedEstimate.ci95.low,
@@ -569,7 +569,7 @@ export function App() {
                       </span>
                     ) : (
                       <span className="ci">
-                        95% CI:{" "}
+                        {confidenceIntervalLabel(language)}:{" "}
                         {tx(
                           language,
                           "не опубликован",
@@ -861,15 +861,17 @@ export function App() {
                     <div>
                       <dt>{tx(language, "Выбор параметра", "Selection")}</dt>
                       <dd>
-                        {result.selectionMode === "evidence"
-                          ? "evidence"
-                          : "manual override"}
+                        {selectionModeLabel(
+                          language,
+                          result.selectionMode,
+                        )}
                       </dd>
                     </div>
                     <div>
                       <dt>{tx(language, "Запись параметра", "Parameter record")}</dt>
                       <dd>
-                        {result.parameterRecordId ?? "user-specified"}
+                        {result.parameterRecordId ??
+                          userSpecifiedLabel(language)}
                       </dd>
                     </div>
                     <div>
