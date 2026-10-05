@@ -7,7 +7,8 @@ export type SitePage =
   | "quick"
   | "compare"
   | "gap"
-  | "methodology";
+  | "methodology"
+  | "about";
 
 export function SiteHome({
   language,
