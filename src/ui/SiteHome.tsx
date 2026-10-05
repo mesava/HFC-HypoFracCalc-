@@ -167,11 +167,11 @@ export function SiteHome({
             <p>
               {tx(
                 language,
-                "Кумулятивные EQD₂/BED для одной и той же дозовой метрики, тип I/II, несколько способов оценки и только явные допущения о восстановлении.",
-                "Cumulative EQD₂/BED for the same dose metric, type I/II classification, multiple assessment strategies, and explicit recovery assumptions only.",
+                "Кумулятивные EQD₂/BED, тип I/II, явные допущения о восстановлении и отдельная проверка reirradiation-specific HyTEC для спинного мозга.",
+                "Cumulative EQD₂/BED, type I/II classification, explicit recovery assumptions, and a dedicated HyTEC spinal reirradiation assessment.",
               )}
             </p>
-            <span className="module-state beta">v0.1</span>
+            <span className="module-state beta">v0.2-dev</span>
           </button>
         </div>
       </section>
