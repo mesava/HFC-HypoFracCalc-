@@ -3,3 +3,5 @@ export * from "./core/repopulation.js";
 export * from "./core/repair.js";
 export * from "./domain/evidence.js";
 export * from "./domain/constraints.js";
+export * from "./evidence/alphaBetaRegistry.js";
+export * from "./data/evidence/v0.1/index.js";
