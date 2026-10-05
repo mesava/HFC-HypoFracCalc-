@@ -5,6 +5,10 @@ import {
   evaluateReirradiationScenario,
   solveRemainingEqd2Budget,
 } from "../src/workflows/reirradiation.js";
+import {
+  evaluateEvidenceReirradiationScenario,
+  solveEvidenceRemainingEqd2Budget,
+} from "../src/workflows/evidenceReirradiation.js";
 import type {
   ReirradiationCourse,
   ReirradiationScenarioContext,
@@ -211,6 +215,47 @@ describe("cumulative equieffective dose", () => {
         warning.includes("does not perform voxel-wise"),
       ),
     ).toBe(true);
+  });
+});
+
+describe("evidence-aware reirradiation workflow", () => {
+  it("preserves the alpha/beta evidence record and source", () => {
+    const result = evaluateEvidenceReirradiationScenario(
+      "subcutis-fibrosis",
+      [previousCourse(), currentCourse()],
+      context,
+    );
+
+    expect(result.alphaBetaSelectionMode).toBe("evidence");
+    expect(result.alphaBetaRecordId).toBe(
+      "ab-subcutis-fibrosis-bcr2025",
+    );
+    expect(result.alphaBetaSourceId).toBe(
+      "bcr-2025-ch10-tables",
+    );
+    expect(result.alphaBetaGy).toBeCloseTo(1.7, 12);
+  });
+
+  it("preserves a manual alpha/beta selection in the remaining-budget calculation", () => {
+    const result = solveEvidenceRemainingEqd2Budget(
+      "subcutis-fibrosis",
+      [previousCourse()],
+      metric,
+      120,
+      5,
+      {
+        selectionMode: "manual",
+        parameter: "alpha-beta",
+        value: 3,
+        unit: "Gy",
+        rationale: "Local scenario analysis",
+      },
+    );
+
+    expect(result.alphaBetaSelectionMode).toBe("manual");
+    expect(result.alphaBetaRecordId).toBeUndefined();
+    expect(result.alphaBetaSourceId).toBeUndefined();
+    expect(result.alphaBetaGy).toBeCloseTo(3, 12);
   });
 });
 
