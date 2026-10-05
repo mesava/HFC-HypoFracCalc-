@@ -289,6 +289,30 @@ export const endpoints = [
     role: "normal-tissue",
   },
   {
+    id: "optic-pathway-radiation-neuropathy",
+    organ: "Optic pathways",
+    endpoint: "Radiation-induced optic neuropathy",
+    role: "normal-tissue",
+  },
+  {
+    id: "brain-symptomatic-radionecrosis",
+    organ: "Brain",
+    endpoint: "Symptomatic radionecrosis",
+    role: "normal-tissue",
+  },
+  {
+    id: "brain-necrosis-edema-any",
+    organ: "Brain",
+    endpoint: "Any radionecrosis or edema",
+    role: "normal-tissue",
+  },
+  {
+    id: "brain-radionecrosis-resection",
+    organ: "Brain",
+    endpoint: "Radionecrosis requiring resection",
+    role: "normal-tissue",
+  },
+  {
     id: "larynx-edema",
     organ: "Larynx",
     endpoint: "Late laryngeal edema",
