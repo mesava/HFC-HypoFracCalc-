@@ -166,7 +166,7 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Перед суммированием каждый курс пересчитывается в BED/EQD₂ с одним и тем же α/β для выбранного клинического исхода. Физические дозы не используются как количественная кумулятивная OAR-доза.",
+              "Перед суммированием каждый курс пересчитывается в BED/EQD₂ с одним и тем же α/β для выбранного клинического исхода. Физические дозы не используются как количественная кумулятивная доза на орган риска.",
               "Each course is rescaled to BED/EQD₂ using the same α/β for the selected endpoint before summation. Physical dose is not used as quantitative cumulative OAR dose.",
             )}
           </p>
