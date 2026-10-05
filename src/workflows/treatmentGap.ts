@@ -27,6 +27,12 @@ export interface TreatmentGapCourseInput {
   plannedOverallTreatmentDays: number;
   deliveredFractionsBeforeGap: number;
   gapDays: number;
+  /**
+   * Optional calendar-derived final OTT for the uncompensated course.
+   * When omitted, v0.1 retains the legacy approximation
+   * plannedOverallTreatmentDays + gapDays.
+   */
+  uncompensatedOverallTreatmentDays?: number;
   alphaBetaSelection?:
     | EvidenceBasedParameterSelection
     | ManualParameterOverride;
@@ -65,6 +71,7 @@ export interface PreserveTimeStrategyResult {
   remainingFractions: number;
   remainingDosePerFractionGy: number;
   finalRawEqd2Gy: number;
+  finalTimePenaltyGy: number;
   finalEffectiveEqd2Gy: number;
   deltaEffectiveEqd2Gy: number;
   warnings: string[];
@@ -213,7 +220,22 @@ export function buildTreatmentGapBaseline(
       : eqdGy(deliveredSchedule, alpha.valueGy);
 
   const uncompensatedOverallTreatmentDays =
-    input.plannedOverallTreatmentDays + input.gapDays;
+    input.uncompensatedOverallTreatmentDays ??
+    (input.plannedOverallTreatmentDays + input.gapDays);
+
+  assertFinitePositive(
+    uncompensatedOverallTreatmentDays,
+    "uncompensated overall treatment days",
+  );
+  if (
+    uncompensatedOverallTreatmentDays <
+    input.plannedOverallTreatmentDays
+  ) {
+    throw new RangeError(
+      "Uncompensated overall treatment days must not be shorter than the planned course.",
+    );
+  }
+
   const uncompensatedTimePenaltyGy = timePenaltyEqd2Gy(
     uncompensatedOverallTreatmentDays,
     repop.rateGyPerDay,
@@ -271,10 +293,27 @@ export function evaluatePreserveTimeStrategy(
   method: "weekend" | "bid",
   options?: {
     bidInterfractionHours?: number;
+    actualOverallTreatmentDays?: number;
   },
 ): PreserveTimeStrategyResult {
   const warnings: string[] = [];
   const d = baseline.plannedSchedule.dosePerFractionGy;
+
+  const actualOverallTreatmentDays =
+    options?.actualOverallTreatmentDays ??
+    baseline.plannedOverallTreatmentDays;
+  assertFinitePositive(
+    actualOverallTreatmentDays,
+    "actual overall treatment days",
+  );
+
+  const finalTimePenaltyGy = timePenaltyEqd2Gy(
+    actualOverallTreatmentDays,
+    baseline.dProlifGyPerDay,
+    baseline.kickOffDays,
+  );
+  const finalEffectiveEqd2Gy =
+    baseline.plannedRawEqd2Gy - finalTimePenaltyGy;
 
   if (method === "bid") {
     const interval = options?.bidInterfractionHours ?? 8;
@@ -310,13 +349,15 @@ export function evaluatePreserveTimeStrategy(
   return {
     kind: "preserve-time",
     method,
-    actualOverallTreatmentDays: baseline.plannedOverallTreatmentDays,
+    actualOverallTreatmentDays,
     remainingFractions: baseline.remainingFractions,
     remainingDosePerFractionGy:
       baseline.plannedSchedule.dosePerFractionGy,
     finalRawEqd2Gy: baseline.plannedRawEqd2Gy,
-    finalEffectiveEqd2Gy: baseline.plannedEffectiveEqd2Gy,
-    deltaEffectiveEqd2Gy: 0,
+    finalTimePenaltyGy,
+    finalEffectiveEqd2Gy,
+    deltaEffectiveEqd2Gy:
+      finalEffectiveEqd2Gy - baseline.plannedEffectiveEqd2Gy,
     warnings,
   };
 }
