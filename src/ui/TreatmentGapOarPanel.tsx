@@ -49,15 +49,7 @@ function sourceFor(sourceId: string | undefined) {
   return sources.find((source) => source.id === sourceId);
 }
 
-export function TreatmentGapOarPanel({
-  language,
-  calendarScenario,
-  plannedFractions,
-  deliveredFractionsBeforeGap,
-  plannedTargetDosePerFractionGy,
-  bidInterfractionHours,
-  doseCompensation,
-}: {
+interface TreatmentGapOarSharedProps {
   language: Language;
   calendarScenario?: TreatmentCalendarScenario;
   plannedFractions: number;
@@ -65,6 +57,21 @@ export function TreatmentGapOarPanel({
   plannedTargetDosePerFractionGy: number;
   bidInterfractionHours: number;
   doseCompensation?: DoseCompensationStrategyResult;
+}
+
+function TreatmentGapOarCard({
+  index,
+  onRemove,
+  language,
+  calendarScenario,
+  plannedFractions,
+  deliveredFractionsBeforeGap,
+  plannedTargetDosePerFractionGy,
+  bidInterfractionHours,
+  doseCompensation,
+}: TreatmentGapOarSharedProps & {
+  index: number;
+  onRemove?: () => void;
 }) {
   const normalEndpoints = useMemo(
     () =>
@@ -298,14 +305,14 @@ export function TreatmentGapOarPanel({
     : undefined;
 
   return (
-    <section className="gap-oar-panel">
+    <section className="gap-oar-card">
       <div className="section-heading">
         <div>
           <span className="eyebrow">
             {tx(
               language,
-              "орган риска",
-              "organ at risk",
+              "орган риска " + index,
+              "organ at risk " + index,
             )}
           </span>
           <h2>
@@ -316,6 +323,20 @@ export function TreatmentGapOarPanel({
             )}
           </h2>
         </div>
+        {onRemove ? (
+          <button
+            type="button"
+            className="icon-button"
+            onClick={onRemove}
+            aria-label={tx(
+              language,
+              "Удалить орган риска",
+              "Remove organ at risk",
+            )}
+          >
+            ×
+          </button>
+        ) : null}
       </div>
 
       <p className="oar-intro">
@@ -987,3 +1008,70 @@ export function TreatmentGapOarPanel({
     </section>
   );
 }
+
+export function TreatmentGapOarPanel(
+  props: TreatmentGapOarSharedProps,
+) {
+  const [cardIds, setCardIds] = useState([1]);
+  const [nextCardId, setNextCardId] = useState(2);
+
+  function addCard() {
+    if (cardIds.length >= 5) return;
+    setCardIds((current) => [...current, nextCardId]);
+    setNextCardId((value) => value + 1);
+  }
+
+  return (
+    <section className="gap-oar-panel">
+      <div className="gap-oar-panel-heading">
+        <div>
+          <span className="eyebrow">
+            {tx(
+              props.language,
+              "органы риска",
+              "organs at risk",
+            )}
+          </span>
+          <h2>
+            {tx(
+              props.language,
+              "Оценка биологической нагрузки",
+              "Biological burden assessment",
+            )}
+          </h2>
+        </div>
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={addCard}
+          disabled={cardIds.length >= 5}
+        >
+          {tx(
+            props.language,
+            "+ добавить орган риска",
+            "+ add OAR",
+          )}
+        </button>
+      </div>
+
+      <div className="gap-oar-card-list">
+        {cardIds.map((id, index) => (
+          <TreatmentGapOarCard
+            key={id}
+            {...props}
+            index={index + 1}
+            {...(cardIds.length > 1
+              ? {
+                  onRemove: () =>
+                    setCardIds((current) =>
+                      current.filter((item) => item !== id),
+                    ),
+                }
+              : {})}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
