@@ -19,6 +19,8 @@ export const organLabelsRu: Record<string, string> = {
   Larynx: "Гортань",
   "Temporal lobe": "Височная доля",
   "Central nervous system": "Центральная нервная система",
+  "Optic pathways": "Зрительные пути",
+  Brain: "Головной мозг",
 };
 
 export const endpointLabelsRu: Record<string, string> = {
@@ -67,6 +69,10 @@ export const endpointLabelsRu: Record<string, string> = {
   "nsclc-stage-i-local-control": "Локальный контроль NSCLC I стадии",
   "esophagus-pathologic-complete-response": "Патоморфологический полный ответ после предоперационной ХЛТ",
   "spinal-cord-radiation-myelopathy": "Лучевая миелопатия",
+  "optic-pathway-radiation-neuropathy": "Лучевая нейропатия зрительных путей",
+  "brain-symptomatic-radionecrosis": "Симптомный радионекроз",
+  "brain-necrosis-edema-any": "Любой радионекроз или отёк",
+  "brain-radionecrosis-resection": "Радионекроз, требующий хирургической резекции",
   "larynx-edema": "Поздний отёк гортани",
   "temporal-lobe-necrosis": "Лучевой некроз",
   "head-neck-larynx-tumour-control": "Опухолевый контроль гортани",
