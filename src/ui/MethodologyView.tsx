@@ -173,7 +173,7 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Восстановление между курсами не выводится автоматически из временного интервала. Reirradiation-specific клинические критерии хранят собственную опубликованную основу расчёта и не наследуют пользовательские допущения, если источник их не использует.",
+              "Восстановление между курсами не выводится автоматически из временного интервала. Специальные клинические критерии для повторного облучения хранят собственную опубликованную основу расчёта и не наследуют пользовательские допущения, если источник их не использует.",
               "Recovery between courses is never inferred automatically from elapsed time. Reirradiation-specific clinical guidance keeps its own published calculation basis and does not inherit user assumptions unless the source defines them.",
             )}
           </p>
