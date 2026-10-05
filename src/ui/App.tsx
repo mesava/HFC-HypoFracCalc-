@@ -33,6 +33,7 @@ function sourceFor(sourceId: string | undefined) {
 export function App() {
   const [language, setLanguage] = useState<Language>("ru");
   const [activeModule, setActiveModule] = useState<SitePage>("home");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -188,13 +189,35 @@ export function App() {
 
   const gy = language === "ru" ? "Гр" : "Gy";
 
+  const pageLabel = (page: SitePage): string => {
+    switch (page) {
+      case "home":
+        return tx(language, "Главная", "Home");
+      case "quick":
+        return tx(language, "Быстрый EQD", "Quick EQD");
+      case "compare":
+        return tx(language, "Сравнение режимов", "Compare Regimens");
+      case "gap":
+        return tx(language, "Перерывы в лечении", "Treatment Gap");
+      case "methodology":
+        return tx(language, "Методология", "Methodology");
+      case "about":
+        return tx(language, "О сайте", "About");
+    }
+  };
+
+  const navigate = (page: SitePage) => {
+    setActiveModule(page);
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="app-shell">
       <header className="topbar site-topbar">
         <button
           className="brand-button"
           type="button"
-          onClick={() => setActiveModule("home")}
+          onClick={() => navigate("home")}
           aria-label="HFC home"
         >
           <div className="brand-row">
@@ -250,42 +273,42 @@ export function App() {
         <button
           className={`module ${activeModule === "home" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("home")}
+          onClick={() => navigate("home")}
         >
           {tx(language, "Главная", "Home")}
         </button>
         <button
           className={`module ${activeModule === "quick" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("quick")}
+          onClick={() => navigate("quick")}
         >
           {tx(language, "Быстрый EQD", "Quick EQD")}
         </button>
         <button
           className={`module ${activeModule === "compare" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("compare")}
+          onClick={() => navigate("compare")}
         >
           {tx(language, "Сравнение режимов", "Compare Regimens")}
         </button>
         <button
           className={`module ${activeModule === "gap" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("gap")}
+          onClick={() => navigate("gap")}
         >
           {tx(language, "Перерывы в лечении", "Treatment Gap")}
         </button>
         <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("methodology")}
+          onClick={() => navigate("methodology")}
         >
           {tx(language, "Методология", "Methodology")}
         </button>
         <button
           className={`module ${activeModule === "about" ? "active" : ""}`}
           type="button"
-          onClick={() => setActiveModule("about")}
+          onClick={() => navigate("about")}
         >
           {tx(language, "О сайте", "About")}
         </button>
@@ -293,6 +316,62 @@ export function App() {
           {tx(language, "Повторное облучение", "Reirradiation")}
         </button>
       </nav>
+
+      <div className="mobile-nav">
+        <button
+          className="mobile-nav-trigger"
+          type="button"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-site-menu"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <span className="mobile-nav-caption">
+            {tx(language, "Раздел", "Section")}
+          </span>
+          <strong>{pageLabel(activeModule)}</strong>
+          <span
+            className={`mobile-nav-chevron ${mobileMenuOpen ? "open" : ""}`}
+            aria-hidden="true"
+          >
+            ⌄
+          </span>
+        </button>
+
+        {mobileMenuOpen ? (
+          <div
+            id="mobile-site-menu"
+            className="mobile-nav-menu"
+            role="navigation"
+            aria-label={tx(language, "Разделы HFC", "HFC sections")}
+          >
+            {(
+              [
+                "home",
+                "quick",
+                "compare",
+                "gap",
+                "methodology",
+                "about",
+              ] as SitePage[]
+            ).map((page) => (
+              <button
+                key={page}
+                type="button"
+                className={page === activeModule ? "active" : ""}
+                onClick={() => navigate(page)}
+              >
+                {pageLabel(page)}
+              </button>
+            ))}
+            <div className="mobile-nav-disabled">
+              <span>
+                {tx(language, "Повторное облучение", "Reirradiation")}
+              </span>
+              <small>{tx(language, "в разработке", "planned")}</small>
+            </div>
+          </div>
+        ) : null}
+      </div>
 
       {activeModule === "home" ? (
         <SiteHome language={language} onNavigate={setActiveModule} />
@@ -846,7 +925,7 @@ export function App() {
           <span>·</span>
           <button
             type="button"
-            onClick={() => setActiveModule("methodology")}
+            onClick={() => navigate("methodology")}
           >
             {tx(
               language,
@@ -857,7 +936,7 @@ export function App() {
           <span>·</span>
           <button
             type="button"
-            onClick={() => setActiveModule("about")}
+            onClick={() => navigate("about")}
           >
             {tx(language, "О сайте", "About")}
           </button>
