@@ -91,7 +91,7 @@ export function resolveRepairHalfTimeSelection(
 
   const record = repairHalfTimeEstimates.find(
     (candidate) => candidate.id === selection.parameterRecordId,
-  );
+  ) as RepairHalfTimeEstimate | undefined;
   if (!record) {
     throw new Error(
       `Unknown repair half-time evidence record: ${selection.parameterRecordId}`,
