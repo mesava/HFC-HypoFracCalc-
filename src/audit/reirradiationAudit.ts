@@ -12,7 +12,7 @@ import type { ReirradiationGuidanceAssessment } from "../domain/reirradiationGui
 import type {
   EvidenceReirradiationResult,
   EvidenceRemainingDoseBudgetResult,
-} from "./evidenceReirradiation.js";
+} from "../workflows/evidenceReirradiation.js";
 import {
   HFC_AUDIT_SCHEMA_VERSION,
   HFC_ENGINE_VERSION,
