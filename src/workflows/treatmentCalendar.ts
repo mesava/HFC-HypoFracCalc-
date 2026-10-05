@@ -162,7 +162,13 @@ function ott(days: CalendarFractionDay[]): number {
   if (days.length === 0) {
     throw new Error("Treatment calendar cannot be empty.");
   }
-  return calendarDaySpan(days[0]!.date, days.at(-1)!.date);
+
+  // RCR treatment schedules use elapsed overall treatment time:
+  // e.g. a Monday-start 70 Gy / 35 fractions / 7-week course is 46 days,
+  // not 47 inclusive calendar dates.
+  return (
+    calendarDaySpan(days[0]!.date, days.at(-1)!.date) - 1
+  );
 }
 
 function preGapDays(
