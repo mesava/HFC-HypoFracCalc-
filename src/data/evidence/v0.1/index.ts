@@ -13,3 +13,5 @@ export const alphaBetaEstimates = [
 
 export { repairHalfTimeEstimates } from "./repairHalfTime.js";
 export { repopulationRateEstimates } from "./repopulation.js";
+
+export { hytecClinicalConstraints } from "./constraintsHytec.js";
