@@ -24,6 +24,7 @@ import {
 } from "../workflows/treatmentCalendar.js";
 import { localizeWarning, tx } from "./i18n.js";
 import { TreatmentCalendarPreview } from "./TreatmentCalendarPreview.js";
+import { TreatmentGapOarPanel } from "./TreatmentGapOarPanel.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -1266,6 +1267,33 @@ export function TreatmentGapView({
                 )}
               </p>
             </div>
+
+            <TreatmentGapOarPanel
+              language={language}
+              {...(calculation.calendarScenario
+                ? {
+                    calendarScenario:
+                      calculation.calendarScenario,
+                  }
+                : {})}
+              plannedFractions={
+                calculation.baseline.plannedSchedule.fractions
+              }
+              deliveredFractionsBeforeGap={
+                calculation.baseline.deliveredFractionsBeforeGap
+              }
+              plannedTargetDosePerFractionGy={
+                calculation.baseline.plannedSchedule
+                  .dosePerFractionGy
+              }
+              bidInterfractionHours={Number(bidHours)}
+              {...("error" in calculation.doseCompensation
+                ? {}
+                : {
+                    doseCompensation:
+                      calculation.doseCompensation,
+                  })}
+            />
           </>
         )}
 
@@ -1273,14 +1301,14 @@ export function TreatmentGapView({
           <strong>
             {tx(
               language,
-              "Модуль «Перерывы в лечении» v0.1 моделирует эффект для опухоли.",
+              "Модуль моделирует опухолевый эффект и отдельно позволяет оценить выбранную дозовую метрику органа риска.",
               "Treatment Gap v0.1 models tumour effect.",
             )}
           </strong>
           <p>
             {tx(
               language,
-              "Увеличение дозы за фракцию не должно приниматься без отдельной оценки органов риска, неполного восстановления, ограничений доза–объём и клинической допустимости. Следующим этапом станет компенсация с явным учётом органов риска.",
+              "Даже при совпадении EQD₂ опухоли клиническая допустимость зависит от дозы на органы риска, ограничений доза–объём, геометрии и других факторов. Панель органа риска не заменяет DVH и клинические ограничения.",
               "An increase in d should not be accepted without a separate assessment of OARs, incomplete repair, dose-volume constraints, and clinical acceptability. OAR-aware compensation is the next development step.",
             )}
           </p>
