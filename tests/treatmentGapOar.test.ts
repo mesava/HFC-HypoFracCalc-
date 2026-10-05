@@ -49,6 +49,7 @@ describe("Treatment Gap OAR workflow", () => {
 
     const result = compareOarCalendarStrategy({
       endpointId: "subcutis-fibrosis",
+      metric: { kind: "Dmax" },
       plannedCalendar: planned,
       strategyCalendar: weekend,
       dosePerFractionGy: 1,
@@ -67,6 +68,7 @@ describe("Treatment Gap OAR workflow", () => {
 
     const result = compareOarCalendarStrategy({
       endpointId: "subcutis-fibrosis",
+      metric: { kind: "Dmax" },
       plannedCalendar: planned,
       strategyCalendar: bid,
       dosePerFractionGy: 1,
@@ -85,6 +87,7 @@ describe("Treatment Gap OAR workflow", () => {
     expect(() =>
       evaluateOarCalendarEffect({
         endpointId: "spinal-cord-radiation-myelopathy",
+        metric: { kind: "D0.03cc" },
         calendar: calendar([2, 1, 1]),
         dosePerFractionGy: 1,
         alphaBetaSelection: manualAlpha,
@@ -97,6 +100,7 @@ describe("Treatment Gap OAR workflow", () => {
     expect(() =>
       evaluateOarCalendarEffect({
         endpointId: "spinal-cord-radiation-myelopathy",
+        metric: { kind: "D0.03cc" },
         calendar: calendar([2, 1, 1]),
         dosePerFractionGy: 1,
         alphaBetaSelection: manualAlpha,
@@ -110,9 +114,22 @@ describe("Treatment Gap OAR workflow", () => {
     ).toThrow(/range or bound rather than a point estimate/);
   });
 
+  it("rejects Vx because this workflow requires a dose-valued OAR metric", () => {
+    expect(() =>
+      evaluateOarCalendarEffect({
+        endpointId: "subcutis-fibrosis",
+        metric: { kind: "Vx", xGy: 20 },
+        calendar: calendar([1, 1, 1]),
+        dosePerFractionGy: 1,
+        alphaBetaSelection: manualAlpha,
+      }),
+    ).toThrow(/Vx is a volume metric/);
+  });
+
   it("calculates post-gap OAR effect from an explicitly entered post-gap OAR dose", () => {
     const result = evaluateOarDoseCompensation({
       endpointId: "subcutis-fibrosis",
+      metric: { kind: "D2cc" },
       deliveredFractionsBeforeGap: 20,
       remainingFractions: 10,
       plannedDosePerFractionGy: 1,
