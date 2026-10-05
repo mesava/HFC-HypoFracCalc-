@@ -31,7 +31,7 @@ export function SiteHome({
           <p>
             {tx(
               language,
-              "BED/EQD₂, endpoint-specific α/β, неопределённость, treatment gaps и прозрачный provenance каждого биологического параметра.",
+              "BED/EQD₂, α/β для конкретных клинических исходов, неопределённость, перерывы в лечении и прозрачное происхождение каждого биологического параметра.",
               "BED/EQD₂, endpoint-specific α/β, uncertainty, treatment gaps, and transparent provenance for every biological parameter.",
             )}
           </p>
@@ -41,7 +41,7 @@ export function SiteHome({
               className="primary-button"
               onClick={() => onNavigate("quick")}
             >
-              {tx(language, "Открыть Quick EQD", "Open Quick EQD")}
+              {tx(language, "Открыть быстрый расчёт EQD", "Open Quick EQD")}
             </button>
             <button
               type="button"
@@ -50,7 +50,7 @@ export function SiteHome({
             >
               {tx(
                 language,
-                "Методология и evidence",
+                "Методология и доказательная база",
                 "Methodology and evidence",
               )}
             </button>
@@ -58,7 +58,7 @@ export function SiteHome({
         </div>
 
         <div className="hero-status">
-          <span>{tx(language, "Текущий dataset", "Current dataset")}</span>
+          <span>{tx(language, "Текущий набор данных", "Current dataset")}</span>
           <strong>{evidenceManifest.datasetVersion}</strong>
           <small>
             {evidenceManifest.releaseStatus} · photon EBRT · evidence cut-off{" "}
@@ -70,7 +70,7 @@ export function SiteHome({
       <section className="site-section">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">modules</span>
+            <span className="eyebrow">{tx(language, "модули", "modules")}</span>
             <h2>{tx(language, "Калькуляторы HFC", "HFC calculators")}</h2>
           </div>
         </div>
@@ -82,11 +82,11 @@ export function SiteHome({
             onClick={() => onNavigate("quick")}
           >
             <span className="module-index">01</span>
-            <strong>Quick EQD</strong>
+            <strong>{tx(language, "Быстрый EQD", "Quick EQD")}</strong>
             <p>
               {tx(
                 language,
-                "BED, EQD₂, выбор α/β из evidence database, ручной override и sensitivity по 95% CI.",
+                "BED, EQD₂, выбор α/β из доказательной базы, ручное значение и анализ чувствительности по 95% ДИ.",
                 "BED, EQD₂, evidence-selected α/β, manual override, and 95% CI sensitivity.",
               )}
             </p>
@@ -101,11 +101,11 @@ export function SiteHome({
             onClick={() => onNavigate("compare")}
           >
             <span className="module-index">02</span>
-            <strong>Compare Regimens</strong>
+            <strong>{tx(language, "Сравнение режимов", "Compare Regimens")}</strong>
             <p>
               {tx(
                 language,
-                "2–5 схем, tumour + несколько OAR endpoints, ΔEQD₂ и коррелированный sensitivity range.",
+                "2–5 схем, опухолевый исход и несколько исходов для органов риска, ΔEQD₂ и коррелированный диапазон чувствительности.",
                 "2–5 regimens, tumour + multiple OAR endpoints, ΔEQD₂ and correlated sensitivity range.",
               )}
             </p>
@@ -120,11 +120,11 @@ export function SiteHome({
             onClick={() => onNavigate("gap")}
           >
             <span className="module-index">03</span>
-            <strong>Treatment Gap</strong>
+            <strong>{tx(language, "Перерывы в лечении", "Treatment Gap")}</strong>
             <p>
               {tx(
                 language,
-                "OTT, Dprolif/Tk, weekend/BID compensation и решение post-gap dose/fraction для tumour equivalence.",
+                "OTT, Dprolif/Tk, компенсация за счёт выходных дней или двух фракций в сутки и расчёт дозы за фракцию после перерыва для восстановления эквивалентного опухолевого эффекта.",
                 "OTT, Dprolif/Tk, weekend/BID compensation, and post-gap dose/fraction solution for tumour equivalence.",
               )}
             </p>
@@ -133,11 +133,11 @@ export function SiteHome({
 
           <div className="module-card disabled-card">
             <span className="module-index">04</span>
-            <strong>Reirradiation</strong>
+            <strong>{tx(language, "Повторное облучение", "Reirradiation")}</strong>
             <p>
               {tx(
                 language,
-                "Кумулятивные EQD₂/BED, recovery assumptions и несколько стратегий dose accumulation.",
+                "Кумулятивные EQD₂/BED, допущения о восстановлении и несколько стратегий суммирования доз.",
                 "Cumulative EQD₂/BED, recovery assumptions, and multiple dose-accumulation strategies.",
               )}
             </p>
@@ -150,42 +150,42 @@ export function SiteHome({
 
       <section className="site-section evidence-principles">
         <div>
-          <span className="eyebrow">evidence first</span>
+          <span className="eyebrow">{tx(language, "доказательность прежде всего", "evidence first")}</span>
           <h2>
             {tx(
               language,
-              "Число без источника не становится default.",
+              "Число без источника не становится значением по умолчанию.",
               "A number without a source does not become a default.",
             )}
           </h2>
         </div>
         <div className="principle-grid">
           <div>
-            <strong>Endpoint-specific</strong>
+            <strong>{tx(language, "Привязка к клиническому исходу", "Endpoint-specific")}</strong>
             <p>
               {tx(
                 language,
-                "Rectum, GU, breast и другие ткани представлены конкретными clinical endpoints, а не одним универсальным α/β на орган.",
+                "Прямая кишка, мочеполовая система, молочная железа и другие ткани представлены конкретными клиническими исходами, а не одним универсальным α/β для всего органа.",
                 "Rectum, GU, breast, and other tissues are represented by specific clinical endpoints rather than one universal organ-level α/β.",
               )}
             </p>
           </div>
           <div>
-            <strong>Traceable</strong>
+            <strong>{tx(language, "Прослеживаемость", "Traceable")}</strong>
             <p>
               {tx(
                 language,
-                "Preferred/alternative estimate, CI, source, applicability и ограничения сохраняются вместе с расчётом.",
+                "Предпочтительная или альтернативная оценка, доверительный интервал, источник, область применимости и ограничения сохраняются вместе с расчётом.",
                 "Preferred/alternative estimate, CI, source, applicability, and caveats remain attached to the calculation.",
               )}
             </p>
           </div>
           <div>
-            <strong>Override, not overwrite</strong>
+            <strong>{tx(language, "Переопределение без перезаписи", "Override, not overwrite")}</strong>
             <p>
               {tx(
                 language,
-                "Пользователь может ввести своё значение, но оно остаётся manual override и не меняет curated evidence database.",
+                "Пользователь может ввести своё значение, но оно остаётся пользовательским переопределением и не изменяет курируемую доказательную базу.",
                 "Users may enter a custom value, but it remains a manual override and does not alter the curated evidence database.",
               )}
             </p>
