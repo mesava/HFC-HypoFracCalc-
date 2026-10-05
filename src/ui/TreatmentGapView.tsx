@@ -208,7 +208,7 @@ export function TreatmentGapView({
               ? error.message
               : tx(
                   language,
-                  "Не удалось оценить BID.",
+                  "Не удалось оценить вариант с двумя фракциями в сутки.",
                   "BID strategy could not be evaluated.",
                 ),
         };
@@ -234,7 +234,7 @@ export function TreatmentGapView({
               ? error.message
               : tx(
                   language,
-                  "Не удалось решить dose compensation.",
+                  "Не удалось рассчитать компенсацию дозой.",
                   "Dose compensation could not be solved.",
                 ),
         };
@@ -253,7 +253,7 @@ export function TreatmentGapView({
             ? error.message
             : tx(
                 language,
-                "Не удалось построить Treatment Gap scenario.",
+                "Не удалось построить сценарий компенсации перерыва в лечении.",
                 "Treatment Gap scenario could not be constructed.",
               ),
       };
