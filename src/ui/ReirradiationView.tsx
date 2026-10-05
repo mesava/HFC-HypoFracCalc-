@@ -21,6 +21,10 @@ import {
 } from "../workflows/evidenceReirradiation.js";
 import { assessHytecSpinalCordReirradiation } from "../workflows/reirradiationGuidance.js";
 import {
+  buildReirradiationAuditRecord,
+  serializeAuditRecord,
+} from "../audit/reirradiationAudit.js";
+import {
   estimateChoiceLabel,
   localizeWarning,
   tx,
@@ -603,6 +607,46 @@ export function ReirradiationView({
     parsedCourses,
     confirmThecalSacDmax,
   ]);
+
+  function downloadAuditJson() {
+    if (!result || !parsedCourses) return;
+
+    const record = buildReirradiationAuditRecord({
+      generatedAtIso: new Date().toISOString(),
+      endpointId,
+      courses: parsedCourses,
+      context: {
+        geometricOverlap,
+        cumulativeDoseToxicityConcern,
+        previousDoseData,
+        registrationSuitability,
+        strategy,
+      },
+      result,
+      ...(budget ? { budget } : {}),
+      ...(hytecSpinalGuidance
+        ? { guidance: hytecSpinalGuidance }
+        : {}),
+    });
+
+    const blob = new Blob(
+      [serializeAuditRecord(record)],
+      { type: "application/json;charset=utf-8" },
+    );
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    const stamp = record.generatedAtIso
+      .replace(/[:.]/g, "-")
+      .replace("T", "_")
+      .replace("Z", "");
+    anchor.href = url;
+    anchor.download =
+      "HFC_reirradiation_audit_" + stamp + ".json";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }
 
   return (
     <main className="reirradiation-page">
@@ -1306,6 +1350,19 @@ export function ReirradiationView({
                 )}
               </h2>
             </div>
+            {result ? (
+              <button
+                type="button"
+                className="secondary-button audit-download-button"
+                onClick={downloadAuditJson}
+              >
+                {tx(
+                  language,
+                  "Скачать аудит JSON",
+                  "Download audit JSON",
+                )}
+              </button>
+            ) : null}
           </div>
 
           {error ? (
