@@ -2250,6 +2250,33 @@ button.module-card:hover {
   padding-top: 18px;
 }
 
+.gap-oar-panel-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gap-oar-panel-heading h2 {
+  margin: 4px 0 0;
+  color: #304f56;
+  font-size: 1rem;
+}
+
+.gap-oar-card-list {
+  display: grid;
+  gap: 12px;
+}
+
+.gap-oar-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid #d9e2e5;
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff;
+}
+
 .oar-intro {
   margin: -6px 0 2px;
   color: #6d7a82;
@@ -2378,5 +2405,16 @@ button.module-card:hover {
   .oar-strategy-results,
   .oar-dose-result {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .gap-oar-panel-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .gap-oar-panel-heading .secondary-button {
+    width: 100%;
   }
 }
