@@ -16,3 +16,5 @@ export * from "./evidence/constraintRegistry.js";
 export * from "./domain/reirradiation.js";
 export * from "./workflows/reirradiation.js";
 export * from "./workflows/evidenceReirradiation.js";
+export * from "./domain/reirradiationGuidance.js";
+export * from "./workflows/reirradiationGuidance.js";
