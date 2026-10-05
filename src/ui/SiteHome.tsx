@@ -1,5 +1,5 @@
 import { evidenceManifest } from "../data/evidence/v0.1/index.js";
-import { tx } from "./i18n.js";
+import { releaseStatusLabel, tx } from "./i18n.js";
 import type { Language } from "./labels.js";
 
 export type SitePage =
@@ -61,7 +61,7 @@ export function SiteHome({
           <span>{tx(language, "Текущий набор данных", "Current dataset")}</span>
           <strong>{evidenceManifest.datasetVersion}</strong>
           <small>
-            {evidenceManifest.releaseStatus} · photon EBRT · evidence cut-off{" "}
+            {releaseStatusLabel(language, evidenceManifest.releaseStatus)} · {tx(language, "фотонная ДЛТ", "photon EBRT")} · {tx(language, "дата отсечения данных", "evidence cut-off")}{" "}
             {evidenceManifest.evidenceCutoffDate}
           </small>
         </div>
