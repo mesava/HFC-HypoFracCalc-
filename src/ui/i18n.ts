@@ -155,3 +155,38 @@ export function releaseStatusLabel(
       return status;
   }
 }
+
+
+export function estimateChoiceLabel(
+  language: Language,
+  preferred: boolean,
+): string {
+  if (language === "en") {
+    return preferred ? "preferred" : "alternative";
+  }
+  return preferred ? "предпочтительное" : "альтернативное";
+}
+
+export function selectionModeLabel(
+  language: Language,
+  mode: "evidence" | "manual",
+): string {
+  if (language === "en") {
+    return mode === "evidence" ? "evidence" : "manual override";
+  }
+  return mode === "evidence"
+    ? "из доказательной базы"
+    : "задано пользователем";
+}
+
+export function userSpecifiedLabel(
+  language: Language,
+): string {
+  return language === "ru" ? "задано пользователем" : "user-specified";
+}
+
+export function confidenceIntervalLabel(
+  language: Language,
+): string {
+  return language === "ru" ? "95% ДИ" : "95% CI";
+}
