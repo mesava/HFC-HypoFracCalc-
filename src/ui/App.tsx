@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   alphaBetaEstimates,
   endpoints,
@@ -11,39 +11,18 @@ import {
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
+import { localizeWarning, supportLabel, tx } from "./i18n.js";
+import {
+  endpointLabel,
+  formatUiNumber,
+  organLabel,
+  type Language,
+} from "./labels.js";
 import { MethodologyView } from "./MethodologyView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
-import { endpointLabelRu, organLabelRu } from "./labels.js";
 
 type ParameterMode = "evidence" | "manual";
-
-function formatNumber(value: number, digits = 2): string {
-  return new Intl.NumberFormat("ru-RU", {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  }).format(value);
-}
-
-function formatCi(
-  ci: { low: number; high: number } | undefined,
-): string | null {
-  if (!ci) return null;
-  return `${formatNumber(ci.low, 1)}–${formatNumber(ci.high, 1)} Гр`;
-}
-
-function supportLabel(
-  support: "supported" | "limited" | "poor-fit",
-): string {
-  switch (support) {
-    case "supported":
-      return "хорошая поддержка";
-    case "limited":
-      return "ограниченная поддержка";
-    case "poor-fit":
-      return "слабая / нестабильная оценка";
-  }
-}
 
 function sourceFor(sourceId: string | undefined) {
   if (!sourceId) return undefined;
@@ -51,7 +30,17 @@ function sourceFor(sourceId: string | undefined) {
 }
 
 export function App() {
+  const [language, setLanguage] = useState<Language>("ru");
   const [activeModule, setActiveModule] = useState<SitePage>("home");
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title =
+      language === "ru"
+        ? "HFC — HypoFracCalc"
+        : "HFC — HypoFracCalc";
+  }, [language]);
+
   const availableEndpoints = useMemo(
     () =>
       endpoints
@@ -88,17 +77,35 @@ export function App() {
     const d = Number(dosePerFraction);
 
     if (!Number.isInteger(n) || n <= 0) {
-      return { error: "Число фракций должно быть положительным целым числом." };
+      return {
+        error: tx(
+          language,
+          "Число фракций должно быть положительным целым числом.",
+          "The number of fractions must be a positive integer.",
+        ),
+      };
     }
     if (!Number.isFinite(d) || d <= 0) {
-      return { error: "Доза за фракцию должна быть больше 0 Гр." };
+      return {
+        error: tx(
+          language,
+          "Доза за фракцию должна быть больше 0 Гр.",
+          "Dose per fraction must be greater than 0 Gy.",
+        ),
+      };
     }
 
     try {
       if (parameterMode === "manual") {
         const manual = Number(manualAlphaBeta);
         if (!Number.isFinite(manual) || manual <= 0) {
-          return { error: "Пользовательское α/β должно быть больше 0 Гр." };
+          return {
+            error: tx(
+              language,
+              "Пользовательское α/β должно быть больше 0 Гр.",
+              "User-specified α/β must be greater than 0 Gy.",
+            ),
+          };
         }
 
         return {
@@ -118,8 +125,11 @@ export function App() {
 
       if (!recordId) {
         return {
-          error:
+          error: tx(
+            language,
             "Для этого endpoint нет автоматического preferred-значения. Выберите опубликованную оценку или введите своё α/β.",
+            "This endpoint has no automatic preferred value. Select a published estimate or enter a custom α/β.",
+          ),
         };
       }
 
@@ -138,7 +148,11 @@ export function App() {
         error:
           error instanceof Error
             ? error.message
-            : "Не удалось выполнить расчёт.",
+            : tx(
+                language,
+                "Не удалось выполнить расчёт.",
+                "The calculation could not be completed.",
+              ),
       };
     }
   }, [
@@ -148,6 +162,7 @@ export function App() {
     parameterMode,
     recordId,
     manualAlphaBeta,
+    language,
   ]);
 
   const result = "result" in calculation ? calculation.result : undefined;
@@ -170,6 +185,8 @@ export function App() {
     return [...map.entries()];
   }, [availableEndpoints]);
 
+  const gy = language === "ru" ? "Гр" : "Gy";
+
   return (
     <div className="app-shell">
       <header className="topbar site-topbar">
@@ -183,12 +200,41 @@ export function App() {
             <div className="brand-mark">HFC</div>
             <div>
               <h1>HypoFracCalc</h1>
-              <p>Evidence-traceable photon radiobiology</p>
+              <p>
+                {tx(
+                  language,
+                  "Радиобиология фотонной ДЛТ с отслеживаемой доказательной базой",
+                  "Evidence-traceable photon radiobiology",
+                )}
+              </p>
             </div>
           </div>
         </button>
 
         <div className="topbar-actions">
+          <div
+            className="language-switch"
+            role="group"
+            aria-label={tx(language, "Язык", "Language")}
+          >
+            <button
+              type="button"
+              className={language === "ru" ? "active" : ""}
+              onClick={() => setLanguage("ru")}
+              aria-pressed={language === "ru"}
+            >
+              RU
+            </button>
+            <button
+              type="button"
+              className={language === "en" ? "active" : ""}
+              onClick={() => setLanguage("en")}
+              aria-pressed={language === "en"}
+            >
+              EN
+            </button>
+          </div>
+
           <div className="dataset-chip">
             Photon EBRT · {evidenceManifest.datasetVersion} ·{" "}
             {evidenceManifest.releaseStatus}
@@ -204,13 +250,16 @@ export function App() {
         </div>
       </header>
 
-      <nav className="module-nav site-nav" aria-label="Разделы HFC">
+      <nav
+        className="module-nav site-nav"
+        aria-label={tx(language, "Разделы HFC", "HFC sections")}
+      >
         <button
           className={`module ${activeModule === "home" ? "active" : ""}`}
           type="button"
           onClick={() => setActiveModule("home")}
         >
-          Главная
+          {tx(language, "Главная", "Home")}
         </button>
         <button
           className={`module ${activeModule === "quick" ? "active" : ""}`}
@@ -224,21 +273,21 @@ export function App() {
           type="button"
           onClick={() => setActiveModule("compare")}
         >
-          Compare regimens
+          Compare Regimens
         </button>
         <button
           className={`module ${activeModule === "gap" ? "active" : ""}`}
           type="button"
           onClick={() => setActiveModule("gap")}
         >
-          Treatment gap
+          Treatment Gap
         </button>
         <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
           type="button"
           onClick={() => setActiveModule("methodology")}
         >
-          Методология
+          {tx(language, "Методология", "Methodology")}
         </button>
         <button className="module" type="button" disabled>
           Reirradiation
@@ -246,355 +295,537 @@ export function App() {
       </nav>
 
       {activeModule === "home" ? (
-        <SiteHome onNavigate={setActiveModule} />
+        <SiteHome language={language} onNavigate={setActiveModule} />
       ) : activeModule === "quick" ? (
-      <main className="workspace">
-        <section className="panel input-panel">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">1 · endpoint</span>
-              <h2>Что именно мы моделируем?</h2>
+        <main className="workspace">
+          <section className="panel input-panel">
+            <div className="section-heading">
+              <div>
+                <span className="eyebrow">1 · endpoint</span>
+                <h2>
+                  {tx(
+                    language,
+                    "Что именно мы моделируем?",
+                    "What are we modelling?",
+                  )}
+                </h2>
+              </div>
             </div>
-          </div>
 
-          <label className="field">
-            <span>Клинический endpoint</span>
-            <select
-              value={endpointId}
-              onChange={(event) => changeEndpoint(event.target.value)}
-            >
-              {grouped.map(([organ, items]) => (
-                <optgroup key={organ} label={organLabelRu(organ)}>
-                  {items.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {endpointLabelRu(item.id, item.endpoint)}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </label>
-
-          <div className="endpoint-summary">
-            <strong>{organLabelRu(endpoint?.organ ?? "")}</strong>
-            <span>
-              {endpointLabelRu(endpointId, endpoint?.endpoint ?? endpointId)}
-            </span>
-          </div>
-
-          <div className="section-divider" />
-
-          <div className="section-heading compact">
-            <div>
-              <span className="eyebrow">2 · α/β</span>
-              <h2>Параметр фракционной чувствительности</h2>
-            </div>
-          </div>
-
-          <div className="segmented" role="group" aria-label="Источник α/β">
-            <button
-              type="button"
-              className={parameterMode === "evidence" ? "selected" : ""}
-              onClick={() => setParameterMode("evidence")}
-            >
-              Из evidence database
-            </button>
-            <button
-              type="button"
-              className={parameterMode === "manual" ? "selected" : ""}
-              onClick={() => setParameterMode("manual")}
-            >
-              Своё значение
-            </button>
-          </div>
-
-          {parameterMode === "evidence" ? (
             <label className="field">
-              <span>Опубликованная оценка</span>
+              <span>
+                {tx(language, "Клинический endpoint", "Clinical endpoint")}
+              </span>
               <select
-                value={recordId}
-                onChange={(event) => setRecordId(event.target.value)}
+                value={endpointId}
+                onChange={(event) => changeEndpoint(event.target.value)}
               >
-                <option value="">— выбрать оценку —</option>
-                {endpointEstimates.map((estimate) => {
-                  const preferred =
-                    estimate.status === "preferred" &&
-                    estimate.defaultEligible;
-                  return (
-                    <option key={estimate.id} value={estimate.id}>
-                      {formatNumber(estimate.valueGy, 2)} Гр
-                      {preferred ? " · preferred" : " · alternative"} ·{" "}
-                      {supportLabel(estimate.support)}
-                    </option>
-                  );
-                })}
+                {grouped.map(([organ, items]) => (
+                  <optgroup
+                    key={organ}
+                    label={organLabel(language, organ)}
+                  >
+                    {items.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {endpointLabel(
+                          language,
+                          item.id,
+                          item.endpoint,
+                        )}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
               </select>
             </label>
-          ) : (
-            <label className="field">
-              <span>Пользовательское α/β, Гр</span>
-              <input
-                type="number"
-                min="0.01"
-                step="0.1"
-                value={manualAlphaBeta}
-                onChange={(event) => setManualAlphaBeta(event.target.value)}
-              />
-              <small>
-                Manual override не изменяет evidence database и будет отмечен
-                в отчёте.
-              </small>
-            </label>
-          )}
 
-          {parameterMode === "evidence" && selectedEstimate ? (
-            <div className="evidence-card">
-              <div className="evidence-card-top">
-                <div>
-                  <span className="evidence-value">
-                    α/β = {formatNumber(selectedEstimate.valueGy, 2)} Гр
-                  </span>
-                  {selectedEstimate.ci95 ? (
-                    <span className="ci">
-                      95% CI: {formatCi(selectedEstimate.ci95)}
-                    </span>
-                  ) : (
-                    <span className="ci">95% CI: не опубликован</span>
+            <div className="endpoint-summary">
+              <strong>{organLabel(language, endpoint?.organ ?? "")}</strong>
+              <span>
+                {endpointLabel(
+                  language,
+                  endpointId,
+                  endpoint?.endpoint ?? endpointId,
+                )}
+              </span>
+            </div>
+
+            <div className="section-divider" />
+
+            <div className="section-heading compact">
+              <div>
+                <span className="eyebrow">2 · α/β</span>
+                <h2>
+                  {tx(
+                    language,
+                    "Параметр фракционной чувствительности",
+                    "Fractionation-sensitivity parameter",
                   )}
-                </div>
-                <span className={`support-badge ${selectedEstimate.support}`}>
-                  {supportLabel(selectedEstimate.support)}
+                </h2>
+              </div>
+            </div>
+
+            <div
+              className="segmented"
+              role="group"
+              aria-label={tx(language, "Источник α/β", "α/β source")}
+            >
+              <button
+                type="button"
+                className={parameterMode === "evidence" ? "selected" : ""}
+                onClick={() => setParameterMode("evidence")}
+              >
+                {tx(
+                  language,
+                  "Из evidence database",
+                  "Evidence database",
+                )}
+              </button>
+              <button
+                type="button"
+                className={parameterMode === "manual" ? "selected" : ""}
+                onClick={() => setParameterMode("manual")}
+              >
+                {tx(language, "Своё значение", "Custom value")}
+              </button>
+            </div>
+
+            {parameterMode === "evidence" ? (
+              <label className="field">
+                <span>
+                  {tx(
+                    language,
+                    "Опубликованная оценка",
+                    "Published estimate",
+                  )}
                 </span>
-              </div>
-
-              {selectedSource ? (
-                <div className="source-block">
-                  <strong>Источник</strong>
-                  <p>{selectedSource.citation}</p>
-                  <div className="source-meta">
-                    {selectedSource.doi ? (
-                      <a
-                        href={`https://doi.org/${selectedSource.doi}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        DOI {selectedSource.doi}
-                      </a>
-                    ) : null}
-                    <span>{selectedSource.year}</span>
-                  </div>
-                </div>
-              ) : null}
-
-              {selectedEstimate.supportReason ? (
-                <p className="support-reason">
-                  {selectedEstimate.supportReason}
-                </p>
-              ) : null}
-
-              {selectedEstimate.applicability?.notes?.length ? (
-                <details>
-                  <summary>Applicability / caveats</summary>
-                  <ul>
-                    {selectedEstimate.applicability.notes.map((note) => (
-                      <li key={note}>{note}</li>
-                    ))}
-                  </ul>
-                </details>
-              ) : null}
-            </div>
-          ) : null}
-
-          <div className="section-divider" />
-
-          <div className="section-heading compact">
-            <div>
-              <span className="eyebrow">3 · fractionation</span>
-              <h2>Схема облучения</h2>
-            </div>
-          </div>
-
-          <div className="two-columns">
-            <label className="field">
-              <span>Число фракций, n</span>
-              <input
-                type="number"
-                min="1"
-                step="1"
-                value={fractions}
-                onChange={(event) => setFractions(event.target.value)}
-              />
-            </label>
-
-            <label className="field">
-              <span>Доза / фракцию, Гр</span>
-              <input
-                type="number"
-                min="0.01"
-                step="0.01"
-                value={dosePerFraction}
-                onChange={(event) => setDosePerFraction(event.target.value)}
-              />
-            </label>
-          </div>
-        </section>
-
-        <section className="panel results-panel">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">result</span>
-              <h2>BED / EQD₂</h2>
-            </div>
-          </div>
-
-          {error ? (
-            <div className="empty-state">
-              <strong>Нужны дополнительные данные</strong>
-              <p>{error}</p>
-            </div>
-          ) : result ? (
-            <>
-              <div className="metric-grid">
-                <div className="metric">
-                  <span>Физическая доза</span>
-                  <strong>{formatNumber(result.totalDoseGy)} Гр</strong>
-                  <small>
-                    {result.schedule.fractions} ×{" "}
-                    {formatNumber(result.schedule.dosePerFractionGy)} Гр
-                  </small>
-                </div>
-
-                <div className="metric primary">
-                  <span>EQD₂</span>
-                  <strong>{formatNumber(result.eqd2Gy)} Гр</strong>
-                  <small>α/β = {formatNumber(result.alphaBetaGy)} Гр</small>
-                </div>
-
-                <div className="metric">
-                  <span>BED</span>
-                  <strong>{formatNumber(result.bedGy)} Гр</strong>
-                  <small>LQ model</small>
-                </div>
-              </div>
-
-              {result.alphaBetaSensitivity ? (
-                <div className="sensitivity-card">
-                  <div>
-                    <span className="eyebrow">α/β sensitivity</span>
-                    <strong>
-                      CI α/β:{" "}
-                      {formatNumber(
-                        result.alphaBetaSensitivity.alphaBetaCi95Gy.low,
-                        1,
-                      )}
-                      –
-                      {formatNumber(
-                        result.alphaBetaSensitivity.alphaBetaCi95Gy.high,
-                        1,
-                      )}{" "}
-                      Гр
-                    </strong>
-                  </div>
-
-                  <div className="sensitivity-values">
-                    <div>
-                      <span>EQD₂ range</span>
-                      <strong>
-                        {formatNumber(
-                          result.alphaBetaSensitivity.eqd2Gy.low,
-                        )}
-                        –
-                        {formatNumber(
-                          result.alphaBetaSensitivity.eqd2Gy.high,
+                <select
+                  value={recordId}
+                  onChange={(event) => setRecordId(event.target.value)}
+                >
+                  <option value="">
+                    {tx(
+                      language,
+                      "— выбрать оценку —",
+                      "— select estimate —",
+                    )}
+                  </option>
+                  {endpointEstimates.map((estimate) => {
+                    const preferred =
+                      estimate.status === "preferred" &&
+                      estimate.defaultEligible;
+                    return (
+                      <option key={estimate.id} value={estimate.id}>
+                        {formatUiNumber(
+                          language,
+                          estimate.valueGy,
+                          2,
                         )}{" "}
-                        Гр
-                      </strong>
-                    </div>
-                    <div>
-                      <span>BED range</span>
-                      <strong>
-                        {formatNumber(
-                          result.alphaBetaSensitivity.bedGy.low,
+                        {gy}
+                        {preferred
+                          ? " · preferred"
+                          : " · alternative"}{" "}
+                        · {supportLabel(language, estimate.support)}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+            ) : (
+              <label className="field">
+                <span>
+                  {tx(
+                    language,
+                    "Пользовательское α/β, Гр",
+                    "Custom α/β, Gy",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.1"
+                  value={manualAlphaBeta}
+                  onChange={(event) =>
+                    setManualAlphaBeta(event.target.value)
+                  }
+                />
+                <small>
+                  {tx(
+                    language,
+                    "Manual override не изменяет evidence database и будет отмечен в отчёте.",
+                    "A manual override does not modify the evidence database and will be recorded in the audit.",
+                  )}
+                </small>
+              </label>
+            )}
+
+            {parameterMode === "evidence" && selectedEstimate ? (
+              <div className="evidence-card">
+                <div className="evidence-card-top">
+                  <div>
+                    <span className="evidence-value">
+                      α/β ={" "}
+                      {formatUiNumber(
+                        language,
+                        selectedEstimate.valueGy,
+                        2,
+                      )}{" "}
+                      {gy}
+                    </span>
+                    {selectedEstimate.ci95 ? (
+                      <span className="ci">
+                        95% CI:{" "}
+                        {formatUiNumber(
+                          language,
+                          selectedEstimate.ci95.low,
+                          1,
                         )}
                         –
-                        {result.alphaBetaSensitivity.bedGy.high === null
-                          ? "∞"
-                          : formatNumber(
-                              result.alphaBetaSensitivity.bedGy.high,
-                            )}{" "}
-                        Гр
-                      </strong>
+                        {formatUiNumber(
+                          language,
+                          selectedEstimate.ci95.high,
+                          1,
+                        )}{" "}
+                        {gy}
+                      </span>
+                    ) : (
+                      <span className="ci">
+                        95% CI:{" "}
+                        {tx(
+                          language,
+                          "не опубликован",
+                          "not reported",
+                        )}
+                      </span>
+                    )}
+                  </div>
+                  <span
+                    className={`support-badge ${selectedEstimate.support}`}
+                  >
+                    {supportLabel(
+                      language,
+                      selectedEstimate.support,
+                    )}
+                  </span>
+                </div>
+
+                {selectedSource ? (
+                  <div className="source-block">
+                    <strong>
+                      {tx(language, "Источник", "Source")}
+                    </strong>
+                    <p>{selectedSource.citation}</p>
+                    <div className="source-meta">
+                      {selectedSource.doi ? (
+                        <a
+                          href={`https://doi.org/${selectedSource.doi}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          DOI {selectedSource.doi}
+                        </a>
+                      ) : null}
+                      <span>{selectedSource.year}</span>
                     </div>
                   </div>
+                ) : null}
 
-                  <p>
-                    Это sensitivity envelope только по 95% CI α/β, а не полная
-                    многопараметрическая неопределённость.
+                {selectedEstimate.supportReason ? (
+                  <p className="support-reason">
+                    {selectedEstimate.supportReason}
                   </p>
-                </div>
-              ) : null}
+                ) : null}
 
-              {result.warnings.length ? (
-                <div className="warning-card">
-                  <strong>Предупреждения / ограничения</strong>
-                  <ul>
-                    {result.warnings.map((warning) => (
-                      <li key={warning}>{warning}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : (
-                <div className="ok-card">
-                  Встроенных предупреждений для выбранного расчёта нет.
-                </div>
-              )}
-
-              <div className="audit-preview">
-                <span className="eyebrow">audit preview</span>
-                <dl>
-                  <div>
-                    <dt>Selection</dt>
-                    <dd>
-                      {result.selectionMode === "evidence"
-                        ? "evidence"
-                        : "manual override"}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Parameter record</dt>
-                    <dd>{result.parameterRecordId ?? "user-specified"}</dd>
-                  </div>
-                  <div>
-                    <dt>Source</dt>
-                    <dd>{result.sourceId ?? "manual"}</dd>
-                  </div>
-                </dl>
+                {selectedEstimate.applicability?.notes?.length ? (
+                  <details>
+                    <summary>Applicability / caveats</summary>
+                    <ul>
+                      {selectedEstimate.applicability.notes.map((note) => (
+                        <li key={note}>{note}</li>
+                      ))}
+                    </ul>
+                  </details>
+                ) : null}
               </div>
-            </>
-          ) : null}
+            ) : null}
 
-          <div className="safety-note">
-            <strong>Clinical decision-support only.</strong>
-            <p>
-              HFC не является системой назначения лечения. Результат требует
-              независимой проверки и локальной клинической валидации.
-            </p>
-          </div>
-        </section>
-      </main>
+            <div className="section-divider" />
+
+            <div className="section-heading compact">
+              <div>
+                <span className="eyebrow">3 · fractionation</span>
+                <h2>
+                  {tx(
+                    language,
+                    "Схема облучения",
+                    "Fractionation schedule",
+                  )}
+                </h2>
+              </div>
+            </div>
+
+            <div className="two-columns">
+              <label className="field">
+                <span>
+                  {tx(
+                    language,
+                    "Число фракций, n",
+                    "Number of fractions, n",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="1"
+                  step="1"
+                  value={fractions}
+                  onChange={(event) => setFractions(event.target.value)}
+                />
+              </label>
+
+              <label className="field">
+                <span>
+                  {tx(
+                    language,
+                    "Доза / фракцию, Гр",
+                    "Dose / fraction, Gy",
+                  )}
+                </span>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={dosePerFraction}
+                  onChange={(event) =>
+                    setDosePerFraction(event.target.value)
+                  }
+                />
+              </label>
+            </div>
+          </section>
+
+          <section className="panel results-panel">
+            <div className="section-heading">
+              <div>
+                <span className="eyebrow">result</span>
+                <h2>BED / EQD₂</h2>
+              </div>
+            </div>
+
+            {error ? (
+              <div className="empty-state">
+                <strong>
+                  {tx(
+                    language,
+                    "Нужны дополнительные данные",
+                    "Additional input is required",
+                  )}
+                </strong>
+                <p>{error}</p>
+              </div>
+            ) : result ? (
+              <>
+                <div className="metric-grid">
+                  <div className="metric">
+                    <span>
+                      {tx(
+                        language,
+                        "Физическая доза",
+                        "Physical dose",
+                      )}
+                    </span>
+                    <strong>
+                      {formatUiNumber(language, result.totalDoseGy)}{" "}
+                      {gy}
+                    </strong>
+                    <small>
+                      {result.schedule.fractions} ×{" "}
+                      {formatUiNumber(
+                        language,
+                        result.schedule.dosePerFractionGy,
+                      )}{" "}
+                      {gy}
+                    </small>
+                  </div>
+
+                  <div className="metric primary">
+                    <span>EQD₂</span>
+                    <strong>
+                      {formatUiNumber(language, result.eqd2Gy)} {gy}
+                    </strong>
+                    <small>
+                      α/β ={" "}
+                      {formatUiNumber(language, result.alphaBetaGy)}{" "}
+                      {gy}
+                    </small>
+                  </div>
+
+                  <div className="metric">
+                    <span>BED</span>
+                    <strong>
+                      {formatUiNumber(language, result.bedGy)} {gy}
+                    </strong>
+                    <small>LQ model</small>
+                  </div>
+                </div>
+
+                {result.alphaBetaSensitivity ? (
+                  <div className="sensitivity-card">
+                    <div>
+                      <span className="eyebrow">α/β sensitivity</span>
+                      <strong>
+                        CI α/β:{" "}
+                        {formatUiNumber(
+                          language,
+                          result.alphaBetaSensitivity.alphaBetaCi95Gy
+                            .low,
+                          1,
+                        )}
+                        –
+                        {formatUiNumber(
+                          language,
+                          result.alphaBetaSensitivity.alphaBetaCi95Gy
+                            .high,
+                          1,
+                        )}{" "}
+                        {gy}
+                      </strong>
+                    </div>
+
+                    <div className="sensitivity-values">
+                      <div>
+                        <span>EQD₂ range</span>
+                        <strong>
+                          {formatUiNumber(
+                            language,
+                            result.alphaBetaSensitivity.eqd2Gy.low,
+                          )}
+                          –
+                          {formatUiNumber(
+                            language,
+                            result.alphaBetaSensitivity.eqd2Gy.high,
+                          )}{" "}
+                          {gy}
+                        </strong>
+                      </div>
+                      <div>
+                        <span>BED range</span>
+                        <strong>
+                          {formatUiNumber(
+                            language,
+                            result.alphaBetaSensitivity.bedGy.low,
+                          )}
+                          –
+                          {result.alphaBetaSensitivity.bedGy.high ===
+                          null
+                            ? "∞"
+                            : formatUiNumber(
+                                language,
+                                result.alphaBetaSensitivity.bedGy
+                                  .high,
+                              )}{" "}
+                          {gy}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <p>
+                      {tx(
+                        language,
+                        "Это sensitivity envelope только по 95% CI α/β, а не полная многопараметрическая неопределённость.",
+                        "This is a sensitivity envelope based only on the 95% CI of α/β, not a full multiparameter uncertainty analysis.",
+                      )}
+                    </p>
+                  </div>
+                ) : null}
+
+                {result.warnings.length ? (
+                  <div className="warning-card">
+                    <strong>
+                      {tx(
+                        language,
+                        "Предупреждения / ограничения",
+                        "Warnings / limitations",
+                      )}
+                    </strong>
+                    <ul>
+                      {result.warnings.map((warning) => (
+                        <li key={warning}>
+                          {localizeWarning(language, warning)}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="ok-card">
+                    {tx(
+                      language,
+                      "Встроенных предупреждений для выбранного расчёта нет.",
+                      "No built-in warnings apply to the selected calculation.",
+                    )}
+                  </div>
+                )}
+
+                <div className="audit-preview">
+                  <span className="eyebrow">audit preview</span>
+                  <dl>
+                    <div>
+                      <dt>Selection</dt>
+                      <dd>
+                        {result.selectionMode === "evidence"
+                          ? "evidence"
+                          : "manual override"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Parameter record</dt>
+                      <dd>
+                        {result.parameterRecordId ?? "user-specified"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Source</dt>
+                      <dd>{result.sourceId ?? "manual"}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </>
+            ) : null}
+
+            <div className="safety-note">
+              <strong>
+                {tx(
+                  language,
+                  "Только для clinical decision-support.",
+                  "Clinical decision-support only.",
+                )}
+              </strong>
+              <p>
+                {tx(
+                  language,
+                  "HFC не является системой назначения лечения. Результат требует независимой проверки и локальной клинической валидации.",
+                  "HFC is not a treatment prescription system. Results require independent verification and local clinical validation.",
+                )}
+              </p>
+            </div>
+          </section>
+        </main>
       ) : activeModule === "compare" ? (
-        <CompareRegimensView />
+        <CompareRegimensView language={language} />
       ) : activeModule === "gap" ? (
-        <TreatmentGapView />
+        <TreatmentGapView language={language} />
       ) : (
-        <MethodologyView />
+        <MethodologyView language={language} />
       )}
 
       <footer className="site-footer">
         <div>
           <strong>HFC · HypoFracCalc</strong>
           <span>
-            Transparent clinical decision-support for photon radiobiology.
+            {tx(
+              language,
+              "Прозрачный clinical decision-support для радиобиологии фотонной ДЛТ.",
+              "Transparent clinical decision-support for photon radiobiology.",
+            )}
           </span>
         </div>
         <div>
@@ -604,7 +835,11 @@ export function App() {
             type="button"
             onClick={() => setActiveModule("methodology")}
           >
-            Evidence & methodology
+            {tx(
+              language,
+              "Evidence и методология",
+              "Evidence & methodology",
+            )}
           </button>
           <span>·</span>
           <a
@@ -612,7 +847,7 @@ export function App() {
             target="_blank"
             rel="noreferrer"
           >
-            Source
+            {tx(language, "Исходный код", "Source")}
           </a>
         </div>
       </footer>
