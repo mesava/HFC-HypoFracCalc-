@@ -62,4 +62,113 @@ export const sources = [
     notes:
       "Ten-year FAST-Forward analysis; Appendix Table D5 reports alpha/beta estimates for ipsilateral breast recurrence and a composite clinician-reported breast/chest-wall normal-tissue endpoint.",
   },
+  {
+    id: "bcr-2025-ch10-tables",
+    citation:
+      "Bentzen SM, Joiner MC. The linear-quadratic approach in clinical practice. In: Basic Clinical Radiobiology. 6th ed. 2025. Chapter 10.",
+    year: 2025,
+    doi: "10.1201/9781003278337-10",
+    kind: "textbook",
+    notes:
+      "Secondary evidence source for Tables 10.1-10.3. Historical estimates sourced through this record remain explicitly identified as textbook-summary evidence unless the originating paper is separately curated.",
+  },
+  {
+    id: "stuschke-thames-1999-head-neck",
+    citation:
+      "Stuschke M, Thames HD. Fractionation sensitivities and dose-control relations of head and neck carcinomas: analysis of the randomized hyperfractionation trials. Radiother Oncol. 1999;51(2):113-121.",
+    year: 1999,
+    doi: "10.1016/S0167-8140(99)00042-0",
+    pmid: "10435801",
+    kind: "meta-analysis",
+    notes:
+      "Joint analysis of five randomized hyperfractionation trials; reports tumour alpha/beta 10.5 Gy (6.5-29) and late-effects estimate 4.0 Gy (3.3-5.0).",
+  },
+  {
+    id: "stuschke-pottgen-2010-nsclc",
+    citation:
+      "Stuschke M, Pöttgen C. Altered fractionation schemes in radiotherapy. Front Radiat Ther Oncol. 2010;42:150-156.",
+    year: 2010,
+    doi: "10.1159/000262470",
+    pmid: "19955801",
+    kind: "review",
+    notes:
+      "Clinical dose-effect comparison of conventional fractionation and SBRT for stage I NSCLC; reports apparent alpha/beta 8.2 Gy (7.0-9.4).",
+  },
+  {
+    id: "geh-2006-esophagus",
+    citation:
+      "Geh JI, Bond SJ, Bentzen SM, Glynne-Jones R. Systematic overview of preoperative (neoadjuvant) chemoradiotherapy trials in oesophageal cancer: evidence of a radiation and chemotherapy dose response. Radiother Oncol. 2006;78(3):236-244.",
+    year: 2006,
+    doi: "10.1016/j.radonc.2006.01.009",
+    pmid: "16545878",
+    kind: "systematic-review",
+    notes:
+      "Twenty-six preoperative chemoradiotherapy trials (1335 patients); alpha/beta 4.9 Gy (1.5-17) for pathologic complete response and time-loss estimate 0.59 Gy/day (0.18-0.99).",
+  },
+  {
+    id: "bentzen-skoczylas-bernier-2000-lung",
+    citation:
+      "Bentzen SM, Skoczylas JZ, Bernier J. Quantitative clinical radiobiology of early and late lung reactions. Int J Radiat Biol. 2000;76(4):453-462.",
+    year: 2000,
+    doi: "10.1080/095530000138448",
+    pmid: "10815624",
+    kind: "review",
+    notes:
+      "Clinical-data synthesis used in Basic Clinical Radiobiology for lung pneumonitis alpha/beta and Dprolif estimates.",
+  },
+  {
+    id: "dubray-1995-lung-fibrosis",
+    citation:
+      "Dubray B, Henry-Amar M, Meerwaldt JH, et al. Radiation-induced lung damage after thoracic irradiation for Hodgkin's disease: the role of fractionation. Radiother Oncol. 1995;36(3):211-217.",
+    year: 1995,
+    doi: "10.1016/0167-8140(95)01606-H",
+    pmid: "8532908",
+    kind: "cohort",
+    notes:
+      "Clinical fractionation analysis using radiological lung changes after mantle irradiation.",
+  },
+  {
+    id: "denham-1995-oropharyngeal-mucosa",
+    citation:
+      "Denham JW, Hamilton CS, Simpson SA, et al. Acute reaction parameters for human oropharyngeal mucosa. Radiother Oncol. 1995;35(2):129-137.",
+    year: 1995,
+    doi: "10.1016/0167-8140(95)01545-R",
+    pmid: "7569021",
+    kind: "modeling-study",
+    notes:
+      "Clinical study of acute oropharyngeal mucosal reactions and radiobiological parameters.",
+  },
+  {
+    id: "dische-1999-cervix-late-bowel",
+    citation:
+      "Dische S, Saunders MI, Sealy R, et al. Carcinoma of the cervix and the use of hyperbaric oxygen with radiotherapy: a report of a randomised controlled trial. Radiother Oncol. 1999;53(2):93-98.",
+    year: 1999,
+    doi: "10.1016/S0167-8140(99)00124-3",
+    pmid: "10665784",
+    kind: "randomized-trial",
+    notes:
+      "Randomized cervix trial; late intestinal morbidity analysis reported alpha/beta 4.3 Gy.",
+  },
+  {
+    id: "jin-2015-spinal-cord",
+    citation:
+      "Jin JY, Huang Y, Brown SL, et al. Radiation dose-fractionation effects in spinal cord: comparison of animal and human data. J Radiat Oncol. 2015;4(3):225-233.",
+    year: 2015,
+    doi: "10.1007/s13566-015-0212-9",
+    pmid: "26366252",
+    kind: "meta-analysis",
+    notes:
+      "Pooled published animal and patient data; patient-data alpha/beta estimate 3.7 Gy (2.2-8.2).",
+  },
+  {
+    id: "schultheiss-2008-spinal-cord",
+    citation:
+      "Schultheiss TE. The radiation dose-response of the human spinal cord. Int J Radiat Oncol Biol Phys. 2008;71(5):1455-1459.",
+    year: 2008,
+    doi: "10.1016/j.ijrobp.2007.11.075",
+    pmid: "18243570",
+    kind: "modeling-study",
+    notes:
+      "Human cervical cord dose-response analysis; alpha/beta estimate 0.87 Gy. The paper cautions against uncritical application to hyperfractionation.",
+  },
 ] satisfies SourceReference[];
