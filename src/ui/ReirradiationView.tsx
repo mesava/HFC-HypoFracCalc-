@@ -19,6 +19,7 @@ import {
   evaluateEvidenceReirradiationScenario,
   solveEvidenceRemainingEqd2Budget,
 } from "../workflows/evidenceReirradiation.js";
+import { assessHytecSpinalCordReirradiation } from "../workflows/reirradiationGuidance.js";
 import {
   estimateChoiceLabel,
   localizeWarning,
@@ -201,6 +202,10 @@ export function ReirradiationView({
     );
 
   const [cumulativeLimit, setCumulativeLimit] = useState("");
+  const [
+    confirmThecalSacDmax,
+    setConfirmThecalSacDmax,
+  ] = useState(false);
 
   const endpoint = endpoints.find(
     (item) => item.id === endpointId,
@@ -475,6 +480,7 @@ export function ReirradiationView({
       return {
         result,
         budget,
+        courses: [...parsedPrevious, current],
       };
     } catch (error) {
       return {
@@ -513,6 +519,26 @@ export function ReirradiationView({
     "result" in calculation ? calculation.budget : undefined;
   const error =
     "error" in calculation ? calculation.error : undefined;
+  const parsedCourses =
+    "result" in calculation ? calculation.courses : undefined;
+
+  const hytecSpinalGuidance = useMemo(() => {
+    if (
+      endpointId !== "spinal-cord-radiation-myelopathy" ||
+      !parsedCourses
+    ) {
+      return undefined;
+    }
+
+    return assessHytecSpinalCordReirradiation(
+      parsedCourses,
+      confirmThecalSacDmax,
+    );
+  }, [
+    endpointId,
+    parsedCourses,
+    confirmThecalSacDmax,
+  ]);
 
   return (
     <main className="reirradiation-page">
