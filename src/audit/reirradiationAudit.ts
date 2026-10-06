@@ -1,7 +1,5 @@
 import {
   endpoints,
-  evidenceManifest,
-  sources,
 } from "../data/evidence/v0.1/index.js";
 import type { ReirradiationAuditRecord } from "../domain/audit.js";
 import type {
@@ -14,9 +12,10 @@ import type {
   EvidenceRemainingDoseBudgetResult,
 } from "../workflows/evidenceReirradiation.js";
 import {
-  HFC_AUDIT_SCHEMA_VERSION,
-  HFC_ENGINE_VERSION,
-} from "../version.js";
+  buildAuditBase,
+  resolveAuditSources,
+  serializeAuditRecord,
+} from "./common.js";
 
 const REIRRADIATION_METHOD_SOURCE_IDS = [
   "andratschke-2022-estro-eortc-reirradiation",
@@ -53,21 +52,10 @@ function uniqueSourceIds(
   return [...ids];
 }
 
-function assertIsoTimestamp(value: string): void {
-  if (
-    value.trim() === "" ||
-    Number.isNaN(Date.parse(value))
-  ) {
-    throw new Error(
-      "generatedAtIso must be a valid ISO date-time string.",
-    );
-  }
-}
-
 export function buildReirradiationAuditRecord(
   input: BuildReirradiationAuditInput,
 ): ReirradiationAuditRecord {
-  assertIsoTimestamp(input.generatedAtIso);
+  const base = buildAuditBase(input.generatedAtIso);
 
   if (input.result.endpointId !== input.endpointId) {
     throw new Error(
@@ -84,30 +72,13 @@ export function buildReirradiationAuditRecord(
     );
   }
 
-  const sourceIds = uniqueSourceIds(input);
-  const auditSources = sourceIds.map((sourceId) => {
-    const source = sources.find(
-      (candidate) => candidate.id === sourceId,
-    );
-    if (!source) {
-      throw new Error(
-        `Audit source is missing from the evidence registry: ${sourceId}`,
-      );
-    }
-    return source;
-  });
+  const auditSources = resolveAuditSources(
+    uniqueSourceIds(input),
+  );
 
   return {
-    schemaVersion: HFC_AUDIT_SCHEMA_VERSION,
+    ...base,
     module: "reirradiation",
-    engineVersion: HFC_ENGINE_VERSION,
-    generatedAtIso: input.generatedAtIso,
-    evidence: {
-      datasetVersion: evidenceManifest.datasetVersion,
-      evidenceCutoffDate:
-        evidenceManifest.evidenceCutoffDate,
-      releaseStatus: evidenceManifest.releaseStatus,
-    },
     endpoint: {
       id: endpoint.id,
       organ: endpoint.organ,
@@ -174,8 +145,4 @@ export function buildReirradiationAuditRecord(
   };
 }
 
-export function serializeAuditRecord(
-  record: ReirradiationAuditRecord,
-): string {
-  return JSON.stringify(record, null, 2);
-}
+export { serializeAuditRecord } from "./common.js";
