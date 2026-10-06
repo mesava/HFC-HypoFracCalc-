@@ -27,6 +27,7 @@ import {
   resolveAuditSources,
   type AuditEndpointIdentity,
 } from "./common.js";
+import type { TreatmentGapOarAuditEntry } from "./treatmentGapOarAudit.js";
 
 export interface TreatmentGapAuditInput {
   generatedAtIso: string;
@@ -53,6 +54,7 @@ export interface TreatmentGapAuditInput {
     deliveredFractionsBeforeGap: number;
     gapDays: number;
   };
+  oars?: TreatmentGapOarAuditEntry[];
 }
 
 export interface TreatmentGapAuditRecord {
@@ -92,6 +94,7 @@ export interface TreatmentGapAuditRecord {
       | DoseCompensationStrategyResult
       | { error: string };
   };
+  oars: TreatmentGapOarAuditEntry[];
   sources: SourceReference[];
   safetyStatement: string;
 }
@@ -162,11 +165,13 @@ export function buildTreatmentGapAuditRecord(
     );
   }
 
+  const oars = input.oars ?? [];
   const sourceIds = [
     "rcr-2019-timely-delivery",
     "bcr-2025-ch10-tables",
     alphaSourceId(input.alphaSelection),
     repopulationSourceId(input.repopulationSelection),
+    ...oars.flatMap((oar) => oar.sourceIds),
   ];
 
   return {
@@ -205,6 +210,7 @@ export function buildTreatmentGapAuditRecord(
       bid: input.bid,
       doseCompensation: input.doseCompensation,
     },
+    oars,
     sources: resolveAuditSources(sourceIds),
     safetyStatement:
       "This audit record documents treatment-interruption radiobiology and compensation scenarios. It does not establish normal-tissue safety, clinical acceptability, or a treatment prescription.",
