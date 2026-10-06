@@ -681,3 +681,97 @@ Thames et al. 2010 подтверждают **0,24 Гр/сут** как dose equ
 7. prostate 0,24 [0,03–0,44] — точное значение подтверждено, но полный primary sign-off ДИ/контекста ещё не закрыт.
 
 Ни одна из этих семи записей не является automatic default.
+
+
+## Пакет 7 / v0.10 — финальная триаж-проверка временных параметров
+
+Цель пакета — закрыть последние семь записей без искусственного «дотягивания» вторичных чисел до статуса первично подтверждённых.
+
+### CNS repair half-times: secondary bounds retired
+
+В BCR сохранялись:
+- spinal cord myelopathy: **T½ >5 ч**;
+- temporal-lobe necrosis: **T½ >4 ч**.
+
+Для spinal cord указанный CHART primary record описывает клиническую миелопатию, но доступная первичная запись не воспроизводит точный numerical lower bound >5 h. Более поздняя клиническая modelling study Bender 2012 получила **4,1 ч (range 0–8 ч)** для spinal-cord myelopathy.
+
+Для temporal lobe Lee et al. показывают выраженную зависимость от fraction size и incomplete repair, но доступный primary record не даёт точного bound >4 h. Bender 2012 для brain necrosis получил **38,1 ч (range 6,9–76 ч)**, подчёркивая крайне широкую неопределённость CNS repair kinetics.
+
+Решение HFC:
+- обе старые BCR bound-записи получают `status: deprecated`;
+- они остаются в dataset только для воспроизводимости старых audit records;
+- новые пользовательские выборы их не показывают;
+- HFC не предлагает вместо них новый автоматический T½.
+
+### Broad H&N 0,8 Gy/day / Tk 21 d
+
+Roberts et al. 1994 непосредственно сообщают:
+- 0,8 Gy/day;
+- 95% CI 0,5–1,1;
+- best Tk 21 d, 95% CI 0–27 d.
+
+Но cohort — **node-negative laryngeal cancer**, а не универсальный HNSCC endpoint.
+
+Решение:
+- broad `dprolif-hn-various-bcr2025` deprecated для новых выборов;
+- сохранён для audit replay;
+- добавлена отдельная larynx-specific запись `dprolif-larynx-roberts1994`;
+- новая запись explicit-only и не становится broad H&N default.
+
+### Pooled H&N 0,64 [0,42–0,86] Gy/day
+
+Hendry et al. 1996 — modelled comparison / synthesis клинических данных для компенсации missed treatment days.
+
+Решение:
+- запись сохраняется;
+- provenance переведён на `hendry-1996-missed-days`;
+- evidence semantics: **modelled pooled synthesis**, не единичная prospectively measured constant;
+- `support: limited`, explicit-only.
+
+### Larynx 0,74 [0,30–1,20] Gy/day
+
+BCR связывает эту цифру с Robertson et al. 1998. При проверке идентифицированных Robertson 1998 analyses точная пара 0,74 [0,30–1,20] не воспроизводится. Four-centre analysis Robertson et al. сообщает LQ time factor **0,89 Gy/day (95% CI 0,35–1,43)**.
+
+Решение:
+- HFC **не заменяет** 0,74 на 0,89 внутри старого record;
+- старый BCR record становится `deprecated`;
+- для активной larynx evidence используется напрямую подтверждённый Roberts 1994 record.
+
+### Lung pneumonitis 0,54 Gy/day
+
+Bentzen, Skoczylas & Bernier 2000 напрямую заключают, что для pneumonitis существует значимый time factor и recovered dose/day находится около 0,5 Gy/day. QUANTEC позднее приводит overall best estimate **0,54 ± 0,21 Gy/day**, где ±0,21 — standard error.
+
+Старая HFC запись хранила `ci95 = 0,13–0,95`, фактически полученный как 0,54 ± 1,96×0,21, но это не был source-reported 95% CI.
+
+Решение:
+- point estimate 0,54 сохраняется;
+- машинное поле `ci95` удалено;
+- значение explicit-only;
+- источник классифицирован как literature synthesis/systematic review.
+
+### Prostate 0,24 Gy/day
+
+Thames et al. 2010 primary abstract напрямую подтверждает:
+- significant overall-treatment-time effect у low/intermediate-risk patients при ≥70 Gy;
+- dose equivalent of proliferation **0,24 Gy/day**.
+
+Поздние peer-reviewed reviews воспроизводят CI 0,03–0,44 Gy/day, но доступный primary abstract не показывает этот CI.
+
+Решение:
+- point estimate 0,24 сохраняется;
+- `ci95` временно удалён из machine-readable evidence;
+- 52 days остаются только analytical OTT cut point, не Tk;
+- запись explicit-only.
+
+## Итог полного инвентарного аудита
+
+После v0.10:
+- текущих evidence records: **80**;
+- active records: **76**;
+- deprecated records retained for replay: **4**;
+- records with state containing `pending`: **0**;
+- automatic defaults среди deprecated/limited unresolved records: **0**.
+
+Это закрывает **этап A — инвентарную научную валидацию существующей evidence-базы** на уровне текущего draft dataset.
+
+Однако `releaseStatus` остаётся `draft`. Следующий gate — полноценная пользовательская приёмка v0.1 и browser-level regression testing, а не добавление новых клинических коэффициентов.
