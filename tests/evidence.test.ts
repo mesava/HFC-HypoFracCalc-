@@ -170,7 +170,7 @@ describe("preferred alpha/beta selections", () => {
     expect(record?.ci95).toEqual({ level: 0.95, low: 1.6, high: 2.6 });
   });
 
-  it("selects evidence-based HN, lung and mucosal defaults", () => {
+  it("selects validated HN and mucosal defaults but requires explicit NSCLC selection", () => {
     expect(
       getPreferredAlphaBetaEstimate("head-neck-tumour-control")?.valueGy,
     ).toBe(10.5);
@@ -178,8 +178,8 @@ describe("preferred alpha/beta selections", () => {
       getPreferredAlphaBetaEstimate("head-neck-various-late-effects")?.valueGy,
     ).toBe(4.0);
     expect(
-      getPreferredAlphaBetaEstimate("nsclc-stage-i-local-control")?.valueGy,
-    ).toBe(8.2);
+      getPreferredAlphaBetaEstimate("nsclc-stage-i-local-control"),
+    ).toBeUndefined();
     expect(
       getPreferredAlphaBetaEstimate("oral-mucosa-mucositis")?.valueGy,
     ).toBe(9.3);
