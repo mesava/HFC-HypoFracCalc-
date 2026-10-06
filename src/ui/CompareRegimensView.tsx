@@ -652,7 +652,7 @@ export function CompareRegimensView({
             <EndpointParameterEditor
               key={oar.key}
               language={language}
-              title={`OAR ${index + 1}`}
+              title={tx(language, `Орган риска ${index + 1}`, `OAR ${index + 1}`)}
               selection={oar}
               role="normal-tissue"
               onChange={(next) =>
