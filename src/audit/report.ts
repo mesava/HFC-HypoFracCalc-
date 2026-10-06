@@ -697,13 +697,14 @@ export function openPrintableAuditReport(
   record: PrintableAuditRecord,
   language: AuditReportLanguage,
 ): void {
-  const popup = window.open("", "_blank", "noopener,noreferrer");
+  const popup = window.open("", "_blank");
   if (!popup) {
     throw new Error(
       "The printable audit report could not be opened. Allow pop-ups for this site and try again.",
     );
   }
 
+  popup.opener = null;
   popup.document.open();
   popup.document.write(
     buildPrintableAuditHtml(record, language),
