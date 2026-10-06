@@ -370,6 +370,7 @@ src/
 - [docs/CONSTRAINTS.md](docs/CONSTRAINTS.md)
 - [docs/REIRRADIATION.md](docs/REIRRADIATION.md)
 - [docs/AUDIT.md](docs/AUDIT.md)
+- [docs/SECURITY.md](docs/SECURITY.md)
 - [docs/SITE.md](docs/SITE.md)
 
 ## Ветки и `main`
@@ -382,7 +383,7 @@ src/
 
 ## Локальный запуск
 
-Требуется Node.js 22+.
+Требуется Node.js 22.12+.
 
 ```bash
 npm install
@@ -392,10 +393,17 @@ npm run dev
 Проверка:
 
 ```bash
+npm run audit:security
 npm run typecheck
 npm test
 npm run build
 ```
+
+## Безопасность зависимостей
+
+Dev/build toolchain HFC проверяется через `npm audit --audit-level=high`. High/critical advisories блокируют CI и публикацию. Vite/Vitest закреплены на актуальных версиях, а обновления toolchain выполняются отдельно от изменений радиобиологических формул.
+
+Подробнее: [docs/SECURITY.md](docs/SECURITY.md).
 
 ## Публикация сайта
 
