@@ -59,13 +59,15 @@ export const repopulationRateEstimates = [
     defaultEligible: true,
     support: "supported",
     supportReason:
-      "This is the best-supported treatment-gap default in the initial dataset and matches the biphasic HNSCC example discussed in Basic Clinical Radiobiology 2025.",
+      "BCR 2025 supports this EQD2-based Dprolif/Tk model for HNSCC treatment-time analysis. It is retained as the current automatic HFC model, but it must not be treated as equivalent to the RCR 2019 BED-based K/Tdelay formulation.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
       priorRadiotherapy: "none",
       notes: [
         "BCR 2025 states that linear Dprolif correction is a pragmatic local approximation, probably reasonable for about a one-week difference but not for multi-week extrapolation.",
+        "RCR 2019 uses a different treatment-interruption formalism: a BED-based K factor, with a working head-and-neck value K=0.9 Gy BED/day and Tdelay=28 days. K and Dprolif are not numerically interchangeable.",
+        "Until Treatment Gap supports both dose bases explicitly, the RCR K/Tdelay model must not be entered into this EQD2 Dprolif record.",
       ],
     },
   },
