@@ -158,6 +158,71 @@ export const sources = [
       "Ten-year FAST-Forward analysis; Appendix Table D5 reports alpha/beta estimates for ipsilateral breast recurrence and a composite clinician-reported breast/chest-wall normal-tissue endpoint.",
   },
   {
+    id: "bentzen-ruifrok-thames-1996-repair",
+    citation:
+      "Bentzen SM, Ruifrok ACC, Thames HD. Repair capacity and kinetics for human mucosa and epithelial tumors in the head and neck: clinical data on the effect of changing the time interval between multiple fractions per day in radiotherapy. Radiother Oncol. 1996;38(2):89-101.",
+    year: 1996,
+    doi: "10.1016/0167-8140(95)01689-9",
+    pmid: "8966232",
+    kind: "modeling-study",
+    notes:
+      "Primary clinical analysis supporting a human head-and-neck mucosal repair half-time in the approximate range 2-4 hours; the authors state that the available data do not support a more precise point estimate.",
+  },
+  {
+    id: "withers-1995-tonsil-time",
+    citation:
+      "Withers HR, Peters LJ, Taylor JMG, et al. Local control of carcinoma of the tonsil by radiation therapy: an analysis of patterns of fractionation in nine institutions. Int J Radiat Oncol Biol Phys. 1995;33(3):549-562.",
+    year: 1995,
+    doi: "10.1016/0360-3016(95)00228-Q",
+    pmid: "7558943",
+    kind: "cohort",
+    notes:
+      "Multicentre retrospective analysis. The data were slightly more consistent with about a 30-day delay before accelerated repopulation and a compensatory dose of about 0.73 Gy/day.",
+  },
+  {
+    id: "koukourakis-1996-nsclc-time",
+    citation:
+      "Koukourakis MI, Hlouverakis G, Kosma L, et al. The impact of overall treatment time on the results of radiotherapy for nonsmall cell lung carcinoma. Int J Radiat Oncol Biol Phys. 1996;34(2):315-322.",
+    year: 1996,
+    doi: "10.1016/0360-3016(95)02102-7",
+    pmid: "8567332",
+    kind: "cohort",
+    notes:
+      "Retrospective NSCLC analysis. The estimated daily dose lost with treatment prolongation was 0.45 Gy/day when all cases were considered, and 0.2 Gy/day in cases without mediastinal involvement.",
+  },
+  {
+    id: "hinata-2001-medulloblastoma-time",
+    citation:
+      "Hinata H, Inakoshi H, Sakai K, et al. Estimation of time parameter of LQ-model in fractionated radiotherapy of medulloblastoma. Radiat Med. 2001;19(2):61-70.",
+    year: 2001,
+    pmid: "11383644",
+    kind: "modeling-study",
+    notes:
+      "Primary clinical model. For alpha/beta=10 Gy, gamma/alpha was 0.52 Gy/day (95% CL 0.29-0.75) when Tk=0 days and 0.55 Gy/day (0.30-0.80) when Tk=21 days.",
+  },
+  {
+    id: "haviland-2016-breast-time",
+    citation:
+      "Haviland JS, Bentzen SM, Bliss JM, Yarnold JR, START Trial Management Group. Prolongation of overall treatment time as a cause of treatment failure in early breast cancer: an analysis of the UK START trials of radiotherapy fractionation. Radiother Oncol. 2016;121(3):420-423.",
+    year: 2016,
+    doi: "10.1016/j.radonc.2016.08.027",
+    pmid: "27666929",
+    kind: "modeling-study",
+    notes:
+      "Combined START trial analysis; adjusted Dprolif for local-regional relapse was 0.60 Gy/day (95% CI 0.10-1.18). The authors describe the result as hypothesis-generating and note that the time-effect estimate is driven by START-B.",
+  },
+  {
+    id: "thames-2010-prostate-time",
+    citation:
+      "Thames HD, Kuban D, Levy LB, et al. The role of overall treatment time in the outcome of radiotherapy of prostate cancer: an analysis of biochemical failure in 4839 men treated between 1987 and 1995. Radiother Oncol. 2010;96(1):6-12.",
+    year: 2010,
+    doi: "10.1016/j.radonc.2010.03.020",
+    pmid: "20400191",
+    kind: "cohort",
+    notes:
+      "Primary nine-institution retrospective analysis. The publication reports a dose equivalent of proliferation of 0.24 Gy/day in patients treated to at least 70 Gy. The commonly cited 52-day value was an overall-treatment-time cut point, not a directly estimated biological kick-off time.",
+  },
+  {
     id: "bcr-2025-ch10-tables",
     citation:
       "Bentzen SM, Joiner MC. The linear-quadratic approach in clinical practice. In: Basic Clinical Radiobiology. 6th ed. 2025. Chapter 10.",

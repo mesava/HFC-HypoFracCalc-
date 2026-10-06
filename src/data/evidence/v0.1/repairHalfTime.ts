@@ -61,7 +61,7 @@ export const repairHalfTimeEstimates = [
   {
     id: "t12-oral-mucositis-bcr2025",
     endpointId: "oral-mucosa-mucositis",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "bentzen-ruifrok-thames-1996-repair",
     parameter: "repair-half-time",
     rangeHours: { low: 2, high: 4 },
     qualifier: "range",
@@ -69,7 +69,7 @@ export const repairHalfTimeEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Basic Clinical Radiobiology 2025 summarizes a 2-4 h MFD estimate for head-and-neck mucositis; a single default value would hide the reported range.",
+      "The primary 1996 clinical analysis concludes that the human mucosal repair half-time is probably in the range 2-4 h and that the available data do not support a more precise estimate; therefore HFC stores the range and does not create a point default.",
     applicability: {
       radiationQuality: "photon",
       technique: ["head-and-neck EBRT", "multiple fractions per day"],

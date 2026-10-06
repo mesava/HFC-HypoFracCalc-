@@ -233,3 +233,93 @@ describe("Evidence validation batch 4", () => {
     expect(cord.defaultEligible).toBe(false);
   });
 });
+
+
+describe("Evidence validation batch 6 — time-effect primary sources", () => {
+  it("stores mucosal repair as the primary 2-4 h range without inventing a point value", () => {
+    const record = repairHalfTimeEstimates.find(
+      (item) => item.id === "t12-oral-mucositis-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("bentzen-ruifrok-thames-1996-repair");
+    expect(record?.rangeHours).toEqual({ low: 2, high: 4 });
+    expect(record?.valueHours).toBeUndefined();
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("preserves the primary tonsil time model as explicit-only", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-hn-tonsil-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("withers-1995-tonsil-time");
+    expect(record?.rateGyPerDay).toBe(0.73);
+    expect(record?.kickOffDays).toBe(30);
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("does not mislabel the Koukourakis time factor as stage-I NSCLC", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-nsclc-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("koukourakis-1996-nsclc-time");
+    expect(record?.endpointId).toBe("nsclc-local-control");
+    expect(record?.rateGyPerDay).toBe(0.45);
+    expect(record?.kickOffDays).toBeUndefined();
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("keeps the two Hinata medulloblastoma Tk assumptions as distinct models", () => {
+    const tk0 = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-medulloblastoma-bcr2025",
+    );
+    const tk21 = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-medulloblastoma-tk21-hinata2001",
+    );
+
+    expect(tk0?.sourceId).toBe("hinata-2001-medulloblastoma-time");
+    expect(tk0?.rateGyPerDay).toBe(0.52);
+    expect(tk0?.ci95).toEqual({ level: 0.95, low: 0.29, high: 0.75 });
+    expect(tk0?.kickOffDays).toBe(0);
+
+    expect(tk21?.rateGyPerDay).toBe(0.55);
+    expect(tk21?.ci95).toEqual({ level: 0.95, low: 0.3, high: 0.8 });
+    expect(tk21?.kickOffDays).toBe(21);
+    expect(tk21?.defaultEligible).toBe(false);
+  });
+
+  it("does not misinterpret the Thames 52-day analysis cut point as prostate Tk", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-prostate-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("thames-2010-prostate-time");
+    expect(record?.rateGyPerDay).toBe(0.24);
+    expect(record?.kickOffDays).toBeUndefined();
+    expect(record?.kickOffNotes).toMatch(/52 days.*cut point/i);
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("uses the primary START analysis for the breast time-effect estimate", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-breast-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("haviland-2016-breast-time");
+    expect(record?.rateGyPerDay).toBe(0.6);
+    expect(record?.ci95).toEqual({ level: 0.95, low: 0.1, high: 1.18 });
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("keeps the primary oesophageal pCR time-effect estimate explicit-only", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-esophagus-pcr-geh2006",
+    );
+
+    expect(record?.sourceId).toBe("geh-2006-esophagus");
+    expect(record?.rateGyPerDay).toBe(0.59);
+    expect(record?.ci95).toEqual({ level: 0.95, low: 0.18, high: 0.99 });
+    expect(record?.defaultEligible).toBe(false);
+  });
+});

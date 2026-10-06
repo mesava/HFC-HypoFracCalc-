@@ -240,7 +240,8 @@ describe("repair and repopulation evidence", () => {
       (record) => record.id === "dprolif-prostate-bcr2025",
     );
     expect(prostate?.rateGyPerDay).toBe(0.24);
-    expect(prostate?.kickOffDays).toBe(52);
+    expect(prostate?.kickOffDays).toBeUndefined();
+    expect(prostate?.kickOffNotes).toMatch(/52 days.*cut point/i);
     expect(prostate?.defaultEligible).toBe(false);
   });
 });

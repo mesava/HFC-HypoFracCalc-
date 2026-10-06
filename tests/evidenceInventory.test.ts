@@ -23,7 +23,7 @@ describe("evidence validation inventory coverage", () => {
       (record) => record.recordId,
     );
 
-    expect(evidenceIds).toHaveLength(78);
+    expect(evidenceIds).toHaveLength(79);
     expect(inventoryIds).toHaveLength(evidenceIds.length);
     expect(new Set(inventoryIds).size).toBe(inventoryIds.length);
     expect([...inventoryIds].sort()).toEqual([...evidenceIds].sort());
@@ -34,7 +34,7 @@ describe("evidence validation inventory coverage", () => {
       record.state.includes("pending"),
     );
 
-    expect(pending).toHaveLength(13);
+    expect(pending).toHaveLength(7);
     expect(evidenceManifest.releaseStatus).toBe("draft");
   });
 
