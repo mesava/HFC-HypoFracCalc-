@@ -207,8 +207,11 @@ export const hytecClinicalConstraints = [
     ],
   },
 
-  // De novo spinal cord SBRT. These are risk-associated point maximum doses,
-  // not unconditional hard constraints.
+  // De novo spinal cord SBRT. These are model-derived maximum-dose
+  // ranges spanning approximately 1%-5% modeled myelopathy risk.
+  // The lower values are from the Sahgal model/thecal-sac approach;
+  // the upper values are from the Katsoulakis-Gibbs spinal-cord model.
+  // They are not confidence intervals and are not unconditional hard constraints.
   {
     id: "hytec-cord-dmax-1fx-risk-range",
     sourceId: "sahgal-2021-hytec-spinal-cord",
@@ -224,8 +227,9 @@ export const hytecClinicalConstraints = [
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
     notes: [
-      "HyTEC reports a 12.4-14.0 Gy point-maximum range associated with approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
-      "The reported range is preserved and is not collapsed to one default dose.",
+      "HyTEC presents model-derived point-maximum limits spanning approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
+      "The lower value is from the Sahgal model and the upper value from the Katsoulakis-Gibbs model; this is not a confidence interval.",
+      "The model range is preserved and is not collapsed to one default dose.",
     ],
   },
   {
@@ -236,12 +240,16 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 17.0,
+    valueRange: { low: 17.0, high: 19.3 },
     unit: "Gy",
     fractionation: { fractions: 2 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 17.0 Gy lower value comes from the Sahgal model and 19.3 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-3fx-20p3gy",
@@ -251,12 +259,16 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 20.3,
+    valueRange: { low: 20.3, high: 23.1 },
     unit: "Gy",
     fractionation: { fractions: 3 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 20.3 Gy lower value comes from the Sahgal model and 23.1 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-4fx-23gy",
@@ -266,12 +278,16 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 23.0,
+    valueRange: { low: 23.0, high: 26.2 },
     unit: "Gy",
     fractionation: { fractions: 4 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 23.0 Gy lower value comes from the Sahgal model and 26.2 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-5fx-25p3gy",
@@ -281,11 +297,15 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 25.3,
+    valueRange: { low: 25.3, high: 28.8 },
     unit: "Gy",
     fractionation: { fractions: 5 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 25.3 Gy lower value comes from the Sahgal model and 28.8 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
 ] satisfies ClinicalConstraint[];
