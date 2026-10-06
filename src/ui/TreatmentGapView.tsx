@@ -179,7 +179,7 @@ export function TreatmentGapView({
         scenario: undefined,
         error:
           error instanceof Error
-            ? error.message
+            ? localizeWarning(language, error.message)
             : tx(
                 language,
                 "Не удалось построить календарь лечения.",
@@ -428,7 +428,7 @@ export function TreatmentGapView({
       return {
         error:
           error instanceof Error
-            ? error.message
+            ? localizeWarning(language, error.message)
             : tx(
                 language,
                 "Не удалось построить сценарий компенсации перерыва в лечении.",
@@ -1309,7 +1309,7 @@ export function TreatmentGapView({
                 </div>
                 {"error" in calculation.bid ? (
                   <div className="inline-alert">
-                    {calculation.bid.error}
+                    {localizeWarning(language, calculation.bid.error)}
                   </div>
                 ) : (
                   <>

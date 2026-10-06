@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { endpoints } from "../src/data/evidence/v0.1/index.js";
+import { localizeWarning } from "../src/ui/i18n.js";
 import {
   endpointLabelsRu,
   endpointLabel,
@@ -36,5 +37,37 @@ describe("Russian UI coverage", () => {
         `Organ falls back to English: ${organ}`,
       ).toBe(organLabelsRu[organ]);
     }
+  });
+});
+
+
+describe("Russian safety-message coverage", () => {
+  it("localizes Treatment Gap hard-stop messages instead of leaking English core errors", () => {
+    expect(
+      localizeWarning(
+        "ru",
+        "RCR guidance requires at least 6 hours between twice-daily fractions.",
+      ),
+    ).toBe(
+      "Рекомендации RCR требуют интервал не менее 6 ч между двумя фракциями в сутки.",
+    );
+
+    expect(
+      localizeWarning(
+        "ru",
+        "The interruption interval does not contain any planned treatment fraction.",
+      ),
+    ).toBe(
+      "В указанном интервале перерыва нет ни одной запланированной лечебной фракции.",
+    );
+
+    expect(
+      localizeWarning(
+        "ru",
+        "gapEndDate must not precede gapStartDate.",
+      ),
+    ).toBe(
+      "Дата окончания перерыва не может быть раньше даты его начала.",
+    );
   });
 });

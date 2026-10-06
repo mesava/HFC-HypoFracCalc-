@@ -75,6 +75,18 @@ const warningMapRu = new Map<string, string>([
     "Прерывание превышает одну неделю. Basic Clinical Radiobiology 2025 подчёркивает, что простая линейная коррекция Dprolif наиболее обоснована при небольших различиях общей продолжительности лечения и не должна бездумно экстраполироваться на многонедельные изменения.",
   ],
   [
+    "RCR guidance requires at least 6 hours between twice-daily fractions.",
+    "Рекомендации RCR требуют интервал не менее 6 ч между двумя фракциями в сутки.",
+  ],
+  [
+    "gapEndDate must not precede gapStartDate.",
+    "Дата окончания перерыва не может быть раньше даты его начала.",
+  ],
+  [
+    "The interruption interval does not contain any planned treatment fraction.",
+    "В указанном интервале перерыва нет ни одной запланированной лечебной фракции.",
+  ],
+  [
     "RCR allows a minimum 6-hour BID interval, while Basic Clinical Radiobiology 2025 recommends the maximum practical interval, at least about 8 hours and preferably longer when feasible.",
     "RCR допускает минимальный интервал 6 ч между двумя фракциями в сутки, тогда как Basic Clinical Radiobiology 2025 рекомендует максимально практичный интервал — около 8 ч и более, когда это возможно.",
   ],
