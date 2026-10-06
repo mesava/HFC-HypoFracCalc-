@@ -107,7 +107,7 @@ export const alphaBetaEstimates = [
     valueGy: 1.7,
     ci95: { level: 0.95, low: 0.7, high: 3.0 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Endpoint-specific estimate is reported, but the free-alpha/beta model did not clearly outperform the simpler fixed 3 Gy model.",
@@ -121,7 +121,7 @@ export const alphaBetaEstimates = [
     valueGy: 2.3,
     ci95: { level: 0.95, low: 0.9, high: 5.3 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Endpoint was among the better-calibrated models, but the fixed 3 Gy model was not inferior to the free-alpha/beta fit.",
@@ -135,7 +135,7 @@ export const alphaBetaEstimates = [
     valueGy: 2.7,
     ci95: { level: 0.95, low: 0.9, high: 8.5 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Endpoint-specific estimate has a wide CI and the free-alpha/beta fit did not clearly improve on fixed 3 Gy.",
@@ -166,7 +166,7 @@ export const alphaBetaEstimates = [
     valueGy: 2.7,
     ci95: { level: 0.95, low: 1.5, high: 5.4 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Proctitis G1+ was among the better-calibrated endpoints; the numerical estimate is direct but not uniquely favoured over a fixed 3 Gy model.",
@@ -180,7 +180,7 @@ export const alphaBetaEstimates = [
     valueGy: 2.7,
     ci95: { level: 0.95, low: 1.3, high: 15.1 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Endpoint-specific estimate is reported but uncertainty is large and fixed 3 Gy did not fit worse.",
@@ -194,7 +194,7 @@ export const alphaBetaEstimates = [
     valueGy: 3.1,
     ci95: { level: 0.95, low: 1.4, high: 9.1 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Direct endpoint-specific estimate with a broad CI; free alpha/beta did not clearly outperform fixed 3 Gy.",
@@ -208,7 +208,7 @@ export const alphaBetaEstimates = [
     valueGy: 2.5,
     ci95: { level: 0.95, low: 0.9, high: 8.2 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Direct estimate from a low-event-rate endpoint; the source notes poorer calibration separation for rare endpoints.",
@@ -420,7 +420,7 @@ export const alphaBetaEstimates = [
     valueGy: 1.6,
     ci95: { level: 0.95, low: 0.0, high: 4.4 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "Endpoint-specific estimate is reported, but uncertainty is broad and the lower confidence limit was truncated at zero.",
@@ -446,7 +446,7 @@ export const alphaBetaEstimates = [
     parameter: "alpha-beta",
     valueGy: 1.9,
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
       "The FAST Table 4 point estimate is reported without a 95% CI; HFC must visibly flag the missing uncertainty interval.",
