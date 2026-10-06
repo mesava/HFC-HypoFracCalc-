@@ -7,8 +7,6 @@ export type EvidenceValidationState =
   | "deprecated-secondary-unverified"
   | "validated"
   | "validated-primary"
-  | "secondary-confirmed-primary-signoff-pending"
-  | "bcr-model-checked-primary-signoff-pending"
   | "primary-source-audit-pending";
 
 export interface EvidenceValidationInventoryRecord {
