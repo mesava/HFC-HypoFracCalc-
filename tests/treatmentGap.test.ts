@@ -5,8 +5,13 @@ import {
   solveDoseCompensationStrategy,
 } from "../src/workflows/treatmentGap.js";
 
+const hnTimeSelection = {
+  selectionMode: "evidence" as const,
+  parameterRecordId: "dprolif-hn-various-bcr2025",
+};
+
 describe("Treatment Gap workflow", () => {
-  it("calculates uncompensated HNSCC time loss with preferred Dprolif/Tk", () => {
+  it("calculates uncompensated HNSCC time loss with explicitly selected Dprolif/Tk", () => {
     const baseline = buildTreatmentGapBaseline({
       endpointId: "head-neck-tumour-control",
       plannedSchedule: {
@@ -16,6 +21,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 7,
+      repopulationSelection: hnTimeSelection,
     });
 
     expect(baseline.alphaBetaGy).toBe(10.5);
@@ -26,6 +32,21 @@ describe("Treatment Gap workflow", () => {
       -5.6,
       10,
     );
+  });
+
+  it("requires an explicit HNSCC time model while broad primary sign-off is pending", () => {
+    expect(() =>
+      buildTreatmentGapBaseline({
+        endpointId: "head-neck-tumour-control",
+        plannedSchedule: {
+          fractions: 35,
+          dosePerFractionGy: 2,
+        },
+        plannedOverallTreatmentDays: 46,
+        deliveredFractionsBeforeGap: 20,
+        gapDays: 7,
+      }),
+    ).toThrow(/No default Dprolif\/Tk model/);
   });
 
   it("reproduces the BCR one-week time difference with manual 0.7 Gy/day", () => {
@@ -62,6 +83,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 5,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -84,6 +106,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 3,
+      repopulationSelection: hnTimeSelection,
     });
 
     expect(() =>
@@ -103,6 +126,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 3,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -124,6 +148,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 28,
       deliveredFractionsBeforeGap: 10,
       gapDays: 2,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -145,6 +170,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 25,
       gapDays: 5,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = solveDoseCompensationStrategy(baseline, {

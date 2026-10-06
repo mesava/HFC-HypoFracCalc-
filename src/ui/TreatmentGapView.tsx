@@ -98,8 +98,11 @@ export function TreatmentGapView({
   const [manualAlphaBeta, setManualAlphaBeta] = useState("10");
 
   const preferredTime = getPreferredRepopulationEstimate(endpointId);
+  const initialTimeRecords = getRepopulationEstimates(endpointId);
   const [timeMode, setTimeMode] = useState<TimeMode>(
-    preferredTime ? "evidence" : "manual",
+    preferredTime || initialTimeRecords.length > 0
+      ? "evidence"
+      : "manual",
   );
   const [timeRecordId, setTimeRecordId] = useState(
     preferredTime?.id ?? "",
@@ -107,8 +110,8 @@ export function TreatmentGapView({
   const [tkOverride, setTkOverride] = useState(
     preferredTime?.kickOffDays?.toString() ?? "",
   );
-  const [manualDprolif, setManualDprolif] = useState("0.8");
-  const [manualTk, setManualTk] = useState("21");
+  const [manualDprolif, setManualDprolif] = useState("");
+  const [manualTk, setManualTk] = useState("");
 
   const [fractions, setFractions] = useState("35");
   const [dosePerFraction, setDosePerFraction] = useState("2");
@@ -202,9 +205,16 @@ export function TreatmentGapView({
     setAlphaRecordId(nextAlpha?.id ?? "");
 
     const nextTime = getPreferredRepopulationEstimate(nextId);
-    setTimeMode(nextTime ? "evidence" : "manual");
+    const nextTimeRecords = getRepopulationEstimates(nextId);
+    setTimeMode(
+      nextTime || nextTimeRecords.length > 0
+        ? "evidence"
+        : "manual",
+    );
     setTimeRecordId(nextTime?.id ?? "");
     setTkOverride(nextTime?.kickOffDays?.toString() ?? "");
+    setManualDprolif("");
+    setManualTk("");
   }
 
   const calculation = useMemo(() => {
@@ -253,6 +263,19 @@ export function TreatmentGapView({
 
       let repopulationSelection;
       if (timeMode === "manual") {
+        if (
+          manualDprolif.trim() === "" ||
+          manualTk.trim() === ""
+        ) {
+          throw new Error(
+            tx(
+              language,
+              "Введите Dprolif и Tk явно или выберите опубликованную модель.",
+              "Enter Dprolif and Tk explicitly or select a published model.",
+            ),
+          );
+        }
+
         repopulationSelection = {
           selectionMode: "manual" as const,
           rateGyPerDay: Number(manualDprolif),
@@ -260,6 +283,16 @@ export function TreatmentGapView({
           rationale: "Manual Dprolif/Tk from Treatment Gap UI",
         };
       } else {
+        if (timeRecordId.trim() === "") {
+          throw new Error(
+            tx(
+              language,
+              "Выберите опубликованную модель Dprolif/Tk.",
+              "Select a published Dprolif/Tk model.",
+            ),
+          );
+        }
+
         const parsedOverride =
           tkOverride.trim() === "" ? undefined : Number(tkOverride);
 

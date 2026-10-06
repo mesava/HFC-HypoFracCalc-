@@ -56,10 +56,10 @@ export const repopulationRateEstimates = [
     kickOffNotes:
       "BCR 2025 Table 10.3 lists 21 days for a pooled 'various head and neck' estimate.",
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "supported",
     supportReason:
-      "BCR 2025 supports this EQD2-based Dprolif/Tk model for HNSCC treatment-time analysis. It is retained as the current automatic HFC model, but it must not be treated as equivalent to the RCR 2019 BED-based K/Tdelay formulation.",
+      "BCR 2025 supports this EQD2-based Dprolif/Tk model for HNSCC treatment-time analysis, but the 0.8 Gy/day and Tk=21 day pair traces to laryngeal clinical data and remains pending primary-source sign-off for broad H&N automatic use. It is retained for explicit evidence selection and must not be treated as equivalent to the RCR 2019 BED-based K/Tdelay formulation.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -68,6 +68,7 @@ export const repopulationRateEstimates = [
         "BCR 2025 states that linear Dprolif correction is a pragmatic local approximation, probably reasonable for about a one-week difference but not for multi-week extrapolation.",
         "RCR 2019 uses a different treatment-interruption formalism: a BED-based K factor, with a working head-and-neck value K=0.9 Gy BED/day and Tdelay=28 days. K and Dprolif are not numerically interchangeable.",
         "Until Treatment Gap supports both dose bases explicitly, the RCR K/Tdelay model must not be entered into this EQD2 Dprolif record.",
+        "The numerical pair 0.8 Gy/day and Tk=21 days is independently reproduced in the official Roberts et al. 1994 publication abstract for node-negative laryngeal cancer, but HFC does not generalize that primary laryngeal dataset into a broad automatic H&N default without full primary-source sign-off.",
       ],
     },
   },
