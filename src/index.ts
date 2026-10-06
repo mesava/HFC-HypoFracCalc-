@@ -26,3 +26,4 @@ export * from "./audit/quickEqdAudit.js";
 export * from "./audit/compareRegimensAudit.js";
 export * from "./audit/treatmentGapAudit.js";
 export * from "./audit/report.js";
+export * from "./audit/treatmentGapOarAudit.js";
