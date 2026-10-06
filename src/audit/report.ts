@@ -304,6 +304,146 @@ function treatmentGapBody(
     ...(record.calendarScenario?.warnings ?? []),
   ];
 
+  const oarSections = record.oars
+    .map((oar, index) => {
+      if (oar.status === "input-error") {
+        return `<section>
+          <h2>${h(
+            t(language, "Орган риска", "Organ at risk"),
+          )} ${index + 1} · ${h(oar.endpoint.organ)} · ${h(
+            oar.endpoint.label,
+          )}</h2>
+          <div class="warning-box"><strong>${h(
+            t(
+              language,
+              "Расчёт этой карточки не выполнен",
+              "This OAR card could not be calculated",
+            ),
+          )}</strong><p>${h(oar.error)}</p></div>
+        </section>`;
+      }
+
+      const weekendOar = oar.results.weekend;
+      const bidOar = oar.results.bid;
+      const doseOar = oar.results.doseCompensation;
+      const resultCell = (
+        value:
+          | typeof weekendOar
+          | typeof bidOar
+          | typeof doseOar,
+      ): string => {
+        if (!value) return "<td>—</td>";
+        if ("error" in value) {
+          return `<td class="warning-text">${h(
+            value.error,
+          )}</td>`;
+        }
+        return `<td><strong>ΔEQD₂ ${n(
+          value.deltaEqd2Gy,
+          language,
+        )} Gy</strong><small>ΔBED ${n(
+          value.deltaBedGy,
+          language,
+        )} Gy</small></td>`;
+      };
+
+      const oarWarnings = [
+        ...(weekendOar?.warnings ?? []),
+        ...(
+          bidOar && !("error" in bidOar)
+            ? bidOar.warnings
+            : []
+        ),
+        ...(doseOar?.warnings ?? []),
+      ];
+
+      return `<section>
+        <h2>${h(
+          t(language, "Орган риска", "Organ at risk"),
+        )} ${index + 1} · ${h(oar.endpoint.organ)} · ${h(
+          oar.endpoint.label,
+        )}</h2>
+        <div class="facts">
+          <div><span>${h(
+            t(language, "Дозовая метрика", "Dose metric"),
+          )}</span><strong>${h(
+            doseMetricText(oar.metric),
+          )}</strong></div>
+          <div><span>${h(
+            t(language, "Доза за фракцию", "Dose per fraction"),
+          )}</span><strong>${n(
+            oar.plannedOarDosePerFractionGy,
+            language,
+            3,
+          )} Gy</strong></div>
+          <div><span>α/β</span><strong>${n(
+            oar.alphaBeta.valueGy,
+            language,
+            3,
+          )} Gy · ${h(
+            oar.alphaBeta.selectionMode,
+          )}</strong></div>
+          <div><span>T½</span><strong>${
+            oar.repairHalfTime.valueHours === undefined
+              ? "—"
+              : `${n(
+                  oar.repairHalfTime.valueHours,
+                  language,
+                  3,
+                )} h · ${h(
+                  oar.repairHalfTime.selectionMode,
+                )}`
+          }</strong></div>
+          <div><span>${h(
+            t(
+              language,
+              "Доза после перерыва",
+              "Post-gap dose per fraction",
+            ),
+          )}</span><strong>${
+            oar.effectivePostGapOarDosePerFractionGy ===
+            undefined
+              ? "—"
+              : `${n(
+                  oar.effectivePostGapOarDosePerFractionGy,
+                  language,
+                  3,
+                )} Gy`
+          }</strong></div>
+          <div><span>${h(
+            t(
+              language,
+              "Модель дозы после перерыва",
+              "Post-gap dose model",
+            ),
+          )}</span><strong>${h(
+            oar.inputState.postGapDoseMode,
+          )}</strong></div>
+        </div>
+        <table>
+          <thead><tr>
+            <th>${h(t(language, "Выходные", "Weekend"))}</th>
+            <th>${h(t(language, "Две фракции в сутки", "BID"))}</th>
+            <th>${h(t(language, "Компенсация дозой", "Dose compensation"))}</th>
+          </tr></thead>
+          <tbody><tr>
+            ${resultCell(weekendOar)}
+            ${resultCell(bidOar)}
+            ${resultCell(doseOar)}
+          </tr></tbody>
+        </table>
+        ${
+          oarWarnings.length
+            ? warningsSection(
+                [...new Set(oarWarnings)],
+                language,
+              )
+            : ""
+        }
+      </section>`;
+    })
+    .join("");
+
   return `
     <section>
       <h2>${h(t(language, "Исходный курс", "Planned course"))}</h2>
@@ -424,6 +564,8 @@ function treatmentGapBody(
       </table>
       ${warningsSection([...new Set(warnings)], language)}
     </section>
+
+    ${oarSections}
   `;
 }
 
