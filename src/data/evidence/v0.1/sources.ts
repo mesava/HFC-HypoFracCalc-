@@ -223,6 +223,50 @@ export const sources = [
       "Primary nine-institution retrospective analysis. The publication reports a dose equivalent of proliferation of 0.24 Gy/day in patients treated to at least 70 Gy. The commonly cited 52-day value was an overall-treatment-time cut point, not a directly estimated biological kick-off time.",
   },
   {
+    id: "roberts-1994-larynx-time",
+    citation:
+      "Roberts SA, Hendry JH, Brewster AE, Slevin NJ. The influence of radiotherapy treatment time on the control of laryngeal cancer: a direct analysis of data from two British Institute of Radiology trials to calculate the lag period and the time factor. Br J Radiol. 1994;67(800):790-794.",
+    year: 1994,
+    doi: "10.1259/0007-1285-67-800-790",
+    pmid: "8087485",
+    kind: "modeling-study",
+    notes:
+      "Primary analysis of node-negative laryngeal cancer. Reports a time factor of 0.8 Gy/day (95% CI 0.5-1.1) and a best-estimate Tk of 21 days (95% CI 0-27).",
+  },
+  {
+    id: "hendry-1996-missed-days",
+    citation:
+      "Hendry JH, Bentzen SM, Dale RG, et al. A modelled comparison of the effects of using different ways to compensate for missed treatment days in radiotherapy. Clin Oncol (R Coll Radiol). 1996;8(5):297-307.",
+    year: 1996,
+    doi: "10.1016/S0936-6555(05)80715-0",
+    pmid: "8934049",
+    kind: "modeling-study",
+    notes:
+      "Modelled synthesis for compensation of missed treatment days. The 0.64 Gy/day (95% CI 0.42-0.86) HNSCC value is a pooled/modelled literature estimate, not a single prospective endpoint-specific clinical measurement.",
+  },
+  {
+    id: "robertson-1998-four-centre-larynx",
+    citation:
+      "Robertson C, Robertson AG, Hendry JH, et al. Similar decreases in local tumor control are calculated for treatment protraction and for interruptions in the radiotherapy of carcinoma of the larynx in four centers. Int J Radiat Oncol Biol Phys. 1998;40(2):319-329.",
+    year: 1998,
+    doi: "10.1016/S0360-3016(97)00716-5",
+    pmid: "9457816",
+    kind: "modeling-study",
+    notes:
+      "Four-centre laryngeal-cancer analysis. Reports LQ time factor gamma/alpha 0.89 Gy/day (95% CI 0.35-1.43). This does not directly reproduce the 0.74 (0.30-1.2) value carried in the BCR summary table.",
+  },
+  {
+    id: "bender-2012-cns-repair",
+    citation:
+      "Bender ET, Tomé WA. Brain necrosis after fractionated radiation therapy: is the halftime for repair longer than we thought? Med Phys. 2012;39(11):7055-7061.",
+    year: 2012,
+    doi: "10.1118/1.4762562",
+    pmid: "23127096",
+    kind: "modeling-study",
+    notes:
+      "Clinical-data modeling estimated repair halftime 38.1 h (range 6.9-76) for brain necrosis and 4.1 h (range 0-8) for spinal-cord myelopathy, illustrating substantial uncertainty in CNS repair kinetics.",
+  },
+  {
     id: "bcr-2025-ch10-tables",
     citation:
       "Bentzen SM, Joiner MC. The linear-quadratic approach in clinical practice. In: Basic Clinical Radiobiology. 6th ed. 2025. Chapter 10.",
@@ -305,7 +349,7 @@ export const sources = [
     year: 2000,
     doi: "10.1080/095530000138448",
     pmid: "10815624",
-    kind: "other",
+    kind: "systematic-review",
     notes:
       "Clinical-data synthesis used in Basic Clinical Radiobiology for lung pneumonitis alpha/beta and Dprolif estimates.",
   },

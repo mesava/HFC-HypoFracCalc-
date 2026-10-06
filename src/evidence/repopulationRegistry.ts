@@ -36,7 +36,9 @@ export function getRepopulationEstimates(
   endpointId: string,
 ): RepopulationRateEstimate[] {
   return repopulationRateEstimates.filter(
-    (record) => record.endpointId === endpointId,
+    (record) =>
+      record.endpointId === endpointId &&
+      record.status !== "deprecated",
   );
 }
 

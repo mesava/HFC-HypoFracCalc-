@@ -215,7 +215,7 @@ describe("repair and repopulation evidence", () => {
     expect(fibrosis?.valueHours).toBe(4.4);
   });
 
-  it("does not turn lower-bound repair evidence into a point default", () => {
+  it("keeps deprecated CNS repair bounds out of automatic point defaults", () => {
     const cord = repairHalfTimeEstimates.find(
       (record) =>
         record.endpointId === "spinal-cord-radiation-myelopathy",
@@ -223,9 +223,10 @@ describe("repair and repopulation evidence", () => {
     expect(cord?.qualifier).toBe("lower-bound");
     expect(cord?.rangeHours?.low).toBe(5);
     expect(cord?.defaultEligible).toBe(false);
+    expect(cord?.status).toBe("deprecated");
   });
 
-  it("keeps the broad HN Dprolif model available but not automatic pending primary sign-off", () => {
+  it("keeps the historical broad HN Dprolif record only for audit replay", () => {
     const hn = repopulationRateEstimates.find(
       (record) => record.id === "dprolif-hn-various-bcr2025",
     );
@@ -233,6 +234,7 @@ describe("repair and repopulation evidence", () => {
     expect(hn?.rateGyPerDay).toBe(0.8);
     expect(hn?.kickOffDays).toBe(21);
     expect(hn?.defaultEligible).toBe(false);
+    expect(hn?.status).toBe("deprecated");
   });
 
   it("keeps prostate time-loss evidence available but not automatic", () => {

@@ -1,8 +1,12 @@
 export type EvidenceValidationState =
+  | "validated-primary-point-only"
+  | "validated-review"
+  | "deprecated-untraceable-summary"
+  | "validated-modelled-synthesis"
+  | "deprecated-context-mismatch"
+  | "deprecated-secondary-unverified"
   | "validated"
   | "validated-primary"
-  | "secondary-confirmed-primary-signoff-pending"
-  | "bcr-model-checked-primary-signoff-pending"
   | "primary-source-audit-pending";
 
 export interface EvidenceValidationInventoryRecord {
@@ -65,20 +69,21 @@ export const evidenceValidationInventory = [
   { recordId: "t12-skin-telangiectasia-chart1999", validationPackage: "2", state: "validated-primary" },
   { recordId: "t12-subcutis-fibrosis-chart1999", validationPackage: "2", state: "validated-primary" },
   { recordId: "t12-oral-mucositis-bcr2025", validationPackage: "2/6", state: "validated-primary" },
-  { recordId: "t12-spinal-cord-myelopathy-bcr2025", validationPackage: "2", state: "secondary-confirmed-primary-signoff-pending" },
-  { recordId: "t12-temporal-lobe-necrosis-bcr2025", validationPackage: "2", state: "secondary-confirmed-primary-signoff-pending" },
+  { recordId: "t12-spinal-cord-myelopathy-bcr2025", validationPackage: "7", state: "deprecated-secondary-unverified" },
+  { recordId: "t12-temporal-lobe-necrosis-bcr2025", validationPackage: "7", state: "deprecated-secondary-unverified" },
   { recordId: "dprolif-mucosa-chart2001", validationPackage: "2", state: "validated-primary" },
   { recordId: "dprolif-skin-erythema-chart2001", validationPackage: "2", state: "validated-primary" },
-  { recordId: "dprolif-hn-various-bcr2025", validationPackage: "2", state: "bcr-model-checked-primary-signoff-pending" },
-  { recordId: "dprolif-hn-various-alternative-bcr2025", validationPackage: "—", state: "primary-source-audit-pending" },
-  { recordId: "dprolif-hn-larynx-bcr2025", validationPackage: "—", state: "primary-source-audit-pending" },
+  { recordId: "dprolif-hn-various-bcr2025", validationPackage: "7", state: "deprecated-context-mismatch" },
+  { recordId: "dprolif-hn-various-alternative-bcr2025", validationPackage: "7", state: "validated-modelled-synthesis" },
+  { recordId: "dprolif-hn-larynx-bcr2025", validationPackage: "7", state: "deprecated-untraceable-summary" },
+  { recordId: "dprolif-larynx-roberts1994", validationPackage: "7", state: "validated-primary" },
   { recordId: "dprolif-hn-tonsil-bcr2025", validationPackage: "6", state: "validated-primary" },
-  { recordId: "dprolif-lung-pneumonitis-bentzen2000", validationPackage: "—", state: "primary-source-audit-pending" },
+  { recordId: "dprolif-lung-pneumonitis-bentzen2000", validationPackage: "7", state: "validated-review" },
   { recordId: "dprolif-esophagus-pcr-geh2006", validationPackage: "6", state: "validated-primary" },
   { recordId: "dprolif-nsclc-bcr2025", validationPackage: "6", state: "validated-primary" },
   { recordId: "dprolif-medulloblastoma-bcr2025", validationPackage: "6", state: "validated-primary" },
   { recordId: "dprolif-medulloblastoma-tk21-hinata2001", validationPackage: "6", state: "validated-primary" },
-  { recordId: "dprolif-prostate-bcr2025", validationPackage: "—", state: "primary-source-audit-pending" },
+  { recordId: "dprolif-prostate-bcr2025", validationPackage: "7", state: "validated-primary-point-only" },
   { recordId: "dprolif-breast-bcr2025", validationPackage: "6", state: "validated-primary" },
   { recordId: "hytec-optic-dmax-1fx-10gy", validationPackage: "3", state: "validated" },
   { recordId: "hytec-optic-dmax-3fx-20gy", validationPackage: "3", state: "validated" },

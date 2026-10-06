@@ -3,6 +3,8 @@ import { alphaBetaEstimates } from "../src/data/evidence/v0.1/alphaBeta.js";
 import { alphaBetaAdditionalEstimates } from "../src/data/evidence/v0.1/alphaBetaAdditional.js";
 import { repairHalfTimeEstimates } from "../src/data/evidence/v0.1/repairHalfTime.js";
 import { repopulationRateEstimates } from "../src/data/evidence/v0.1/repopulation.js";
+import { getRepairHalfTimeEstimates } from "../src/evidence/repairRegistry.js";
+import { getRepopulationEstimates } from "../src/evidence/repopulationRegistry.js";
 
 function estimate(id: string) {
   const record = alphaBetaEstimates.find((item) => item.id === id);
@@ -107,7 +109,7 @@ describe("Evidence validation batch 2", () => {
     expect(skin?.defaultEligible).toBe(false);
   });
 
-  it("records the current HNSCC time model explicitly as EQD2-based rather than BED-based K", () => {
+  it("retains the historical broad HNSCC time model for replay but deprecates it for new selection", () => {
     const hn = repopulationRateEstimates.find(
       (record) => record.id === "dprolif-hn-various-bcr2025",
     );
@@ -320,6 +322,97 @@ describe("Evidence validation batch 6 — time-effect primary sources", () => {
     expect(record?.sourceId).toBe("geh-2006-esophagus");
     expect(record?.rateGyPerDay).toBe(0.59);
     expect(record?.ci95).toEqual({ level: 0.95, low: 0.18, high: 0.99 });
+    expect(record?.defaultEligible).toBe(false);
+  });
+});
+
+
+describe("Evidence validation batch 7 — final time-effect triage", () => {
+  it("retires secondary CNS repair bounds from active selection without deleting audit records", () => {
+    const cord = repairHalfTimeEstimates.find(
+      (record) => record.id === "t12-spinal-cord-myelopathy-bcr2025",
+    );
+    const temporal = repairHalfTimeEstimates.find(
+      (record) => record.id === "t12-temporal-lobe-necrosis-bcr2025",
+    );
+
+    expect(cord?.status).toBe("deprecated");
+    expect(cord?.support).toBe("poor-fit");
+    expect(temporal?.status).toBe("deprecated");
+    expect(temporal?.support).toBe("poor-fit");
+
+    expect(
+      getRepairHalfTimeEstimates("spinal-cord-radiation-myelopathy"),
+    ).toEqual([]);
+    expect(
+      getRepairHalfTimeEstimates("temporal-lobe-necrosis"),
+    ).toEqual([]);
+  });
+
+  it("replaces the broad 0.8/21 interpretation with a larynx-specific Roberts model", () => {
+    const primary = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-larynx-roberts1994",
+    );
+    const historical = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-hn-various-bcr2025",
+    );
+
+    expect(primary?.endpointId).toBe("head-neck-larynx-tumour-control");
+    expect(primary?.sourceId).toBe("roberts-1994-larynx-time");
+    expect(primary?.rateGyPerDay).toBe(0.8);
+    expect(primary?.ci95).toEqual({ level: 0.95, low: 0.5, high: 1.1 });
+    expect(primary?.kickOffDays).toBe(21);
+    expect(primary?.defaultEligible).toBe(false);
+
+    expect(historical?.status).toBe("deprecated");
+    expect(
+      getRepopulationEstimates("head-neck-larynx-tumour-control").map(
+        (record) => record.id,
+      ),
+    ).toContain("dprolif-larynx-roberts1994");
+  });
+
+  it("retires the untraceable BCR larynx 0.74 summary rather than silently changing its value", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-hn-larynx-bcr2025",
+    );
+
+    expect(record?.rateGyPerDay).toBe(0.74);
+    expect(record?.ci95).toEqual({ level: 0.95, low: 0.3, high: 1.2 });
+    expect(record?.status).toBe("deprecated");
+    expect(record?.support).toBe("poor-fit");
+  });
+
+  it("keeps the pooled HNSCC 0.64 estimate explicitly identified as modelled synthesis", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-hn-various-alternative-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("hendry-1996-missed-days");
+    expect(record?.rateGyPerDay).toBe(0.64);
+    expect(record?.ci95).toEqual({ level: 0.95, low: 0.42, high: 0.86 });
+    expect(record?.support).toBe("limited");
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("does not label a derived pneumonitis SE interval as a source-reported 95% CI", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-lung-pneumonitis-bentzen2000",
+    );
+
+    expect(record?.rateGyPerDay).toBe(0.54);
+    expect(record?.ci95).toBeUndefined();
+    expect(record?.defaultEligible).toBe(false);
+  });
+
+  it("retains only the primary prostate point estimate in machine-readable evidence", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-prostate-bcr2025",
+    );
+
+    expect(record?.rateGyPerDay).toBe(0.24);
+    expect(record?.ci95).toBeUndefined();
+    expect(record?.kickOffDays).toBeUndefined();
     expect(record?.defaultEligible).toBe(false);
   });
 });

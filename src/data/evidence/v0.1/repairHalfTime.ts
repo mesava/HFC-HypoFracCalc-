@@ -83,14 +83,17 @@ export const repairHalfTimeEstimates = [
     parameter: "repair-half-time",
     rangeHours: { low: 5 },
     qualifier: "lower-bound",
-    status: "reviewed",
+    status: "deprecated",
     defaultEligible: false,
-    support: "limited",
+    support: "poor-fit",
     supportReason:
-      "Basic Clinical Radiobiology 2025 reports T1/2 >5 h for radiation myelopathy; no single numerical default is justified.",
+      "The >5 h lower bound is retained only for historical audit compatibility. The cited CHART primary abstract does not expose this numerical bound, and later clinical-data modeling (Bender 2012) estimated 4.1 h with a very wide 0-8 h range. HFC therefore removes this secondary bound from new user selection.",
     applicability: {
       radiationQuality: "photon",
       priorRadiotherapy: "not-reported",
+      notes: [
+        "Deprecated from active selection in v0.10; use an explicit user assumption if a spinal-cord repair half-time is required.",
+      ],
     },
   },
   {
@@ -100,14 +103,17 @@ export const repairHalfTimeEstimates = [
     parameter: "repair-half-time",
     rangeHours: { low: 4 },
     qualifier: "lower-bound",
-    status: "reviewed",
+    status: "deprecated",
     defaultEligible: false,
-    support: "limited",
+    support: "poor-fit",
     supportReason:
-      "Basic Clinical Radiobiology 2025 reports T1/2 >4 h for temporal-lobe necrosis; retained as a bound, not a point default.",
+      "The >4 h lower bound is retained only for historical audit compatibility. The Lee clinical papers support strong fractionation/incomplete-repair effects but do not expose this exact lower bound in the accessible primary record; later brain-necrosis modeling found much longer and highly uncertain repair kinetics. HFC therefore removes this secondary bound from new user selection.",
     applicability: {
       radiationQuality: "photon",
       priorRadiotherapy: "not-reported",
+      notes: [
+        "Deprecated from active selection in v0.10; no single validated temporal-lobe repair half-time is proposed.",
+      ],
     },
   },
 ] satisfies RepairHalfTimeEstimate[];

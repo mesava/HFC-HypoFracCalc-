@@ -22,7 +22,9 @@ export function getRepairHalfTimeEstimates(
   endpointId: string,
 ): RepairHalfTimeEstimate[] {
   return repairHalfTimeEstimates.filter(
-    (record) => record.endpointId === endpointId,
+    (record) =>
+      record.endpointId === endpointId &&
+      record.status !== "deprecated",
   );
 }
 
