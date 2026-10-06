@@ -2,6 +2,15 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "rcr-2019-timely-delivery",
+    citation:
+      "The Royal College of Radiologists. The timely delivery of radical radiotherapy: guidelines for the management of unscheduled treatment interruptions. Fourth edition. London: The Royal College of Radiologists; 2019. Ref No. BFCO(19)1.",
+    year: 2019,
+    kind: "guideline",
+    notes:
+      "Guidance for prevention and management of unscheduled interruptions in radical radiotherapy, including accelerated scheduling, biological compensation, governance and audit.",
+  },
+  {
     id: "andratschke-2022-estro-eortc-reirradiation",
     citation:
       "Andratschke N, Willmann J, Appelt AL, et al. European Society for Radiotherapy and Oncology and European Organisation for Research and Treatment of Cancer consensus on re-irradiation: definition, reporting, and clinical decision making. Lancet Oncol. 2022;23(10):e469-e478.",
