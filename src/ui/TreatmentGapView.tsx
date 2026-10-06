@@ -436,7 +436,8 @@ export function TreatmentGapView({
         calculation.bidInterfractionHours,
       doseCompensationInput:
         calculation.doseCompensationInput,
-      ...(calculation.calendarInput
+      ...("calendarInput" in calculation &&
+      calculation.calendarInput
         ? { calendarInput: calculation.calendarInput }
         : {}),
       ...(calculation.calendarScenario
@@ -445,7 +446,8 @@ export function TreatmentGapView({
               calculation.calendarScenario,
           }
         : {}),
-      ...(calculation.manualDurationInput
+      ...("manualDurationInput" in calculation &&
+      calculation.manualDurationInput
         ? {
             manualDurationInput:
               calculation.manualDurationInput,
