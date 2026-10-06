@@ -207,7 +207,8 @@ export const hytecClinicalConstraints = [
     ],
   },
 
-  // De novo spinal cord SBRT. These are risk-associated point maximum doses,
+  // De novo spinal cord SBRT. These are risk-associated maximum-dose
+  // ranges spanning approximately 1%-5% modeled myelopathy risk,
   // not unconditional hard constraints.
   {
     id: "hytec-cord-dmax-1fx-risk-range",
@@ -236,7 +237,7 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 17.0,
+    valueRange: { low: 17.0, high: 19.3 },
     unit: "Gy",
     fractionation: { fractions: 2 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -251,7 +252,7 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 20.3,
+    valueRange: { low: 20.3, high: 23.1 },
     unit: "Gy",
     fractionation: { fractions: 3 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -266,7 +267,7 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 23.0,
+    valueRange: { low: 23.0, high: 26.2 },
     unit: "Gy",
     fractionation: { fractions: 4 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -281,7 +282,7 @@ export const hytecClinicalConstraints = [
     guidanceKind: "risk-point",
     metric: { kind: "Dmax" },
     relation: "≈",
-    value: 25.3,
+    valueRange: { low: 25.3, high: 28.8 },
     unit: "Gy",
     fractionation: { fractions: 5 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
