@@ -68,6 +68,7 @@ export const endpointLabelsRu: Record<string, string> = {
   "head-neck-various-late-effects": "Различные поздние эффекты",
   "head-neck-tumour-control": "Локорегионарный / опухолевый контроль",
   "nsclc-stage-i-local-control": "Локальный контроль NSCLC I стадии",
+  "nsclc-local-control": "Локальный контроль немелкоклеточного рака лёгкого",
   "esophagus-pathologic-complete-response": "Патоморфологический полный ответ после предоперационной ХЛТ",
   "spinal-cord-radiation-myelopathy": "Лучевая миелопатия",
   "optic-pathway-radiation-neuropathy": "Лучевая нейропатия зрительных путей",
