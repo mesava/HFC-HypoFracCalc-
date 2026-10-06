@@ -80,7 +80,7 @@
 | `t12-temporal-lobe-necrosis-bcr2025` | `temporal-lobe-necrosis` | >4 h | `bcr-2025-ch10-tables` (textbook) | prior RT: not-reported | EXPLICIT | limited | 2 | secondary-confirmed; primary-source sign-off pending |
 | `dprolif-mucosa-chart2001` | `oral-mucosa-mucositis` | 0.8 Gy EQD2/day [0.7; 1.1] | `bentzen-saunders-dische-bond-2001-early` (randomized-trial) | head-and-neck EBRT; prior RT: none | EXPLICIT | supported | 2 | validated-primary |
 | `dprolif-skin-erythema-chart2001` | `skin-erythema` | 0.12 Gy EQD2/day [-0.12; 0.22] | `bentzen-saunders-dische-bond-2001-early` (randomized-trial) | head-and-neck EBRT; prior RT: none | EXPLICIT | limited | 2 | validated-primary |
-| `dprolif-hn-various-bcr2025` | `head-neck-tumour-control` | 0.8 Gy EQD2/day [0.5; 1.1]; Tk 21 d | `bcr-2025-ch10-tables` (textbook) | radical head-and-neck EBRT; prior RT: none | AUTO | supported | 2 | BCR model checked; primary-source sign-off pending |
+| `dprolif-hn-various-bcr2025` | `head-neck-tumour-control` | 0.8 Gy EQD2/day [0.5; 1.1]; Tk 21 d | `bcr-2025-ch10-tables` (textbook) | radical head-and-neck EBRT; prior RT: none | EXPLICIT | supported | 2 | BCR model checked; primary-source sign-off pending |
 | `dprolif-hn-various-alternative-bcr2025` | `head-neck-tumour-control` | 0.64 Gy EQD2/day [0.42; 0.86] | `bcr-2025-ch10-tables` (textbook) | radical head-and-neck EBRT; prior RT: not-reported | EXPLICIT | supported | — | primary-source audit pending |
 | `dprolif-hn-larynx-bcr2025` | `head-neck-larynx-tumour-control` | 0.74 Gy EQD2/day [0.3; 1.2] | `bcr-2025-ch10-tables` (textbook) | larynx EBRT; prior RT: not-reported | EXPLICIT | limited | — | primary-source audit pending |
 | `dprolif-hn-tonsil-bcr2025` | `head-neck-tonsil-tumour-control` | 0.73 Gy EQD2/day; Tk 30 d | `bcr-2025-ch10-tables` (textbook) | tonsil/oropharynx EBRT; prior RT: not-reported | EXPLICIT | limited | — | primary-source audit pending |
@@ -114,7 +114,7 @@
 | `t12-oral-mucositis-bcr2025` | Bentzen et al. (1996) — mucositis recovery half-time; BCR Table 10.2 |
 | `t12-spinal-cord-myelopathy-bcr2025` | Dische & Saunders (1989) — radiation myelopathy repair half-time; BCR Table 10.2 |
 | `t12-temporal-lobe-necrosis-bcr2025` | Lee et al. (1999) — temporal-lobe necrosis repair half-time; BCR Table 10.2 |
-| `dprolif-hn-various-bcr2025` | Roberts/Robers et al. (1994) — H&N Dprolif 0.8 Gy/day, Tk 21 d; verify exact primary citation |
+| `dprolif-hn-various-bcr2025` | Roberts SA, Hendry JH, Brewster AE, Slevin NJ. Br J Radiol. 1994;67(800):790–794. DOI 10.1259/0007-1285-67-800-790; PMID 8087485. Official publication abstract independently matches 0.8 Gy/day [0.5–1.1] and best Tk 21 d [0–27]; full primary-text sign-off for broad H&N applicability remains pending. |
 | `dprolif-hn-various-alternative-bcr2025` | Hendry et al. (1996) — pooled H&N Dprolif 0.64 Gy/day |
 | `dprolif-hn-larynx-bcr2025` | Robertson et al. (1998) — larynx Dprolif 0.74 Gy/day |
 | `dprolif-hn-tonsil-bcr2025` | Withers et al. (1995) — tonsil Dprolif 0.73 Gy/day, Tk 30 d |
@@ -132,5 +132,6 @@
 - 44 записи α/β покрыты пакетами 1 и 4; для каждой уже принято решение о default eligibility.
 - 15 HyTEC dose-volume records и отдельный spinal-cord reirradiation guidance set покрыты пакетами 3/5.
 - Три CHART T½ и две CHART Dprolif записи имеют первичную проверку в пакете 2.
-- Текущий H&N Dprolif/Tk 0.8/21 остаётся рабочей EQD₂-моделью draft-набора, но его первичный source sign-off ещё должен быть закрыт; он не эквивалентен RCR K/Tdelay.
+- H&N Dprolif/Tk 0.8/21 остаётся доступной EQD₂-моделью draft-набора **только по явному выбору**. Первичная публикация Roberts 1994 найдена и независимо подтверждает числа для ларингеальной выборки, но broad H&N sign-off ещё не закрыт; модель не эквивалентна RCR K/Tdelay.
+- После v0.8 среди записей с незакрытым primary-source sign-off **нет автоматических defaults**.
 - `releaseStatus` намеренно остаётся `draft` до закрытия очереди, независимых regression tests и пользовательской приёмки.
