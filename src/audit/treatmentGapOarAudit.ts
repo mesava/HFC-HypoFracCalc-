@@ -151,13 +151,30 @@ function repairParameter(
   };
 }
 
-function selectedSourceIds(
-  alpha: AuditAlphaBetaParameter,
-  repair: TreatmentGapOarRepairParameter,
+function selectionSourceIds(
+  alphaSelection: OarParameterSelection,
+  repairSelection: OarParameterSelection,
 ): string[] {
+  const alphaSourceId =
+    alphaSelection.selectionMode === "evidence"
+      ? alphaBetaEstimates.find(
+          (record) =>
+            record.id ===
+            alphaSelection.parameterRecordId,
+        )?.sourceId
+      : undefined;
+  const repairSourceId =
+    repairSelection.selectionMode === "evidence"
+      ? repairHalfTimeEstimates.find(
+          (record) =>
+            record.id ===
+            repairSelection.parameterRecordId,
+        )?.sourceId
+      : undefined;
+
   return [
     ...new Set(
-      [alpha.sourceId, repair.sourceId].filter(
+      [alphaSourceId, repairSourceId].filter(
         (value): value is string => Boolean(value),
       ),
     ),
@@ -176,10 +193,6 @@ export function buildTreatmentGapOarAuditEntry(
     );
   }
 
-  const alphaBeta = alphaParameter(input.alphaSelection);
-  const repairHalfTime = repairParameter(
-    input.repairSelection,
-  );
   const base: TreatmentGapOarAuditBase = {
     cardId: input.cardId,
     endpoint: {
@@ -191,9 +204,9 @@ export function buildTreatmentGapOarAuditEntry(
     inputState: input.inputState,
     alphaSelection: input.alphaSelection,
     repairSelection: input.repairSelection,
-    sourceIds: selectedSourceIds(
-      alphaBeta,
-      repairHalfTime,
+    sourceIds: selectionSourceIds(
+      input.alphaSelection,
+      input.repairSelection,
     ),
   };
 
@@ -204,6 +217,11 @@ export function buildTreatmentGapOarAuditEntry(
       error: input.calculation.error,
     };
   }
+
+  const alphaBeta = alphaParameter(input.alphaSelection);
+  const repairHalfTime = repairParameter(
+    input.repairSelection,
+  );
 
   const plannedOarDosePerFractionGy = Number(
     input.inputState.plannedOarDosePerFraction,
