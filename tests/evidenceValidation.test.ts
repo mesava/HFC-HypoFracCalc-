@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { alphaBetaEstimates } from "../src/data/evidence/v0.1/alphaBeta.js";
+import { repairHalfTimeEstimates } from "../src/data/evidence/v0.1/repairHalfTime.js";
+import { repopulationRateEstimates } from "../src/data/evidence/v0.1/repopulation.js";
 
 function estimate(id: string) {
   const record = alphaBetaEstimates.find((item) => item.id === id);
@@ -62,5 +64,57 @@ describe("Evidence validation batch 1", () => {
     expect(record.valueGy).toBe(1.6);
     expect(record.ci95).toEqual({ level: 0.95, low: 1.3, high: 2.0 });
     expect(record.defaultEligible).toBe(true);
+  });
+});
+
+
+describe("Evidence validation batch 2", () => {
+  it("retains the primary CHART repair half-times with published confidence intervals", () => {
+    const larynx = repairHalfTimeEstimates.find(
+      (record) => record.id === "t12-laryngeal-edema-chart1999",
+    );
+    const skin = repairHalfTimeEstimates.find(
+      (record) => record.id === "t12-skin-telangiectasia-chart1999",
+    );
+    const fibrosis = repairHalfTimeEstimates.find(
+      (record) => record.id === "t12-subcutis-fibrosis-chart1999",
+    );
+
+    expect(larynx?.valueHours).toBe(4.9);
+    expect(larynx?.ci95).toEqual({ level: 0.95, low: 3.2, high: 6.4 });
+    expect(skin?.valueHours).toBe(3.8);
+    expect(skin?.ci95).toEqual({ level: 0.95, low: 2.5, high: 4.6 });
+    expect(fibrosis?.valueHours).toBe(4.4);
+    expect(fibrosis?.ci95).toEqual({ level: 0.95, low: 3.8, high: 4.9 });
+  });
+
+  it("keeps CHART early-reaction Dprolif estimates non-automatic when Tk is not uniquely defined", () => {
+    const mucosa = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-mucosa-chart2001",
+    );
+    const skin = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-skin-erythema-chart2001",
+    );
+
+    expect(mucosa?.basis).toBe("EQD2");
+    expect(mucosa?.rateGyPerDay).toBe(0.8);
+    expect(mucosa?.ci95).toEqual({ level: 0.95, low: 0.7, high: 1.1 });
+    expect(mucosa?.defaultEligible).toBe(false);
+
+    expect(skin?.rateGyPerDay).toBe(0.12);
+    expect(skin?.ci95).toEqual({ level: 0.95, low: -0.12, high: 0.22 });
+    expect(skin?.defaultEligible).toBe(false);
+  });
+
+  it("records the current HNSCC time model explicitly as EQD2-based rather than BED-based K", () => {
+    const hn = repopulationRateEstimates.find(
+      (record) => record.id === "dprolif-hn-various-bcr2025",
+    );
+
+    expect(hn?.basis).toBe("EQD2");
+    expect(hn?.rateGyPerDay).toBe(0.8);
+    expect(hn?.kickOffDays).toBe(21);
+    expect(hn?.applicability?.notes?.join(" ")).toMatch(/K=0\.9 Gy BED\/day/);
+    expect(hn?.applicability?.notes?.join(" ")).toMatch(/not numerically interchangeable/i);
   });
 });
