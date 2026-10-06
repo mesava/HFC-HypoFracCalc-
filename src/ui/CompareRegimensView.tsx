@@ -15,6 +15,7 @@ import {
 } from "../workflows/compareRegimens.js";
 import { buildCompareRegimensAuditRecord } from "../audit/compareRegimensAudit.js";
 import { serializeAuditRecord } from "../audit/common.js";
+import { openPrintableAuditReport } from "../audit/report.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx, userSpecifiedLabel } from "./i18n.js";
 import {
   endpointLabel,
@@ -483,17 +484,28 @@ export function CompareRegimensView({
 
   const uiSelections = [tumour, ...oars];
 
-  function downloadCompareAudit() {
-    if (!comparison) return;
-    const record = buildCompareRegimensAuditRecord(
+  function currentCompareAudit() {
+    if (!comparison) return undefined;
+    return buildCompareRegimensAuditRecord(
       new Date().toISOString(),
       comparison,
     );
+  }
+
+  function downloadCompareAudit() {
+    const record = currentCompareAudit();
+    if (!record) return;
     downloadJsonFile(
       "HFC_compare_regimens_audit",
       serializeAuditRecord(record),
       record.generatedAtIso,
     );
+  }
+
+  function printCompareAudit() {
+    const record = currentCompareAudit();
+    if (!record) return;
+    openPrintableAuditReport(record, language);
   }
 
   return (
@@ -683,17 +695,30 @@ export function CompareRegimensView({
             <h2>{tx(language, "Сравнение EQD₂", "EQD₂ comparison")}</h2>
           </div>
           {comparison ? (
-            <button
-              type="button"
-              className="secondary-button audit-download-button"
-              onClick={downloadCompareAudit}
-            >
-              {tx(
-                language,
-                "Скачать аудит JSON",
-                "Download audit JSON",
-              )}
-            </button>
+            <div className="audit-actions">
+              <button
+                type="button"
+                className="secondary-button audit-download-button"
+                onClick={downloadCompareAudit}
+              >
+                {tx(
+                  language,
+                  "Скачать аудит JSON",
+                  "Download audit JSON",
+                )}
+              </button>
+              <button
+                type="button"
+                className="secondary-button audit-print-button"
+                onClick={printCompareAudit}
+              >
+                {tx(
+                  language,
+                  "Печатный отчёт",
+                  "Printable report",
+                )}
+              </button>
+            </div>
           ) : null}
         </div>
 
