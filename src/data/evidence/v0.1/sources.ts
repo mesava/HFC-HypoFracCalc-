@@ -349,7 +349,7 @@ export const sources = [
     year: 2000,
     doi: "10.1080/095530000138448",
     pmid: "10815624",
-    kind: "other",
+    kind: "systematic-review",
     notes:
       "Clinical-data synthesis used in Basic Clinical Radiobiology for lung pneumonitis alpha/beta and Dprolif estimates.",
   },
