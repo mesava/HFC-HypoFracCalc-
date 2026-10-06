@@ -66,3 +66,11 @@ jobs:
           name: playwright-report
           path: playwright-report/
           if-no-files-found: ignore
+
+      - name: Upload visual acceptance screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hfc-visual-acceptance
+          path: test-results/visual/
+          if-no-files-found: ignore

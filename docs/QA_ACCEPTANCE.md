@@ -36,6 +36,17 @@ npm run build
 npm run test:e2e
 ```
 
+### Воспроизводимый визуальный прогон
+
+Пакет browser-qa-v0.3 дополнительно открывает все восемь основных разделов HFC в Chromium при двух размерах окна:
+
+- desktop: 1440 × 1000 px;
+- mobile: 390 × 844 px.
+
+Для каждого раздела автоматически проверяется отсутствие горизонтального переполнения страницы, отсутствие `pageerror` и ошибок `console.error`. Полностраничные PNG сохраняются в CI artifact `hfc-visual-acceptance` для фактического визуального просмотра.
+
+Это не snapshot-тест по пикселям: изменение дизайна само по себе не блокирует CI. Скриншоты используются как воспроизводимый материал ручной приёмки.
+
 ## Develop preview
 
 Ручная визуальная приёмка выполняется на:
@@ -110,3 +121,33 @@ Browser QA считается пройденным только если:
 3. Playwright E2E зелёный;
 4. ручная приёмка не содержит блокирующих дефектов;
 5. evidence dataset остаётся `draft` до отдельного release review.
+
+
+## Результат визуальной приёмки 2026-10-06
+
+Browser QA run №168 выполнен на commit `c92235e3f410674927b658cec57f2c1c84a77c3b`.
+
+Проверено:
+- 8 основных разделов;
+- desktop 1440×1000;
+- mobile 390×844;
+- 16 full-page screenshots;
+- horizontal overflow;
+- browser `pageerror`;
+- `console.error`.
+
+Первый visual run обнаружил реальный мобильный дефект раздела «Повторное облучение»: при viewport 390 px document width увеличивался до 660 px. Причиной была минимальная ширина таблицы курсов внутри grid-item с `min-width: auto`.
+
+Исправление:
+- `.reirradiation-config` и `.reirradiation-results` получили `min-width: 0`;
+- одноколоночный breakpoint использует `minmax(0, 1fr)`;
+- таблица курсов сохраняет собственный внутренний horizontal scroll, но больше не расширяет страницу.
+
+Повторный прогон:
+- unit/typecheck/build — PASS;
+- browser regression tests — PASS;
+- desktop visual capture — PASS;
+- mobile visual capture — PASS;
+- блокирующих layout-дефектов при ручном просмотре 16 PNG не выявлено.
+
+Это закрывает **визуальный слой** пользовательской приёмки. Клинические edge-case сценарии из чек-листа ниже по-прежнему должны считаться отдельным release gate.
