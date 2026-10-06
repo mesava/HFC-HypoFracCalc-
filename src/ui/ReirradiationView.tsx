@@ -24,6 +24,7 @@ import {
   buildReirradiationAuditRecord,
   serializeAuditRecord,
 } from "../audit/reirradiationAudit.js";
+import { downloadJsonFile } from "./download.js";
 import {
   estimateChoiceLabel,
   localizeWarning,
@@ -629,23 +630,11 @@ export function ReirradiationView({
         : {}),
     });
 
-    const blob = new Blob(
-      [serializeAuditRecord(record)],
-      { type: "application/json;charset=utf-8" },
+    downloadJsonFile(
+      "HFC_reirradiation_audit",
+      serializeAuditRecord(record),
+      record.generatedAtIso,
     );
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    const stamp = record.generatedAtIso
-      .replace(/[:.]/g, "-")
-      .replace("T", "_")
-      .replace("Z", "");
-    anchor.href = url;
-    anchor.download =
-      "HFC_reirradiation_audit_" + stamp + ".json";
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
   }
 
   return (
