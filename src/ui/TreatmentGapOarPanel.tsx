@@ -1,4 +1,9 @@
-import { useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   alphaBetaEstimates,
   endpoints,
@@ -14,6 +19,10 @@ import {
   getRepairHalfTimeEstimates,
 } from "../evidence/repairRegistry.js";
 import type { DoseMetric, DoseMetricKind } from "../domain/constraints.js";
+import {
+  buildTreatmentGapOarAuditEntry,
+  type TreatmentGapOarAuditEntry,
+} from "../audit/treatmentGapOarAudit.js";
 import type { DoseCompensationStrategyResult } from "../workflows/treatmentGap.js";
 import type { TreatmentCalendarScenario } from "../workflows/treatmentCalendar.js";
 import {
@@ -59,9 +68,23 @@ interface TreatmentGapOarSharedProps {
   doseCompensation?: DoseCompensationStrategyResult;
 }
 
+interface TreatmentGapOarPanelProps
+  extends TreatmentGapOarSharedProps {
+  onAuditEntriesChange?: (
+    entries: TreatmentGapOarAuditEntry[],
+  ) => void;
+}
+
+type OarAuditChangeHandler = (
+  cardId: number,
+  entry: TreatmentGapOarAuditEntry,
+) => void;
+
 function TreatmentGapOarCard({
+  cardId,
   index,
   onRemove,
+  onAuditChange,
   language,
   calendarScenario,
   plannedFractions,
@@ -70,8 +93,10 @@ function TreatmentGapOarCard({
   bidInterfractionHours,
   doseCompensation,
 }: TreatmentGapOarSharedProps & {
+  cardId: number;
   index: number;
   onRemove?: () => void;
+  onAuditChange: OarAuditChangeHandler;
 }) {
   const normalEndpoints = useMemo(
     () =>
@@ -138,6 +163,57 @@ function TreatmentGapOarCard({
   const repairSource = sourceFor(repairRecord?.sourceId);
   const gy = language === "ru" ? "Гр" : "Gy";
 
+  const auditMetric = useMemo<DoseMetric>(
+    () =>
+      metricKind === "custom"
+        ? {
+            kind: "custom",
+            customLabel: customMetricLabel.trim(),
+          }
+        : { kind: metricKind },
+    [metricKind, customMetricLabel],
+  );
+
+  const auditAlphaSelection = useMemo(
+    () =>
+      alphaMode === "manual"
+        ? {
+            selectionMode: "manual" as const,
+            parameter: "alpha-beta" as const,
+            value: Number(manualAlphaBeta),
+            unit: "Gy" as const,
+            rationale:
+              "Manual OAR alpha/beta from Treatment Gap UI",
+          }
+        : {
+            selectionMode: "evidence" as const,
+            parameterRecordId: alphaRecordId,
+          },
+    [alphaMode, alphaRecordId, manualAlphaBeta],
+  );
+
+  const auditRepairSelection = useMemo(
+    () =>
+      repairMode === "manual"
+        ? {
+            selectionMode: "manual" as const,
+            parameter: "repair-half-time" as const,
+            value: Number(manualRepairHalfTime),
+            unit: "hours" as const,
+            rationale:
+              "Manual OAR repair half-time from Treatment Gap UI",
+          }
+        : {
+            selectionMode: "evidence" as const,
+            parameterRecordId: repairRecordId,
+          },
+    [
+      repairMode,
+      repairRecordId,
+      manualRepairHalfTime,
+    ],
+  );
+
   function changeEndpoint(nextId: string) {
     setEndpointId(nextId);
 
@@ -156,42 +232,9 @@ function TreatmentGapOarCard({
       const plannedOarD = Number(
         plannedOarDosePerFraction,
       );
-      const metric: DoseMetric =
-        metricKind === "custom"
-          ? {
-              kind: "custom",
-              customLabel: customMetricLabel.trim(),
-            }
-          : { kind: metricKind };
-      const alphaSelection =
-        alphaMode === "manual"
-          ? {
-              selectionMode: "manual" as const,
-              parameter: "alpha-beta" as const,
-              value: Number(manualAlphaBeta),
-              unit: "Gy" as const,
-              rationale:
-                "Manual OAR alpha/beta from Treatment Gap UI",
-            }
-          : {
-              selectionMode: "evidence" as const,
-              parameterRecordId: alphaRecordId,
-            };
-
-      const repairSelection =
-        repairMode === "manual"
-          ? {
-              selectionMode: "manual" as const,
-              parameter: "repair-half-time" as const,
-              value: Number(manualRepairHalfTime),
-              unit: "hours" as const,
-              rationale:
-                "Manual OAR repair half-time from Treatment Gap UI",
-            }
-          : {
-              selectionMode: "evidence" as const,
-              parameterRecordId: repairRecordId,
-            };
+      const metric = auditMetric;
+      const alphaSelection = auditAlphaSelection;
+      const repairSelection = auditRepairSelection;
 
       let weekend;
       let bid;
@@ -278,14 +321,9 @@ function TreatmentGapOarCard({
     }
   }, [
     endpointId,
-    metricKind,
-    customMetricLabel,
-    alphaMode,
-    alphaRecordId,
-    manualAlphaBeta,
-    repairMode,
-    repairRecordId,
-    manualRepairHalfTime,
+    auditMetric,
+    auditAlphaSelection,
+    auditRepairSelection,
     plannedOarDosePerFraction,
     postGapDoseMode,
     manualPostGapOarDose,
@@ -303,6 +341,52 @@ function TreatmentGapOarCard({
   const error = "error" in calculation
     ? calculation.error
     : undefined;
+
+  const auditEntry = useMemo(
+    () =>
+      buildTreatmentGapOarAuditEntry({
+        cardId,
+        endpointId,
+        metric: auditMetric,
+        inputState: {
+          plannedOarDosePerFraction,
+          postGapDoseMode,
+          manualPostGapOarDose,
+          alphaMode,
+          alphaRecordId,
+          manualAlphaBeta,
+          repairMode,
+          repairRecordId,
+          manualRepairHalfTime,
+          bidInterfractionHours,
+        },
+        alphaSelection: auditAlphaSelection,
+        repairSelection: auditRepairSelection,
+        calculation,
+      }),
+    [
+      cardId,
+      endpointId,
+      auditMetric,
+      plannedOarDosePerFraction,
+      postGapDoseMode,
+      manualPostGapOarDose,
+      alphaMode,
+      alphaRecordId,
+      manualAlphaBeta,
+      repairMode,
+      repairRecordId,
+      manualRepairHalfTime,
+      bidInterfractionHours,
+      auditAlphaSelection,
+      auditRepairSelection,
+      calculation,
+    ],
+  );
+
+  useEffect(() => {
+    onAuditChange(cardId, auditEntry);
+  }, [cardId, auditEntry, onAuditChange]);
 
   return (
     <section className="gap-oar-card">
