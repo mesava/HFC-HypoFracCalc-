@@ -400,6 +400,7 @@ src/
 - [docs/AUDIT.md](docs/AUDIT.md)
 - [docs/SECURITY.md](docs/SECURITY.md)
 - [docs/SITE.md](docs/SITE.md)
+- [docs/QA_ACCEPTANCE.md](docs/QA_ACCEPTANCE.md)
 
 ## Ветки и `main`
 
@@ -425,9 +426,11 @@ npm run audit:security
 npm run typecheck
 npm test
 npm run build
+npx playwright install chromium
+npm run test:e2e
 ```
 
-Browser-level regression tests добавляются в отдельном QA-пакете и запускаются в CI поверх собранного сайта.
+Browser-level regression tests реализованы через Playwright/Chromium и запускаются отдельным CI job поверх production build. Ручной release-чек-лист: [docs/QA_ACCEPTANCE.md](docs/QA_ACCEPTANCE.md).
 
 ## Безопасность зависимостей
 
