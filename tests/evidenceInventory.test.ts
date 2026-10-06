@@ -23,18 +23,18 @@ describe("evidence validation inventory coverage", () => {
       (record) => record.recordId,
     );
 
-    expect(evidenceIds).toHaveLength(79);
+    expect(evidenceIds).toHaveLength(80);
     expect(inventoryIds).toHaveLength(evidenceIds.length);
     expect(new Set(inventoryIds).size).toBe(inventoryIds.length);
     expect([...inventoryIds].sort()).toEqual([...evidenceIds].sort());
   });
 
-  it("keeps the dataset draft while primary-source sign-off remains open", () => {
+  it("keeps the dataset draft even after the pending evidence queue is resolved", () => {
     const pending = evidenceValidationInventory.filter((record) =>
       record.state.includes("pending"),
     );
 
-    expect(pending).toHaveLength(7);
+    expect(pending).toHaveLength(0);
     expect(evidenceManifest.releaseStatus).toBe("draft");
   });
 
