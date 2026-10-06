@@ -18,6 +18,8 @@ import {
   evaluatePreserveTimeStrategy,
   solveDoseCompensationStrategy,
 } from "../workflows/treatmentGap.js";
+import { buildTreatmentGapAuditRecord } from "../audit/treatmentGapAudit.js";
+import { serializeAuditRecord } from "../audit/common.js";
 import {
   buildTreatmentCalendarScenario,
   type TreatmentCalendarScenario,
@@ -25,6 +27,7 @@ import {
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx } from "./i18n.js";
 import { TreatmentCalendarPreview } from "./TreatmentCalendarPreview.js";
 import { TreatmentGapOarPanel } from "./TreatmentGapOarPanel.js";
+import { downloadJsonFile } from "./download.js";
 import {
   endpointLabel,
   formatUiNumber,
@@ -310,18 +313,20 @@ export function TreatmentGapView({
         };
       }
 
+      const doseCompensationInput = {
+        remainingFractionsToDeliver: Number(
+          compRemainingFractions,
+        ),
+        actualOverallTreatmentDays: Number(compActualOtt),
+      };
+
       let doseCompensation:
         | ReturnType<typeof solveDoseCompensationStrategy>
         | { error: string };
       try {
         doseCompensation = solveDoseCompensationStrategy(
           baseline,
-          {
-            remainingFractionsToDeliver: Number(
-              compRemainingFractions,
-            ),
-            actualOverallTreatmentDays: Number(compActualOtt),
-          },
+          doseCompensationInput,
         );
       } catch (error) {
         doseCompensation = {
@@ -336,12 +341,40 @@ export function TreatmentGapView({
         };
       }
 
+      const excludedDates = excludedDatesText
+        .split(/[\s,;]+/)
+        .map((value) => value.trim())
+        .filter(Boolean);
+
       return {
         baseline,
         calendarScenario,
         weekend,
         bid,
         doseCompensation,
+        alphaSelection,
+        repopulationSelection,
+        doseCompensationInput,
+        bidInterfractionHours: Number(bidHours),
+        ...(calendarScenario
+          ? {
+              calendarInput: {
+                startDate,
+                fractions: n,
+                gapStartDate,
+                gapEndDate,
+                ...(excludedDates.length > 0
+                  ? { excludedDates }
+                  : {}),
+              },
+            }
+          : {
+              manualDurationInput: {
+                plannedOverallTreatmentDays,
+                deliveredFractionsBeforeGap,
+                gapDays: gap,
+              },
+            }),
       };
     } catch (error) {
       return {
@@ -375,10 +408,57 @@ export function TreatmentGapView({
     bidHours,
     compRemainingFractions,
     compActualOtt,
+    startDate,
+    gapStartDate,
+    gapEndDate,
+    excludedDatesText,
     language,
   ]);
 
   const hasError = "error" in calculation;
+
+  function downloadTreatmentGapAudit() {
+    if (hasError) return;
+
+    const record = buildTreatmentGapAuditRecord({
+      generatedAtIso: new Date().toISOString(),
+      endpointId,
+      courseInputMode,
+      alphaSelection: calculation.alphaSelection,
+      repopulationSelection:
+        calculation.repopulationSelection,
+      baseline: calculation.baseline,
+      weekend: calculation.weekend,
+      bid: calculation.bid,
+      doseCompensation:
+        calculation.doseCompensation,
+      bidInterfractionHours:
+        calculation.bidInterfractionHours,
+      doseCompensationInput:
+        calculation.doseCompensationInput,
+      ...(calculation.calendarInput
+        ? { calendarInput: calculation.calendarInput }
+        : {}),
+      ...(calculation.calendarScenario
+        ? {
+            calendarScenario:
+              calculation.calendarScenario,
+          }
+        : {}),
+      ...(calculation.manualDurationInput
+        ? {
+            manualDurationInput:
+              calculation.manualDurationInput,
+          }
+        : {}),
+    });
+
+    downloadJsonFile(
+      "HFC_treatment_gap_audit",
+      serializeAuditRecord(record),
+      record.generatedAtIso,
+    );
+  }
 
   return (
     <main className="gap-workspace">
@@ -1023,6 +1103,19 @@ export function TreatmentGapView({
               )}
             </h2>
           </div>
+          {!hasError ? (
+            <button
+              type="button"
+              className="secondary-button audit-download-button"
+              onClick={downloadTreatmentGapAudit}
+            >
+              {tx(
+                language,
+                "Скачать аудит JSON",
+                "Download audit JSON",
+              )}
+            </button>
+          ) : null}
         </div>
 
         {hasError ? (
