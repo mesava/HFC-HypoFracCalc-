@@ -24,6 +24,7 @@ import {
   buildReirradiationAuditRecord,
   serializeAuditRecord,
 } from "../audit/reirradiationAudit.js";
+import { openPrintableAuditReport } from "../audit/report.js";
 import { downloadJsonFile } from "./download.js";
 import {
   estimateChoiceLabel,
@@ -609,10 +610,10 @@ export function ReirradiationView({
     confirmThecalSacDmax,
   ]);
 
-  function downloadAuditJson() {
-    if (!result || !parsedCourses) return;
+  function currentReirradiationAudit() {
+    if (!result || !parsedCourses) return undefined;
 
-    const record = buildReirradiationAuditRecord({
+    return buildReirradiationAuditRecord({
       generatedAtIso: new Date().toISOString(),
       endpointId,
       courses: parsedCourses,
@@ -629,12 +630,23 @@ export function ReirradiationView({
         ? { guidance: hytecSpinalGuidance }
         : {}),
     });
+  }
+
+  function downloadAuditJson() {
+    const record = currentReirradiationAudit();
+    if (!record) return;
 
     downloadJsonFile(
       "HFC_reirradiation_audit",
       serializeAuditRecord(record),
       record.generatedAtIso,
     );
+  }
+
+  function printAuditReport() {
+    const record = currentReirradiationAudit();
+    if (!record) return;
+    openPrintableAuditReport(record, language);
   }
 
   return (
@@ -1340,17 +1352,30 @@ export function ReirradiationView({
               </h2>
             </div>
             {result ? (
-              <button
-                type="button"
-                className="secondary-button audit-download-button"
-                onClick={downloadAuditJson}
-              >
-                {tx(
-                  language,
-                  "Скачать аудит JSON",
-                  "Download audit JSON",
-                )}
-              </button>
+              <div className="audit-actions">
+                <button
+                  type="button"
+                  className="secondary-button audit-download-button"
+                  onClick={downloadAuditJson}
+                >
+                  {tx(
+                    language,
+                    "Скачать аудит JSON",
+                    "Download audit JSON",
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="secondary-button audit-print-button"
+                  onClick={printAuditReport}
+                >
+                  {tx(
+                    language,
+                    "Печатный отчёт",
+                    "Printable report",
+                  )}
+                </button>
+              </div>
             ) : null}
           </div>
 
