@@ -2660,6 +2660,7 @@ button.module-card:hover {
 
 .reirradiation-config,
 .reirradiation-results {
+  min-width: 0;
   padding: 22px;
 }
 
@@ -2883,7 +2884,7 @@ button.module-card:hover {
 
 @media (max-width: 1040px) {
   .reirradiation-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
