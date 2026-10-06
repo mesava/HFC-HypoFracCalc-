@@ -386,7 +386,7 @@ src/
 Требуется Node.js 22.12+.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -401,7 +401,7 @@ npm run build
 
 ## Безопасность зависимостей
 
-Dev/build toolchain HFC проверяется через `npm audit --audit-level=high`. High/critical advisories блокируют CI и публикацию. Vite/Vitest закреплены на актуальных версиях, а обновления toolchain выполняются отдельно от изменений радиобиологических формул.
+Dev/build toolchain HFC проверяется через `npm audit --audit-level=high`. High/critical advisories блокируют CI и публикацию. Полное дерево зависимостей зафиксировано в `package-lock.json`, а CI устанавливает его через `npm ci`. Обновления toolchain выполняются отдельно от изменений радиобиологических формул.
 
 Подробнее: [docs/SECURITY.md](docs/SECURITY.md).
 
