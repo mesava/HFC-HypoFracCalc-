@@ -12,6 +12,7 @@ import {
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { buildQuickEqdAuditRecord } from "../audit/quickEqdAudit.js";
 import { serializeAuditRecord } from "../audit/common.js";
+import { openPrintableAuditReport } from "../audit/report.js";
 import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
 import { ClinicalConstraintsView } from "./ClinicalConstraintsView.js";
@@ -194,17 +195,28 @@ export function App() {
 
   const gy = language === "ru" ? "Гр" : "Gy";
 
-  function downloadQuickEqdAudit() {
-    if (!result) return;
-    const record = buildQuickEqdAuditRecord(
+  function currentQuickEqdAudit() {
+    if (!result) return undefined;
+    return buildQuickEqdAuditRecord(
       new Date().toISOString(),
       result,
     );
+  }
+
+  function downloadQuickEqdAudit() {
+    const record = currentQuickEqdAudit();
+    if (!record) return;
     downloadJsonFile(
       "HFC_quick_eqd_audit",
       serializeAuditRecord(record),
       record.generatedAtIso,
     );
+  }
+
+  function printQuickEqdAudit() {
+    const record = currentQuickEqdAudit();
+    if (!record) return;
+    openPrintableAuditReport(record, language);
   }
 
   const pageLabel = (page: SitePage): string => {
@@ -741,17 +753,30 @@ export function App() {
                 <h2>BED / EQD₂</h2>
               </div>
               {result ? (
-                <button
-                  type="button"
-                  className="secondary-button audit-download-button"
-                  onClick={downloadQuickEqdAudit}
-                >
-                  {tx(
-                    language,
-                    "Скачать аудит JSON",
-                    "Download audit JSON",
-                  )}
-                </button>
+                <div className="audit-actions">
+                  <button
+                    type="button"
+                    className="secondary-button audit-download-button"
+                    onClick={downloadQuickEqdAudit}
+                  >
+                    {tx(
+                      language,
+                      "Скачать аудит JSON",
+                      "Download audit JSON",
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="secondary-button audit-print-button"
+                    onClick={printQuickEqdAudit}
+                  >
+                    {tx(
+                      language,
+                      "Печатный отчёт",
+                      "Printable report",
+                    )}
+                  </button>
+                </div>
               ) : null}
             </div>
 
