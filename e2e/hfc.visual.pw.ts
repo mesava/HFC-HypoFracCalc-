@@ -41,12 +41,12 @@ const modules: ModuleCase[] = [
   {
     id: "methodology",
     label: "Методология",
-    landmark: "Как HFC считает и откуда берёт параметры",
+    landmark: "Как HFC получает и использует радиобиологические параметры",
   },
   {
     id: "about",
     label: "О сайте",
-    landmark: "Зачем существует HFC",
+    landmark: "Зачем создан HFC",
   },
 ];
 
