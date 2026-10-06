@@ -84,10 +84,15 @@ export interface BuildTreatmentGapOarAuditInput {
   repairSelection: OarParameterSelection;
   calculation:
     | {
-        weekend?: OarCalendarComparisonResult;
-        bid?: OarCalendarComparisonResult | { error: string };
-        doseCompensationOar?: OarDoseCompensationResult;
-        postGapOarD?: number;
+        weekend?: OarCalendarComparisonResult | undefined;
+        bid?:
+          | OarCalendarComparisonResult
+          | { error: string }
+          | undefined;
+        doseCompensationOar?:
+          | OarDoseCompensationResult
+          | undefined;
+        postGapOarD?: number | undefined;
       }
     | { error: string };
 }
