@@ -265,7 +265,7 @@ function TreatmentGapOarCard({
           bid = {
             error:
               error instanceof Error
-                ? error.message
+                ? localizeWarning(language, error.message)
                 : tx(
                     language,
                     "Не удалось оценить влияние двух фракций в сутки на орган риска.",
@@ -311,7 +311,7 @@ function TreatmentGapOarCard({
       return {
         error:
           error instanceof Error
-            ? error.message
+            ? localizeWarning(language, error.message)
             : tx(
                 language,
                 "Не удалось выполнить расчёт для органа риска.",
