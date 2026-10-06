@@ -36,6 +36,18 @@ npm run build
 npm run test:e2e
 ```
 
+## Develop preview
+
+Ручная визуальная приёмка выполняется на:
+
+https://mesava.github.io/HFC-HypoFracCalc-/develop/
+
+Стабильная версия для сравнения:
+
+https://mesava.github.io/HFC-HypoFracCalc-/
+
+Перед началом ручной приёмки необходимо проверить `/develop/preview-build.json` и убедиться, что поле `develop` совпадает с ожидаемой вершиной ветки `develop`.
+
 ## Ручная приёмка — следующий слой
 
 Перед release candidate необходимо отдельно пройти:
