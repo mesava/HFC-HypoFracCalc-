@@ -1096,15 +1096,64 @@ function TreatmentGapOarCard({
 }
 
 export function TreatmentGapOarPanel(
-  props: TreatmentGapOarSharedProps,
+  props: TreatmentGapOarPanelProps,
 ) {
+  const {
+    onAuditEntriesChange,
+    ...sharedProps
+  } = props;
   const [cardIds, setCardIds] = useState([1]);
   const [nextCardId, setNextCardId] = useState(2);
+  const [auditEntriesById, setAuditEntriesById] =
+    useState<Record<number, TreatmentGapOarAuditEntry>>(
+      {},
+    );
+
+  const updateAuditEntry = useCallback<
+    OarAuditChangeHandler
+  >((cardId, entry) => {
+    setAuditEntriesById((current) => {
+      if (current[cardId] === entry) return current;
+      return {
+        ...current,
+        [cardId]: entry,
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!onAuditEntriesChange) return;
+
+    const ordered = cardIds
+      .map((cardId) => auditEntriesById[cardId])
+      .filter(
+        (
+          entry,
+        ): entry is TreatmentGapOarAuditEntry =>
+          entry !== undefined,
+      );
+    onAuditEntriesChange(ordered);
+  }, [
+    cardIds,
+    auditEntriesById,
+    onAuditEntriesChange,
+  ]);
 
   function addCard() {
     if (cardIds.length >= 5) return;
     setCardIds((current) => [...current, nextCardId]);
     setNextCardId((value) => value + 1);
+  }
+
+  function removeCard(cardId: number) {
+    setCardIds((current) =>
+      current.filter((item) => item !== cardId),
+    );
+    setAuditEntriesById((current) => {
+      const next = { ...current };
+      delete next[cardId];
+      return next;
+    });
   }
 
   return (
@@ -1113,14 +1162,14 @@ export function TreatmentGapOarPanel(
         <div>
           <span className="eyebrow">
             {tx(
-              props.language,
+              sharedProps.language,
               "органы риска",
               "organs at risk",
             )}
           </span>
           <h2>
             {tx(
-              props.language,
+              sharedProps.language,
               "Оценка биологической нагрузки",
               "Biological burden assessment",
             )}
@@ -1133,7 +1182,7 @@ export function TreatmentGapOarPanel(
           disabled={cardIds.length >= 5}
         >
           {tx(
-            props.language,
+            sharedProps.language,
             "+ добавить орган риска",
             "+ add OAR",
           )}
@@ -1144,14 +1193,13 @@ export function TreatmentGapOarPanel(
         {cardIds.map((id, index) => (
           <TreatmentGapOarCard
             key={id}
-            {...props}
+            {...sharedProps}
+            cardId={id}
             index={index + 1}
+            onAuditChange={updateAuditEntry}
             {...(cardIds.length > 1
               ? {
-                  onRemove: () =>
-                    setCardIds((current) =>
-                      current.filter((item) => item !== id),
-                    ),
+                  onRemove: () => removeCard(id),
                 }
               : {})}
           />
