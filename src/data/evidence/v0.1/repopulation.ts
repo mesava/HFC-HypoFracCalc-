@@ -230,17 +230,18 @@ export const repopulationRateEstimates = [
   {
     id: "dprolif-prostate-bcr2025",
     endpointId: "prostate-biochemical-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "thames-2010-prostate-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.24,
     ci95: { level: 0.95, low: 0.03, high: 0.44 },
-    kickOffDays: 52,
+    kickOffNotes:
+      "The primary Thames 2010 analysis used 52 days as an overall-treatment-time cut point; HFC does not interpret that cut point as a biologically estimated Tk.",
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "BCR 2025 lists a prostate estimate with Tk=52 days, but treatment-time effects in prostate are context dependent and the estimate should not become an automatic gap-compensation default.",
+      "The primary Thames 2010 analysis supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. The 52-day analysis cut point is not stored as Tk; no automatic gap-compensation model is created.",
     applicability: {
       radiationQuality: "photon",
       technique: ["prostate EBRT"],
