@@ -113,12 +113,16 @@ describe("reirradiation audit record", () => {
     const sourceIds = audit.sources.map(
       (source) => source.id,
     );
-    expect(sourceIds).toContain(
+    for (const sourceId of [
       "andratschke-2022-estro-eortc-reirradiation",
-    );
-    expect(sourceIds).toContain(
+      "rcr-2024-principles-reirradiation",
+      "appelt-2026-cumulative-dose-reirradiation",
+      "paradis-2026-recog-consensus",
+      "zhang-2026-recog-case-guide",
       "sahgal-2021-hytec-spinal-cord",
-    );
+    ]) {
+      expect(sourceIds).toContain(sourceId);
+    }
   });
 
   it("serializes deterministically for a fixed timestamp", () => {
