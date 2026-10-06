@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main", "architecture-v0.1", "evidence-v0.1", "ui-v0.1"]
+    branches: ["main", "develop", "release-v0.1-dev"]
   pull_request:
 
 jobs:
@@ -15,10 +15,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.12.0
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Security audit
         run: npm run audit:security
