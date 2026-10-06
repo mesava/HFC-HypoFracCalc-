@@ -46,6 +46,34 @@ describe("clinical constraint registry", () => {
     );
   });
 
+  it("preserves the full de-novo spinal-cord HyTEC Dmax ranges for 1-5 fractions", () => {
+    const expected = new Map([
+      [1, { low: 12.4, high: 14.0 }],
+      [2, { low: 17.0, high: 19.3 }],
+      [3, { low: 20.3, high: 23.1 }],
+      [4, { low: 23.0, high: 26.2 }],
+      [5, { low: 25.3, high: 28.8 }],
+    ]);
+
+    for (const [fractions, range] of expected) {
+      const constraints = queryClinicalConstraints({
+        endpointId: "spinal-cord-radiation-myelopathy",
+        fractions,
+        metricKind: "Dmax",
+        priorRadiotherapy: "none",
+      });
+
+      expect(constraints).toHaveLength(1);
+      expect(constraints[0]?.value).toBeUndefined();
+      expect(constraints[0]?.valueRange).toEqual(range);
+      expect(constraints[0]?.estimatedRiskRange).toEqual({
+        low: 0.01,
+        high: 0.05,
+      });
+      expect(constraints[0]?.guidanceKind).toBe("risk-point");
+    }
+  });
+
   it("keeps brain V12 evidence as risk points rather than planning limits", () => {
     const constraints = queryClinicalConstraints({
       endpointId: "brain-symptomatic-radionecrosis",
