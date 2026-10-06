@@ -212,6 +212,17 @@ export const sources = [
       "Combined START trial analysis; adjusted Dprolif for local-regional relapse was 0.60 Gy/day (95% CI 0.10-1.18). The authors describe the result as hypothesis-generating and note that the time-effect estimate is driven by START-B.",
   },
   {
+    id: "thames-2010-prostate-time",
+    citation:
+      "Thames HD, Kuban D, Levy LB, et al. The role of overall treatment time in the outcome of radiotherapy of prostate cancer: an analysis of biochemical failure in 4839 men treated between 1987 and 1995. Radiother Oncol. 2010;96(1):6-12.",
+    year: 2010,
+    doi: "10.1016/j.radonc.2010.03.020",
+    pmid: "20400191",
+    kind: "cohort",
+    notes:
+      "Primary nine-institution retrospective analysis. The publication reports a dose equivalent of proliferation of 0.24 Gy/day in patients treated to at least 70 Gy. The commonly cited 52-day value was an overall-treatment-time cut point, not a directly estimated biological kick-off time.",
+  },
+  {
     id: "bcr-2025-ch10-tables",
     citation:
       "Bentzen SM, Joiner MC. The linear-quadratic approach in clinical practice. In: Basic Clinical Radiobiology. 6th ed. 2025. Chapter 10.",
