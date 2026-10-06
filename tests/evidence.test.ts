@@ -225,14 +225,14 @@ describe("repair and repopulation evidence", () => {
     expect(cord?.defaultEligible).toBe(false);
   });
 
-  it("stores a preferred HN Dprolif with explicit EQD2 basis and Tk", () => {
+  it("keeps the broad HN Dprolif model available but not automatic pending primary sign-off", () => {
     const hn = repopulationRateEstimates.find(
       (record) => record.id === "dprolif-hn-various-bcr2025",
     );
     expect(hn?.basis).toBe("EQD2");
     expect(hn?.rateGyPerDay).toBe(0.8);
     expect(hn?.kickOffDays).toBe(21);
-    expect(hn?.defaultEligible).toBe(true);
+    expect(hn?.defaultEligible).toBe(false);
   });
 
   it("keeps prostate time-loss evidence available but not automatic", () => {
