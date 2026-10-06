@@ -39,7 +39,7 @@ describe("evidence validation inventory coverage", () => {
   });
 
   it("makes the one pending automatic time model explicit", () => {
-    const pendingIds = new Set(
+    const pendingIds = new Set<string>(
       evidenceValidationInventory
         .filter((record) => record.state.includes("pending"))
         .map((record) => record.recordId),
