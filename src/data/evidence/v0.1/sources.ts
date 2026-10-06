@@ -168,6 +168,39 @@ export const sources = [
       "Secondary evidence source for Tables 10.1-10.3. Historical estimates sourced through this record remain explicitly identified as textbook-summary evidence unless the originating paper is separately curated.",
   },
   {
+    id: "turesson-thames-1989-skin",
+    citation:
+      "Turesson I, Thames HD. Repair capacity and kinetics of human skin during fractionated radiotherapy: erythema, desquamation, and telangiectasia after 3 and 5 year's follow-up. Radiother Oncol. 1989;15(2):169-188.",
+    year: 1989,
+    doi: "10.1016/0167-8140(89)90131-X",
+    pmid: "2762590",
+    kind: "modeling-study",
+    notes:
+      "Prospective clinical fractionation data in human skin after postmastectomy radiotherapy. The BCR 2025 table reports the erythema alpha/beta estimate 8.8 Gy (6.9-11.6) from this source; the PubMed abstract reports acute-skin alpha/beta values in the same clinical range and emphasizes time/repair effects.",
+  },
+  {
+    id: "bentzen-turesson-thames-1990-telangiectasia",
+    citation:
+      "Bentzen SM, Turesson I, Thames HD. Fractionation sensitivity and latency of telangiectasia after postmastectomy radiotherapy: a graded-response analysis. Radiother Oncol. 1990;18(2):95-106.",
+    year: 1990,
+    doi: "10.1016/0167-8140(90)90135-J",
+    pmid: "2367694",
+    kind: "modeling-study",
+    notes:
+      "Clinical graded-response fractionation analysis of telangiectasia after postmastectomy radiotherapy. BCR 2025 reports alpha/beta 2.6 Gy (2.2-3.3) from this source.",
+  },
+  {
+    id: "bentzen-overgaard-1991-postmastectomy",
+    citation:
+      "Bentzen SM, Overgaard M. Relationship between early and late normal-tissue injury after postmastectomy radiotherapy. Radiother Oncol. 1991;20(3):159-165.",
+    year: 1991,
+    doi: "10.1016/0167-8140(91)90092-U",
+    pmid: "1852907",
+    kind: "modeling-study",
+    notes:
+      "Clinical postmastectomy fractionation analysis of late skin/subcutaneous effects. BCR 2025 reports the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) from this source; the paper also reports a separate telangiectasia reanalysis.",
+  },
+  {
     id: "stuschke-thames-1999-head-neck",
     citation:
       "Stuschke M, Thames HD. Fractionation sensitivities and dose-control relations of head and neck carcinomas: analysis of the randomized hyperfractionation trials. Radiother Oncol. 1999;51(2):113-121.",

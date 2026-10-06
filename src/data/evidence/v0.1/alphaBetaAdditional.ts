@@ -33,47 +33,71 @@ export const alphaBetaAdditionalEstimates = [
   {
     id: "ab-skin-erythema-bcr2025",
     endpointId: "skin-erythema",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "turesson-thames-1989-skin",
     parameter: "alpha-beta",
     valueGy: 8.8,
     ci95: { level: 0.95, low: 6.9, high: 11.6 },
     status: "preferred",
     defaultEligible: true,
-    support: "limited",
+    support: "supported",
     supportReason:
-      "Clinical estimate summarized in Basic Clinical Radiobiology 2025 from Turesson and Thames (1989); originating paper not yet independently curated in evidence-v0.1.",
-    applicability: photonClinical,
-    notes: [
-      "Secondary-source record. Original source listed by the textbook: Turesson and Thames (1989).",
-    ],
+      "Human postmastectomy skin fractionation data from Turesson and Thames (1989); the 8.8 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["postmastectomy skin irradiation"],
+      priorRadiotherapy: "none",
+      population:
+        "Breast-cancer patients in prospective human-skin fractionation studies.",
+      notes: [
+        "Acute erythema endpoint. The source also demonstrates clinically important time and incomplete-repair effects, so alpha/beta alone does not capture all schedule dependence.",
+      ],
+    },
   },
   {
     id: "ab-skin-telangiectasia-bcr2025",
     endpointId: "skin-telangiectasia",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "bentzen-turesson-thames-1990-telangiectasia",
     parameter: "alpha-beta",
     valueGy: 2.6,
     ci95: { level: 0.95, low: 2.2, high: 3.3 },
     status: "preferred",
     defaultEligible: true,
-    support: "limited",
+    support: "supported",
     supportReason:
-      "Clinical late-effect estimate summarized in Basic Clinical Radiobiology 2025 from Bentzen et al. (1990); primary paper not yet independently curated.",
-    applicability: photonClinical,
+      "Direct graded-response clinical analysis of postmastectomy telangiectasia; the 2.6 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["postmastectomy radiotherapy"],
+      priorRadiotherapy: "none",
+      population:
+        "Postmastectomy patients with prospectively scored late telangiectasia.",
+      notes: [
+        "Late skin/vascular endpoint; do not substitute for acute erythema or other late normal-tissue endpoints.",
+      ],
+    },
   },
   {
     id: "ab-subcutis-fibrosis-bcr2025",
     endpointId: "subcutis-fibrosis",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "bentzen-overgaard-1991-postmastectomy",
     parameter: "alpha-beta",
     valueGy: 1.7,
     ci95: { level: 0.95, low: 0.6, high: 2.6 },
     status: "preferred",
     defaultEligible: true,
-    support: "limited",
+    support: "supported",
     supportReason:
-      "Clinical estimate summarized in Basic Clinical Radiobiology 2025 from Bentzen and Overgaard (1991); primary fractionation analysis not yet independently curated.",
-    applicability: photonClinical,
+      "Clinical postmastectomy fractionation analysis; the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) is reproduced in Basic Clinical Radiobiology 2025.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["postmastectomy radiotherapy"],
+      priorRadiotherapy: "none",
+      population:
+        "Postmastectomy patients in historical two-schedule fractionation cohorts.",
+      notes: [
+        "Late subcutaneous-fibrosis endpoint. Retain the published uncertainty and do not generalize it to all late normal tissues.",
+      ],
+    },
   },
   {
     id: "ab-bowel-stricture-perforation-bcr2025",
@@ -83,10 +107,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 3.9,
     ci95: { level: 0.95, low: 2.5, high: 5.3 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Endpoint-specific human estimate summarized in Basic Clinical Radiobiology 2025 from Deore et al. (1993); originating study requires separate primary-source curation.",
+      "Endpoint-specific historical human estimate summarized in Basic Clinical Radiobiology 2025; the originating Deore et al. analysis has not yet been independently curated to the level required for automatic selection.",
     applicability: photonClinical,
   },
   {
@@ -97,10 +121,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 4.3,
     ci95: { level: 0.95, low: 2.2, high: 9.6 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Randomized cervix-radiotherapy dataset yielded an alpha/beta estimate for late intestinal morbidity; the endpoint is composite and the CI is broad.",
+      "Historical randomized cervix-radiotherapy dataset yielded an alpha/beta estimate for composite late intestinal morbidity; the endpoint is broad and the interval is wide, so HFC requires explicit user selection.",
     applicability: {
       radiationQuality: "photon",
       technique: ["pelvic radiotherapy"],
@@ -120,10 +144,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 4.0,
     ci95: { level: 0.95, low: 2.2, high: 5.8 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Clinical-data synthesis summarized in Basic Clinical Radiobiology 2025; endpoint is radiation pneumonitis and should not be conflated with late radiological fibrosis.",
+      "Clinical-data synthesis of human lung reactions rather than one independently validated endpoint-specific primary fit; retained for explicit selection but not automatic use.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
@@ -138,10 +162,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 3.1,
     ci95: { level: 0.95, low: -0.2, high: 8.5 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Clinical Hodgkin-disease fractionation analysis; the confidence interval crosses zero, indicating substantial parameter uncertainty.",
+      "Clinical Hodgkin-disease fractionation analysis; the confidence interval crosses zero, so the estimate is not eligible for automatic selection.",
     applicability: {
       radiationQuality: "photon",
       technique: ["mantle-field thoracic radiotherapy"],
@@ -206,10 +230,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 8.2,
     ci95: { level: 0.95, low: 7.0, high: 9.4 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Clinical cross-study comparison of conventional fractionation and SBRT local-control data; the apparent alpha/beta may also reflect differences in repopulation and hypoxia.",
+      "Cross-study comparison of conventional fractionation and high-dose SBRT; the source explicitly notes that the apparent alpha/beta can reflect repopulation and hypoxia differences, so HFC requires explicit selection.",
     applicability: {
       radiationQuality: "photon",
       technique: ["conventional EBRT", "SBRT"],
@@ -229,10 +253,10 @@ export const alphaBetaAdditionalEstimates = [
     valueGy: 4.9,
     ci95: { level: 0.95, low: 1.5, high: 17.0 },
     status: "preferred",
-    defaultEligible: true,
+    defaultEligible: false,
     support: "limited",
     supportReason:
-      "Systematic overview of 26 preoperative chemoradiotherapy trials; the estimate is tied to pathologic complete response and concurrent chemotherapy context.",
+      "Systematic overview of heterogeneous preoperative chemoradiotherapy trials; the estimate is tied to pathologic complete response, concurrent chemotherapy and treatment-time effects, with a broad CI, so it is not automatic.",
     applicability: {
       radiationQuality: "photon",
       technique: ["preoperative chemoradiotherapy"],
@@ -272,6 +296,7 @@ export const alphaBetaAdditionalEstimates = [
     sourceId: "schultheiss-2008-spinal-cord",
     parameter: "alpha-beta",
     valueGy: 0.87,
+    ci95: { level: 0.95, low: 0.54, high: 1.19 },
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
@@ -282,8 +307,8 @@ export const alphaBetaAdditionalEstimates = [
       technique: ["once-daily fractionation"],
       priorRadiotherapy: "none",
       notes: [
-        "No alpha/beta confidence interval was reported in the abstract.",
-        "Retained as an alternative published human estimate, not as an automatic calculation default.",
+        "The cervical-cord model reported alpha/beta 0.87 Gy with 95% CI 0.54-1.19 Gy.",
+        "Retained as an alternative published human estimate, not as an automatic calculation default; the source cautions against uncritical application to hyperfractionation.",
       ],
     },
   },
