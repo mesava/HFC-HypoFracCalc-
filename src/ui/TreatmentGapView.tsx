@@ -20,6 +20,7 @@ import {
 } from "../workflows/treatmentGap.js";
 import { buildTreatmentGapAuditRecord } from "../audit/treatmentGapAudit.js";
 import { serializeAuditRecord } from "../audit/common.js";
+import { openPrintableAuditReport } from "../audit/report.js";
 import {
   buildTreatmentCalendarScenario,
   type TreatmentCalendarScenario,
@@ -417,10 +418,10 @@ export function TreatmentGapView({
 
   const hasError = "error" in calculation;
 
-  function downloadTreatmentGapAudit() {
-    if (hasError) return;
+  function currentTreatmentGapAudit() {
+    if (hasError) return undefined;
 
-    const record = buildTreatmentGapAuditRecord({
+    return buildTreatmentGapAuditRecord({
       generatedAtIso: new Date().toISOString(),
       endpointId,
       courseInputMode,
@@ -454,12 +455,23 @@ export function TreatmentGapView({
           }
         : {}),
     });
+  }
+
+  function downloadTreatmentGapAudit() {
+    const record = currentTreatmentGapAudit();
+    if (!record) return;
 
     downloadJsonFile(
       "HFC_treatment_gap_audit",
       serializeAuditRecord(record),
       record.generatedAtIso,
     );
+  }
+
+  function printTreatmentGapAudit() {
+    const record = currentTreatmentGapAudit();
+    if (!record) return;
+    openPrintableAuditReport(record, language);
   }
 
   return (
@@ -1106,17 +1118,30 @@ export function TreatmentGapView({
             </h2>
           </div>
           {!hasError ? (
-            <button
-              type="button"
-              className="secondary-button audit-download-button"
-              onClick={downloadTreatmentGapAudit}
-            >
-              {tx(
-                language,
-                "Скачать аудит JSON",
-                "Download audit JSON",
-              )}
-            </button>
+            <div className="audit-actions">
+              <button
+                type="button"
+                className="secondary-button audit-download-button"
+                onClick={downloadTreatmentGapAudit}
+              >
+                {tx(
+                  language,
+                  "Скачать аудит JSON",
+                  "Download audit JSON",
+                )}
+              </button>
+              <button
+                type="button"
+                className="secondary-button audit-print-button"
+                onClick={printTreatmentGapAudit}
+              >
+                {tx(
+                  language,
+                  "Печатный отчёт",
+                  "Printable report",
+                )}
+              </button>
+            </div>
           ) : null}
         </div>
 
