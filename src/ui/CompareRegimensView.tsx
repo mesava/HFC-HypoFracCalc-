@@ -13,6 +13,8 @@ import {
   type ComparisonEndpoint,
   type NamedRegimen,
 } from "../workflows/compareRegimens.js";
+import { buildCompareRegimensAuditRecord } from "../audit/compareRegimensAudit.js";
+import { serializeAuditRecord } from "../audit/common.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx, userSpecifiedLabel } from "./i18n.js";
 import {
   endpointLabel,
@@ -20,6 +22,7 @@ import {
   organLabel,
   type Language,
 } from "./labels.js";
+import { downloadJsonFile } from "./download.js";
 
 interface UiRegimen {
   id: string;
@@ -480,6 +483,19 @@ export function CompareRegimensView({
 
   const uiSelections = [tumour, ...oars];
 
+  function downloadCompareAudit() {
+    if (!comparison) return;
+    const record = buildCompareRegimensAuditRecord(
+      new Date().toISOString(),
+      comparison,
+    );
+    downloadJsonFile(
+      "HFC_compare_regimens_audit",
+      serializeAuditRecord(record),
+      record.generatedAtIso,
+    );
+  }
+
   return (
     <main className="compare-workspace">
       <section className="panel compare-config-panel">
@@ -666,6 +682,19 @@ export function CompareRegimensView({
             <span className="eyebrow">{tx(language, "матрица", "matrix")}</span>
             <h2>{tx(language, "Сравнение EQD₂", "EQD₂ comparison")}</h2>
           </div>
+          {comparison ? (
+            <button
+              type="button"
+              className="secondary-button audit-download-button"
+              onClick={downloadCompareAudit}
+            >
+              {tx(
+                language,
+                "Скачать аудит JSON",
+                "Download audit JSON",
+              )}
+            </button>
+          ) : null}
         </div>
 
         {error ? (
