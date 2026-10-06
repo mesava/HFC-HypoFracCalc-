@@ -233,7 +233,27 @@ export function localizeWarning(
   warning: string,
 ): string {
   if (language === "en") return warning;
-  return warningMapRu.get(warning) ?? warning;
+
+  const exact = warningMapRu.get(warning);
+  if (exact) return exact;
+
+  if (
+    /^Repair half-time record .* is a range or bound rather than a point estimate\./.test(
+      warning,
+    )
+  ) {
+    return "Выбранная оценка T½ является диапазоном или границей, а не точечным значением. Для расчёта необходимо явно задать численное T½.";
+  }
+
+  if (
+    /^No point repair half-time default exists for .+;/.test(
+      warning,
+    )
+  ) {
+    return "Для выбранного клинического исхода нет автоматического точечного T½. Выберите точечную опубликованную оценку или явно задайте T½ вручную.";
+  }
+
+  return warning;
 }
 
 export function languageName(language: Language): string {
