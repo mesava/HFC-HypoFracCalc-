@@ -18,6 +18,7 @@ export const organLabelsRu: Record<string, string> = {
   "Spinal cord": "Спинной мозг",
   Larynx: "Гортань",
   "Temporal lobe": "Височная доля",
+  Tonsil: "Миндалина",
   "Central nervous system": "Центральная нервная система",
   "Optic pathways": "Зрительные пути",
   Brain: "Головной мозг",
