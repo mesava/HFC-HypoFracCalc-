@@ -289,6 +289,18 @@ describe("Evidence validation batch 6 — time-effect primary sources", () => {
     expect(tk21?.defaultEligible).toBe(false);
   });
 
+  it("does not misinterpret the Thames 52-day analysis cut point as prostate Tk", () => {
+    const record = repopulationRateEstimates.find(
+      (item) => item.id === "dprolif-prostate-bcr2025",
+    );
+
+    expect(record?.sourceId).toBe("thames-2010-prostate-time");
+    expect(record?.rateGyPerDay).toBe(0.24);
+    expect(record?.kickOffDays).toBeUndefined();
+    expect(record?.kickOffNotes).toMatch(/52 days.*cut point/i);
+    expect(record?.defaultEligible).toBe(false);
+  });
+
   it("uses the primary START analysis for the breast time-effect estimate", () => {
     const record = repopulationRateEstimates.find(
       (item) => item.id === "dprolif-breast-bcr2025",
