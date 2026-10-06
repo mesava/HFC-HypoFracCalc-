@@ -10,6 +10,8 @@ import {
   getPreferredAlphaBetaEstimate,
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
+import { buildQuickEqdAuditRecord } from "../audit/quickEqdAudit.js";
+import { serializeAuditRecord } from "../audit/common.js";
 import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
 import { ClinicalConstraintsView } from "./ClinicalConstraintsView.js";
@@ -24,6 +26,7 @@ import { MethodologyView } from "./MethodologyView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
 import { ReirradiationView } from "./ReirradiationView.js";
+import { downloadJsonFile } from "./download.js";
 
 type ParameterMode = "evidence" | "manual";
 
@@ -190,6 +193,19 @@ export function App() {
   }, [availableEndpoints]);
 
   const gy = language === "ru" ? "Гр" : "Gy";
+
+  function downloadQuickEqdAudit() {
+    if (!result) return;
+    const record = buildQuickEqdAuditRecord(
+      new Date().toISOString(),
+      result,
+    );
+    downloadJsonFile(
+      "HFC_quick_eqd_audit",
+      serializeAuditRecord(record),
+      record.generatedAtIso,
+    );
+  }
 
   const pageLabel = (page: SitePage): string => {
     switch (page) {
@@ -724,6 +740,19 @@ export function App() {
                 <span className="eyebrow">{tx(language, "результат", "result")}</span>
                 <h2>BED / EQD₂</h2>
               </div>
+              {result ? (
+                <button
+                  type="button"
+                  className="secondary-button audit-download-button"
+                  onClick={downloadQuickEqdAudit}
+                >
+                  {tx(
+                    language,
+                    "Скачать аудит JSON",
+                    "Download audit JSON",
+                  )}
+                </button>
+              ) : null}
             </div>
 
             {error ? (
