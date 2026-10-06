@@ -271,6 +271,12 @@ export const endpoints = [
     role: "tumour",
   },
   {
+    id: "nsclc-local-control",
+    organ: "Lung",
+    endpoint: "Local control of non-small-cell lung cancer",
+    role: "tumour",
+  },
+  {
     id: "nsclc-stage-i-local-control",
     organ: "Lung",
     endpoint: "Local control of stage I non-small-cell lung cancer",
