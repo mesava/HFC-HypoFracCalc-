@@ -38,7 +38,7 @@ describe("evidence validation inventory coverage", () => {
     expect(evidenceManifest.releaseStatus).toBe("draft");
   });
 
-  it("makes the one pending automatic time model explicit", () => {
+  it("has no automatic parameter whose primary-source sign-off is pending", () => {
     const pendingIds = new Set<string>(
       evidenceValidationInventory
         .filter((record) => record.state.includes("pending"))
@@ -52,8 +52,6 @@ describe("evidence validation inventory coverage", () => {
       )
       .map((record) => record.id);
 
-    expect(pendingAutomatic).toEqual([
-      "dprolif-hn-various-bcr2025",
-    ]);
+    expect(pendingAutomatic).toEqual([]);
   });
 });
