@@ -21,7 +21,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 7,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     expect(baseline.alphaBetaGy).toBe(10.5);
@@ -68,7 +68,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 5,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -91,7 +91,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 3,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     expect(() =>
@@ -111,7 +111,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 20,
       gapDays: 3,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -133,7 +133,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 28,
       deliveredFractionsBeforeGap: 10,
       gapDays: 2,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = evaluatePreserveTimeStrategy(
@@ -155,7 +155,7 @@ describe("Treatment Gap workflow", () => {
       plannedOverallTreatmentDays: 46,
       deliveredFractionsBeforeGap: 25,
       gapDays: 5,
-          repopulationSelection: hnTimeSelection,
+      repopulationSelection: hnTimeSelection,
     });
 
     const strategy = solveDoseCompensationStrategy(baseline, {
