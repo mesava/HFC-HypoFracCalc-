@@ -1309,7 +1309,7 @@ export function TreatmentGapView({
                 </div>
                 {"error" in calculation.bid ? (
                   <div className="inline-alert">
-                    {calculation.bid.error}
+                    {localizeWarning(language, calculation.bid.error)}
                   </div>
                 ) : (
                   <>
