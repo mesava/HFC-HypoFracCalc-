@@ -1,6 +1,6 @@
 import type { RepopulationRateEstimate } from "../../../domain/evidence.js";
 
-export const repopulationRateEstimates = [
+export const repopulationRateEstimates: RepopulationRateEstimate[] = [
   {
     id: "dprolif-mucosa-chart2001",
     endpointId: "oral-mucosa-mucositis",
@@ -293,4 +293,4 @@ export const repopulationRateEstimates = [
       priorRadiotherapy: "none",
     },
   },
-] satisfies RepopulationRateEstimate[];
+];
