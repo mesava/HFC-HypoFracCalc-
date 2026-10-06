@@ -55,11 +55,11 @@ export const repopulationRateEstimates = [
     kickOffDays: 21,
     kickOffNotes:
       "BCR 2025 Table 10.3 lists 21 days for a pooled 'various head and neck' estimate.",
-    status: "preferred",
+    status: "deprecated",
     defaultEligible: false,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "BCR 2025 supports this EQD2-based Dprolif/Tk model for HNSCC treatment-time analysis, but the 0.8 Gy/day and Tk=21 day pair traces to laryngeal clinical data and remains pending primary-source sign-off for broad H&N automatic use. It is retained for explicit evidence selection and must not be treated as equivalent to the RCR 2019 BED-based K/Tdelay formulation.",
+      "The numerical 0.8 Gy/day and Tk=21 day pair is directly supported by Roberts 1994 for node-negative laryngeal cancer, not for a generic HNSCC endpoint. This broad BCR-derived record is therefore retained only for audit replay and removed from new selection.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -75,16 +75,16 @@ export const repopulationRateEstimates = [
   {
     id: "dprolif-hn-various-alternative-bcr2025",
     endpointId: "head-neck-tumour-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "hendry-1996-missed-days",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.64,
     ci95: { level: 0.95, low: 0.42, high: 0.86 },
     status: "reviewed",
     defaultEligible: false,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Alternative pooled literature estimate listed in BCR 2025 Table 10.3; retained for sensitivity analysis.",
+      "Hendry 1996 is a modelled synthesis of clinical literature rather than a single endpoint-specific prospective estimate. The pooled 0.64 Gy/day (95% CI 0.42-0.86) value is retained for explicit sensitivity analysis only.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -99,15 +99,40 @@ export const repopulationRateEstimates = [
     basis: "EQD2",
     rateGyPerDay: 0.74,
     ci95: { level: 0.95, low: 0.30, high: 1.20 },
-    status: "reviewed",
+    status: "deprecated",
     defaultEligible: false,
-    support: "limited",
+    support: "poor-fit",
     supportReason:
-      "Subsite-specific estimate is listed, but no Tk value is supplied in Table 10.3.",
+      "The BCR summary value 0.74 Gy/day (95% CI 0.30-1.20) could not be reproduced from the identified Robertson 1998 primary analyses; a four-centre Robertson analysis reports gamma/alpha 0.89 Gy/day (95% CI 0.35-1.43). HFC retires the 0.74 record rather than silently substituting a different model result.",
     applicability: {
       radiationQuality: "photon",
       technique: ["larynx EBRT"],
       priorRadiotherapy: "not-reported",
+    },
+  },
+  {
+    id: "dprolif-larynx-roberts1994",
+    endpointId: "head-neck-larynx-tumour-control",
+    sourceId: "roberts-1994-larynx-time",
+    parameter: "repopulation-rate",
+    basis: "EQD2",
+    rateGyPerDay: 0.80,
+    ci95: { level: 0.95, low: 0.50, high: 1.10 },
+    kickOffDays: 21,
+    kickOffNotes:
+      "Roberts 1994: best-estimate Tk 21 days with 95% CI 0-27 days; no statistically significant lag phase could be demonstrated.",
+    status: "reviewed",
+    defaultEligible: false,
+    support: "supported",
+    supportReason:
+      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["larynx EBRT"],
+      priorRadiotherapy: "none",
+      notes: [
+        "Do not generalize this laryngeal estimate into a universal head-and-neck default.",
+      ],
     },
   },
   {
@@ -136,16 +161,18 @@ export const repopulationRateEstimates = [
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.54,
-    ci95: { level: 0.95, low: 0.13, high: 0.95 },
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "A clinical estimate is available, but BCR 2025 emphasizes that time corrections for normal-tissue early reactions are valid only over limited time ranges.",
+      "Bentzen 2000 directly supports an overall best estimate near 0.54 Gy/day for pneumonitis; QUANTEC later reports 0.54 ± 0.21 Gy/day (1 SE). The previous HFC 95% CI 0.13-0.95 was a derived 1.96×SE interval rather than a source-reported CI and is no longer stored as ci95.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
       priorRadiotherapy: "not-reported",
+      notes: [
+        "Time correction for pneumonitis is context-sensitive and this record remains explicit-only.",
+      ],
     },
   },
   {
@@ -234,14 +261,13 @@ export const repopulationRateEstimates = [
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.24,
-    ci95: { level: 0.95, low: 0.03, high: 0.44 },
     kickOffNotes:
       "The primary Thames 2010 analysis used 52 days as an overall-treatment-time cut point; HFC does not interpret that cut point as a biologically estimated Tk.",
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The primary Thames 2010 analysis supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. The 52-day analysis cut point is not stored as Tk; no automatic gap-compensation model is created.",
+      "The primary Thames 2010 abstract directly supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. Later peer-reviewed reviews reproduce a 95% CI of 0.03-0.44, but HFC does not store that interval as primary-source ci95 until the full primary text is curated. The 52-day analysis cut point is not stored as Tk.",
     applicability: {
       radiationQuality: "photon",
       technique: ["prostate EBRT"],
