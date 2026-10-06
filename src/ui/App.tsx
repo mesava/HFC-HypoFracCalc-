@@ -43,10 +43,18 @@ export function App() {
 
   useEffect(() => {
     document.documentElement.lang = language;
-    document.title =
-      language === "ru"
-        ? "HFC — HypoFracCalc"
-        : "HFC — HypoFracCalc";
+    document.title = "HFC — HypoFracCalc";
+
+    const metaDescription = document.querySelector<HTMLMetaElement>(
+      'meta[name="description"]',
+    );
+    if (metaDescription) {
+      metaDescription.content = tx(
+        language,
+        "HFC — русскоязычный калькулятор клинической радиобиологии для BED, EQD₂, сравнения режимов, перерывов лечения и повторного облучения.",
+        "HFC — an evidence-traceable clinical radiobiology calculator for BED, EQD₂, regimen comparison, treatment gaps, and reirradiation.",
+      );
+    }
   }, [language]);
 
   const availableEndpoints = useMemo(
@@ -260,7 +268,7 @@ export function App() {
           className="brand-button"
           type="button"
           onClick={() => navigate("home")}
-          aria-label="HFC home"
+          aria-label={tx(language, "Главная HFC", "HFC home")}
         >
           <div className="brand-row">
             <div className="brand-mark">HFC</div>
