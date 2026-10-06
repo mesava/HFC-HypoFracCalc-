@@ -121,17 +121,16 @@ describe("preferred alpha/beta selections", () => {
     expect(record?.ci95).toEqual({ level: 0.95, low: 1.3, high: 2.0 });
   });
 
-  it("selects endpoint-specific late rectal estimates", () => {
+  it("auto-selects only the strongest validated late rectal estimate", () => {
     expect(
       getPreferredAlphaBetaEstimate("rectum-bleeding-g1plus")?.valueGy,
     ).toBe(1.6);
     expect(
-      getPreferredAlphaBetaEstimate("rectum-proctitis-g1plus")?.valueGy,
-    ).toBe(2.7);
+      getPreferredAlphaBetaEstimate("rectum-proctitis-g1plus"),
+    ).toBeUndefined();
     expect(
-      getPreferredAlphaBetaEstimate("rectum-sphincter-control-g1plus")
-        ?.valueGy,
-    ).toBe(3.1);
+      getPreferredAlphaBetaEstimate("rectum-sphincter-control-g1plus"),
+    ).toBeUndefined();
   });
 
   it("does not auto-select the poorly constrained rectal pain estimate", () => {

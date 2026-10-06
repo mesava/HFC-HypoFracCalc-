@@ -78,6 +78,10 @@ describe("evidence-driven LQ workflow", () => {
     const result = calculateEvidenceLq(
       "breast-induration",
       { fractions: 5, dosePerFractionGy: 6 },
+      {
+        selectionMode: "evidence",
+        parameterRecordId: "ab-breast-induration-fast2020",
+      },
     );
 
     expect(result.alphaBetaGy).toBe(1.6);
