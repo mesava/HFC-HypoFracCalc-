@@ -246,6 +246,10 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 17.0 Gy lower value comes from the Sahgal model and 19.3 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-3fx-20p3gy",
@@ -261,6 +265,10 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 20.3 Gy lower value comes from the Sahgal model and 23.1 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-4fx-23gy",
@@ -276,6 +284,10 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 23.0 Gy lower value comes from the Sahgal model and 26.2 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
   {
     id: "hytec-cord-dmax-5fx-25p3gy",
@@ -291,5 +303,9 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.01, high: 0.05 },
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
+    notes: [
+      "The 25.3 Gy lower value comes from the Sahgal model and 28.8 Gy from the Katsoulakis-Gibbs model.",
+      "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+    ],
   },
 ] satisfies ClinicalConstraint[];
