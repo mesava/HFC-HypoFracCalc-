@@ -1,4 +1,8 @@
-import { useMemo, useState } from "react";
+import {
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import {
   alphaBetaEstimates,
   endpoints,
@@ -19,6 +23,7 @@ import {
   solveDoseCompensationStrategy,
 } from "../workflows/treatmentGap.js";
 import { buildTreatmentGapAuditRecord } from "../audit/treatmentGapAudit.js";
+import type { TreatmentGapOarAuditEntry } from "../audit/treatmentGapOarAudit.js";
 import { serializeAuditRecord } from "../audit/common.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import {
@@ -122,6 +127,15 @@ export function TreatmentGapView({
   const [compRemainingFractions, setCompRemainingFractions] =
     useState("15");
   const [compActualOtt, setCompActualOtt] = useState("51");
+  const [oarAuditEntries, setOarAuditEntries] =
+    useState<TreatmentGapOarAuditEntry[]>([]);
+
+  const handleOarAuditEntriesChange = useCallback(
+    (entries: TreatmentGapOarAuditEntry[]) => {
+      setOarAuditEntries(entries);
+    },
+    [],
+  );
 
   const alphaRecords = getAlphaBetaEstimates(endpointId);
   const timeRecords = getRepopulationEstimates(endpointId);
@@ -437,6 +451,7 @@ export function TreatmentGapView({
         calculation.bidInterfractionHours,
       doseCompensationInput:
         calculation.doseCompensationInput,
+      oars: oarAuditEntries,
       ...("calendarInput" in calculation &&
       calculation.calendarInput
         ? { calendarInput: calculation.calendarInput }
@@ -1394,6 +1409,9 @@ export function TreatmentGapView({
 
             <TreatmentGapOarPanel
               language={language}
+              onAuditEntriesChange={
+                handleOarAuditEntriesChange
+              }
               {...(calculation.calendarScenario
                 ? {
                     calendarScenario:
