@@ -207,9 +207,11 @@ export const hytecClinicalConstraints = [
     ],
   },
 
-  // De novo spinal cord SBRT. These are risk-associated maximum-dose
-  // ranges spanning approximately 1%-5% modeled myelopathy risk,
-  // not unconditional hard constraints.
+  // De novo spinal cord SBRT. These are model-derived maximum-dose
+  // ranges spanning approximately 1%-5% modeled myelopathy risk.
+  // The lower values are from the Sahgal model/thecal-sac approach;
+  // the upper values are from the Katsoulakis-Gibbs spinal-cord model.
+  // They are not confidence intervals and are not unconditional hard constraints.
   {
     id: "hytec-cord-dmax-1fx-risk-range",
     sourceId: "sahgal-2021-hytec-spinal-cord",
@@ -225,8 +227,9 @@ export const hytecClinicalConstraints = [
     priorRadiotherapy: "none",
     technique: ["spine SBRT"],
     notes: [
-      "HyTEC reports a 12.4-14.0 Gy point-maximum range associated with approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
-      "The reported range is preserved and is not collapsed to one default dose.",
+      "HyTEC presents model-derived point-maximum limits spanning approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
+      "The lower value is from the Sahgal model and the upper value from the Katsoulakis-Gibbs model; this is not a confidence interval.",
+      "The model range is preserved and is not collapsed to one default dose.",
     ],
   },
   {
