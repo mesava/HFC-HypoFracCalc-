@@ -74,6 +74,43 @@ describe("clinical constraint registry", () => {
     }
   });
 
+
+  it("documents that spinal-cord ranges are model ranges rather than confidence intervals", () => {
+    for (const fractions of [1, 2, 3, 4, 5]) {
+      const constraints = queryClinicalConstraints({
+        endpointId: "spinal-cord-radiation-myelopathy",
+        fractions,
+        metricKind: "Dmax",
+        priorRadiotherapy: "none",
+      });
+
+      expect(constraints).toHaveLength(1);
+      expect(
+        constraints[0]?.notes?.some((note) =>
+          note.toLowerCase().includes("not a confidence interval"),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it("keeps the optic single-fraction recommendation distinct from the 12 Gy modelled risk point", () => {
+    const constraints = queryClinicalConstraints({
+      endpointId: "optic-pathway-radiation-neuropathy",
+      fractions: 1,
+      metricKind: "Dmax",
+      priorRadiotherapy: "none",
+    });
+
+    expect(constraints).toHaveLength(1);
+    expect(constraints[0]?.value).toBe(10);
+    expect(constraints[0]?.guidanceKind).toBe("planning-limit");
+    expect(
+      constraints[0]?.notes?.some((note) =>
+        note.includes("12 Gy"),
+      ),
+    ).toBe(true);
+  });
+
   it("keeps brain V12 evidence as risk points rather than planning limits", () => {
     const constraints = queryClinicalConstraints({
       endpointId: "brain-symptomatic-radionecrosis",
