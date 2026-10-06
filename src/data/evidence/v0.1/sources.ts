@@ -19,7 +19,7 @@ export const sources = [
     pmid: "36174633",
     kind: "consensus",
     notes:
-      "Defines reirradiation as a new radiotherapy course with geometric overlap of previously irradiated volumes (type I) or without overlap when cumulative dose raises toxicity concerns (type II).",
+      "Validated methodological source. Defines reirradiation as a new radiotherapy course with geometric overlap of previously irradiated volumes (type I) or without geometric overlap when cumulative dose raises toxicity concerns (type II); repeat irradiation without either feature is reported separately.",
   },
   {
     id: "rcr-2024-principles-reirradiation",
@@ -28,7 +28,7 @@ export const sources = [
     year: 2024,
     kind: "guideline",
     notes:
-      "General clinical principles for highly individualised reirradiation, including accounting for previous dose, original and new dose distributions, dose constraints, technique, uncertainty, and explicit recovery assumptions.",
+      "Validated guidance source. Previous dose should be converted to BED or EQD2 before cumulative assessment; alpha/beta and cumulative equieffective dose should be recorded; manual calculations should be independently checked; normal-tissue recovery is uncertain and any discount to prior dose is a documented clinician judgement rather than an automatic function of elapsed time.",
   },
   {
     id: "appelt-2026-cumulative-dose-reirradiation",
@@ -39,7 +39,7 @@ export const sources = [
     pmid: "41318002",
     kind: "consensus",
     notes:
-      "Consensus guidance for cumulative dose evaluation. OAR dose summation should use equieffective dose rescaling before summation; physical 3D dose should not be quantitatively summed. Recovery, if assumed, is applied to previously delivered equieffective dose.",
+      "Validated technical consensus source. Cumulative OAR evaluation requires radiobiological rescaling to equieffective dose before quantitative summation. Physical 3D doses from different courses should not be quantitatively summed. Registration must be assessed patient-specifically; if spatial accumulation is unsuitable or unavailable, a conservative point/near-maximum strategy is acceptable. Any recovery factor is applied explicitly to previously delivered equieffective dose and uncertainties, QA and peer review should be documented.",
   },
   {
     id: "paradis-2026-recog-consensus",
@@ -50,7 +50,7 @@ export const sources = [
     pmid: "41643699",
     kind: "consensus",
     notes:
-      "International consensus on cumulative dose evaluation, documentation and reporting for patients receiving multiple courses of radiotherapy.",
+      "Validated international consensus on cumulative dose evaluation, documentation and reporting across multiple radiotherapy courses. Supports image-registration-based and point-dose-based approaches chosen according to data availability, anatomy, uncertainty and institutional resources, with explicit reporting of recovery assumptions and cumulative-dose methodology.",
   },
   {
     id: "zhang-2026-recog-case-guide",
@@ -61,7 +61,7 @@ export const sources = [
     pmid: "41985779",
     kind: "consensus",
     notes:
-      "Case-based implementation examples using direct point-dose summation, point-dose summation within overlap regions, and image-registration-based 3D equieffective dose summation.",
+      "Validated case-based implementation of ReCOG. Demonstrates three cumulative-dose strategies: direct point-dose summation, point-dose summation within overlap regions, and image-registration-based 3D equieffective dose summation; selection depends on available data, resources and patient-specific considerations.",
   },
   {
     id: "milano-2021-hytec-optic",
