@@ -21,3 +21,7 @@ export * from "./workflows/reirradiationGuidance.js";
 export * from "./domain/audit.js";
 export * from "./audit/reirradiationAudit.js";
 export * from "./version.js";
+export * from "./audit/common.js";
+export * from "./audit/quickEqdAudit.js";
+export * from "./audit/compareRegimensAudit.js";
+export * from "./audit/treatmentGapAudit.js";
