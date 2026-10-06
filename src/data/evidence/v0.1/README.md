@@ -1,104 +1,102 @@
-# HFC evidence dataset 2026.10-v0.1
+# Доказательная база HFC 2026.10-v0.1
 
-Status: **draft**
+Статус набора: **черновой, проходит поэтапную научную валидацию**.
 
-This first evidence dataset covers photon EBRT and four clinical groups:
+Этот каталог содержит версионируемые клинические параметры HFC для дистанционной лучевой терапии фотонными пучками.
 
-1. prostate tumour biochemical control;
-2. late rectal toxicity after prostate EBRT;
-3. late genitourinary toxicity after prostate EBRT;
-4. breast tumour recurrence and late breast/chest-wall normal-tissue effects.
+## Основные правила курирования
 
-## Curation rules used in v0.1
+- Параметр связан с **конкретным клиническим исходом**, а не только с названием органа.
+- Опубликованное число может храниться в базе, даже если оно недостаточно надёжно для автоматического выбора.
+- `status: "preferred"` означает предпочтительность записи для конкретного исхода и области применимости, но не отменяет отдельную проверку `defaultEligible`.
+- `defaultEligible: false` запрещает автоматическую подстановку.
+- `support` отражает силу поддержки численной оценки.
+- 95% ДИ сохраняется, если он опубликован и проверен.
+- Пользовательское значение является параметром конкретного расчёта и никогда не изменяет доказательную базу.
+- Значения из вторичных источников не повышаются до автоматических только потому, что они часто цитируются.
+- Разные дозовые основы не смешиваются: например, Dprolif в EQD₂/сут и K в BED/сут хранятся и интерпретируются отдельно.
 
-- Parameters are keyed by **clinical endpoint**, not by organ alone.
-- A numerical estimate can be retained even when it is not suitable for automatic default selection.
-- `status: preferred` means that HFC may present that record as the preferred estimate for the **exact endpoint and applicability context**.
-- `support` separately describes how strongly the source supports the numerical estimate.
-- `defaultEligible: false` prevents automatic use even if a numerical alpha/beta was reported.
-- Manual user values remain calculation-level overrides and never modify this dataset.
+## Уже проверенные пакеты
 
-## Prostate
+### Пакет 1 — простата, CHHiP и молочная железа
 
-Vogelius & Bentzen (2020) pooled 14 randomized EBRT trials (13,384 patients):
+Проверены:
+- Vogelius & Bentzen 2020 для биохимического контроля рака предстательной железы;
+- Brand et al. 2021 для поздних ректальных исходов CHHiP;
+- Brand et al. 2023 для поздних мочеполовых исходов CHHiP;
+- FAST 10-летние данные;
+- FAST-Forward 10-летние данные 2026 года.
 
-- alpha/beta = **1.6 Gy**
-- 95% CI **1.3–2.0 Gy**
+Важное следствие проверки: большинство опубликованных численных α/β для ректальных и мочеполовых исходов **не становятся автоматическими**, если свободная оценка α/β не улучшает модель или параметр плохо определён.
 
-This is the v0.1 preferred estimate for biochemical control, with explicit caveats:
+### Пакет 2 — восстановление и временная поправка
 
-- I² = 70%;
-- study alpha/beta estimates increased with fraction size;
-- the source discusses either non-constant fractionation sensitivity or saturation of biochemical control above roughly 80 Gy EQD2.
+Проверены:
+- T½ для отёка гортани, телеангиэктазии кожи и подкожного фиброза из CHART;
+- Dprolif ранних реакций;
+- различие BCR-модели Dprolif/Tk и RCR-модели K/Tdelay.
 
-HFC must therefore show the estimate and its caveat together.
+HFC не считает K и Dprolif одним параметром и не переносит число 0,9 Гр BED/сут из RCR в поле Dprolif.
 
-## Rectum — CHHiP
+### Пакет 3 — HyTEC
 
-Brand et al. (2021) provides endpoint-specific late rectal estimates. The dataset retains all Table 3 LKB-EQD2 estimates, but assigns different support levels.
+Проверены:
+- зрительные пути;
+- головной мозг;
+- спинной мозг;
+- специальный набор для повторного SBRT позвоночника.
 
-Examples:
+Для спинного мозга сохраняются полные модельные диапазоны Dmax для 1–5 фракций. Эти диапазоны не являются доверительными интервалами и не превращаются в универсальные жёсткие ограничения.
 
-| Endpoint | alpha/beta (Gy) | 95% CI | v0.1 handling |
-|---|---:|---:|---|
-| Bleeding G1+ | 1.6 | 0.9–2.5 | preferred, supported |
-| Bleeding G2+ | 1.7 | 0.7–3.0 | preferred, limited |
-| Stool frequency G1+ | 2.3 | 0.9–5.3 | preferred, limited |
-| Stool frequency G2+ | 2.7 | 0.9–8.5 | preferred, limited |
-| Pain G1+ | 3.6 | 0–839.6 | **not default**, poor fit |
-| Proctitis G1+ | 2.7 | 1.5–5.4 | preferred, limited |
-| Proctitis G2+ | 2.7 | 1.3–15.1 | preferred, limited |
-| Sphincter control G1+ | 3.1 | 1.4–9.1 | preferred, limited |
-| Stricture/ulcer G1+ | 2.5 | 0.9–8.2 | preferred, limited |
+### Пакет 4 — дополнительные человеческие α/β
 
-The source itself advises caution in collapsing these data into one universal rectal alpha/beta.
+Отдельно проверены:
+- оральный мукозит;
+- эритема кожи;
+- телеангиэктазия;
+- подкожный фиброз;
+- опухолевый контроль и композитные поздние эффекты головы и шеи;
+- пневмонит и рентгенологический фиброз лёгкого;
+- поздние кишечные осложнения;
+- stage I NSCLC;
+- полный патоморфологический ответ при раке пищевода;
+- человеческие оценки α/β спинного мозга.
 
-## Genitourinary — CHHiP
+После проверки автоматический выбор отключён для оценок, которые слишком зависят от контекста, имеют слабую идентифицируемость или происходят из неоднородных/исторических данных.
 
-Brand et al. (2023) reports numerical fits for ten GU endpoint/grade combinations, but EQD2 correction significantly improved the non-EQD2 model for only three:
+## Примеры политики автоматического выбора
 
-| Endpoint | alpha/beta (Gy) | 95% CI |
-|---|---:|---:|
-| Dysuria G1+ | 2.0 | 1.2–3.2 |
-| Hematuria G1+ | 0.9 | 0.1–2.2 |
-| Hematuria G2+ | 0.6 | 0.1–1.7 |
+**Автоматически допустимы при совпадении клинического исхода и области применимости:**
+- prostate biochemical control — 1,6 Гр;
+- rectal bleeding G1+ — 1,6 Гр;
+- GU dysuria G1+ — 2,0 Гр;
+- GU hematuria G1+/G2+ — 0,9/0,6 Гр;
+- skin erythema — 8,8 Гр;
+- skin telangiectasia — 2,6 Гр;
+- subcutaneous fibrosis — 1,7 Гр;
+- H&N tumour control — 10,5 Гр.
 
-These three are default-eligible in v0.1.
+**Требуют явного выбора пользователя:**
+- большинство остальных ректальных CHHiP-оценок;
+- часть GU-оценок без улучшения модели;
+- bowel stricture/perforation и композитные поздние кишечные эффекты;
+- lung pneumonitis и radiological lung fibrosis;
+- stage I NSCLC 8,2 Гр;
+- oesophageal pCR 4,9 Гр;
+- опубликованные человеческие оценки α/β спинного мозга.
 
-The other reported numerical estimates are retained as reviewed evidence but **not auto-selected** because model improvement was absent or penalized model fit was worse and/or estimates were extremely imprecise.
+## Источники и журнал решений
 
-This distinction is a deliberate HFC feature: “a paper reports a number” is not equivalent to “the number should become a clinical default”.
+Реестр литературы:
+`sources.ts`.
 
-## Breast
+Подробное обоснование каждого пакета:
+[../../../docs/EVIDENCE_VALIDATION.md](../../../docs/EVIDENCE_VALIDATION.md).
 
-### FAST 10-year
+Перед переводом набора из чернового статуса в валидированный должны быть завершены:
 
-Preferred endpoint-specific late normal-tissue estimates include:
-
-- photographic breast appearance: **2.7 Gy** (1.5–3.9);
-- physician-assessed composite NTE: **2.5 Gy** (1.8–3.3);
-- shrinkage: **2.7 Gy** (1.9–3.5);
-- induration: **1.6 Gy** (0–4.4; limited);
-- telangiectasia: **3.1 Gy** (2.3–3.9);
-- edema: **1.9 Gy** (point estimate; CI not reported in Table 4).
-
-Applicability note: the FAST 5-fraction schedules were delivered **once weekly over 5 weeks**.
-
-### FAST-Forward 10-year (2026)
-
-Appendix Table D5 provides:
-
-- ipsilateral breast recurrence, adjusted model: **3.3 Gy** (1.9–4.9);
-- ipsilateral breast recurrence, unadjusted: 3.4 Gy (1.6–5.2);
-- any clinician-reported breast/chest-wall adverse effect: **2.1 Gy** (1.6–2.6).
-
-The adjusted 3.3 Gy estimate is preferred for the tumour endpoint in v0.1.
-
-## Next review step
-
-Before this dataset can move from `draft` to `validated`:
-
-- project owner reviews preferred/default decisions;
-- source metadata are independently cross-checked;
-- numerical records are regression-tested against the source tables;
-- additional modern sources are added where they materially alter endpoint selection.
+1. проверка оставшихся параметров и источников;
+2. проверка доказательной базы повторного облучения;
+3. независимые регрессионные тесты численных значений;
+4. пользовательская приёмка v0.1;
+5. финальная проверка решений об автоматическом выборе.
