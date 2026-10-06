@@ -34,6 +34,21 @@ describe("Treatment Gap workflow", () => {
     );
   });
 
+  it("requires an explicit HNSCC time model while broad primary sign-off is pending", () => {
+    expect(() =>
+      buildTreatmentGapBaseline({
+        endpointId: "head-neck-tumour-control",
+        plannedSchedule: {
+          fractions: 35,
+          dosePerFractionGy: 2,
+        },
+        plannedOverallTreatmentDays: 46,
+        deliveredFractionsBeforeGap: 20,
+        gapDays: 7,
+      }),
+    ).toThrow(/No default Dprolif\/Tk model/);
+  });
+
   it("reproduces the BCR one-week time difference with manual 0.7 Gy/day", () => {
     const baseline = buildTreatmentGapBaseline({
       endpointId: "head-neck-tumour-control",
