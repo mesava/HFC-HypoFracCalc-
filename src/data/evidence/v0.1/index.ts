@@ -17,3 +17,5 @@ export { repopulationRateEstimates } from "./repopulation.js";
 export { hytecClinicalConstraints } from "./constraintsHytec.js";
 
 export { reirradiationGuidanceSets } from "./reirradiationGuidance.js";
+
+export { evidenceValidationInventory } from "./validationInventory.js";
