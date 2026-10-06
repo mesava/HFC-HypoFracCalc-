@@ -41,9 +41,13 @@ test.describe("HFC clinical-safety browser acceptance", () => {
     await page.getByLabel("Конец перерыва").fill("2026-10-11");
 
     await expect(
-      page.getByText(
-        "В указанном интервале перерыва нет ни одной запланированной лечебной фракции.",
-      ),
+      page
+        .locator(".inline-alert")
+        .filter({
+          hasText:
+            "В указанном интервале перерыва нет ни одной запланированной лечебной фракции.",
+        })
+        .first(),
     ).toBeVisible();
   });
 
