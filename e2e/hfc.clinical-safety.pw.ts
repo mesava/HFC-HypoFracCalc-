@@ -28,9 +28,7 @@ async function openReirradiation(page: Page) {
 test.describe("HFC clinical-safety browser acceptance", () => {
   test("Treatment Gap rejects an interruption containing no planned fraction", async ({ page }) => {
     await page.goto("/");
-    await page
-      .getByRole("button", { name: "Перерывы в лечении", exact: true })
-      .click();
+    await openCalculator(page, "Перерывы в лечении");
 
     await page.getByLabel("План, n").fill("10");
     await page.getByLabel("Начало лечения").fill("2026-10-05");
