@@ -1,10 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
+import { openCalculator } from "./navigation.js";
 
 async function openTreatmentGapWithTimeModel(page: Page) {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Перерывы в лечении", exact: true })
-    .click();
+  await openCalculator(page, "Перерывы в лечении");
 
   const timeModel = page.getByLabel("Оценка временной поправки");
   await timeModel.selectOption({ index: 1 });
