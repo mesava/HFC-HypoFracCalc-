@@ -189,7 +189,7 @@ export function HowToView({
             <li>
               {tx(
                 language,
-                "После ручного изменения схемы provenance preset очищается.",
+                "После ручного изменения схемы связь с исходным шаблоном и его источником очищается.",
                 "Editing the schedule manually clears preset provenance.",
               )}
             </li>
@@ -284,7 +284,7 @@ export function HowToView({
           <p>
             {tx(
               language,
-              "В «Клинических ограничениях» фильтруйте записи по органу, endpoint и числу фракций. Всегда различайте planning limit, risk point и observational threshold. В «Моделях исходов» HFC показывает опубликованные точки без скрытой интерполяции.",
+              "В «Клинических ограничениях» фильтруйте записи по органу, клиническому исходу и числу фракций. Всегда различайте планировочную границу, точку риска и наблюдательный порог. В «Моделях исходов» HFC показывает опубликованные точки без скрытой интерполяции.",
               "In Clinical Constraints filter by organ, endpoint, and fractionation. Always distinguish a planning limit, risk point, and observational threshold. Outcome Models displays published points without hidden interpolation.",
             )}
           </p>
@@ -341,7 +341,7 @@ export function HowToView({
         <p>
           {tx(
             language,
-            "Проверьте соответствие endpoint, dose metric, fractionation и prior-RT context исходной публикации. BED/EQD₂ — математическая эквивалентность, а не самостоятельное доказательство клинической эквивалентности. HFC требует независимой проверки и локального комиссионирования.",
+            "Проверьте соответствие клинического исхода, дозовой метрики, схемы фракционирования и контекста предшествующего облучения исходной публикации. BED/EQD₂ — математическая эквивалентность, а не самостоятельное доказательство клинической эквивалентности. HFC требует независимой проверки и локального комиссионирования.",
             "Verify that endpoint, dose metric, fractionation, and prior-RT context match the source publication. BED/EQD₂ is mathematical equivalence, not independent proof of clinical equivalence. HFC requires independent verification and local commissioning.",
           )}
         </p>
