@@ -38,6 +38,10 @@ export interface ReirradiationAuditBudget {
   warnings: string[];
 }
 
+export interface ReirradiationAuditUserConfirmations {
+  thecalSacDmaxMetric: boolean;
+}
+
 export interface ReirradiationAuditResult {
   classification: ReirradiationClassification;
   cumulativePhysicalDoseGy: number;
@@ -65,6 +69,7 @@ export interface ReirradiationAuditRecord {
   alphaBeta: ReirradiationAuditParameter;
   metric: DoseMetric;
   context: ReirradiationAuditContext;
+  userConfirmations?: ReirradiationAuditUserConfirmations;
   inputCourses: ReirradiationCourse[];
   result: ReirradiationAuditResult;
   budget?: ReirradiationAuditBudget;
