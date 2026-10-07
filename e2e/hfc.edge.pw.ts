@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { openCalculator } from "./navigation.js";
 
 test.describe("HFC browser acceptance edge cases", () => {
   test.beforeEach(async ({ page }) => {
@@ -7,9 +8,7 @@ test.describe("HFC browser acceptance edge cases", () => {
   });
 
   test("Quick EQD requires valid manual alpha/beta and positive dose", async ({ page }) => {
-    await page
-      .getByRole("button", { name: "Быстрый EQD", exact: true })
-      .click();
+    await openCalculator(page, "Быстрый BED / EQD₂");
 
     await page
       .getByRole("button", { name: "Своё значение", exact: true })
@@ -39,9 +38,7 @@ test.describe("HFC browser acceptance edge cases", () => {
   });
 
   test("Quick EQD printable report opens in a separate browser page", async ({ page }) => {
-    await page
-      .getByRole("button", { name: "Быстрый EQD", exact: true })
-      .click();
+    await openCalculator(page, "Быстрый BED / EQD₂");
 
     const popupPromise = page.waitForEvent("popup");
     await page.getByRole("button", { name: "Печатный отчёт" }).click();
@@ -53,9 +50,7 @@ test.describe("HFC browser acceptance edge cases", () => {
   });
 
   test("Treatment Gap manual Dprolif and Tk cannot be silently empty", async ({ page }) => {
-    await page
-      .getByRole("button", { name: "Перерывы в лечении", exact: true })
-      .click();
+    await openCalculator(page, "Перерывы в лечении");
 
     await page
       .getByRole("button", { name: "свои Dprolif / Tk", exact: true })
@@ -81,9 +76,7 @@ test.describe("HFC browser acceptance edge cases", () => {
   });
 
   test("Reirradiation default scenario renders and manual alpha/beta is validated", async ({ page }) => {
-    await page
-      .getByRole("button", { name: "Повторное облучение", exact: true })
-      .click();
+    await openCalculator(page, "Повторное облучение");
 
     await expect(
       page.getByRole("heading", {
