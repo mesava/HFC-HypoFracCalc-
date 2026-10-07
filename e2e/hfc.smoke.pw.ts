@@ -24,6 +24,23 @@ test.describe("HFC browser acceptance smoke tests", () => {
     ).toBeVisible();
   });
 
+  test("How to use guide opens and exposes worked examples", async ({ page }) => {
+    await page
+      .getByRole("button", { name: "Как пользоваться?", exact: true })
+      .first()
+      .click();
+
+    await expect(
+      page.getByRole("heading", {
+        name: "От клинического вопроса к проверяемому расчёту",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Пример: Быстрый EQD" }),
+    ).toBeVisible();
+    await expect(page.getByText("89.11 Гр", { exact: true })).toBeVisible();
+  });
+
   test("Quick EQD calculates, validates bad input, and exports JSON audit", async ({ page }) => {
     await page
       .getByRole("button", { name: "Быстрый EQD", exact: true })
