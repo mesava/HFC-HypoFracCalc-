@@ -1,8 +1,8 @@
-# Приёмка HFC v0.1-dev
+# Приёмка HFC 0.1.0-rc.1
 
 ## Назначение
 
-Этот документ фиксирует browser-level и ручную пользовательскую приёмку перед подготовкой release candidate.
+Этот документ фиксирует browser-level и ручную пользовательскую приёмку текущего release candidate перед переносом в `main`.
 
 Автоматические E2E-тесты не заменяют независимую клиническую проверку. Их задача — ловить регрессии интерфейса, навигации, валидации ввода и основных пользовательских сценариев.
 
@@ -61,7 +61,7 @@ https://mesava.github.io/HFC-HypoFracCalc-/
 
 ## Ручная приёмка — следующий слой
 
-Перед release candidate необходимо отдельно пройти:
+В рамках финального release review необходимо отдельно пройти:
 
 - Главная;
 - Быстрый EQD;
@@ -181,7 +181,7 @@ Browser QA run №168 выполнен на commit `c92235e3f410674927b658cec57f
 
 ## Audit integrity
 
-Перед release candidate новые JSON-аудиты должны:
+Для release candidate новые JSON-аудиты должны:
 
 - экспортироваться в HFC audit envelope;
 - содержать SHA-256 по каноническому `record`;
@@ -217,12 +217,12 @@ Browser/unit acceptance должна подтверждать:
 - browser file-upload/replay для Compare, Treatment Gap и Reirradiation;
 - visual QA страницы «Проверка аудита» на desktop и mobile.
 
-После этого audit integrity/import/replay считается закрытым release gate для текущей schema 1.0; отдельным следующим этапом остаётся подготовка schema 1.1 для явного хранения всех user-confirmation inputs.
+После этого audit integrity/import/replay считается закрытым release gate для текущей schema 1.1; schema 1.0 сохраняется только как поддерживаемый исторический формат.
 
 
 ### Audit schema 1.1
 
-Перед release candidate дополнительно проверяется:
+Для release candidate дополнительно проверяется:
 
 - новые audit records имеют `schemaVersion: 1.1`;
 - Reirradiation сохраняет `userConfirmations.thecalSacDmaxMetric`;
