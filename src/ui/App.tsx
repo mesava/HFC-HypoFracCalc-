@@ -269,6 +269,11 @@ export function App() {
   const navigate = (page: SitePage) => {
     setActiveModule(page);
     setMobileMenuOpen(false);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
   };
 
   return (
@@ -402,6 +407,13 @@ export function App() {
         >
           {tx(language, "Повторное облучение", "Reirradiation")}
         </button>
+        <button
+          className={`module ${activeModule === "audit" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("audit")}
+        >
+          {tx(language, "Проверка аудита", "Audit Replay")}
+        </button>
       </nav>
 
       <div className="mobile-nav">
@@ -440,6 +452,7 @@ export function App() {
                 "constraints",
                 "outcomes",
                 "reirradiation",
+                "audit",
                 "methodology",
                 "about",
               ] as SitePage[]
@@ -458,7 +471,7 @@ export function App() {
       </div>
 
       {activeModule === "home" ? (
-        <SiteHome language={language} onNavigate={setActiveModule} />
+        <SiteHome language={language} onNavigate={navigate} />
       ) : activeModule === "quick" ? (
         <main className="workspace">
           <section className="panel input-panel">
