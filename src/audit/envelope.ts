@@ -8,6 +8,10 @@ import {
 export const HFC_AUDIT_ENVELOPE_VERSION = "1.0";
 export const HFC_AUDIT_CANONICALIZATION = "hfc-json-v1";
 export const HFC_AUDIT_HASH_ALGORITHM = "SHA-256";
+export const HFC_SUPPORTED_AUDIT_SCHEMA_VERSIONS = [
+  "1.0",
+  HFC_AUDIT_SCHEMA_VERSION,
+] as const;
 
 export type AuditModule =
   | "quick-eqd"
@@ -191,7 +195,11 @@ function assertSupportedAuditHeader(
     record,
     "schemaVersion",
   );
-  if (schemaVersion !== HFC_AUDIT_SCHEMA_VERSION) {
+  if (
+    !HFC_SUPPORTED_AUDIT_SCHEMA_VERSIONS.includes(
+      schemaVersion as (typeof HFC_SUPPORTED_AUDIT_SCHEMA_VERSIONS)[number],
+    )
+  ) {
     throw new Error(
       `Unsupported audit schema version: ${schemaVersion}`,
     );
