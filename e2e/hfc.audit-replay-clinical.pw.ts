@@ -33,6 +33,7 @@ const timestamp = "2026-10-07T07:00:00.000Z";
 async function openAuditReplay(page: Page) {
   await page.goto("/");
   await page
+    .getByRole("contentinfo")
     .getByRole("button", {
       name: "Проверка аудита",
       exact: true,
