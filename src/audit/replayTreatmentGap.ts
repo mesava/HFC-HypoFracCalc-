@@ -34,7 +34,6 @@ function rebuildOarEntry(
   calendarScenario: TreatmentCalendarScenario | undefined,
   plannedTargetDosePerFractionGy: number,
   deliveredFractionsBeforeGap: number,
-  bidInterfractionHours: number,
   doseCompensation:
     | ReturnType<typeof solveDoseCompensationStrategy>
     | { error: string },
@@ -81,7 +80,8 @@ function rebuildOarEntry(
           alphaBetaSelection: saved.alphaSelection,
           repairHalfTimeSelection:
             saved.repairSelection,
-          bidInterfractionHours,
+          bidInterfractionHours:
+            saved.inputState.bidInterfractionHours,
         });
       } catch (error) {
         bid = { error: errorMessage(error) };
@@ -241,7 +241,6 @@ export function rebuildTreatmentGapAudit(
       calendarScenario,
       baseline.plannedSchedule.dosePerFractionGy,
       baseline.deliveredFractionsBeforeGap,
-      saved.inputs.bidInterfractionHours,
       doseCompensation,
     ),
   );
