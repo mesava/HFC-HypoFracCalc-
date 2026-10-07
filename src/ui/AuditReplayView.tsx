@@ -50,6 +50,44 @@ function moduleLabel(
   }
 }
 
+function localizedImportError(
+  language: Language,
+  error: unknown,
+): string {
+  if (!(error instanceof Error)) {
+    return tx(
+      language,
+      "Не удалось проверить audit JSON.",
+      "The audit JSON could not be inspected.",
+    );
+  }
+
+  if (language === "en") return error.message;
+
+  const message = error.message;
+
+  if (/integrity check failed/i.test(message)) {
+    return "Проверка SHA-256 не пройдена: содержимое audit record отличается от сохранённого digest.";
+  }
+  if (/not valid JSON/i.test(message)) {
+    return "Файл не является корректным JSON.";
+  }
+  if (/unsupported audit envelope version/i.test(message)) {
+    return "Версия audit envelope пока не поддерживается этой версией HFC.";
+  }
+  if (/unsupported audit schema version/i.test(message)) {
+    return "Версия схемы audit record пока не поддерживается этой версией HFC.";
+  }
+  if (/unsupported audit module/i.test(message)) {
+    return "Модуль audit record не поддерживается этой версией HFC.";
+  }
+  if (/digest must be a 64-character/i.test(message)) {
+    return "Поле SHA-256 digest имеет некорректный формат.";
+  }
+
+  return "Не удалось проверить структуру audit JSON.";
+}
+
 function renderDifferenceValue(value: unknown): string {
   if (value === undefined) return "undefined";
   if (typeof value === "string") return value;
@@ -111,14 +149,10 @@ export function AuditReplayView({
       setState({
         kind: "error",
         fileName: file.name,
-        message:
-          error instanceof Error
-            ? error.message
-            : tx(
-                language,
-                "Не удалось проверить audit JSON.",
-                "The audit JSON could not be inspected.",
-              ),
+        message: localizedImportError(
+          language,
+          error,
+        ),
       });
     }
   }
