@@ -66,12 +66,7 @@ function unitLabel(
 }
 
 function relationLabel(
-  relation:
-    | "<"
-    | "<="
-    | "≈"
-    | ">="
-    | ">",
+  relation: ClinicalConstraint["relation"],
 ): string {
   if (relation === "<=") return "≤";
   if (relation === ">=") return "≥";
