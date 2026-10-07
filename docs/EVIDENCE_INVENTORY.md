@@ -1,7 +1,7 @@
 # Evidence inventory — HFC 2026.10-v0.1
 
 Дата актуализации: **2026-10-07**  
-Ветка: `hytec-constraints-v0.2`  
+RC snapshot: `release-v0.1-dev`  
 Статус dataset: **draft**.
 
 ## Результат инвентарного аудита
