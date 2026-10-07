@@ -11,6 +11,17 @@ export const sources = [
       "Official evidence-based fractionation guide used by HFC for source-backed clinical regimen presets. Presets document published schedules and recommendation grades; they do not select alpha/beta or establish patient-specific suitability.",
   },
   {
+    id: "samai-berremdani-2026-alpha-beta-review",
+    citation:
+      "Samai N, Berremdani A. Re-evaluating the α/β ratio in 2026: A systematic review and quantitative reappraisal in the era of molecular radiobiology. Med Dosim. Published online September 12, 2026.",
+    year: 2026,
+    doi: "10.1016/j.meddos.2026.08.001",
+    pmid: "42731947",
+    kind: "systematic-review",
+    notes:
+      "Contemporary systematic reappraisal used as a methodological cross-check for HFC evidence governance. It supports disease- and endpoint-specific interpretation of alpha/beta and highlights limitations of static universal values, but it is not used to overwrite primary-study estimates or create automatic defaults.",
+  },
+  {
     id: "rcr-2019-timely-delivery",
     citation:
       "The Royal College of Radiologists. The timely delivery of radical radiotherapy: guidelines for the management of unscheduled treatment interruptions. Fourth edition. London: The Royal College of Radiologists; 2019. Ref No. BFCO(19)1.",

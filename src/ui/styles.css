@@ -3155,3 +3155,188 @@ button.module-card:hover {
     flex: 1 1 160px;
   }
 }
+
+
+/* --- How to use -------------------------------------------------------- */
+
+.howto-page {
+  display: grid;
+  gap: 16px;
+}
+
+.howto-hero,
+.howto-steps,
+.howto-safety {
+  padding: 28px;
+}
+
+.howto-hero h2 {
+  margin: 7px 0 10px;
+  color: #203f46;
+  font-size: clamp(1.45rem, 3vw, 2.05rem);
+  letter-spacing: -0.035em;
+}
+
+.howto-hero > p {
+  max-width: 900px;
+  margin: 0;
+  color: #66747c;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.howto-rule {
+  display: grid;
+  gap: 4px;
+  margin-top: 18px;
+  border-left: 3px solid #6f949b;
+  padding: 10px 12px;
+  background: #f4f8f8;
+}
+
+.howto-rule strong {
+  color: #31545b;
+  font-size: 0.72rem;
+}
+
+.howto-rule span {
+  color: #66777e;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.howto-step-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.howto-step-grid article {
+  min-width: 0;
+  border: 1px solid #dce4e7;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fbfcfc;
+}
+
+.howto-step-grid article > span {
+  color: #78939a;
+  font-size: 0.64rem;
+  font-weight: 850;
+}
+
+.howto-step-grid strong {
+  display: block;
+  margin-top: 7px;
+  color: #35565d;
+  font-size: 0.77rem;
+}
+
+.howto-step-grid p {
+  margin: 7px 0 0;
+  color: #748188;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.howto-example-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.howto-example {
+  min-width: 0;
+  padding: 22px;
+}
+
+.howto-example-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.howto-example h3 {
+  margin: 4px 0 0;
+  color: #31535a;
+  font-size: 1rem;
+}
+
+.howto-example > p,
+.howto-example li {
+  color: #66757c;
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.howto-example ul,
+.howto-example ol {
+  padding-left: 20px;
+}
+
+.howto-example .secondary-button {
+  margin-top: 4px;
+}
+
+.howto-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.howto-metrics > div {
+  border: 1px solid #dce5e7;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #f8fbfb;
+}
+
+.howto-metrics span,
+.howto-metrics strong {
+  display: block;
+}
+
+.howto-metrics span {
+  color: #819097;
+  font-size: 0.6rem;
+}
+
+.howto-metrics strong {
+  margin-top: 4px;
+  color: #2f545b;
+  font-size: 0.92rem;
+}
+
+.howto-caveat {
+  border-left: 3px solid #b59c68;
+  padding-left: 10px;
+  color: #756d5d !important;
+}
+
+.howto-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 1040px) {
+  .howto-step-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .howto-hero,
+  .howto-steps,
+  .howto-example,
+  .howto-safety {
+    padding: 18px;
+  }
+
+  .howto-step-grid,
+  .howto-example-grid,
+  .howto-metrics {
+    grid-template-columns: 1fr;
+  }
+}

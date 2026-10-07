@@ -104,15 +104,19 @@
 
 ## 5. RCR Dose Fractionation, 4th ed., 2024
 
-**Статус до текущего этапа: архитектурно учтён, но ещё не превращён в machine-readable regimen dataset.**
+**Статус: реализован как machine-readable Regimen Library v0.1/v0.2.**
 
-Документ предназначен для следующего этапа:
+В HFC уже представлены:
 
-- regimen presets;
+- фиксированные regimen presets, которые однозначно задаются как n × d;
 - site/intent metadata;
-- total dose / number of fractions / overall schedule;
+- total dose / number of fractions / schedule metadata;
 - grade of recommendation;
-- regression/golden tests.
+- source provenance;
+- regression/golden tests;
+- отдельная schema v0.2 для диапазонов доз, sequential boost и SIB без искусственного сведения сложного назначения к одной паре n × d.
+
+Сложные prescriptions используются как source-backed references и не передаются автоматически в fixed-schedule Compare Regimens.
 
 Ключевое правило HFC:
 
@@ -171,9 +175,19 @@ Source-specific α/β, использованный авторами для BED/
 - pancreas SBRT outcomes;
 - отдельные detailed NTCP fits из prostate toxicity, если будет доказана польза их воспроизводимого переноса.
 
+То есть HyTEC **освоен как пакет источников и архитектурный слой**, но не все статьи превращены в численные machine-readable records. Это сознательное ограничение: перенос выполняется только там, где модель, endpoint, dose metric и область применимости можно воспроизвести без додумывания.
+
 HyTEC immunomodulatory paper и письма/ответы 21–25 рассматриваются как контекст дискуссии, а не самостоятельные численные defaults.
 
-## 7. Что добавлено сверх исходного пакета
+## 7. Современная перепроверка α/β
+
+### Samai & Berremdani 2026
+
+**Статус: добавлен как методологический systematic review, не как источник автоматических defaults.**
+
+Обзор *Re-evaluating the α/β ratio in 2026* используется для современной перекрёстной проверки архитектуры HFC: disease-/endpoint-specific интерпретация α/β, осторожность со статическими универсальными значениями и особая осторожность при экстраполяции в SBRT. Числа из обзора не заменяют первичные Vogelius/Brand/FAST/FAST-Forward records.
+
+## 8. Что добавлено сверх исходного пакета
 
 В ходе evidence validation HFC дополнил исходный архив первичными источниками, необходимыми для проверки сводных таблиц и неоднозначных параметров, включая:
 
@@ -191,7 +205,7 @@ HyTEC immunomodulatory paper и письма/ответы 21–25 рассмат
 
 Это намеренное усиление исходной базы, а не замена пользовательского пакета интернет-источниками.
 
-## 8. Вывод
+## 9. Вывод
 
 Исходный пакет **учтён как фундамент проекта**, но степень реализации различается:
 
@@ -199,9 +213,11 @@ HyTEC immunomodulatory paper и письма/ответы 21–25 рассмат
 - endpoint-specific α/β из ключевых статей — реализована;
 - Treatment Gap — реализован;
 - Reirradiation — реализован;
-- выбранные HyTEC constraints — реализованы;
-- RCR regimen library — следующий этап;
-- полный HyTEC TCP/NTCP/outcome layer — будущий этап;
-- proton-specific quantitative radiobiology — вне текущего photon scope.
+- расширенный слой HyTEC constraints — реализован частично и source-traceable;
+- HyTEC OutcomeModel v0.1 — реализован для шести групп исходов;
+- RCR Regimen Library v0.1/v0.2 — реализована;
+- часть HyTEC TCP/NTCP/outcome evidence ещё требует дальнейшей курации;
+- systematic review α/β 2026 — учтён как методологическая перепроверка, без подмены первичных estimates;
+- proton-specific quantitative radiobiology — сознательно вне текущего photon scope.
 
 Таким образом, отсутствие отдельной записи в `sources.ts` не всегда означает, что источник забыт. Но для каждого будущего клинического численного объекта должен существовать явный machine-readable source/provenance.

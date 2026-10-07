@@ -4,6 +4,7 @@ import type { Language } from "./labels.js";
 
 export type SitePage =
   | "home"
+  | "guide"
   | "quick"
   | "compare"
   | "gap"
@@ -47,6 +48,13 @@ export function SiteHome({
               onClick={() => onNavigate("quick")}
             >
               {tx(language, "Открыть быстрый расчёт EQD", "Open Quick EQD")}
+            </button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => onNavigate("guide")}
+            >
+              {tx(language, "Как пользоваться?", "How to use")}
             </button>
             <button
               type="button"
