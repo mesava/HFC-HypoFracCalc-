@@ -224,6 +224,7 @@ describe("clinical constraint registry", () => {
   it("preserves primary-versus-metastatic liver MLD objectives for 3 and 6 fractions", () => {
     const constraints = queryClinicalConstraints({
       endpointId: "liver-grade3plus-enzyme-toxicity",
+      metricKind: "mean-dose",
     });
 
     expect(constraints).toHaveLength(4);
