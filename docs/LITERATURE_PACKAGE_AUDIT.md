@@ -169,7 +169,6 @@ Source-specific α/β, использованный авторами для BED/
 - head-and-neck reirradiation TCP;
 - stage-I NSCLC local control;
 - pancreas SBRT outcomes;
-- liver spared-volume criteria вида ≥700 см³ ≤15–17 Гр;
 - отдельные detailed NTCP fits из prostate toxicity, если будет доказана польза их воспроизводимого переноса.
 
 HyTEC immunomodulatory paper и письма/ответы 21–25 рассматриваются как контекст дискуссии, а не самостоятельные численные defaults.
