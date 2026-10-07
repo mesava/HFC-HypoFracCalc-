@@ -152,11 +152,11 @@ export function SiteHome({
             <p>
               {tx(
                 language,
-                "Доза–объём–риск с явным типом доказательства, числом фракций, источником и областью применимости. Начальный набор — HyTEC.",
-                "Dose-volume-risk evidence with explicit evidence type, fractionation, source, and applicability. Initial dataset: HyTEC.",
+                "Доза–объём–риск с явным типом доказательства, числом фракций, источником и областью применимости. Расширенный набор HyTEC v0.2.",
+                "Dose-volume-risk evidence with explicit evidence type, fractionation, source, and applicability. Expanded HyTEC v0.2 dataset.",
               )}
             </p>
-            <span className="module-state beta">v0.1</span>
+            <span className="module-state beta">v0.2</span>
           </button>
 
           <button
