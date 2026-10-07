@@ -1,4 +1,4 @@
-# Evidence inventory — HFC 2026.10-v0.1
+# Evidence inventory — HFC 2026.10-v0.2
 
 Дата актуализации: **2026-10-07**  
 Post-RC snapshot: `hytec-outcomes-v0.2`  
