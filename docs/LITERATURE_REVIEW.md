@@ -116,12 +116,15 @@ Demonstrates three practical cumulative-dose strategies:
 
 A preset is not a model parameter and should never silently choose an alpha/beta value.
 
-## Literature still to add
+## Literature status after RC review
 
-Before declaring `evidence-v1` complete, add and review:
+Already incorporated:
 
-- the 2026 ReCOG core consensus statement (Paradis et al., Lancet Oncology);
-- the 2026 systematic review/reappraisal of alpha/beta (Samai & Berremdani);
-- the final RCR fifth edition of *Timely Delivery of Radical Radiotherapy* when published.
+- Paradis et al. 2026 ReCOG core consensus — methodological source for cumulative-dose evaluation/reporting;
+- Samai & Berremdani 2026 systematic reappraisal of α/β — methodological cross-check, deliberately not used to overwrite primary endpoint-specific estimates.
 
-Until the final RCR update is released, the 2019 fourth edition remains the current treatment-interruption guidance source used for regression examples.
+Still pending externally:
+
+- the final next edition of RCR *Timely Delivery of Radical Radiotherapy* when published.
+
+Until that RCR update is released, the 2019 fourth edition remains the current treatment-interruption guidance source used by HFC.

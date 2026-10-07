@@ -17,9 +17,9 @@
 
 **Рабочая опубликованная версия:** https://mesava.github.io/HFC-HypoFracCalc-/
 
-**Предпросмотр следующей версии (`develop`):** https://mesava.github.io/HFC-HypoFracCalc-/develop/
+**Предпросмотр ветки `develop`:** https://mesava.github.io/HFC-HypoFracCalc-/develop/
 
-Стабильный корень сайта всегда собирается из `main`. Preview `/develop/` собирается отдельно из `develop` и используется для пользовательской приёмки до release candidate.
+Стабильный корень сайта всегда собирается из `main`. Preview `/develop/` собирается отдельно из `develop` и используется для проверки следующего набора изменений до переноса в стабильную ветку.
 
 ## Язык сайта
 
@@ -40,6 +40,7 @@ RU | EN
 | Модуль | Статус | Назначение |
 |---|---|---|
 | Главная | реализовано | Обзор проекта и модулей |
+| Как пользоваться? | реализовано | Пошаговая инструкция и безопасные примеры для основных сценариев HFC |
 | Быстрый EQD | реализовано | BED, EQD₂, выбор α/β из доказательной базы или вручную |
 | Сравнение режимов | реализовано | Сравнение 2–5 фиксированных режимов для опухолевого исхода и нескольких исходов органов риска |
 | Библиотека режимов | v0.2 | RCR 2024: фиксированные n×d + отдельное представление диапазонов, sequential boost и SIB без потери структуры |
@@ -52,6 +53,19 @@ RU | EN
 
 Подробности по сайту и публикации: [docs/SITE.md](docs/SITE.md).
 
+
+## Раздел «Как пользоваться?»
+
+Отдельная страница содержит пошаговый порядок работы с HFC и учебные примеры:
+
+- Быстрый EQD с проверкой клинического исхода и происхождения α/β;
+- сравнение фиксированных режимов и использование RCR presets;
+- анализ перерывов в лечении с явным выбором Dprolif/Tk;
+- повторное облучение только для сопоставимой дозовой метрики;
+- чтение HyTEC Clinical Constraints и Outcome Models;
+- экспорт и повторная проверка audit JSON.
+
+Примеры предназначены для демонстрации логики программы и **не являются назначением лечения или готовыми клиническими рекомендациями**.
 
 ## Раздел «О сайте»
 
@@ -148,11 +162,12 @@ x = 2 Gy
 - Dprolif/Tk и временные модели;
 - HyTEC для зрительных путей, головного мозга, спинного мозга, лёгких, печени, prostate SBRT, крупных сосудов и повторного SBRT позвоночника;
 - source-traceable HyTEC outcome models для brain metastases, vestibular schwannoma, spinal/liver/adrenal metastases и prostate SBRT;
-- методическая архитектура повторного облучения относительно ESTRO–EORTC, RCR, ESTRO cumulative-dose consensus и ReCOG.
+- методическая архитектура повторного облучения относительно ESTRO–EORTC, RCR, ESTRO cumulative-dose consensus и ReCOG;
+- современный systematic review Samai & Berremdani 2026 как методологическая перепроверка концепции α/β без автоматической подмены первичных endpoint-specific estimates.
 
 Важный принцип: **опубликованное число не становится автоматическим значением только потому, что оно опубликовано**. Context-mismatched, secondary-only или не воспроизводимые записи переводятся в explicit-only или `deprecated`, а не маскируются под универсальные клинические константы.
 
-При этом dataset **остаётся `draft`**. Завершение научного инвентаря не означает клинический релиз: перед выпуском нужны полноценная пользовательская приёмка, browser-level regression tests, проверка audit replay и release review.
+При этом dataset **остаётся `draft`**. Технический RC прошёл unit/typecheck/build, browser regression, visual acceptance и audit replay, но это не заменяет независимую клиническую валидацию и локальное комиссионирование.
 
 Полный журнал решений: [docs/EVIDENCE_VALIDATION.md](docs/EVIDENCE_VALIDATION.md).  
 Поштучная матрица: [docs/EVIDENCE_INVENTORY.md](docs/EVIDENCE_INVENTORY.md).
@@ -442,7 +457,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Browser-level regression tests реализованы через Playwright/Chromium и запускаются отдельным CI job поверх production build. Ручной release-чек-лист: [docs/QA_ACCEPTANCE.md](docs/QA_ACCEPTANCE.md).
+Browser-level regression tests реализованы через Playwright/Chromium и запускаются отдельным CI job поверх production build. Visual QA охватывает все основные страницы сайта на desktop и mobile. Ручной release-чек-лист: [docs/QA_ACCEPTANCE.md](docs/QA_ACCEPTANCE.md).
 
 ## Безопасность зависимостей
 
