@@ -14,6 +14,12 @@ test.describe("HFC RCR 2024 regimen library", () => {
   test("loads an RCR preset without selecting alpha/beta and clears provenance after schedule editing", async ({
     page,
   }) => {
+    const alphaSelect = page
+      .locator(".compare-endpoint-editor")
+      .first()
+      .getByLabel("α/β");
+    const alphaBefore = await alphaSelect.inputValue();
+
     const picker = page.getByLabel(
       "Добавить режим из библиотеки RCR 2024",
     );
@@ -68,11 +74,8 @@ test.describe("HFC RCR 2024 regimen library", () => {
     ).not.toBeVisible();
 
     // Endpoint/evidence selection remains independent of the regimen preset.
-    await expect(
-      page.getByText(
-        "α/β из доказательной базы",
-        { exact: false },
-      ).first(),
-    ).toBeVisible();
+    await expect(alphaSelect).toHaveValue(
+      alphaBefore,
+    );
   });
 });
