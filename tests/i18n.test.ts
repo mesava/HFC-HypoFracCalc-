@@ -78,7 +78,7 @@ describe("Russian OAR repair-time safety-message coverage", () => {
     expect(
       localizeWarning(
         "ru",
-        "Manual repair half time must be > 0 hours.",
+        "Manual repair half-time must be > 0 hours.",
       ),
     ).toBe("Пользовательское T½ должно быть больше 0 ч.");
 
