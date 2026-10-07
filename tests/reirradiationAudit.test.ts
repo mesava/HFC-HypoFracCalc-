@@ -89,11 +89,12 @@ describe("reirradiation audit record", () => {
       courses,
       context,
       result,
+      confirmThecalSacDmax: true,
       budget,
       guidance,
     });
 
-    expect(audit.schemaVersion).toBe("1.0");
+    expect(audit.schemaVersion).toBe("1.1");
     expect(audit.engineVersion).toBe("0.1.0-dev");
     expect(audit.evidence.datasetVersion).toBe(
       "2026.10-v0.1",
@@ -109,6 +110,9 @@ describe("reirradiation audit record", () => {
     expect(audit.guidance?.sourceId).toBe(
       "sahgal-2021-hytec-spinal-cord",
     );
+    expect(
+      audit.userConfirmations?.thecalSacDmaxMetric,
+    ).toBe(true);
 
     const sourceIds = audit.sources.map(
       (source) => source.id,
