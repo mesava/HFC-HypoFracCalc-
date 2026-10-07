@@ -23,6 +23,10 @@ export const organLabelsRu: Record<string, string> = {
   "Optic pathways": "Зрительные пути",
   Brain: "Головной мозг",
   "Brain metastases": "Метастазы в головной мозг",
+  "Carotid/major vessels": "Сонная артерия / крупные сосуды",
+  Liver: "Печень",
+  Bladder: "Мочевой пузырь",
+  Urethra: "Уретра",
   "Vestibular schwannoma": "Вестибулярная шваннома",
   "Spinal metastases": "Метастазы в позвоночник",
   "Liver metastases": "Метастазы в печень",
@@ -90,6 +94,12 @@ export const endpointLabelsRu: Record<string, string> = {
   "spinal-metastases-local-control": "Локальный контроль",
   "liver-metastases-local-control": "Локальный контроль",
   "adrenal-metastases-local-control": "Локальный контроль",
+  "major-vessel-grade3plus-bleeding": "Кровотечение G3–5 / carotid blowout syndrome",
+  "lung-symptomatic-rilt": "Симптомная лучевая токсичность лёгких",
+  "liver-grade3plus-enzyme-toxicity": "Повышение печёночных ферментов G3+",
+  "bladder-prostate-sbrt-late-urinary-toxicity": "Поздняя мочевая токсичность / ухудшение качества жизни после SBRT простаты",
+  "urethra-prostate-sbrt-late-urinary-toxicity": "Поздняя мочевая токсичность после SBRT простаты",
+  "rectum-prostate-sbrt-late-bowel-toxicity": "Поздняя кишечная токсичность после SBRT простаты",
 };
 
 export function endpointLabel(
