@@ -116,7 +116,7 @@ export function MethodologyView({
         </div>
 
         <div className="methodology-tool-grid">
-          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("constraints")}>
+          <button type="button" className="panel methodology-tool-card" aria-label={tx(language, "Клинические ограничения", "Clinical constraints")} onClick={() => onNavigate("constraints")}>
             <strong>{tx(language, "Клинические ограничения", "Clinical constraints")}</strong>
             <p>
               {tx(
@@ -127,7 +127,7 @@ export function MethodologyView({
             </p>
           </button>
 
-          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("outcomes")}>
+          <button type="button" className="panel methodology-tool-card" aria-label={tx(language, "Клинические исходы по данным HyTEC", "HyTEC clinical outcomes")} onClick={() => onNavigate("outcomes")}>
             <strong>{tx(language, "Клинические исходы по данным HyTEC", "HyTEC clinical outcomes")}</strong>
             <p>
               {tx(
@@ -138,7 +138,7 @@ export function MethodologyView({
             </p>
           </button>
 
-          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("audit")}>
+          <button type="button" className="panel methodology-tool-card" aria-label={tx(language, "Проверка сохранённого расчёта", "Verify a saved calculation")} onClick={() => onNavigate("audit")}>
             <strong>{tx(language, "Проверка сохранённого расчёта", "Verify a saved calculation")}</strong>
             <p>
               {tx(
