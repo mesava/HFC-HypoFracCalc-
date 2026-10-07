@@ -84,6 +84,7 @@ describe("audit integrity envelope", () => {
     const raw = JSON.parse(serialized);
     expect(raw.format).toBe("hfc-audit");
     expect(raw.envelopeVersion).toBe("1.0");
+    expect(raw.record.schemaVersion).toBe("1.1");
     expect(raw.integrity.algorithm).toBe("SHA-256");
     expect(raw.integrity.digestHex).toMatch(
       /^[0-9a-f]{64}$/,
@@ -105,8 +106,11 @@ describe("audit integrity envelope", () => {
     ).rejects.toThrow(/integrity check failed/i);
   });
 
-  it("accepts an old raw audit as legacy-unverified", async () => {
-    const audit = quickAudit();
+  it("accepts an old raw schema 1.0 audit as legacy-unverified", async () => {
+    const audit = {
+      ...quickAudit(),
+      schemaVersion: "1.0",
+    };
     const parsed = await parseAuditDocument(
       JSON.stringify(audit),
     );
