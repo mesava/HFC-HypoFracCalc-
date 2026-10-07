@@ -33,10 +33,26 @@ import {
 import type {
   AuditAlphaBetaParameter,
 } from "./common.js";
+import type {
+  TreatmentGapAuditRecord,
+} from "./treatmentGapAudit.js";
+import type {
+  ReirradiationAuditRecord,
+} from "../domain/audit.js";
+import {
+  rebuildTreatmentGapAudit,
+  treatmentGapReplayComparable,
+} from "./replayTreatmentGap.js";
+import {
+  rebuildReirradiationAudit,
+  reirradiationReplayComparable,
+} from "./replayReirradiation.js";
 
 export type ReplaySupportedModule =
   | "quick-eqd"
-  | "compare-regimens";
+  | "compare-regimens"
+  | "treatment-gap"
+  | "reirradiation";
 
 export interface AuditReplayDifference {
   path: string;
@@ -520,12 +536,90 @@ export function replayCompareRegimensAudit(
   };
 }
 
+export function replayTreatmentGapAudit(
+  record: unknown,
+  integrityStatus: AuditIntegrityStatus,
+): AuditReplayReport {
+  const saved = record as TreatmentGapAuditRecord;
+  if (
+    !isObject(saved) ||
+    saved.module !== "treatment-gap" ||
+    !isObject(saved.endpoint) ||
+    typeof saved.endpoint.id !== "string" ||
+    !isObject(saved.inputs) ||
+    !isObject(saved.baseline) ||
+    !isObject(saved.strategies) ||
+    !Array.isArray(saved.oars)
+  ) {
+    throw new Error(
+      "Treatment Gap audit record is missing required replay fields.",
+    );
+  }
+
+  const replayed =
+    rebuildTreatmentGapAudit(saved);
+  const differences: AuditReplayDifference[] = [];
+  collectDifferences(
+    treatmentGapReplayComparable(saved),
+    treatmentGapReplayComparable(replayed),
+    "",
+    differences,
+  );
+
+  return {
+    module: "treatment-gap",
+    ...reportBase(saved, integrityStatus),
+    matches: differences.length === 0,
+    differences,
+  };
+}
+
+export function replayReirradiationAudit(
+  record: unknown,
+  integrityStatus: AuditIntegrityStatus,
+): AuditReplayReport {
+  const saved = record as ReirradiationAuditRecord;
+  if (
+    !isObject(saved) ||
+    saved.module !== "reirradiation" ||
+    !isObject(saved.endpoint) ||
+    typeof saved.endpoint.id !== "string" ||
+    !isObject(saved.alphaBeta) ||
+    !isObject(saved.context) ||
+    !Array.isArray(saved.inputCourses) ||
+    !isObject(saved.result)
+  ) {
+    throw new Error(
+      "Reirradiation audit record is missing required replay fields.",
+    );
+  }
+
+  const replayed =
+    rebuildReirradiationAudit(saved);
+  const differences: AuditReplayDifference[] = [];
+  collectDifferences(
+    reirradiationReplayComparable(saved),
+    reirradiationReplayComparable(replayed),
+    "",
+    differences,
+  );
+
+  return {
+    module: "reirradiation",
+    ...reportBase(saved, integrityStatus),
+    matches: differences.length === 0,
+    differences,
+  };
+}
+
 export function isReplaySupportedModule(
   module: AuditModule,
 ): module is ReplaySupportedModule {
   return (
     module === "quick-eqd" ||
-    module === "compare-regimens"
+    module === "compare-regimens" ||
+    module === "treatment-gap" ||
+    module === "reirradiation"
   );
 }
 
@@ -548,8 +642,22 @@ export function replayParsedAuditDocument(
     );
   }
 
+  if (header.module === "treatment-gap") {
+    return replayTreatmentGapAudit(
+      parsed.record,
+      parsed.integrityStatus,
+    );
+  }
+
+  if (header.module === "reirradiation") {
+    return replayReirradiationAudit(
+      parsed.record,
+      parsed.integrityStatus,
+    );
+  }
+
   throw new Error(
-    `Replay is not yet supported for audit module: ${header.module}`,
+    `Replay is not supported for audit module: ${header.module}`,
   );
 }
 
