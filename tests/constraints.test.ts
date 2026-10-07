@@ -156,4 +156,149 @@ describe("clinical constraint registry", () => {
 
     expect(constraints).toHaveLength(0);
   });
+
+  it("keeps major-vessel reirradiation guidance separate from pooled risk points", () => {
+    const constraints = queryClinicalConstraints({
+      endpointId: "major-vessel-grade3plus-bleeding",
+      fractions: 5,
+      priorRadiotherapy: "yes",
+    });
+
+    expect(constraints).toHaveLength(3);
+
+    const objective = constraints.find(
+      (item) =>
+        item.id ===
+        "hytec-major-vessel-d0p5cc-5fx-20gy",
+    );
+    expect(objective?.metric.kind).toBe("D0.5cc");
+    expect(objective?.guidanceKind).toBe(
+      "planning-limit",
+    );
+    expect(objective?.value).toBe(20);
+    expect(objective?.estimatedRisk).toBeUndefined();
+
+    const dmax30 = constraints.find(
+      (item) =>
+        item.id ===
+        "hytec-major-vessel-dmax-5fx-30gy-risk",
+    );
+    expect(dmax30?.guidanceKind).toBe("risk-point");
+    expect(dmax30?.estimatedRisk).toBe(0.12);
+  });
+
+  it("stores lung SBRT guidance as observational thresholds rather than universal tolerances", () => {
+    const constraints = queryClinicalConstraints({
+      endpointId: "lung-symptomatic-rilt",
+      priorRadiotherapy: "none",
+    });
+
+    expect(constraints).toHaveLength(2);
+    expect(
+      constraints.every(
+        (item) =>
+          item.guidanceKind ===
+          "observational-threshold",
+      ),
+    ).toBe(true);
+
+    const v20 = constraints.find(
+      (item) =>
+        item.id ===
+        "hytec-lung-rilt-v20-10to15pct",
+    );
+    expect(v20?.metric).toEqual({
+      kind: "Vx",
+      xGy: 20,
+    });
+    expect(v20?.valueRange).toEqual({
+      low: 10,
+      high: 15,
+    });
+    expect(v20?.estimatedRiskRange).toEqual({
+      low: 0.1,
+      high: 0.15,
+    });
+  });
+
+  it("preserves primary-versus-metastatic liver MLD objectives for 3 and 6 fractions", () => {
+    const constraints = queryClinicalConstraints({
+      endpointId: "liver-grade3plus-enzyme-toxicity",
+    });
+
+    expect(constraints).toHaveLength(4);
+
+    const byPopulationAndFx = new Map(
+      constraints.map((item) => [
+        `${item.population}|${item.fractionation?.fractions}`,
+        item.value,
+      ]),
+    );
+
+    expect(
+      byPopulationAndFx.get(
+        "Primary liver disease|3",
+      ),
+    ).toBe(13);
+    expect(
+      byPopulationAndFx.get(
+        "Primary liver disease|6",
+      ),
+    ).toBe(18);
+    expect(
+      byPopulationAndFx.get(
+        "Metastatic liver lesions|3",
+      ),
+    ).toBe(15);
+    expect(
+      byPopulationAndFx.get(
+        "Metastatic liver lesions|6",
+      ),
+    ).toBe(20);
+
+    expect(
+      constraints.every(
+        (item) =>
+          item.estimatedRisk === 0.2 &&
+          item.riskRelation === "<",
+      ),
+    ).toBe(true);
+  });
+
+  it("does not turn prostate SBRT suggested tolerance ranges into hard limits or point values", () => {
+    const ids = [
+      "hytec-prostate-sbrt-bladder-vrx-5to10cc",
+      "hytec-prostate-sbrt-urethra-dmax-38to42gy",
+      "hytec-prostate-sbrt-rectum-dmax-35to38gy",
+    ];
+
+    for (const id of ids) {
+      const resolved = resolveClinicalConstraint(id);
+      expect(
+        resolved.constraint.guidanceKind,
+      ).toBe("observational-threshold");
+      expect(
+        resolved.constraint.value,
+      ).toBeUndefined();
+      expect(
+        resolved.constraint.valueRange,
+      ).toBeDefined();
+      expect(
+        resolved.constraint.notes?.some(
+          (note) =>
+            note.includes(
+              "do not offer firm guidance on tolerance doses",
+            ),
+        ),
+      ).toBe(true);
+    }
+
+    expect(
+      resolveClinicalConstraint(ids[0]!).constraint
+        .metric,
+    ).toEqual({
+      kind: "custom",
+      customLabel: "V(Rx dose)",
+    });
+  });
 });
