@@ -11,11 +11,14 @@ import {
 } from "../data/evidence/v0.1/index.js";
 import { releaseStatusLabel, tx } from "./i18n.js";
 import type { Language } from "./labels.js";
+import type { SitePage } from "./SiteHome.js";
 
 export function MethodologyView({
   language,
+  onNavigate,
 }: {
   language: Language;
+  onNavigate: (page: SitePage) => void;
 }) {
   const preferredAlpha = alphaBetaEstimates.filter(
     (record) =>
@@ -93,6 +96,58 @@ export function MethodologyView({
             <span>{tx(language, "Источники", "Sources")}</span>
             <strong>{sources.length}</strong>
           </div>
+        </div>
+      </section>
+
+      <section className="methodology-tools">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">
+              {tx(language, "справочные инструменты", "reference tools")}
+            </span>
+            <h2>
+              {tx(
+                language,
+                "Что находится рядом с методологией",
+                "Tools that support the methodology",
+              )}
+            </h2>
+          </div>
+        </div>
+
+        <div className="methodology-tool-grid">
+          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("constraints")}>
+            <strong>{tx(language, "Клинические ограничения", "Clinical constraints")}</strong>
+            <p>
+              {tx(
+                language,
+                "Опубликованные planning limits, risk points и observational thresholds из HyTEC и других источников. Это справочник, а не автоматическая проверка плана.",
+                "Published planning limits, risk points, and observational thresholds from HyTEC and other sources. This is a reference layer, not an automatic plan check.",
+              )}
+            </p>
+          </button>
+
+          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("outcomes")}>
+            <strong>{tx(language, "Клинические исходы по данным HyTEC", "HyTEC clinical outcomes")}</strong>
+            <p>
+              {tx(
+                language,
+                "Опубликованные точки TCP/локального контроля для конкретных опухолей, доз и сроков наблюдения. HFC не превращает их в универсальный TCP-калькулятор.",
+                "Published TCP/local-control points for specific tumours, doses, and follow-up. HFC does not turn them into a universal TCP calculator.",
+              )}
+            </p>
+          </button>
+
+          <button type="button" className="panel methodology-tool-card" onClick={() => onNavigate("audit")}>
+            <strong>{tx(language, "Проверка сохранённого расчёта", "Verify a saved calculation")}</strong>
+            <p>
+              {tx(
+                language,
+                "Загрузите audit JSON из HFC: программа проверит целостность SHA-256, версии ядра/данных и повторно выполнит расчёт.",
+                "Load an HFC audit JSON to verify SHA-256 integrity, engine/evidence versions, and replay the calculation.",
+              )}
+            </p>
+          </button>
         </div>
       </section>
 
