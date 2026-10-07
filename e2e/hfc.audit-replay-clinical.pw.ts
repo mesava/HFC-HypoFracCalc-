@@ -219,53 +219,57 @@ function reirradiationAudit() {
   });
 }
 
-test.describe("HFC audit replay for all current modules", () => {
-  test.each([
-    {
-      name: "compare-audit.json",
-      moduleLabel: "Сравнение режимов",
-      build: compareAudit,
-    },
-    {
-      name: "treatment-gap-audit.json",
-      moduleLabel: "Перерывы в лечении",
-      build: treatmentGapAudit,
-    },
-    {
-      name: "reirradiation-audit.json",
-      moduleLabel: "Повторное облучение",
-      build: reirradiationAudit,
-    },
-  ])(
-    "verifies and replays $moduleLabel",
-    async ({ page }, scenario) => {
-      await openAuditReplay(page);
-      await uploadAudit(
-        page,
-        scenario.name,
-        scenario.build(),
-      );
+const replayScenarios = [
+  {
+    name: "compare-audit.json",
+    moduleLabel: "Сравнение режимов",
+    build: compareAudit,
+  },
+  {
+    name: "treatment-gap-audit.json",
+    moduleLabel: "Перерывы в лечении",
+    build: treatmentGapAudit,
+  },
+  {
+    name: "reirradiation-audit.json",
+    moduleLabel: "Повторное облучение",
+    build: reirradiationAudit,
+  },
+];
 
-      await expect(
-        page.getByText(
-          "SHA-256: целостность подтверждена",
-        ),
-      ).toBeVisible();
-      await expect(
-        page.getByText(scenario.moduleLabel, {
-          exact: true,
-        }),
-      ).toBeVisible();
-      await expect(
-        page.getByRole("heading", {
-          name: "Сохранённый расчёт воспроизведён",
-        }),
-      ).toBeVisible();
-      await expect(
-        page.getByText(
-          "Клинически значимые поля совпадают",
-        ),
-      ).toBeVisible();
-    },
-  );
+test.describe("HFC audit replay for all current modules", () => {
+  for (const scenario of replayScenarios) {
+    test(
+      `verifies and replays ${scenario.moduleLabel}`,
+      async ({ page }) => {
+        await openAuditReplay(page);
+        await uploadAudit(
+          page,
+          scenario.name,
+          scenario.build(),
+        );
+
+        await expect(
+          page.getByText(
+            "SHA-256: целостность подтверждена",
+          ),
+        ).toBeVisible();
+        await expect(
+          page.getByText(scenario.moduleLabel, {
+            exact: true,
+          }),
+        ).toBeVisible();
+        await expect(
+          page.getByRole("heading", {
+            name: "Сохранённый расчёт воспроизведён",
+          }),
+        ).toBeVisible();
+        await expect(
+          page.getByText(
+            "Клинически значимые поля совпадают",
+          ),
+        ).toBeVisible();
+      },
+    );
+  }
 });
