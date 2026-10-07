@@ -596,10 +596,18 @@ export function replayReirradiationAudit(
 
   const replayed =
     rebuildReirradiationAudit(saved);
+  const includeUserConfirmations =
+    saved.schemaVersion !== "1.0";
   const differences: AuditReplayDifference[] = [];
   collectDifferences(
-    reirradiationReplayComparable(saved),
-    reirradiationReplayComparable(replayed),
+    reirradiationReplayComparable(
+      saved,
+      includeUserConfirmations,
+    ),
+    reirradiationReplayComparable(
+      replayed,
+      includeUserConfirmations,
+    ),
     "",
     differences,
   );
