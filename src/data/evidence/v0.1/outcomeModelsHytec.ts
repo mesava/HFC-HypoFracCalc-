@@ -2,7 +2,7 @@ import type {
   OutcomeModel,
 } from "../../../domain/outcomeModels.js";
 
-export const hytecOutcomeModels = [
+export const hytecOutcomeModels: OutcomeModel[] = [
   {
     id: "hytec-brain-mets-1y-local-control",
     sourceId: "redmond-2021-hytec-brain-mets-tcp",
@@ -413,4 +413,4 @@ export const hytecOutcomeModels = [
       "The source-specific alpha/beta=1.5 Gy is part of the HyTEC TCP model transformation. It is not substituted for HFC's separately curated endpoint-specific alpha/beta evidence.",
     ],
   },
-] satisfies OutcomeModel[];
+];
