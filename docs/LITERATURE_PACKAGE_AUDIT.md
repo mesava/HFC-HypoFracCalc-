@@ -153,17 +153,24 @@ Preset описывает клинически применяемую схему
 
 Source-specific α/β, использованный авторами для BED/EQD₂, хранится только как provenance модели и не становится HFC α/β default.
 
-### Ещё не закодировано
+### ClinicalConstraint v0.2 — machine-readable
 
-Следующие работы не потеряны, но требуют дальнейшей курации `ClinicalConstraint` / `OutcomeModel`:
+Дополнительно закодированы с сохранением типа доказательства:
+
+- carotid/major-vessel bleeding guidance при head-and-neck SBRT reirradiation;
+- lung parenchyma symptomatic RILT observational thresholds;
+- liver SBRT mean-liver-dose objectives;
+- prostate SBRT bladder/urethra/rectum suggested thresholds.
+
+### Ещё не закодировано полностью
+
+Следующие работы не потеряны, но требуют дальнейшей курации или расширения schema:
 
 - head-and-neck reirradiation TCP;
-- carotid blowout tolerance;
 - stage-I NSCLC local control;
-- lung parenchyma tolerance;
-- liver dose-volume effects;
-- pancreas SBRT;
-- prostate toxicity.
+- pancreas SBRT outcomes;
+- liver spared-volume criteria вида ≥700 см³ ≤15–17 Гр;
+- отдельные detailed NTCP fits из prostate toxicity, если будет доказана польза их воспроизводимого переноса.
 
 HyTEC immunomodulatory paper и письма/ответы 21–25 рассматриваются как контекст дискуссии, а не самостоятельные численные defaults.
 
