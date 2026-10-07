@@ -11,7 +11,7 @@ import {
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { buildQuickEqdAuditRecord } from "../audit/quickEqdAudit.js";
-import { serializeAuditRecord } from "../audit/common.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { AboutSiteView } from "./AboutSiteView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
@@ -211,12 +211,12 @@ export function App() {
     );
   }
 
-  function downloadQuickEqdAudit() {
+  async function downloadQuickEqdAudit() {
     const record = currentQuickEqdAudit();
     if (!record) return;
     downloadJsonFile(
       "HFC_quick_eqd_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }

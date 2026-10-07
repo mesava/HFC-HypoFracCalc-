@@ -24,7 +24,7 @@ import {
 } from "../workflows/treatmentGap.js";
 import { buildTreatmentGapAuditRecord } from "../audit/treatmentGapAudit.js";
 import type { TreatmentGapOarAuditEntry } from "../audit/treatmentGapOarAudit.js";
-import { serializeAuditRecord } from "../audit/common.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import {
   buildTreatmentCalendarScenario,
@@ -505,13 +505,13 @@ export function TreatmentGapView({
     });
   }
 
-  function downloadTreatmentGapAudit() {
+  async function downloadTreatmentGapAudit() {
     const record = currentTreatmentGapAudit();
     if (!record) return;
 
     downloadJsonFile(
       "HFC_treatment_gap_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 test.describe("HFC browser acceptance smoke tests", () => {
   test.beforeEach(async ({ page }) => {
@@ -52,6 +53,23 @@ test.describe("HFC browser acceptance smoke tests", () => {
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toMatch(
       /^HFC_quick_eqd_audit_.*\.json$/,
+    );
+
+    const downloadPath = await download.path();
+    expect(downloadPath).not.toBeNull();
+    const exported = JSON.parse(
+      await readFile(downloadPath!, "utf8"),
+    );
+    expect(exported.format).toBe("hfc-audit");
+    expect(exported.envelopeVersion).toBe("1.0");
+    expect(exported.record.module).toBe("quick-eqd");
+    expect(exported.record.schemaVersion).toBe("1.0");
+    expect(exported.integrity.algorithm).toBe("SHA-256");
+    expect(exported.integrity.canonicalization).toBe(
+      "hfc-json-v1",
+    );
+    expect(exported.integrity.digestHex).toMatch(
+      /^[0-9a-f]{64}$/,
     );
   });
 
