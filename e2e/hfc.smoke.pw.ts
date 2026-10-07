@@ -20,7 +20,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
       page.getByRole("button", { name: "Home", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Quick EQD", exact: true }),
+      page.getByRole("button", { name: "Calculators", exact: true }),
     ).toBeVisible();
   });
 
@@ -39,11 +39,22 @@ test.describe("HFC browser acceptance smoke tests", () => {
       page.getByRole("heading", { name: "Пример: Быстрый EQD" }),
     ).toBeVisible();
     await expect(page.getByText("89.11 Гр", { exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Примеры из публикации исходного Hypo-Calc",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("≈2,30 Гр/фр.", { exact: false }),
+    ).toBeVisible();
   });
 
   test("Quick EQD calculates, validates bad input, and exports JSON audit", async ({ page }) => {
     await page
-      .getByRole("button", { name: "Быстрый EQD", exact: true })
+      .getByRole("button", { name: "Калькуляторы", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Быстрый BED / EQD₂", exact: true })
       .click();
 
     await expect(
@@ -92,6 +103,9 @@ test.describe("HFC browser acceptance smoke tests", () => {
 
   test("Treatment Gap requires an explicit time model after evidence v0.10", async ({ page }) => {
     await page
+      .getByRole("button", { name: "Калькуляторы", exact: true })
+      .click();
+    await page
       .getByRole("button", { name: "Перерывы в лечении", exact: true })
       .click();
 
@@ -115,7 +129,10 @@ test.describe("HFC browser acceptance smoke tests", () => {
     ).toBeVisible();
   });
 
-  test("core modules render from the top navigation", async ({ page }) => {
+  test("calculator and methodology hubs expose specialist modules", async ({ page }) => {
+    await page
+      .getByRole("button", { name: "Калькуляторы", exact: true })
+      .click();
     await page
       .getByRole("button", { name: "Сравнение режимов", exact: true })
       .click();
@@ -123,6 +140,9 @@ test.describe("HFC browser acceptance smoke tests", () => {
       page.getByRole("heading", { name: "Режимы фракционирования" }),
     ).toBeVisible();
 
+    await page
+      .getByRole("button", { name: "Методология", exact: true })
+      .click();
     await page
       .getByRole("button", { name: "Клинические ограничения", exact: true })
       .click();
@@ -133,6 +153,9 @@ test.describe("HFC browser acceptance smoke tests", () => {
     ).toBeVisible();
 
     await page
+      .getByRole("button", { name: "Калькуляторы", exact: true })
+      .click();
+    await page
       .getByRole("button", { name: "Повторное облучение", exact: true })
       .click();
     await expect(
@@ -140,6 +163,30 @@ test.describe("HFC browser acceptance smoke tests", () => {
         name: "Кумулятивный EQD₂/BED без скрытых допущений о восстановлении",
       }),
     ).toBeVisible();
+  });
+
+  test("new parity calculators reproduce published examples", async ({ page }) => {
+    await page.getByRole("button", { name: "Калькуляторы", exact: true }).click();
+    await page.getByRole("button", { name: "Коррекция курса / ошибки дозы", exact: true }).click();
+    await expect(page.getByText("2,297 Гр", { exact: false })).toBeVisible();
+
+    await page.getByRole("button", { name: "Калькуляторы", exact: true }).click();
+    await page.getByRole("button", { name: "Подбор режима по EQD₂", exact: true }).click();
+    await expect(page.getByText("17", { exact: true }).first()).toBeVisible();
+
+    await page.getByRole("button", { name: "Калькуляторы", exact: true }).click();
+    await page.getByRole("button", { name: "Интерактивный календарь", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "Редактируйте курс прямо по дням" }),
+    ).toBeVisible();
+  });
+
+  test("dark theme and design variants are user-selectable", async ({ page }) => {
+    await page.getByLabel("Вариант дизайна").selectOption("journal");
+    await expect(page.locator("html")).toHaveAttribute("data-design", "journal");
+
+    await page.getByRole("button", { name: "Включить тёмную тему" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   });
 
   test("mobile navigation opens and changes module", async ({ page }) => {
@@ -152,13 +199,13 @@ test.describe("HFC browser acceptance smoke tests", () => {
     const menu = page.locator("#mobile-site-menu");
     await expect(menu).toBeVisible();
     await menu
-      .getByRole("button", { name: "Повторное облучение", exact: true })
+      .getByRole("button", { name: "Калькуляторы", exact: true })
       .click();
 
     await expect(menu).not.toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Кумулятивный EQD₂/BED без скрытых допущений о восстановлении",
+        name: "Все расчётные инструменты HFC",
       }),
     ).toBeVisible();
   });
