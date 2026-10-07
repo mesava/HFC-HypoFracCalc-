@@ -173,8 +173,8 @@ export function AboutSiteView({
           <p>
             {tx(
               language,
-              "Текущая версия остаётся рабочей и требует дальнейшей независимой проверки источников, регрессионных тестов и клинической валидации перед использованием как утверждённого локального инструмента.",
-              "The current version remains a working draft and requires further independent source verification, regression testing, and clinical validation before use as an approved local clinical tool.",
+              "Технические проверки, browser regression и audit replay выполнены, но набор данных остаётся черновым до независимой клинической валидации и локального комиссионирования перед использованием как утверждённого инструмента.",
+              "Technical checks, browser regression, and audit replay are complete, but the dataset remains a draft pending independent clinical validation and local commissioning before approved clinical use.",
             )}
           </p>
         </article>

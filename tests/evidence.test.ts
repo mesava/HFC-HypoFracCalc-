@@ -20,7 +20,7 @@ function expectUnique(values: string[]): void {
 describe("evidence-v0.1 integrity", () => {
   it("is explicitly a draft dataset", () => {
     expect(evidenceManifest.releaseStatus).toBe("draft");
-    expect(evidenceManifest.datasetVersion).toBe("2026.10-v0.1");
+    expect(evidenceManifest.datasetVersion).toBe("2026.10-v0.2");
   });
 
   it("uses unique source, endpoint and parameter IDs", () => {

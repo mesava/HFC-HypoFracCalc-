@@ -25,7 +25,7 @@ describe("evidence validation inventory coverage", () => {
       (record) => record.recordId,
     );
 
-    expect(evidenceIds).toHaveLength(100);
+    expect(evidenceIds).toHaveLength(103);
     expect(inventoryIds).toHaveLength(evidenceIds.length);
     expect(new Set(inventoryIds).size).toBe(inventoryIds.length);
     expect([...inventoryIds].sort()).toEqual([...evidenceIds].sort());

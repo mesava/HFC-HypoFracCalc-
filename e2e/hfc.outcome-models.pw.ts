@@ -56,4 +56,60 @@ test.describe("HFC HyTEC outcome models", () => {
       }).last(),
     ).toBeVisible();
   });
+
+  test("shows NSCLC HN reirradiation and pancreas v0.2 models without hiding transformed dose semantics", async ({
+    page,
+  }) => {
+    const endpoint = page.getByLabel("Клинический исход");
+
+    await endpoint.selectOption("nsclc-stage-i-local-control");
+    await expect(
+      page.getByText("Максимальный диаметр опухоли 3 см", {
+        exact: true,
+      }).first(),
+    ).toBeVisible();
+    await expect(
+      page.getByText("≈ 90%", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Ohri N, Werner-Wasik M", {
+        exact: false,
+      }),
+    ).toBeVisible();
+
+    await endpoint.selectOption(
+      "head-neck-recurrent-reirradiation-local-control",
+    );
+    await expect(
+      page.getByText("5-фр эквивалент = 45,1 Гр", {
+        exact: false,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Vargo JA, Moiseenko V", {
+        exact: false,
+      }),
+    ).toBeVisible();
+
+    await endpoint.selectOption("pancreas-local-control");
+    await expect(
+      page.getByText("Без хирургического удаления", {
+        exact: true,
+      }).first(),
+    ).toBeVisible();
+    await expect(
+      page.getByText("3-фр эквивалент = 28,2 Гр", {
+        exact: false,
+      }).first(),
+    ).toBeVisible();
+    await expect(
+      page.getByText("≈ 77%", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Mahadevan A, Moningi S", {
+        exact: false,
+      }),
+    ).toBeVisible();
+  });
+
 });

@@ -134,4 +134,66 @@ describe("HyTEC outcome model registry", () => {
       ),
     ).toHaveLength(2);
   });
+
+  it("preserves stage-I NSCLC size-dependent primary-model predictions", () => {
+    const model = resolveOutcomeModel(
+      "nsclc-stage-i-size-adjusted-2y-tcp",
+    ).model;
+
+    expect(model.points).toHaveLength(6);
+    expect(
+      model.points.find(
+        (point) => point.id === "nsclc-50gy-5fx-3cm-2y",
+      )?.probability,
+    ).toBe(0.9);
+    expect(
+      model.points.find(
+        (point) => point.id === "nsclc-54gy-3fx-5cm-2y",
+      )?.probability,
+    ).toBe(0.96);
+  });
+
+  it("stores HN reirradiation dose-response as five-fraction-equivalent source doses", () => {
+    const model = resolveOutcomeModel(
+      "hytec-hn-reirradiation-local-control",
+    ).model;
+    const d50 = model.points.find(
+      (point) => point.id === "hn-rert-2y-d50-45p1gy5eq",
+    );
+
+    expect(d50?.dose.schedule).toBeUndefined();
+    expect(d50?.dose.equivalentFractionation).toEqual({
+      fractions: 5,
+      totalDoseGy: 45.1,
+      alphaBetaGy: 10,
+    });
+    expect(d50?.probability).toBe(0.5);
+    expect(d50?.followUp).toBe("2 years");
+  });
+
+  it("keeps pancreatic surgery status separate and preserves source-transformed 3-fraction equivalence", () => {
+    const model = resolveOutcomeModel(
+      "hytec-pancreas-1y-local-control",
+    ).model;
+
+    const unresected = model.points.find(
+      (point) =>
+        point.id === "pancreas-unresected-33gy5fx-77lc",
+    );
+    const r0 = model.points.find(
+      (point) =>
+        point.id === "pancreas-r0-33gy5fx-over90lc",
+    );
+
+    expect(unresected?.probability).toBe(0.77);
+    expect(unresected?.dose.equivalentFractionation).toEqual({
+      fractions: 3,
+      totalDoseGy: 28.2,
+      alphaBetaGy: 10,
+    });
+    expect(r0?.probabilityRelation).toBe(">");
+    expect(r0?.probability).toBe(0.9);
+    expect(r0?.subgroup).toBe("R0 resection");
+  });
+
 });

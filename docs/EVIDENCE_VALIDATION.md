@@ -775,3 +775,60 @@ Thames et al. 2010 primary abstract напрямую подтверждает:
 Это закрывает **этап A — инвентарную научную валидацию существующей evidence-базы** на уровне текущего draft dataset.
 
 Однако `releaseStatus` остаётся `draft`. Следующий gate — полноценная пользовательская приёмка v0.1 и browser-level regression testing, а не добавление новых клинических коэффициентов.
+
+
+## Пакет 11 — OutcomeModel v0.2 / evidence dataset 2026.10-v0.2
+
+Цель пакета — закрыть три оставшихся опухолевых HyTEC-направления, ранее отмеченные как требующие отдельной курации, без превращения pooled/modelled evidence в универсальный patient-specific TCP calculator.
+
+### Stage-I NSCLC
+
+Источники:
+
+- Lee P, Loo BW Jr, Biswas T, et al. *Local Control After Stereotactic Body Radiation Therapy for Stage I Non-Small Cell Lung Cancer*. IJROBP. 2021;110(1):160–171.
+- Ohri N, Werner-Wasik M, Grills IS, et al. *Modeling Local Control After Hypofractionated Stereotactic Body Radiation Therapy for Stage I Non-Small Cell Lung Cancer*. IJROBP. 2012;84(3):e379–e384.
+
+Решение HFC:
+
+- HyTEC plateau-dose guidance Lee 2021 сохраняется как source context;
+- одна «вероятность plateau» не придумывается;
+- machine-readable points берутся из явных опубликованных примеров первичной size-adjusted BED₁₀ модели Ohri 2012;
+- сохраняются шесть 2-year TCP points: 50 Gy/5 и 54 Gy/3 для максимального диаметра 1/3/5 cm;
+- непрерывная формула не запускается автоматически для конкретного пациента.
+
+### Recurrent head-and-neck SBRT reirradiation
+
+Источник:
+
+Vargo JA, Moiseenko V, Grimm J, et al. *Head and Neck Tumor Control Probability: Radiation Dose-Volume Effects in Stereotactic Body Radiation Therapy for Locally Recurrent Previously-Irradiated Head and Neck Cancer*. IJROBP. 2021;110(1):137–146.
+
+Решение HFC:
+
+- сохраняются опубликованные 1-, 2- и 3-year local-control model points;
+- дозы представлены как **5-fraction-equivalent** с source-specific α/β=10 Gy;
+- equivalent dose хранится отдельно от реально доставленной `schedule`;
+- модель ограничена recurrent malignant H&N reirradiation и не применяется к primary SBRT или planned boost;
+- recommendation-like диапазон источника не становится автоматическим prescription.
+
+### Pancreatic SBRT
+
+Источник:
+
+Mahadevan A, Moningi S, Grimm J, et al. *Maximizing Tumor Control and Limiting Complications With Stereotactic Body Radiation Therapy for Pancreatic Cancer*. IJROBP. 2021;110(1):206–216.
+
+Решение HFC:
+
+- сохраняются explicit 1-year local-control points;
+- 33 Gy/5 и 36 Gy/3 для unresected disease не смешиваются с результатами после R0 resection;
+- source-reported 3-fraction-equivalent transformation с α/β=10 Gy хранится отдельно;
+- утверждение «<70% below 24 Gy 3-fx-equivalent» не превращается в искусственную точку ровно 24 Gy.
+
+### Итог пакета
+
+- OutcomeModel records: **6 → 9**;
+- всего evidence records: **100 → 103**;
+- active: **96 → 99**;
+- deprecated retained for replay: **4**;
+- pending: **0**;
+- evidence dataset version: **2026.10-v0.2**;
+- существующие automatic α/β defaults не изменены.

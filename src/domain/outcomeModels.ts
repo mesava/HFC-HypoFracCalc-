@@ -29,8 +29,20 @@ export interface BiologicalDoseReference {
   alphaBetaGy: number;
 }
 
+export interface EquivalentFractionationReference {
+  fractions: number;
+  totalDoseGy: number;
+  alphaBetaGy?: number;
+}
+
 export interface OutcomeDoseDescriptor {
   schedule?: FractionationSchedule;
+  /**
+   * Source-reported transformed fractionation, e.g. a 5-fraction-equivalent
+   * total dose used for pooled HyTEC modelling. This is not necessarily the
+   * actually delivered schedule.
+   */
+  equivalentFractionation?: EquivalentFractionationReference;
   /**
    * Used when the source reports a biological-dose threshold/point.
    * This is source provenance, not an HFC-selected alpha/beta.

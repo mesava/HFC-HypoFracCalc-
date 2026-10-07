@@ -112,6 +112,30 @@ function doseLabel(
     );
   }
 
+  const equivalent = point.dose.equivalentFractionation;
+  if (equivalent) {
+    const gy = language === "ru" ? "Гр" : "Gy";
+    const label =
+      language === "ru"
+        ? `${equivalent.fractions}-фр эквивалент`
+        : `${equivalent.fractions}-fx equivalent`;
+    const alphaBeta =
+      equivalent.alphaBetaGy === undefined
+        ? ""
+        : ` (α/β = ${formatUiNumber(
+            language,
+            equivalent.alphaBetaGy,
+            1,
+          )} ${gy})`;
+    parts.push(
+      `${label} = ${formatUiNumber(
+        language,
+        equivalent.totalDoseGy,
+        1,
+      )} ${gy}${alphaBeta}`,
+    );
+  }
+
   const biological = point.dose.biologicalDose;
   if (biological) {
     parts.push(
@@ -165,6 +189,11 @@ function subgroupLabel(
     "Low/intermediate-risk disease":
       "Низкий/промежуточный риск",
     "High-risk disease": "Высокий риск",
+    "Unresected disease": "Без хирургического удаления",
+    "R0 resection": "R0-резекция",
+    "Maximum tumour diameter 1 cm": "Максимальный диаметр опухоли 1 см",
+    "Maximum tumour diameter 3 cm": "Максимальный диаметр опухоли 3 см",
+    "Maximum tumour diameter 5 cm": "Максимальный диаметр опухоли 5 см",
   };
   return labels[value] ?? value;
 }
@@ -307,15 +336,15 @@ export function OutcomeModelsView({
           <strong>
             {tx(
               language,
-              "Первый пакет HyTEC",
-              "Initial HyTEC outcome package",
+              "Расширенный пакет исходов",
+              "Expanded outcome package",
             )}
           </strong>
           <span>
             {tx(
               language,
-              "Brain metastases, vestibular schwannoma, spinal metastases, liver metastases, adrenal metastases и prostate SBRT. Source-specific α/β для BED/EQD₂ сохраняется как часть опубликованной модели и не становится α/β по умолчанию в HFC.",
-              "Brain metastases, vestibular schwannoma, spinal metastases, liver metastases, adrenal metastases, and prostate SBRT. Source-specific alpha/beta values used for BED/EQD2 remain model provenance and do not become HFC alpha/beta defaults.",
+              "Включены метастазы в головной мозг, вестибулярная шваннома, метастазы в позвоночник, печень и надпочечник, SBRT простаты, NSCLC I стадии, повторное SBRT-облучение рецидивов головы и шеи и SBRT поджелудочной железы. Эквивалентные схемы из публикаций отображаются отдельно от реально доставленных режимов; source-specific α/β остаётся частью provenance модели и не становится α/β по умолчанию.",
+              "Includes brain metastases, vestibular schwannoma, spinal/liver/adrenal metastases, prostate SBRT, stage-I NSCLC, recurrent head-and-neck SBRT reirradiation, and pancreatic SBRT. Source-transformed equivalent schedules are displayed separately from delivered schedules; source-specific alpha/beta remains model provenance and never becomes an HFC default.",
             )}
           </span>
         </div>
