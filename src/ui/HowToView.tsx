@@ -2,10 +2,7 @@ import { tx } from "./i18n.js";
 import type { Language } from "./labels.js";
 import type { SitePage } from "./SiteHome.js";
 
-type GuideTarget = Extract<
-  SitePage,
-  "quick" | "compare" | "gap" | "constraints" | "outcomes" | "reirradiation" | "audit"
->;
+type GuideTarget = SitePage;
 
 export function HowToView({
   language,
@@ -332,6 +329,153 @@ export function HowToView({
             {tx(language, "Открыть Проверку аудита", "Open Audit Replay")}
           </button>
         </article>
+      </section>
+
+      <section className="panel legacy-examples">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">
+              {tx(language, "проверочные клинические задачи", "worked validation cases")}
+            </span>
+            <h2>
+              {tx(
+                language,
+                "Примеры из публикации исходного Hypo-Calc",
+                "Examples from the original Hypo-Calc publication",
+              )}
+            </h2>
+          </div>
+        </div>
+
+        <p className="module-lead">
+          {tx(
+            language,
+            "Batyan и соавт. (2023) описали семь учебных задач для LQ-модели. HFC использует их как regression/teaching cases, но не переносит устаревшие биологические значения как скрытые defaults.",
+            "Batyan et al. (2023) described seven teaching cases for the LQ model. HFC uses them as regression/teaching cases but does not inherit historical biological values as hidden defaults.",
+          )}
+        </p>
+
+        <div className="legacy-example-grid">
+          <article>
+            <span className="module-index">01</span>
+            <h3>{tx(language, "Изоэффективная схема", "Isoeffective regimen")}</h3>
+            <p>
+              {tx(
+                language,
+                "30 × 2 Гр заменить на 18 фракций при неизменной длительности: α/β=3 Гр → 2,85 Гр/фр; α/β=10 Гр → 3,06 Гр/фр.",
+                "Replace 30 × 2 Gy with 18 fractions at unchanged treatment time: α/β=3 Gy → 2.85 Gy/fx; α/β=10 Gy → 3.06 Gy/fx.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("target-eqd")}>
+              {tx(language, "Открыть подбор режима", "Open solver")}
+            </button>
+          </article>
+
+          <article>
+            <span className="module-index">02</span>
+            <h3>{tx(language, "Подбор числа фракций", "Fraction-count solve")}</h3>
+            <p>
+              {tx(
+                language,
+                "При 2,67 Гр/фр для EQD₂=50 Гр статья получает: α/β=4,6 → 17 фр.; 8,8 → 18 фр.; 1,7 → 16 фр. HFC решает это аналитически, без ручного перебора.",
+                "At 2.67 Gy/fx for EQD₂=50 Gy the paper gives: α/β=4.6 → 17 fx; 8.8 → 18 fx; 1.7 → 16 fx. HFC solves this analytically rather than by trial-and-error.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("target-eqd")}>
+              {tx(language, "Проверить пример", "Check example")}
+            </button>
+          </article>
+
+          <article>
+            <span className="module-index">03</span>
+            <h3>{tx(language, "Пропущена фракция", "Missed fraction")}</h3>
+            <p>
+              {tx(
+                language,
+                "План 5 × 5 Гр, после двух фракций среда пропущена, закончить нужно в пятницу. При α/β=10 Гр для двух оставшихся фракций получается ≈6,73 Гр/фр.",
+                "Plan 5 × 5 Gy; after two fractions Wednesday is missed and treatment must still finish Friday. With α/β=10 Gy, the two remaining fractions are ≈6.73 Gy/fx.",
+              )}
+            </p>
+            <div className="howto-button-row">
+              <button type="button" className="secondary-button" onClick={() => onNavigate("course-correction")}>
+                {tx(language, "Коррекция курса", "Course correction")}
+              </button>
+              <button type="button" className="secondary-button" onClick={() => onNavigate("calendar")}>
+                {tx(language, "Показать в календаре", "Show in calendar")}
+              </button>
+            </div>
+          </article>
+
+          <article>
+            <span className="module-index">04</span>
+            <h3>{tx(language, "Двухнедельный перерыв", "Two-week interruption")}</h3>
+            <p>
+              {tx(
+                language,
+                "Исторический пример статьи для H&N после 25-й фракции сообщает EQD₂=59,5 Гр. HFC не считает это универсальным эталоном: результат зависит от явно выбранных Dprolif и Tk.",
+                "The historical H&N example after fraction 25 reports EQD₂=59.5 Gy. HFC does not treat this as a universal benchmark because the result depends on explicitly selected Dprolif and Tk.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("gap")}>
+              {tx(language, "Открыть модуль перерывов", "Open Treatment Gap")}
+            </button>
+          </article>
+
+          <article>
+            <span className="module-index">05</span>
+            <h3>{tx(language, "Шесть фракций в неделю", "Six fractions per week")}</h3>
+            <p>
+              {tx(
+                language,
+                "В статье субботние фракции используются для сокращения OTT и приводят к EQD₂=64,5 Гр при их исходных допущениях. В HFC такой сценарий удобно сначала собрать визуально в календаре, затем оценить временную модель.",
+                "The paper uses Saturday fractions to shorten OTT and reports EQD₂=64.5 Gy under its assumptions. In HFC, first build the schedule visually in the calendar, then evaluate the time model.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("calendar")}>
+              {tx(language, "Открыть календарь", "Open calendar")}
+            </button>
+          </article>
+
+          <article>
+            <span className="module-index">06</span>
+            <h3>{tx(language, "BID и неполное восстановление", "BID and incomplete repair")}</h3>
+            <p>
+              {tx(
+                language,
+                "Исходная статья моделирует переход к 2 фракциям/сут с интервалом 6 ч и отдельно оценивает спинной мозг. HFC использует Thames Hm, но требует явных T½ и Δt; TID доступен только как advanced-моделирование.",
+                "The source paper models 2 fractions/day with a 6 h interval and separately evaluates spinal cord effect. HFC uses Thames Hm but requires explicit T½ and Δt; TID is advanced modelling only.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("calendar")}>
+              {tx(language, "Смоделировать BID", "Model BID")}
+            </button>
+          </article>
+
+          <article>
+            <span className="module-index">07</span>
+            <h3>{tx(language, "Ошибка отпуска дозы", "Dose-delivery error")}</h3>
+            <p>
+              {tx(
+                language,
+                "План 33 × 2 Гр. После 20 фракций выяснилось, что фактически отпускали 1,8 Гр. Для оставшихся 13 фракций при α/β=10 Гр требуется ≈2,30 Гр/фр.",
+                "Plan 33 × 2 Gy. After 20 fractions it is discovered that 1.8 Gy/fx was actually delivered. For the remaining 13 fractions with α/β=10 Gy, ≈2.30 Gy/fx is required.",
+              )}
+            </p>
+            <button type="button" className="secondary-button" onClick={() => onNavigate("course-correction")}>
+              {tx(language, "Открыть пример", "Open example")}
+            </button>
+          </article>
+        </div>
+
+        <p className="legacy-source">
+          <a
+            href="https://doi.org/10.5772/intechopen.109621"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Batyan A, Dziameshka P, Hancharova K, et al. Linear Quadratic Model in the Clinical Practice via the Web-Application. 2023.
+          </a>
+        </p>
       </section>
 
       <section className="panel site-safety howto-safety">

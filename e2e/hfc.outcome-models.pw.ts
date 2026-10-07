@@ -1,14 +1,13 @@
 import { expect, test } from "@playwright/test";
+import { openMethodologyTool } from "./navigation.js";
 
 test.describe("HFC HyTEC outcome models", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page
-      .getByRole("button", {
-        name: "Модели исходов",
-        exact: true,
-      })
-      .click();
+    await openMethodologyTool(
+      page,
+      "Клинические исходы по данным HyTEC",
+    );
   });
 
   test("shows source-backed brain-metastasis outcome points without interpolation", async ({

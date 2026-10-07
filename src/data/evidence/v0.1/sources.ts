@@ -2,6 +2,16 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "batyan-2023-hypocalc-webapp",
+    citation:
+      "Batyan A, Dziameshka P, Hancharova K, Lemiasheuski V, Orgish A. Linear Quadratic Model in the Clinical Practice via the Web-Application. In: Radiation Therapy. IntechOpen; 2023.",
+    year: 2023,
+    doi: "10.5772/intechopen.109621",
+    kind: "other",
+    notes:
+      "Methodological/software reference for the original Hypo-Calc web application. HFC uses its seven published teaching cases as regression and documentation scenarios, but does not inherit historical biological parameters as automatic defaults.",
+  },
+  {
     id: "rcr-2024-dose-fractionation",
     citation:
       "The Royal College of Radiologists. Radiotherapy dose fractionation. Fourth edition. London: The Royal College of Radiologists; 2024.",

@@ -1,14 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { openCalculator } from "./navigation.js";
 
 test.describe("HFC RCR 2024 regimen library", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page
-      .getByRole("button", {
-        name: "Сравнение режимов",
-        exact: true,
-      })
-      .click();
+    await openCalculator(page, "Сравнение режимов");
   });
 
   test("loads an RCR preset without selecting alpha/beta and clears provenance after schedule editing", async ({
