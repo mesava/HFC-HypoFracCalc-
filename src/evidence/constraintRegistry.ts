@@ -99,12 +99,13 @@ export function resolveClinicalConstraint(
   }
 
   if (
-    constraint.metric.kind === "Vx" &&
+    (constraint.metric.kind === "Vx" ||
+      constraint.metric.kind === "VleX") &&
     (constraint.metric.xGy === undefined ||
       constraint.metric.xGy <= 0)
   ) {
     throw new Error(
-      `Constraint dataset error: ${constraint.id} uses Vx without a positive xGy.`,
+      `Constraint dataset error: ${constraint.id} uses ${constraint.metric.kind} without a positive xGy.`,
     );
   }
 
