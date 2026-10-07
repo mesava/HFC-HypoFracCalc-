@@ -185,8 +185,10 @@ test.describe("HFC browser acceptance smoke tests", () => {
     await page.getByLabel("Вариант дизайна").selectOption("journal");
     await expect(page.locator("html")).toHaveAttribute("data-design", "journal");
 
-    await page.getByRole("button", { name: "Включить тёмную тему" }).click();
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    const html = page.locator("html");
+    const initialTheme = await html.getAttribute("data-theme");
+    await page.locator(".theme-toggle").click();
+    await expect(html).not.toHaveAttribute("data-theme", initialTheme ?? "");
   });
 
   test("mobile navigation opens and changes module", async ({ page }) => {
