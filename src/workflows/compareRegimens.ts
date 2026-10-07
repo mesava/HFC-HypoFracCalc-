@@ -4,6 +4,9 @@ import type {
   EvidenceBasedParameterSelection,
   ManualParameterOverride,
 } from "../domain/evidence.js";
+import type {
+  RegimenPresetProvenance,
+} from "../domain/regimen.js";
 import {
   calculateEvidenceLq,
   type EvidenceLqResult,
@@ -14,6 +17,7 @@ export interface NamedRegimen {
   id: string;
   label: string;
   schedule: FractionationSchedule;
+  preset?: RegimenPresetProvenance;
 }
 
 export interface ComparisonEndpoint {

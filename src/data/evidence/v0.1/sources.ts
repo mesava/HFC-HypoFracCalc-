@@ -2,6 +2,15 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "rcr-2024-dose-fractionation",
+    citation:
+      "The Royal College of Radiologists. Radiotherapy dose fractionation. Fourth edition. London: The Royal College of Radiologists; 2024.",
+    year: 2024,
+    kind: "guideline",
+    notes:
+      "Official evidence-based fractionation guide used by HFC for source-backed clinical regimen presets. Presets document published schedules and recommendation grades; they do not select alpha/beta or establish patient-specific suitability.",
+  },
+  {
     id: "rcr-2019-timely-delivery",
     citation:
       "The Royal College of Radiologists. The timely delivery of radical radiotherapy: guidelines for the management of unscheduled treatment interruptions. Fourth edition. London: The Royal College of Radiologists; 2019. Ref No. BFCO(19)1.",
