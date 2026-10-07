@@ -133,6 +133,56 @@ function riskValue(
   );
 }
 
+function populationLabel(
+  language: Language,
+  value: string | undefined,
+): string {
+  if (!value) {
+    return tx(language, "не указана", "not specified");
+  }
+  if (language === "en") return value;
+
+  const labels: Record<string, string> = {
+    "Primary liver disease":
+      "Первичная опухоль печени",
+    "Metastatic liver lesions":
+      "Метастатическое поражение печени",
+  };
+  return labels[value] ?? value;
+}
+
+function fractionationLabel(
+  language: Language,
+  constraint: ClinicalConstraint,
+): string {
+  const exact =
+    constraint.fractionation?.fractions;
+  if (exact !== undefined) {
+    return (
+      String(exact) +
+      " " +
+      tx(language, "фр.", "fx")
+    );
+  }
+
+  const range =
+    constraint.applicability?.fractionCountRange;
+  if (
+    range?.min !== undefined &&
+    range.max !== undefined
+  ) {
+    return (
+      String(range.min) +
+      "–" +
+      String(range.max) +
+      " " +
+      tx(language, "фр.", "fx")
+    );
+  }
+
+  return "—";
+}
+
 function priorRtLabel(
   language: Language,
   value: ClinicalConstraint["priorRadiotherapy"],
@@ -401,9 +451,10 @@ export function ClinicalConstraintsView({
                       )}
                     </dt>
                     <dd>
-                      {constraint.fractionation?.fractions ??
-                        "—"}{" "}
-                      {tx(language, "фр.", "fx")}
+                      {fractionationLabel(
+                        language,
+                        constraint,
+                      )}
                     </dd>
                   </div>
                   <div>
@@ -429,6 +480,23 @@ export function ClinicalConstraintsView({
                       {constraint.technique?.join(", ") ?? "—"}
                     </dd>
                   </div>
+                  {constraint.population ? (
+                    <div>
+                      <dt>
+                        {tx(
+                          language,
+                          "Популяция / контекст",
+                          "Population / context",
+                        )}
+                      </dt>
+                      <dd>
+                        {populationLabel(
+                          language,
+                          constraint.population,
+                        )}
+                      </dd>
+                    </div>
+                  ) : null}
                 </dl>
 
                 {source ? (
