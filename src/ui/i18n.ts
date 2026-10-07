@@ -119,7 +119,7 @@ const warningMapRu = new Map<string, string>([
     "Удлинение общей продолжительности лечения превышает одну неделю; неопределённость простой линейной аппроксимации Dprolif возрастает.",
   ],
   [
-    "Manual repair half time must be > 0 hours.",
+    "Manual repair half-time must be > 0 hours.",
     "Пользовательское T½ должно быть больше 0 ч.",
   ],
   [
