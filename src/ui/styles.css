@@ -2593,6 +2593,66 @@ button.module-card:hover {
   line-height: 1.4;
 }
 
+.outcome-model-card {
+  min-width: 0;
+}
+
+.outcome-point-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1px solid #e1e7e9;
+  border-radius: 10px;
+}
+
+.outcome-point-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.75rem;
+}
+
+.outcome-point-table th,
+.outcome-point-table td {
+  border-right: 1px solid #e7ecee;
+  border-bottom: 1px solid #e7ecee;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.outcome-point-table th:last-child,
+.outcome-point-table td:last-child {
+  border-right: 0;
+}
+
+.outcome-point-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.outcome-point-table th {
+  color: #677780;
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: #f7f9fa;
+}
+
+.outcome-extrapolated {
+  display: block;
+  margin-top: 4px;
+  color: #8a6027;
+  font-weight: 750;
+}
+
+.outcome-model-notes {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  color: #5f6d75;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
 .constraint-source {
   margin-top: 12px;
   border-top: 1px solid #e2e8ea;
