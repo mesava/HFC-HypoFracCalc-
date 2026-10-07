@@ -319,6 +319,42 @@ export const endpoints = [
     role: "tumour",
   },
   {
+    id: "major-vessel-grade3plus-bleeding",
+    organ: "Carotid/major vessels",
+    endpoint: "Grade 3-5 bleeding event / carotid blowout syndrome",
+    role: "normal-tissue",
+  },
+  {
+    id: "lung-symptomatic-rilt",
+    organ: "Lung",
+    endpoint: "Symptomatic radiation-induced lung toxicity",
+    role: "normal-tissue",
+  },
+  {
+    id: "liver-grade3plus-enzyme-toxicity",
+    organ: "Liver",
+    endpoint: "Grade 3+ liver-enzyme toxicity",
+    role: "normal-tissue",
+  },
+  {
+    id: "bladder-prostate-sbrt-late-urinary-toxicity",
+    organ: "Bladder",
+    endpoint: "Late urinary toxicity / quality-of-life deterioration after prostate SBRT",
+    role: "normal-tissue",
+  },
+  {
+    id: "urethra-prostate-sbrt-late-urinary-toxicity",
+    organ: "Urethra",
+    endpoint: "Late urinary toxicity after prostate SBRT",
+    role: "normal-tissue",
+  },
+  {
+    id: "rectum-prostate-sbrt-late-bowel-toxicity",
+    organ: "Rectum",
+    endpoint: "Late bowel toxicity after prostate SBRT",
+    role: "normal-tissue",
+  },
+  {
     id: "spinal-cord-radiation-myelopathy",
     organ: "Spinal cord",
     endpoint: "Radiation-induced myelopathy",
