@@ -42,7 +42,7 @@ test.describe("HFC Treatment Gap OAR browser acceptance", () => {
       }),
     ).toBeVisible();
 
-    await expect(card.locator(".inline-alert")).toContainText(
+    await expect(card.getByRole("alert")).toContainText(
       "Выбранная оценка T½ является диапазоном или границей, а не точечным значением. Для расчёта необходимо явно задать численное T½.",
     );
 
@@ -68,7 +68,7 @@ test.describe("HFC Treatment Gap OAR browser acceptance", () => {
       .click();
     await card.getByLabel("Своё T½, ч").fill("0");
 
-    await expect(card.locator(".inline-alert")).toContainText(
+    await expect(card.getByRole("alert")).toContainText(
       "Пользовательское T½ должно быть больше 0 ч.",
     );
   });
