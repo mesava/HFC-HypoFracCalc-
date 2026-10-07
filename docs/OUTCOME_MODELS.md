@@ -1,4 +1,4 @@
-# Outcome Models — HyTEC v0.1
+# Outcome Models — HyTEC v0.2
 
 ## Зачем отдельный слой
 
@@ -21,6 +21,7 @@ HFC намеренно не смешивает эти сущности.
 - evidence form;
 - dose/fractionation;
 - source-specific BED/EQD₂, если он использован в публикации;
+- source-reported equivalent fractionation, если публикация нормализует разные схемы к условному числу фракций;
 - probability и relation;
 - follow-up;
 - subgroup;
@@ -55,30 +56,37 @@ HFC **не интерполирует** между сохранёнными то
 - не становится preferred/default;
 - не подменяет endpoint-specific alpha/beta из отдельной evidence layer.
 
-## Initial HyTEC package
+## Expanded HyTEC outcome package
 
-v0.1 включает:
+v0.2 включает девять source-traceable моделей/наборов точек:
 
 - Redmond 2021 — brain metastases SRS/fSRS, 1-year local control by lesion size;
 - Soltys 2021 — vestibular schwannoma SRS/fSRS, 3–5-year TCP;
 - Soltys 2021 — spinal metastases SBRT, 2-year TCP;
 - Ohri 2021 — liver metastases, BED10-stratified 3-year local control;
 - Stumpf 2021 — adrenal metastases, model-derived 1-year local control;
-- Royce 2021 — prostate SBRT, 5-year biochemical-control TCP by risk group.
+- Royce 2021 — prostate SBRT, 5-year biochemical-control TCP by risk group;
+- Ohri 2012 — stage-I NSCLC: шесть опубликованных 2-year TCP examples для 50 Gy/5 и 54 Gy/3 с учётом диаметра 1/3/5 cm;
+- Vargo/HyTEC — recurrent previously irradiated head-and-neck malignancy: 1-, 2- и 3-year local-control points на опубликованной 5-fraction-equivalent шкале;
+- Mahadevan/HyTEC — pancreatic SBRT: 1-year local-control points с раздельным представлением unresected и R0-resected disease.
+
+Для stage-I NSCLC более поздняя HyTEC review Lee 2021 также зарегистрирована как источник. Она сообщает model-dependent PTV doses около plateau TCP (примерно 43/47/50 Gy для 3/4/5 fractions), но не задаёт одну универсальную вероятность plateau, поэтому HFC **не создаёт искусственную probability point** из этой рекомендации. Численные точки v0.2 для NSCLC взяты из воспроизводимых опубликованных примеров первичной модели Ohri 2012.
+
+## Equivalent fractionation
+
+Для H&N reirradiation и pancreatic SBRT публикации нормализуют неоднородные схемы к условной 5- или 3-фракционной дозе через LQ с source-specific α/β=10 Gy.
+
+HFC хранит это в `equivalentFractionation`, отдельно от `schedule`:
+
+- `schedule` означает реально описанный режим;
+- `equivalentFractionation` означает трансформированную дозовую шкалу источника;
+- source-specific α/β остаётся provenance модели и **не переносится** в общий HFC alpha/beta registry.
 
 ## Что пока не включено
 
-Следующие HyTEC работы требуют отдельной курации перед machine-readable переносом:
+Lung parenchyma, liver, prostate SBRT toxicity и carotid/major-vessel evidence уже представлены в отдельном слое `ClinicalConstraint v0.2`. В OutcomeModel HFC пока сознательно не кодирует все возможные непрерывные NTCP fits и не превращает неоднородные dose-volume корреляции в универсальные patient-specific probability calculators.
 
-- stage I NSCLC local control;
-- head-and-neck reirradiation TCP;
-- lung parenchyma toxicity;
-- liver dose-volume toxicity;
-- pancreas SBRT toxicity/outcomes;
-- prostate SBRT toxicity;
-- carotid blowout.
-
-Причина: эти публикации содержат сочетание fitted models, recommended schedules, heterogeneous endpoints и/или dose-volume correlates. HFC не должен автоматически сводить их к одному числу или одному типу evidence record.
+Причина та же: перенос допускается только там, где endpoint, dose metric, population context и модель можно воспроизвести без скрытых допущений.
 
 ## Безопасность
 
