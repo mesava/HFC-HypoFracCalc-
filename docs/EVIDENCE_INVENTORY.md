@@ -14,11 +14,11 @@
 | alphaBetaAdditional.ts | 14 |
 | repairHalfTime.ts | 6 |
 | repopulation.ts | 14 |
-| constraintsHytec.ts | 27 |
+| constraintsHytec.ts | 29 |
 | outcomeModelsHytec.ts | 6 |
 | reirradiationGuidance.ts | 1 |
-| **Всего** | **98** |
-| Активных | 94 |
+| **Всего** | **100** |
+| Активных | 96 |
 | Deprecated для audit replay | 4 |
 | Pending primary sign-off | **0** |
 
@@ -124,6 +124,8 @@
 | `hytec-liver-primary-mld-6fx-18gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=18 Gy; 6 fx | `miften-2021-hytec-liver-toxicity` | primary liver disease | reviewed | n/a | planning-limit | 9 | validated |
 | `hytec-liver-metastases-mld-3fx-15gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=15 Gy; 3 fx | `miften-2021-hytec-liver-toxicity` | metastatic liver lesions | reviewed | n/a | planning-limit | 9 | validated |
 | `hytec-liver-metastases-mld-6fx-20gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=20 Gy; 6 fx | `miften-2021-hytec-liver-toxicity` | metastatic liver lesions | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-liver-spared-vle15gy-700cc` | `liver-grade3plus-enzyme-toxicity` | V<=15 Gy >=700 cc | `miften-2021-hytec-liver-toxicity` | liver SBRT; 3-6 fx | reviewed | n/a | observational-threshold | 9 | validated |
+| `hytec-liver-spared-vle17gy-700cc` | `liver-grade3plus-enzyme-toxicity` | V<=17 Gy >=700 cc | `miften-2021-hytec-liver-toxicity` | liver SBRT; 3-6 fx | reviewed | n/a | observational-threshold | 9 | validated |
 | `hytec-prostate-sbrt-bladder-vrx-5to10cc` | `bladder-prostate-sbrt-late-urinary-toxicity` | V(Rx) <5-10 cc | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
 | `hytec-prostate-sbrt-urethra-dmax-38to42gy` | `urethra-prostate-sbrt-late-urinary-toxicity` | Dmax <38-42 Gy | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
 | `hytec-prostate-sbrt-rectum-dmax-35to38gy` | `rectum-prostate-sbrt-late-bowel-toxicity` | Dmax <35-38 Gy | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
