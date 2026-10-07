@@ -144,7 +144,7 @@ Preset описывает клинически применяемую схему
 
 Они поддерживают решение не сводить high-dose evidence к одному EQD₂ и хранить dose metric, fractionation, endpoint, risk и prior-RT context отдельно.
 
-### OutcomeModel v0.1 — machine-readable
+### OutcomeModel v0.2 — machine-readable
 
 После первичной сверки пакета отдельно реализованы:
 
@@ -153,9 +153,12 @@ Preset описывает клинически применяемую схему
 - spinal metastases TCP;
 - liver metastases BED10-stratified local control;
 - adrenal metastases TCP;
-- prostate SBRT TCP.
+- prostate SBRT TCP;
+- stage-I NSCLC: explicit size-dependent 2-year TCP examples из первичной Ohri 2012 модели + Lee 2021 HyTEC plateau guidance как контекст без выдуманной probability;
+- recurrent previously irradiated head-and-neck SBRT: 1/2/3-year local-control points на 5-fraction-equivalent шкале;
+- pancreas SBRT: 1-year local-control points с отдельным контекстом unresected и R0 resection.
 
-Source-specific α/β, использованный авторами для BED/EQD₂, хранится только как provenance модели и не становится HFC α/β default.
+Source-specific α/β, использованный авторами для BED/EQD₂ или equivalent-fractionation transforms, хранится только как provenance модели и не становится HFC α/β default.
 
 ### ClinicalConstraint v0.2 — machine-readable
 
@@ -166,16 +169,13 @@ Source-specific α/β, использованный авторами для BED/
 - liver SBRT mean-liver-dose objectives;
 - prostate SBRT bladder/urethra/rectum suggested thresholds.
 
-### Ещё не закодировано полностью
+### Что ещё не кодируется как OutcomeModel
 
-Следующие работы не потеряны, но требуют дальнейшей курации или расширения schema:
+После v0.2 основные оставшиеся пробелы относятся уже не к перечисленным опухолевым outcome papers, а к вопросу, стоит ли переносить отдельные непрерывные NTCP fits и дополнительные dose-volume correlations.
 
-- head-and-neck reirradiation TCP;
-- stage-I NSCLC local control;
-- pancreas SBRT outcomes;
-- отдельные detailed NTCP fits из prostate toxicity, если будет доказана польза их воспроизводимого переноса.
+Lung, liver, prostate toxicity и carotid/major-vessel evidence уже представлены как `ClinicalConstraint v0.2`; HFC намеренно не дублирует их автоматически как patient-specific NTCP calculators.
 
-То есть HyTEC **освоен как пакет источников и архитектурный слой**, но не все статьи превращены в численные machine-readable records. Это сознательное ограничение: перенос выполняется только там, где модель, endpoint, dose metric и область применимости можно воспроизвести без додумывания.
+То есть HyTEC **освоен как пакет источников и архитектурный слой существенно глубже**, но не каждая статья обязана превращаться в численный record. Перенос выполняется только там, где модель, endpoint, dose metric и область применимости можно воспроизвести без додумывания.
 
 HyTEC immunomodulatory paper и письма/ответы 21–25 рассматриваются как контекст дискуссии, а не самостоятельные численные defaults.
 
@@ -214,7 +214,7 @@ HyTEC immunomodulatory paper и письма/ответы 21–25 рассмат
 - Treatment Gap — реализован;
 - Reirradiation — реализован;
 - расширенный слой HyTEC constraints — реализован частично и source-traceable;
-- HyTEC OutcomeModel v0.1 — реализован для шести групп исходов;
+- HyTEC OutcomeModel v0.2 — реализован для девяти групп/моделей исходов, включая stage-I NSCLC, recurrent H&N reirradiation и pancreas SBRT;
 - RCR Regimen Library v0.1/v0.2 — реализована;
 - часть HyTEC TCP/NTCP/outcome evidence ещё требует дальнейшей курации;
 - systematic review α/β 2026 — учтён как методологическая перепроверка, без подмены первичных estimates;

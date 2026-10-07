@@ -271,6 +271,12 @@ export const endpoints = [
     role: "tumour",
   },
   {
+    id: "head-neck-recurrent-reirradiation-local-control",
+    organ: "Head and neck",
+    endpoint: "Local control of recurrent previously irradiated head-and-neck malignancy after SBRT reirradiation",
+    role: "tumour",
+  },
+  {
     id: "nsclc-local-control",
     organ: "Lung",
     endpoint: "Local control of non-small-cell lung cancer",
@@ -286,6 +292,12 @@ export const endpoints = [
     id: "esophagus-pathologic-complete-response",
     organ: "Esophagus",
     endpoint: "Pathologic complete response after preoperative chemoradiotherapy",
+    role: "tumour",
+  },
+  {
+    id: "pancreas-local-control",
+    organ: "Pancreas",
+    endpoint: "Local control of pancreatic cancer after SBRT",
     role: "tumour",
   },
   {

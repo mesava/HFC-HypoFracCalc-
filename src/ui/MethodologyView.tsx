@@ -3,6 +3,7 @@ import {
   endpoints,
   evidenceManifest,
   hytecClinicalConstraints,
+  hytecOutcomeModels,
   reirradiationGuidanceSets,
   repairHalfTimeEstimates,
   repopulationRateEstimates,
@@ -73,6 +74,10 @@ export function MethodologyView({
               )}
             </span>
             <strong>{hytecClinicalConstraints.length}</strong>
+          </div>
+          <div>
+            <span>{tx(language, "Модели исходов", "Outcome models")}</span>
+            <strong>{hytecOutcomeModels.length}</strong>
           </div>
           <div>
             <span>
@@ -230,8 +235,8 @@ export function MethodologyView({
           <p>
             {tx(
               language,
-              "Набор данных не переводится в статус «проверен» до независимой проверки чисел, регрессионных тестов и проверки владельцем проекта.",
-              "The dataset is not promoted to validated until numerical cross-checking, regression tests, and project-owner review are complete.",
+              "Техническая и регрессионная проверка выполнена. Статус dataset остаётся draft до независимой клинической валидации, локального комиссионирования и формального governance-решения.",
+              "Technical and regression checks are complete. The dataset remains draft pending independent clinical validation, local commissioning, and a formal governance decision.",
             )}
           </p>
         </div>

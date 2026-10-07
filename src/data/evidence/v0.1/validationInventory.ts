@@ -108,6 +108,9 @@ export const evidenceValidationInventory = [
   { recordId: "hytec-liver-metastases-bed10-local-control", validationPackage: "8", state: "validated" },
   { recordId: "hytec-adrenal-metastases-1y-tcp", validationPackage: "8", state: "validated" },
   { recordId: "hytec-prostate-sbrt-5y-tcp", validationPackage: "8", state: "validated" },
+  { recordId: "nsclc-stage-i-size-adjusted-2y-tcp", validationPackage: "11", state: "validated-primary" },
+  { recordId: "hytec-hn-reirradiation-local-control", validationPackage: "11", state: "validated" },
+  { recordId: "hytec-pancreas-1y-local-control", validationPackage: "11", state: "validated" },
 
   { recordId: "hytec-major-vessel-d0p5cc-5fx-20gy", validationPackage: "9", state: "validated" },
   { recordId: "hytec-major-vessel-dmax-5fx-20gy-risk", validationPackage: "9", state: "validated" },

@@ -183,11 +183,11 @@ export function SiteHome({
             <p>
               {tx(
                 language,
-                "Опубликованные TCP/локальный контроль из HyTEC с дозой, сроком наблюдения, подгруппой и типом доказательства — без скрытой интерполяции.",
-                "Published HyTEC TCP/local-control evidence with dose, follow-up, subgroup, and evidence form — without hidden interpolation.",
+                "Расширенный HyTEC outcome-layer: опубликованные TCP/локальный контроль, включая NSCLC I стадии, повторное облучение головы и шеи и SBRT поджелудочной железы — без скрытой интерполяции.",
+                "Expanded HyTEC outcome layer with published TCP/local-control evidence, including stage-I NSCLC, head-and-neck reirradiation, and pancreatic SBRT — without hidden interpolation.",
               )}
             </p>
-            <span className="module-state beta">v0.1</span>
+            <span className="module-state beta">v0.2</span>
           </button>
 
           <button

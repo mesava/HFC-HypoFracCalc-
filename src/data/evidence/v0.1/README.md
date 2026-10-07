@@ -1,6 +1,6 @@
-# Доказательная база HFC 2026.10-v0.1
+# Доказательная база HFC 2026.10-v0.2
 
-Статус набора: **черновой, проходит поэтапную научную валидацию**.
+Статус набора: **черновой; инвентарная научная проверка и технический RC завершены, независимая клиническая валидация/комиссионирование не завершены**.
 
 Этот каталог содержит версионируемые клинические параметры HFC для дистанционной лучевой терапии фотонными пучками.
 
@@ -100,7 +100,7 @@ HFC не считает K и Dprolif одним параметром и не п�
 - честный modelled/secondary synthesis → active explicit-only;
 - не воспроизводимое или context-mismatched историческое число → `deprecated`, сохранено только для audit replay.
 
-После v0.10 pending queue = **0**, но dataset остаётся `draft`: следующий release gate — пользовательская приёмка и browser regression tests.
+После v0.10 pending queue = **0**. Технический RC уже прошёл browser regression/replay/visual review, однако dataset остаётся `draft` до независимой клинической валидации и локального комиссионирования.
 
 ## Примеры политики автоматического выбора
 
@@ -134,10 +134,17 @@ HFC не считает K и Dprolif одним параметром и не п�
 Поштучная матрица всех текущих evidence records и незакрытая очередь первичных проверок:
 [../../../../docs/EVIDENCE_INVENTORY.md](../../../../docs/EVIDENCE_INVENTORY.md).
 
-Перед переводом набора из чернового статуса в валидированный должны быть завершены:
+Технические release gates (CI, browser regression, visual acceptance, audit replay и RC review) выполнены. Статус `draft` сохраняется сознательно: следующий gate — **независимая клиническая валидация, локальное комиссионирование и документированное решение о разрешённом клиническом применении**.
 
-1. полноценная пользовательская приёмка v0.1;
-2. browser-level regression tests основных клинических сценариев;
-3. проверка JSON/print audit после UI-приёмки;
-4. release review всех automatic defaults;
-5. только после этого — решение о переводе evidence dataset из draft.
+
+### Пакет 11 / dataset v0.2 — расширение HyTEC OutcomeModel
+
+После RC добавлены три source-traceable outcome-направления:
+
+- **stage-I NSCLC** — шесть явных 2-year TCP examples из первичной size-adjusted BED₁₀ модели Ohri et al. 2012 (50 Gy/5 и 54 Gy/3 для опухолей 1/3/5 cm); Lee/HyTEC 2021 зарегистрирован как более поздний review/plateau context без создания искусственной probability point;
+- **recurrent previously irradiated head-and-neck malignancy** — Vargo/HyTEC dose-response points для 1/2/3-year local control на опубликованной 5-fraction-equivalent шкале;
+- **pancreatic SBRT** — Mahadevan/HyTEC 1-year local-control points с отдельным представлением unresected и R0-resected cohorts.
+
+Для публикаций, которые преобразуют исходные режимы в условную 3- или 5-фракционную шкалу, введён отдельный `equivalentFractionation`. Такая величина не выдаётся за фактически доставленную схему.
+
+Текущий inventory: **103 records = 99 active + 4 deprecated**, pending = **0**.

@@ -413,4 +413,262 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       "The source-specific alpha/beta=1.5 Gy is part of the HyTEC TCP model transformation. It is not substituted for HFC's separately curated endpoint-specific alpha/beta evidence.",
     ],
   },
+  {
+    id: "nsclc-stage-i-size-adjusted-2y-tcp",
+    sourceId: "ohri-2012-nsclc-size-tcp",
+    endpointId: "nsclc-stage-i-local-control",
+    status: "reviewed",
+    evidenceForm: "model-derived",
+    outcomeKind: "TCP",
+    technique: ["lung SBRT"],
+    priorRadiotherapy: "none",
+    population:
+      "Stage I NSCLC treated with definitive hypofractionated SBRT in the multi-institutional Elekta Collaborative Lung Research Group dataset.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["lung SBRT"],
+      followUp: "2-year local control",
+      notes: [
+        "The primary model uses size-adjusted BED10: sBED = BED10 - 10 × maximum tumour diameter in centimetres.",
+        "HFC stores only explicit example predictions published by the source and does not run the continuous sBED TCP formula patient-specifically.",
+        "The model was derived predominantly from 3–8 fraction SBRT and should not be extrapolated outside the published domain.",
+      ],
+    },
+    points: [
+      {
+        id: "nsclc-50gy-5fx-1cm-2y",
+        dose: { schedule: { fractions: 5, dosePerFractionGy: 10 } },
+        probability: 0.93,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 1 cm",
+      },
+      {
+        id: "nsclc-50gy-5fx-3cm-2y",
+        dose: { schedule: { fractions: 5, dosePerFractionGy: 10 } },
+        probability: 0.90,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 3 cm",
+      },
+      {
+        id: "nsclc-50gy-5fx-5cm-2y",
+        dose: { schedule: { fractions: 5, dosePerFractionGy: 10 } },
+        probability: 0.83,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 5 cm",
+      },
+      {
+        id: "nsclc-54gy-3fx-1cm-2y",
+        dose: { schedule: { fractions: 3, dosePerFractionGy: 18 } },
+        probability: 0.99,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 1 cm",
+      },
+      {
+        id: "nsclc-54gy-3fx-3cm-2y",
+        dose: { schedule: { fractions: 3, dosePerFractionGy: 18 } },
+        probability: 0.98,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 3 cm",
+      },
+      {
+        id: "nsclc-54gy-3fx-5cm-2y",
+        dose: { schedule: { fractions: 3, dosePerFractionGy: 18 } },
+        probability: 0.96,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        subgroup: "Maximum tumour diameter 5 cm",
+      },
+    ],
+    notes: [
+      "The later HyTEC stage-I NSCLC review reports model-dependent PTV doses near the asymptotic TCP plateau of approximately 43, 47, and 50 Gy in 3, 4, and 5 fractions for combined T1/T2 disease. HFC registers that HyTEC source separately but does not fabricate a single plateau probability.",
+    ],
+  },
+  {
+    id: "hytec-hn-reirradiation-local-control",
+    sourceId: "vargo-2021-hytec-hn-reirradiation-tcp",
+    endpointId: "head-neck-recurrent-reirradiation-local-control",
+    status: "reviewed",
+    evidenceForm: "model-derived",
+    outcomeKind: "local-control",
+    technique: ["head-and-neck SBRT reirradiation"],
+    priorRadiotherapy: "yes",
+    population:
+      "Locally recurrent previously irradiated malignant head-and-neck tumours treated with SBRT in pooled published series.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["head-and-neck SBRT reirradiation"],
+      followUp: "1–3 year local control",
+      notes: [
+        "Published doses were converted to five-fraction-equivalent total dose using an LQ transformation with alpha/beta = 10 Gy.",
+        "The 1-year dose-response was weak and did not reach conventional statistical significance; 2- and 3-year dose-response fits were statistically significant.",
+        "Tumour volume was not included in the pooled logistic model even though several reports suggested worse control for larger lesions.",
+        "The model is specific to malignant recurrent head-and-neck reirradiation and should not be applied to primary SBRT, benign disease, or planned boost scenarios.",
+      ],
+    },
+    points: [
+      {
+        id: "hn-rert-1y-25p6gy5eq-50lc",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 25.6,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.50,
+        probabilityRelation: "≈",
+        followUp: "1 year",
+      },
+      {
+        id: "hn-rert-1y-40p7gy5eq-60lc",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 40.7,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.60,
+        probabilityRelation: "≈",
+        followUp: "1 year",
+      },
+      {
+        id: "hn-rert-2y-d50-45p1gy5eq",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 45.1,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.50,
+        probabilityRelation: "≈",
+        followUp: "2 years",
+        notes: ["Published logistic-model D50 point."],
+      },
+      {
+        id: "hn-rert-3y-26p8gy5eq-15lc",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 26.8,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.15,
+        probabilityRelation: "≈",
+        followUp: "3 years",
+      },
+      {
+        id: "hn-rert-3y-44p4gy5eq-40lc",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 44.4,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.40,
+        probabilityRelation: "≈",
+        followUp: "3 years",
+      },
+      {
+        id: "hn-rert-3y-d50-49p8gy5eq",
+        dose: {
+          equivalentFractionation: {
+            fractions: 5,
+            totalDoseGy: 49.8,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.50,
+        probabilityRelation: "≈",
+        followUp: "3 years",
+        notes: ["Published logistic-model D50 point."],
+      },
+    ],
+    notes: [
+      "The source suggests five-fraction-equivalent doses of approximately 40–50 Gy for retreatment according to tumour extent/volume, but HFC presents the dose-response evidence rather than converting it into a patient-specific prescription.",
+    ],
+  },
+  {
+    id: "hytec-pancreas-1y-local-control",
+    sourceId: "mahadevan-2021-hytec-pancreas-tcp",
+    endpointId: "pancreas-local-control",
+    status: "reviewed",
+    evidenceForm: "model-derived",
+    outcomeKind: "local-control",
+    technique: ["pancreas SBRT"],
+    priorRadiotherapy: "not-reported",
+    population:
+      "Localized pancreatic cancer treated with hypofractionated SBRT, including unresected and neoadjuvant/resected cohorts in pooled published literature.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["pancreas SBRT"],
+      followUp: "1-year local control",
+      notes: [
+        "The pooled model converts schedules to three-fraction-equivalent dose using alpha/beta = 10 Gy.",
+        "Resectability and R0 resection materially modify outcome; resected and unresected results must not be pooled into one universal TCP.",
+        "The source emphasizes substantial heterogeneity, short follow-up, target-definition uncertainty, and competing-risk limitations.",
+      ],
+    },
+    points: [
+      {
+        id: "pancreas-unresected-33gy5fx-77lc",
+        dose: {
+          schedule: { fractions: 5, dosePerFractionGy: 6.6 },
+          equivalentFractionation: {
+            fractions: 3,
+            totalDoseGy: 28.2,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.77,
+        probabilityRelation: "≈",
+        followUp: "1 year",
+        subgroup: "Unresected disease",
+      },
+      {
+        id: "pancreas-unresected-36gy3fx-86lc",
+        dose: {
+          schedule: { fractions: 3, dosePerFractionGy: 12 },
+          equivalentFractionation: {
+            fractions: 3,
+            totalDoseGy: 36,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.86,
+        probabilityRelation: "≈",
+        followUp: "1 year",
+        subgroup: "Unresected disease",
+      },
+      {
+        id: "pancreas-r0-33gy5fx-over90lc",
+        dose: {
+          schedule: { fractions: 5, dosePerFractionGy: 6.6 },
+          equivalentFractionation: {
+            fractions: 3,
+            totalDoseGy: 28.2,
+            alphaBetaGy: 10,
+          },
+        },
+        probability: 0.90,
+        probabilityRelation: ">",
+        followUp: "1 year",
+        subgroup: "R0 resection",
+        notes: [
+          "The source reports >90% 1-year local control with margin-negative resection at or above approximately 28 Gy in three-fraction-equivalent dose.",
+        ],
+      },
+    ],
+    notes: [
+      "The source reports less than 70% 1-year local control below 24 Gy in three-fraction-equivalent dose, but HFC does not encode that statement as an exact point at 24 Gy.",
+    ],
+  },
 ];

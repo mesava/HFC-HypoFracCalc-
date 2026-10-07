@@ -44,7 +44,7 @@ RU | EN
 | Быстрый EQD | реализовано | BED, EQD₂, выбор α/β из доказательной базы или вручную |
 | Сравнение режимов | реализовано | Сравнение 2–5 фиксированных режимов для опухолевого исхода и нескольких исходов органов риска |
 | Библиотека режимов | v0.2 | RCR 2024: фиксированные n×d + отдельное представление диапазонов, sequential boost и SIB без потери структуры |
-| OutcomeModel / HyTEC | v0.1 | Source-traceable опухолевые dose–outcome модели и стратифицированные исходы |
+| OutcomeModel / HyTEC | v0.2 | Source-traceable dose–outcome модели: brain/spine/liver/adrenal metastases, vestibular schwannoma, prostate SBRT, stage-I NSCLC, recurrent H&N reirradiation и pancreas SBRT |
 | Перерывы в лечении | v0.2-dev | Календарь лечения, Dprolif/Tk, стратегии компенсации, расчёт дозы после перерыва и отдельная оценка выбранной дозовой метрики органа риска |
 | Клинические ограничения | v0.2 | HyTEC: мозг, зрительные пути, спинной мозг, лёгкие, печень, prostate SBRT и крупные сосуды; planning limits отделены от risk points и observational thresholds |
 | Методология | реализовано | Формулы, устройство доказательной базы и ограничения |
@@ -147,11 +147,11 @@ x = 2 Gy
 
 ### Статус научной валидации
 
-Инвентарная проверка **всей текущей evidence-базы v0.1** завершена пакетами v0.5–v0.10.
+Инвентарная проверка базового набора завершена пакетами v0.5–v0.10; post-RC OutcomeModel expansion оформлен как пакет 11 и evidence dataset **2026.10-v0.2**.
 
 На текущем этапе в наборе:
-- **100 evidence records**;
-- **96 активных** записей;
+- **103 evidence records**;
+- **99 активных** записей;
 - **4 deprecated** записи, сохранённые только для воспроизводимости старых JSON-аудитов;
 - **0 записей со статусом pending**.
 
@@ -161,7 +161,7 @@ x = 2 Gy
 - T½ восстановления;
 - Dprolif/Tk и временные модели;
 - HyTEC для зрительных путей, головного мозга, спинного мозга, лёгких, печени, prostate SBRT, крупных сосудов и повторного SBRT позвоночника;
-- source-traceable HyTEC outcome models для brain metastases, vestibular schwannoma, spinal/liver/adrenal metastases и prostate SBRT;
+- source-traceable HyTEC outcome models для brain metastases, vestibular schwannoma, spinal/liver/adrenal metastases, prostate SBRT, stage-I NSCLC, recurrent H&N SBRT reirradiation и pancreas SBRT;
 - методическая архитектура повторного облучения относительно ESTRO–EORTC, RCR, ESTRO cumulative-dose consensus и ReCOG;
 - современный systematic review Samai & Berremdani 2026 как методологическая перепроверка концепции α/β без автоматической подмены первичных endpoint-specific estimates.
 
