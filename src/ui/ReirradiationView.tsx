@@ -625,6 +625,7 @@ export function ReirradiationView({
         strategy,
       },
       result,
+      confirmThecalSacDmax,
       ...(budget ? { budget } : {}),
       ...(hytecSpinalGuidance
         ? { guidance: hytecSpinalGuidance }
