@@ -84,6 +84,50 @@ export const sources = [
       "Validated case-based implementation of ReCOG. Demonstrates three cumulative-dose strategies: direct point-dose summation, point-dose summation within overlap regions, and image-registration-based 3D equieffective dose summation; selection depends on available data, resources and patient-specific considerations.",
   },
   {
+    id: "lee-2021-hytec-stage-i-nsclc",
+    citation:
+      "Lee P, Loo BW Jr, Biswas T, et al. Local Control After Stereotactic Body Radiation Therapy for Stage I Non-Small Cell Lung Cancer. Int J Radiat Oncol Biol Phys. 2021;110(1):160-171.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2019.03.045",
+    pmid: "30954520",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled dose-response review for stage I NSCLC. The principal source result is a model-dependent PTV dose associated with the asymptotic TCP plateau (approximately 43, 47, and 50 Gy in 3, 4, and 5 fractions for combined T1/T2 disease); HFC does not convert that plateau guidance into a fabricated single probability point.",
+  },
+  {
+    id: "ohri-2012-nsclc-size-tcp",
+    citation:
+      "Ohri N, Werner-Wasik M, Grills IS, et al. Modeling Local Control After Hypofractionated Stereotactic Body Radiation Therapy for Stage I Non-Small Cell Lung Cancer: A Report From the Elekta Collaborative Lung Research Group. Int J Radiat Oncol Biol Phys. 2012;84(3):e379-e384.",
+    year: 2012,
+    doi: "10.1016/j.ijrobp.2012.04.040",
+    pmid: "22999272",
+    kind: "modeling-study",
+    notes:
+      "Primary multi-institutional size-adjusted BED10 TCP model for 2-year local control after stage I NSCLC SBRT. HFC stores only explicit published example points and does not evaluate the continuous formula patient-specifically.",
+  },
+  {
+    id: "vargo-2021-hytec-hn-reirradiation-tcp",
+    citation:
+      "Vargo JA, Moiseenko V, Grimm J, et al. Head and Neck Tumor Control Probability: Radiation Dose-Volume Effects in Stereotactic Body Radiation Therapy for Locally Recurrent Previously-Irradiated Head and Neck Cancer. Int J Radiat Oncol Biol Phys. 2021;110(1):137-146.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2018.01.044",
+    pmid: "29477291",
+    kind: "systematic-review",
+    notes:
+      "HyTEC/AAPM pooled dose-response modelling for local control after SBRT reirradiation of recurrent head-and-neck malignancy. Published doses are transformed to five-fraction-equivalent dose with alpha/beta = 10 Gy; HFC preserves that transformation as source provenance.",
+  },
+  {
+    id: "mahadevan-2021-hytec-pancreas-tcp",
+    citation:
+      "Mahadevan A, Moningi S, Grimm J, et al. Maximizing Tumor Control and Limiting Complications With Stereotactic Body Radiation Therapy for Pancreatic Cancer. Int J Radiat Oncol Biol Phys. 2021;110(1):206-216.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.11.017",
+    pmid: "33358561",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled 1-year local-control modelling for pancreatic SBRT. Dose schedules were converted to three-fraction-equivalent doses with alpha/beta = 10 Gy; resection status materially changes the reported outcome.",
+  },
+  {
     id: "redmond-2021-hytec-brain-mets-tcp",
     citation:
       "Redmond KJ, Gui C, Benedict S, et al. Tumor Control Probability of Radiosurgery and Fractionated Stereotactic Radiosurgery for Brain Metastases. Int J Radiat Oncol Biol Phys. 2021;110(1):53-67.",
