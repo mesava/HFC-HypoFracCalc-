@@ -1,7 +1,7 @@
 # Evidence inventory — HFC 2026.10-v0.1
 
 Дата актуализации: **2026-10-07**  
-RC snapshot: `release-v0.1-dev`  
+Post-RC snapshot: `hytec-outcomes-v0.2`  
 Статус dataset: **draft**.
 
 ## Результат инвентарного аудита
@@ -15,10 +15,10 @@ RC snapshot: `release-v0.1-dev`
 | repairHalfTime.ts | 6 |
 | repopulation.ts | 14 |
 | constraintsHytec.ts | 29 |
-| outcomeModelsHytec.ts | 6 |
+| outcomeModelsHytec.ts | 9 |
 | reirradiationGuidance.ts | 1 |
-| **Всего** | **100** |
-| Активных | 96 |
+| **Всего** | **103** |
+| Активных | 99 |
 | Deprecated для audit replay | 4 |
 | Pending primary sign-off | **0** |
 
@@ -115,6 +115,9 @@ RC snapshot: `release-v0.1-dev`
 | `hytec-liver-metastases-bed10-local-control` | `liver-metastases-local-control` | BED10 >100 vs <=100 Gy | `ohri-2021-hytec-liver-local-control` | liver SBRT | reviewed | n/a | stratified outcome | 8 | validated |
 | `hytec-adrenal-metastases-1y-tcp` | `adrenal-metastases-local-control` | >95% at BED10 about 116.4 Gy | `stumpf-2021-hytec-adrenal-tcp` | adrenal SBRT | reviewed | n/a | outcome-model | 8 | validated |
 | `hytec-prostate-sbrt-5y-tcp` | `prostate-biochemical-control` | 4 risk-group TCP points | `royce-2021-hytec-prostate-tcp` | prostate SBRT | reviewed | n/a | outcome-model | 8 | validated |
+| `nsclc-stage-i-size-adjusted-2y-tcp` | `nsclc-stage-i-local-control` | 6 explicit 2-y TCP examples by 1/3/5 cm tumour diameter at 50 Gy/5 and 54 Gy/3 | `ohri-2012-nsclc-size-tcp` | stage I NSCLC SBRT | reviewed | n/a | outcome-model | 11 | validated-primary |
+| `hytec-hn-reirradiation-local-control` | `head-neck-recurrent-reirradiation-local-control` | 6 model points on a 5-fraction-equivalent dose scale | `vargo-2021-hytec-hn-reirradiation-tcp` | recurrent previously irradiated H&N SBRT | reviewed | n/a | outcome-model | 11 | validated |
+| `hytec-pancreas-1y-local-control` | `pancreas-local-control` | 33 Gy/5 → 77%; 36 Gy/3 → 86% unresected; >90% with R0 context at ~28.2 Gy/3fx-equivalent | `mahadevan-2021-hytec-pancreas-tcp` | pancreas SBRT | reviewed | n/a | outcome-model | 11 | validated |
 | `hytec-major-vessel-d0p5cc-5fx-20gy` | `major-vessel-grade3plus-bleeding` | D0.5cc <20 Gy; 5 fx | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | planning-limit | 9 | validated |
 | `hytec-major-vessel-dmax-5fx-20gy-risk` | `major-vessel-grade3plus-bleeding` | Dmax about 20 Gy; about 2% risk | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | risk-point | 9 | validated |
 | `hytec-major-vessel-dmax-5fx-30gy-risk` | `major-vessel-grade3plus-bleeding` | Dmax about 30 Gy; about 12% risk | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | risk-point | 9 | validated |
