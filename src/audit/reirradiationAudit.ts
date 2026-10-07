@@ -31,6 +31,7 @@ export interface BuildReirradiationAuditInput {
   courses: ReirradiationCourse[];
   context: ReirradiationScenarioContext;
   result: EvidenceReirradiationResult;
+  confirmThecalSacDmax?: boolean;
   budget?: EvidenceRemainingDoseBudgetResult;
   guidance?: ReirradiationGuidanceAssessment;
 }
@@ -104,6 +105,10 @@ export function buildReirradiationAuditRecord(
       registrationSuitability:
         input.context.registrationSuitability,
       strategy: input.context.strategy,
+    },
+    userConfirmations: {
+      thecalSacDmaxMetric:
+        input.confirmThecalSacDmax ?? false,
     },
     inputCourses: input.courses,
     result: {
