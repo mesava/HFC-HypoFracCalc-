@@ -22,6 +22,7 @@ function quickAudit() {
 async function openAuditReplay(page: Page) {
   await page.goto("/");
   await page
+    .getByRole("contentinfo")
     .getByRole("button", { name: "Проверка аудита", exact: true })
     .click();
   await expect(
