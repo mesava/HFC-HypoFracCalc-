@@ -125,6 +125,23 @@ export function resolveOutcomeModel(
         `Outcome model dataset error: invalid biological dose in ${point.id}.`,
       );
     }
+
+    const equivalentFractionation =
+      point.dose.equivalentFractionation;
+    if (
+      equivalentFractionation &&
+      (!Number.isInteger(equivalentFractionation.fractions) ||
+        equivalentFractionation.fractions <= 0 ||
+        !Number.isFinite(equivalentFractionation.totalDoseGy) ||
+        equivalentFractionation.totalDoseGy <= 0 ||
+        (equivalentFractionation.alphaBetaGy !== undefined &&
+          (!Number.isFinite(equivalentFractionation.alphaBetaGy) ||
+            equivalentFractionation.alphaBetaGy <= 0)))
+    ) {
+      throw new Error(
+        `Outcome model dataset error: invalid equivalent fractionation in ${point.id}.`,
+      );
+    }
   }
 
   return { model, endpoint, source };
