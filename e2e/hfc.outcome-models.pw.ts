@@ -66,7 +66,7 @@ test.describe("HFC HyTEC outcome models", () => {
     await expect(
       page.getByText("Максимальный диаметр опухоли 3 см", {
         exact: true,
-      }),
+      }).first(),
     ).toBeVisible();
     await expect(
       page.getByText("≈ 90%", { exact: true }),
