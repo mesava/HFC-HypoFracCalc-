@@ -8,6 +8,7 @@ export type SitePage =
   | "compare"
   | "gap"
   | "constraints"
+  | "outcomes"
   | "reirradiation"
   | "audit"
   | "methodology"
@@ -161,9 +162,32 @@ export function SiteHome({
           <button
             className="module-card"
             type="button"
-            onClick={() => onNavigate("reirradiation")}
+            onClick={() => onNavigate("outcomes")}
           >
             <span className="module-index">05</span>
+            <strong>
+              {tx(
+                language,
+                "Модели клинических исходов",
+                "Outcome Models",
+              )}
+            </strong>
+            <p>
+              {tx(
+                language,
+                "Опубликованные TCP/локальный контроль из HyTEC с дозой, сроком наблюдения, подгруппой и типом доказательства — без скрытой интерполяции.",
+                "Published HyTEC TCP/local-control evidence with dose, follow-up, subgroup, and evidence form — without hidden interpolation.",
+              )}
+            </p>
+            <span className="module-state beta">v0.1</span>
+          </button>
+
+          <button
+            className="module-card"
+            type="button"
+            onClick={() => onNavigate("reirradiation")}
+          >
+            <span className="module-index">06</span>
             <strong>{tx(language, "Повторное облучение", "Reirradiation")}</strong>
             <p>
               {tx(

@@ -140,22 +140,29 @@ Preset описывает клинически применяемую схему
 
 Они поддерживают решение не сводить high-dose evidence к одному EQD₂ и хранить dose metric, fractionation, endpoint, risk и prior-RT context отдельно.
 
-### Ещё не закодировано
+### OutcomeModel v0.1 — machine-readable
 
-Следующие работы не потеряны, но требуют расширения `ClinicalConstraint` и/или нового `OutcomeModel` слоя:
+После первичной сверки пакета отдельно реализованы:
 
 - brain metastases TCP;
 - vestibular schwannoma TCP;
 - spinal metastases TCP;
+- liver metastases BED10-stratified local control;
+- adrenal metastases TCP;
+- prostate SBRT TCP.
+
+Source-specific α/β, использованный авторами для BED/EQD₂, хранится только как provenance модели и не становится HFC α/β default.
+
+### Ещё не закодировано
+
+Следующие работы не потеряны, но требуют дальнейшей курации `ClinicalConstraint` / `OutcomeModel`:
+
 - head-and-neck reirradiation TCP;
 - carotid blowout tolerance;
 - stage-I NSCLC local control;
 - lung parenchyma tolerance;
-- liver tumour local control;
 - liver dose-volume effects;
 - pancreas SBRT;
-- adrenal TCP;
-- prostate TCP;
 - prostate toxicity.
 
 HyTEC immunomodulatory paper и письма/ответы 21–25 рассматриваются как контекст дискуссии, а не самостоятельные численные defaults.

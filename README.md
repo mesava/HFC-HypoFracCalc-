@@ -401,6 +401,7 @@ src/
 - [docs/CONSTRAINTS.md](docs/CONSTRAINTS.md)
 - [docs/REIRRADIATION.md](docs/REIRRADIATION.md)
 - [docs/REGIMEN_LIBRARY.md](docs/REGIMEN_LIBRARY.md)
+- [docs/OUTCOME_MODELS.md](docs/OUTCOME_MODELS.md)
 - [docs/AUDIT.md](docs/AUDIT.md)
 - [docs/SECURITY.md](docs/SECURITY.md)
 - [docs/SITE.md](docs/SITE.md)

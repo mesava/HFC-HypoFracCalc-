@@ -289,6 +289,36 @@ export const endpoints = [
     role: "tumour",
   },
   {
+    id: "brain-metastases-local-control",
+    organ: "Brain metastases",
+    endpoint: "Local control of treated brain metastasis",
+    role: "tumour",
+  },
+  {
+    id: "vestibular-schwannoma-tumour-control",
+    organ: "Vestibular schwannoma",
+    endpoint: "Tumour control",
+    role: "tumour",
+  },
+  {
+    id: "spinal-metastases-local-control",
+    organ: "Spinal metastases",
+    endpoint: "Local control",
+    role: "tumour",
+  },
+  {
+    id: "liver-metastases-local-control",
+    organ: "Liver metastases",
+    endpoint: "Local control",
+    role: "tumour",
+  },
+  {
+    id: "adrenal-metastases-local-control",
+    organ: "Adrenal metastases",
+    endpoint: "Local control",
+    role: "tumour",
+  },
+  {
     id: "spinal-cord-radiation-myelopathy",
     organ: "Spinal cord",
     endpoint: "Radiation-induced myelopathy",

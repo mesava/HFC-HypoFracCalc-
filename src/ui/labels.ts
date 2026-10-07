@@ -22,6 +22,11 @@ export const organLabelsRu: Record<string, string> = {
   "Central nervous system": "Центральная нервная система",
   "Optic pathways": "Зрительные пути",
   Brain: "Головной мозг",
+  "Brain metastases": "Метастазы в головной мозг",
+  "Vestibular schwannoma": "Вестибулярная шваннома",
+  "Spinal metastases": "Метастазы в позвоночник",
+  "Liver metastases": "Метастазы в печень",
+  "Adrenal metastases": "Метастазы в надпочечник",
 };
 
 export const endpointLabelsRu: Record<string, string> = {
@@ -80,6 +85,11 @@ export const endpointLabelsRu: Record<string, string> = {
   "head-neck-larynx-tumour-control": "Опухолевый контроль гортани",
   "head-neck-tonsil-tumour-control": "Опухолевый контроль опухоли миндалины",
   "medulloblastoma-tumour-control": "Опухолевый контроль медуллобластомы",
+  "brain-metastases-local-control": "Локальный контроль облучённого метастаза",
+  "vestibular-schwannoma-tumour-control": "Опухолевый контроль",
+  "spinal-metastases-local-control": "Локальный контроль",
+  "liver-metastases-local-control": "Локальный контроль",
+  "adrenal-metastases-local-control": "Локальный контроль",
 };
 
 export function endpointLabel(
