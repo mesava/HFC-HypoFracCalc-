@@ -133,6 +133,46 @@ export const sources = [
       "HyTEC dose-response TCP modelling of 5-year freedom from biochemical relapse after prostate SBRT, stratified by risk group.",
   },
   {
+    id: "grimm-2021-hytec-major-vessels",
+    citation:
+      "Grimm J, Vargo JA, Mavroidis P, et al. Initial Data Pooling for Radiation Dose-Volume Tolerance for Carotid Artery Blowout and Other Bleeding Events in Hypofractionated Head and Neck Retreatments. Int J Radiat Oncol Biol Phys. 2021;110(1):147-159.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.12.037",
+    kind: "systematic-review",
+    notes:
+      "HyTEC review and preliminary dose-response modelling for carotid/major-vessel bleeding events after head-and-neck SBRT reirradiation. The authors emphasize that the sparse complication data are general guidance rather than strong probability conclusions.",
+  },
+  {
+    id: "kong-2021-hytec-lung-parenchyma",
+    citation:
+      "Kong FMS, Moiseenko V, Zhao J, et al. Organs at Risk Considerations for Thoracic Stereotactic Body Radiation Therapy: What Is Safe for Lung Parenchyma? Int J Radiat Oncol Biol Phys. 2021;110(1):172-187.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2018.11.028",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled review of radiation-induced lung toxicity after thoracic SBRT. The report states that there is no apparent universal tolerance threshold, while most studies reported symptomatic RILT below 10%-15% with combined-lung MLD <8 Gy and V20 <10%-15%.",
+  },
+  {
+    id: "miften-2021-hytec-liver-toxicity",
+    citation:
+      "Miften M, Vinogradskiy Y, Moiseenko V, et al. Radiation Dose-Volume Effects for Liver SBRT. Int J Radiat Oncol Biol Phys. 2021;110(1):196-205.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2017.12.290",
+    kind: "systematic-review",
+    notes:
+      "HyTEC quantitative review of liver/GI toxicity after liver SBRT. The report supports retaining QUANTEC mean-liver-dose objectives and reports that these limits would likely keep grade >=3 liver-enzyme toxicity below approximately 20%.",
+  },
+  {
+    id: "wang-2021-hytec-prostate-toxicity",
+    citation:
+      "Wang K, Mavroidis P, Royce TJ, et al. Prostate Stereotactic Body Radiation Therapy: An Overview of Toxicity and Dose Response. Int J Radiat Oncol Biol Phys. 2021;110(1):237-248.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.09.054",
+    kind: "systematic-review",
+    notes:
+      "HyTEC review of urinary, bowel and sexual toxicity after prostate SBRT. Suggested bladder, urethra and rectum dose constraints are explicitly presented as limited guidance because current data do not establish firm tolerance doses.",
+  },
+  {
     id: "milano-2021-hytec-optic",
     citation:
       "Milano MT, Grimm J, Soltys SG, et al. Single- and Multi-Fraction Stereotactic Radiosurgery Dose Tolerances of the Optic Pathways. Int J Radiat Oncol Biol Phys. 2021;110(1):87-99.",
