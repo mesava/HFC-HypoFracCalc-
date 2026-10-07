@@ -13,6 +13,7 @@ export type DoseMetricKind =
   | "D2cc"
   | "mean-dose"
   | "Vx"
+  | "VleX"
   | "custom";
 
 export interface DoseMetric {
