@@ -31,6 +31,7 @@ export const organLabelsRu: Record<string, string> = {
   "Spinal metastases": "Метастазы в позвоночник",
   "Liver metastases": "Метастазы в печень",
   "Adrenal metastases": "Метастазы в надпочечник",
+  Pancreas: "Поджелудочная железа",
 };
 
 export const endpointLabelsRu: Record<string, string> = {
@@ -76,8 +77,10 @@ export const endpointLabelsRu: Record<string, string> = {
   "lung-radiological-fibrosis": "Радиологический фиброз / поздние изменения",
   "head-neck-various-late-effects": "Различные поздние эффекты",
   "head-neck-tumour-control": "Локорегионарный / опухолевый контроль",
+  "head-neck-recurrent-reirradiation-local-control": "Локальный контроль рецидива после повторного SBRT-облучения",
   "nsclc-stage-i-local-control": "Локальный контроль NSCLC I стадии",
   "nsclc-local-control": "Локальный контроль немелкоклеточного рака лёгкого",
+  "pancreas-local-control": "Локальный контроль рака поджелудочной железы после SBRT",
   "esophagus-pathologic-complete-response": "Патоморфологический полный ответ после предоперационной ХЛТ",
   "spinal-cord-radiation-myelopathy": "Лучевая миелопатия",
   "optic-pathway-radiation-neuropathy": "Лучевая нейропатия зрительных путей",
