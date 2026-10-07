@@ -100,7 +100,7 @@ describe("reirradiation audit record", () => {
     expect(audit.schemaVersion).toBe("1.1");
     expect(audit.engineVersion).toBe(HFC_ENGINE_VERSION);
     expect(audit.evidence.datasetVersion).toBe(
-      "2026.10-v0.1",
+      "2026.10-v0.2",
     );
     expect(audit.endpoint.id).toBe(
       "spinal-cord-radiation-myelopathy",
