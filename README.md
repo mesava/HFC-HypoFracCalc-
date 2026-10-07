@@ -450,6 +450,7 @@ src/
 - [docs/SECURITY.md](docs/SECURITY.md)
 - [docs/SITE.md](docs/SITE.md)
 - [docs/QA_ACCEPTANCE.md](docs/QA_ACCEPTANCE.md)
+- [docs/HYPOCALC_PARITY.md](docs/HYPOCALC_PARITY.md)
 
 ## Ветки и `main`
 
