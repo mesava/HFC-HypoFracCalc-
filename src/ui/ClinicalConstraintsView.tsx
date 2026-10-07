@@ -275,8 +275,8 @@ export function ClinicalConstraintsView({
           <span>
             {tx(
               language,
-              "Сейчас включены зрительные пути, головной мозг и спинной мозг для SRS/fSRS/SBRT. Эти записи не заменяют клинический протокол и не распространяются автоматически на повторное облучение.",
-              "Current records cover optic pathways, brain, and spinal cord for SRS/fSRS/SBRT. They do not replace clinical protocols and are not automatically transferable to reirradiation.",
+              "Набор включает зрительные пути, головной мозг, спинной мозг, лёгкие, печень, токсичность prostate SBRT и крупные сосуды при повторном облучении. Рядом с каждым числом явно указан тип доказательства.",
+              "The dataset covers optic pathways, brain, spinal cord, lung, liver, prostate-SBRT toxicity, and major-vessel reirradiation. Every number is explicitly labelled by evidence type.",
             )}
           </span>
         </div>
