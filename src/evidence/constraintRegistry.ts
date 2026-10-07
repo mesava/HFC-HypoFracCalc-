@@ -108,6 +108,28 @@ export function resolveClinicalConstraint(
     );
   }
 
+  if (
+    constraint.metric.kind === "custom" &&
+    (!constraint.metric.customLabel ||
+      constraint.metric.customLabel.trim() === "")
+  ) {
+    throw new Error(
+      `Constraint dataset error: ${constraint.id} uses a custom metric without a label.`,
+    );
+  }
+
+  if (
+    constraint.valueRange &&
+    (!Number.isFinite(constraint.valueRange.low) ||
+      !Number.isFinite(constraint.valueRange.high) ||
+      constraint.valueRange.low >
+        constraint.valueRange.high)
+  ) {
+    throw new Error(
+      `Constraint dataset error: invalid value range in ${constraint.id}.`,
+    );
+  }
+
   return { constraint, endpoint, source };
 }
 
