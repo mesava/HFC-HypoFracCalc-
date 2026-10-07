@@ -25,6 +25,7 @@ import {
   type Language,
 } from "./labels.js";
 import { MethodologyView } from "./MethodologyView.js";
+import { HowToView } from "./HowToView.js";
 import { OutcomeModelsView } from "./OutcomeModelsView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
@@ -259,6 +260,8 @@ export function App() {
         );
       case "audit":
         return tx(language, "Проверка аудита", "Audit Replay");
+      case "guide":
+        return tx(language, "Как пользоваться?", "How to use");
       case "methodology":
         return tx(language, "Методология", "Methodology");
       case "about":
@@ -342,6 +345,13 @@ export function App() {
           onClick={() => navigate("home")}
         >
           {tx(language, "Главная", "Home")}
+        </button>
+        <button
+          className={`module ${activeModule === "guide" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("guide")}
+        >
+          {tx(language, "Как пользоваться?", "How to use")}
         </button>
         <button
           className={`module ${activeModule === "quick" ? "active" : ""}`}
@@ -446,6 +456,7 @@ export function App() {
             {(
               [
                 "home",
+                "guide",
                 "quick",
                 "compare",
                 "gap",
@@ -472,6 +483,8 @@ export function App() {
 
       {activeModule === "home" ? (
         <SiteHome language={language} onNavigate={navigate} />
+      ) : activeModule === "guide" ? (
+        <HowToView language={language} onNavigate={navigate} />
       ) : activeModule === "quick" ? (
         <main className="workspace">
           <section className="panel input-panel">
@@ -1054,6 +1067,13 @@ export function App() {
         </div>
         <div>
           <span>{evidenceManifest.datasetVersion}</span>
+          <span>·</span>
+          <button
+            type="button"
+            onClick={() => navigate("guide")}
+          >
+            {tx(language, "Как пользоваться?", "How to use")}
+          </button>
           <span>·</span>
           <button
             type="button"
