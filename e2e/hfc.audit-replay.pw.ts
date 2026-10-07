@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { Buffer } from "node:buffer";
 import { buildQuickEqdAuditRecord } from "../src/audit/quickEqdAudit.js";
 import { serializeAuditEnvelope } from "../src/audit/envelope.js";
@@ -19,7 +19,7 @@ function quickAudit() {
   );
 }
 
-async function openAuditReplay(page: Parameters<typeof test>[0] extends never ? never : any) {
+async function openAuditReplay(page: Page) {
   await page.goto("/");
   await page
     .getByRole("button", { name: "Проверка аудита", exact: true })
