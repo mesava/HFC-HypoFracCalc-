@@ -95,6 +95,7 @@ export function CalculatorsHubView({
             type="button"
             className="calculator-card panel"
             key={item.page}
+            aria-label={tx(language, item.titleRu, item.titleEn)}
             onClick={() => onNavigate(item.page)}
           >
             <span className="calculator-tag">{item.tag}</span>
