@@ -1,0 +1,89 @@
+import { expect, test } from "@playwright/test";
+
+test.describe("HFC expanded HyTEC clinical constraints", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    await page
+      .getByRole("button", {
+        name: "Клинические ограничения",
+        exact: true,
+      })
+      .click();
+  });
+
+  test("preserves evidence type, ranges and clinical context", async ({
+    page,
+  }) => {
+    const endpoint = page.getByLabel(
+      "Клинический исход",
+    );
+
+    await endpoint.selectOption(
+      "liver-grade3plus-enzyme-toxicity",
+    );
+    await page
+      .getByLabel("Число фракций")
+      .selectOption("3");
+
+    await expect(
+      page.getByText(
+        "Первичная опухоль печени",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText(
+        "Метастатическое поражение печени",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Dmean ≤ 13,0 Гр", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Dmean ≤ 15,0 Гр", {
+        exact: true,
+      }),
+    ).toBeVisible();
+
+    await endpoint.selectOption(
+      "urethra-prostate-sbrt-late-urinary-toxicity",
+    );
+
+    await expect(
+      page.getByText(
+        "наблюдательный порог",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText(
+        "Dmax < 38,0–42,0 Гр",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText("4–5 фр.", {
+        exact: true,
+      }),
+    ).toBeVisible();
+
+    await endpoint.selectOption(
+      "major-vessel-grade3plus-bleeding",
+    );
+
+    await expect(
+      page.getByText(
+        "D0.5cc < 20,0 Гр",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText("≈ 12%", {
+        exact: true,
+      }),
+    ).toBeVisible();
+  });
+});
