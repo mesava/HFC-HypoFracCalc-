@@ -76,13 +76,14 @@ function probabilityLabel(
   language: Language,
   point: OutcomeProbabilityPoint,
 ): string {
+  const percent = point.probability * 100;
   return (
     (point.probabilityRelation ?? "≈") +
     " " +
     formatUiNumber(
       language,
-      point.probability * 100,
-      point.probability % 0.01 === 0 ? 0 : 1,
+      percent,
+      Number.isInteger(percent) ? 0 : 1,
     ) +
     "%"
   );
