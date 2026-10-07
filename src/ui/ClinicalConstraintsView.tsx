@@ -65,13 +65,26 @@ function unitLabel(
   return unit;
 }
 
+function relationLabel(
+  relation:
+    | "<"
+    | "<="
+    | "≈"
+    | ">="
+    | ">",
+): string {
+  if (relation === "<=") return "≤";
+  if (relation === ">=") return "≥";
+  return relation;
+}
+
 function constraintValue(
   language: Language,
   constraint: ClinicalConstraint,
 ): string {
   if (constraint.valueRange) {
     return (
-      constraint.relation +
+      relationLabel(constraint.relation) +
       " " +
       formatUiNumber(language, constraint.valueRange.low, 1) +
       "–" +
@@ -82,7 +95,7 @@ function constraintValue(
   }
   if (constraint.value === undefined) return "—";
   return (
-    constraint.relation +
+    relationLabel(constraint.relation) +
     " " +
     formatUiNumber(
       language,
