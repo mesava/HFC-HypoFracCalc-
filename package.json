@@ -1,6 +1,6 @@
 {
   "name": "hfc-hypofraccalc",
-  "version": "0.1.0-dev",
+  "version": "0.1.0-rc.1",
   "private": true,
   "type": "module",
   "description": "Evidence-traceable photon radiobiology calculator for BED, EQD and treatment-course analysis.",
