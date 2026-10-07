@@ -54,6 +54,13 @@ function alphaSelection(
 function inferThecalSacConfirmation(
   record: ReirradiationAuditRecord,
 ): boolean {
+  if (
+    record.userConfirmations?.thecalSacDmaxMetric !==
+    undefined
+  ) {
+    return record.userConfirmations.thecalSacDmaxMetric;
+  }
+
   if (!record.guidance) return false;
 
   return !record.guidance.applicabilityReasons.includes(
@@ -90,10 +97,13 @@ export function rebuildReirradiationAudit(
       )
     : undefined;
 
+  const thecalSacDmaxConfirmed =
+    inferThecalSacConfirmation(saved);
+
   const guidance = saved.guidance
     ? assessHytecSpinalCordReirradiation(
         saved.inputCourses,
-        inferThecalSacConfirmation(saved),
+        thecalSacDmaxConfirmed,
       )
     : undefined;
 
@@ -103,6 +113,8 @@ export function rebuildReirradiationAudit(
     courses: saved.inputCourses,
     context: saved.context,
     result,
+    confirmThecalSacDmax:
+      thecalSacDmaxConfirmed,
     ...(budget ? { budget } : {}),
     ...(guidance ? { guidance } : {}),
   });
@@ -110,12 +122,20 @@ export function rebuildReirradiationAudit(
 
 export function reirradiationReplayComparable(
   audit: ReirradiationAuditRecord,
+  includeUserConfirmations =
+    audit.schemaVersion !== "1.0",
 ): unknown {
   return {
     endpoint: audit.endpoint,
     alphaBeta: audit.alphaBeta,
     metric: audit.metric,
     context: audit.context,
+    ...(includeUserConfirmations
+      ? {
+          userConfirmations:
+            audit.userConfirmations,
+        }
+      : {}),
     inputCourses: audit.inputCourses,
     result: audit.result,
     budget: audit.budget,
