@@ -43,9 +43,20 @@ function guidanceLabel(
   }
 }
 
-function metricLabel(metric: DoseMetric): string {
+function metricLabel(
+  language: Language,
+  metric: DoseMetric,
+): string {
   if (metric.kind === "Vx") {
     return "V" + (metric.xGy ?? "?");
+  }
+  if (metric.kind === "VleX") {
+    return (
+      "V≤" +
+      (metric.xGy ?? "?") +
+      " " +
+      tx(language, "Гр", "Gy")
+    );
   }
   if (metric.kind === "mean-dose") {
     return "Dmean";
@@ -428,7 +439,10 @@ export function ClinicalConstraintsView({
                       )}
                     </span>
                     <strong>
-                      {metricLabel(constraint.metric)}{" "}
+                      {metricLabel(
+                        language,
+                        constraint.metric,
+                      )}{" "}
                       {constraintValue(
                         language,
                         constraint,
