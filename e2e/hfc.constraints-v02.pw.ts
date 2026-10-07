@@ -48,6 +48,23 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       }),
     ).toBeVisible();
 
+    await page
+      .getByLabel("Число фракций")
+      .selectOption("all");
+
+    await expect(
+      page.getByText(
+        "V≤15 Гр ≥ 700 см³",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(
+      page.getByText(
+        "V≤17 Гр ≥ 700 см³",
+        { exact: true },
+      ),
+    ).toBeVisible();
+
     await endpoint.selectOption(
       "urethra-prostate-sbrt-late-urinary-toxicity",
     );
