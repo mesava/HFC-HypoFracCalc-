@@ -216,3 +216,14 @@ Browser/unit acceptance должна подтверждать:
 - visual QA страницы «Проверка аудита» на desktop и mobile.
 
 После этого audit integrity/import/replay считается закрытым release gate для текущей schema 1.0; отдельным следующим этапом остаётся подготовка schema 1.1 для явного хранения всех user-confirmation inputs.
+
+
+### Audit schema 1.1
+
+Перед release candidate дополнительно проверяется:
+
+- новые audit records имеют `schemaVersion: 1.1`;
+- Reirradiation сохраняет `userConfirmations.thecalSacDmaxMetric`;
+- replay schema 1.1 использует сохранённый boolean;
+- historical schema 1.0 без этого поля продолжает воспроизводиться через compatibility fallback;
+- schema 1.0 и 1.1 обе проходят integrity parsing, неизвестные версии отклоняются.

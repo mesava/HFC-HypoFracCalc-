@@ -306,6 +306,7 @@ function spinalGuidanceAudit(
     courses,
     context: reirradiationContext,
     result,
+    confirmThecalSacDmax: confirmed,
     guidance,
   });
 }
@@ -376,4 +377,19 @@ describe("clinical audit replay v0.2", () => {
       expect(inspected.replay?.differences).toEqual([]);
     },
   );
+
+  it("replays historical schema 1.0 spinal guidance without explicit user confirmation", async () => {
+    const legacy = spinalGuidanceAudit(true);
+    legacy.schemaVersion = "1.0";
+    delete legacy.userConfirmations;
+
+    const inspected = await inspectAuditDocument(
+      await serializeAuditEnvelope(legacy),
+    );
+
+    expect(inspected.integrityStatus).toBe("verified");
+    expect(inspected.header.schemaVersion).toBe("1.0");
+    expect(inspected.replay?.matches).toBe(true);
+    expect(inspected.replay?.differences).toEqual([]);
+  });
 });

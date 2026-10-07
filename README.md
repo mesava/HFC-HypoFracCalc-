@@ -397,6 +397,7 @@ src/
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [docs/EVIDENCE_MODEL.md](docs/EVIDENCE_MODEL.md)
 - [docs/LITERATURE_REVIEW.md](docs/LITERATURE_REVIEW.md)
+- [docs/LITERATURE_PACKAGE_AUDIT.md](docs/LITERATURE_PACKAGE_AUDIT.md)
 - [docs/CONSTRAINTS.md](docs/CONSTRAINTS.md)
 - [docs/REIRRADIATION.md](docs/REIRRADIATION.md)
 - [docs/AUDIT.md](docs/AUDIT.md)

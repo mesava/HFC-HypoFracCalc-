@@ -63,7 +63,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
     expect(exported.format).toBe("hfc-audit");
     expect(exported.envelopeVersion).toBe("1.0");
     expect(exported.record.module).toBe("quick-eqd");
-    expect(exported.record.schemaVersion).toBe("1.0");
+    expect(exported.record.schemaVersion).toBe("1.1");
     expect(exported.integrity.algorithm).toBe("SHA-256");
     expect(exported.integrity.canonicalization).toBe(
       "hfc-json-v1",
