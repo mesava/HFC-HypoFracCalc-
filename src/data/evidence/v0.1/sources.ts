@@ -73,6 +73,66 @@ export const sources = [
       "Validated case-based implementation of ReCOG. Demonstrates three cumulative-dose strategies: direct point-dose summation, point-dose summation within overlap regions, and image-registration-based 3D equieffective dose summation; selection depends on available data, resources and patient-specific considerations.",
   },
   {
+    id: "redmond-2021-hytec-brain-mets-tcp",
+    citation:
+      "Redmond KJ, Gui C, Benedict S, et al. Tumor Control Probability of Radiosurgery and Fractionated Stereotactic Radiosurgery for Brain Metastases. Int J Radiat Oncol Biol Phys. 2021;110(1):53-67.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.10.034",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled dose-response analysis of 1-year local control after SRS/fSRS for brain metastases, stratified by lesion size.",
+  },
+  {
+    id: "soltys-2021-hytec-vestibular-tcp",
+    citation:
+      "Soltys SG, Milano MT, Xue J, et al. Stereotactic Radiosurgery for Vestibular Schwannomas: Tumor Control Probability Analyses and Recommended Reporting Standards. Int J Radiat Oncol Biol Phys. 2021;110(1):100-111.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.11.019",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled TCP modelling for 3- to 5-year vestibular schwannoma control after SRS/fSRS.",
+  },
+  {
+    id: "soltys-2021-hytec-spinal-mets-tcp",
+    citation:
+      "Soltys SG, Grimm J, Milano MT, et al. Stereotactic Body Radiation Therapy for Spinal Metastases: Tumor Control Probability Analyses and Recommended Reporting Standards. Int J Radiat Oncol Biol Phys. 2021;110(1):112-123.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.11.021",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled logistic dose-response analysis of 2-year local control after spine SBRT.",
+  },
+  {
+    id: "ohri-2021-hytec-liver-local-control",
+    citation:
+      "Ohri N, Tome WA, Mendez Romero A, et al. Local Control After Stereotactic Body Radiation Therapy for Liver Tumors. Int J Radiat Oncol Biol Phys. 2021;110(1):188-195.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2017.12.288",
+    kind: "systematic-review",
+    notes:
+      "HyTEC pooled analysis of local control after liver SBRT, including a BED10-stratified liver-metastasis analysis.",
+  },
+  {
+    id: "stumpf-2021-hytec-adrenal-tcp",
+    citation:
+      "Stumpf PK, Yorke ED, El Naqa I, et al. Modeling of Tumor Control Probability in Stereotactic Body Radiation Therapy for Adrenal Tumors. Int J Radiat Oncol Biol Phys. 2021;110(1):217-226.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.05.062",
+    kind: "modeling-study",
+    notes:
+      "HyTEC Poisson TCP model for 1-year local control after SBRT for adrenal metastases.",
+  },
+  {
+    id: "royce-2021-hytec-prostate-tcp",
+    citation:
+      "Royce TJ, Mavroidis P, Wang K, et al. Tumor Control Probability Modeling and Systematic Review of the Literature of Stereotactic Body Radiation Therapy for Prostate Cancer. Int J Radiat Oncol Biol Phys. 2021;110(1):227-236.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.08.014",
+    kind: "systematic-review",
+    notes:
+      "HyTEC dose-response TCP modelling of 5-year freedom from biochemical relapse after prostate SBRT, stratified by risk group.",
+  },
+  {
     id: "milano-2021-hytec-optic",
     citation:
       "Milano MT, Grimm J, Soltys SG, et al. Single- and Multi-Fraction Stereotactic Radiosurgery Dose Tolerances of the Optic Pathways. Int J Radiat Oncol Biol Phys. 2021;110(1):87-99.",
