@@ -12,6 +12,9 @@ import type {
   ReirradiationCourse,
   ReirradiationScenarioContext,
 } from "../src/domain/reirradiation.js";
+import {
+  HFC_ENGINE_VERSION,
+} from "../src/version.js";
 
 const context: ReirradiationScenarioContext = {
   geometricOverlap: true,
@@ -95,7 +98,7 @@ describe("reirradiation audit record", () => {
     });
 
     expect(audit.schemaVersion).toBe("1.1");
-    expect(audit.engineVersion).toBe("0.1.0-dev");
+    expect(audit.engineVersion).toBe(HFC_ENGINE_VERSION);
     expect(audit.evidence.datasetVersion).toBe(
       "2026.10-v0.1",
     );
