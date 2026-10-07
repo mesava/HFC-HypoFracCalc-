@@ -1,7 +1,7 @@
 # Evidence inventory — HFC 2026.10-v0.1
 
-Дата актуализации: **2026-10-06**  
-Ветка: `evidence-validation-v0.10`  
+Дата актуализации: **2026-10-07**  
+Ветка: `hytec-constraints-v0.2`  
 Статус dataset: **draft**.
 
 ## Результат инвентарного аудита
@@ -14,10 +14,11 @@
 | alphaBetaAdditional.ts | 14 |
 | repairHalfTime.ts | 6 |
 | repopulation.ts | 14 |
-| constraintsHytec.ts | 15 |
+| constraintsHytec.ts | 27 |
+| outcomeModelsHytec.ts | 6 |
 | reirradiationGuidance.ts | 1 |
-| **Всего** | **80** |
-| Активных | 76 |
+| **Всего** | **98** |
+| Активных | 94 |
 | Deprecated для audit replay | 4 |
 | Pending primary sign-off | **0** |
 
@@ -107,6 +108,25 @@
 | `hytec-cord-dmax-4fx-23gy` | `spinal-cord-radiation-myelopathy` | 23–26.2 Gy; 4 fx | `sahgal-2021-hytec-spinal-cord` (systematic-review) | spine SBRT; prior RT: none | reviewed | n/a | risk-point | 3 | validated |
 | `hytec-cord-dmax-5fx-25p3gy` | `spinal-cord-radiation-myelopathy` | 25.3–28.8 Gy; 5 fx | `sahgal-2021-hytec-spinal-cord` (systematic-review) | spine SBRT; prior RT: none | reviewed | n/a | risk-point | 3 | validated |
 | `hytec-spinal-cord-reirradiation-lower-risk-factors` | `spinal-cord-radiation-myelopathy` | α/β 2 Gy; Dmax | `sahgal-2021-hytec-spinal-cord` (systematic-review) | spine SBRT | reviewed | n/a | lower-risk-associated-factors | 3/5 | validated |
+
+| `hytec-brain-mets-1y-local-control` | `brain-metastases-local-control` | 4 source-model points by lesion size | `redmond-2021-hytec-brain-mets-tcp` | SRS/fSRS | reviewed | n/a | outcome-model | 8 | validated |
+| `hytec-vestibular-schwannoma-3to5y-tcp` | `vestibular-schwannoma-tumour-control` | 6 TCP points | `soltys-2021-hytec-vestibular-tcp` | SRS/fSRS | reviewed | n/a | outcome-model | 8 | validated |
+| `hytec-spinal-mets-2y-tcp` | `spinal-metastases-local-control` | 8 TCP points | `soltys-2021-hytec-spinal-mets-tcp` | spine SBRT | reviewed | n/a | outcome-model | 8 | validated |
+| `hytec-liver-metastases-bed10-local-control` | `liver-metastases-local-control` | BED10 >100 vs <=100 Gy | `ohri-2021-hytec-liver-local-control` | liver SBRT | reviewed | n/a | stratified outcome | 8 | validated |
+| `hytec-adrenal-metastases-1y-tcp` | `adrenal-metastases-local-control` | >95% at BED10 about 116.4 Gy | `stumpf-2021-hytec-adrenal-tcp` | adrenal SBRT | reviewed | n/a | outcome-model | 8 | validated |
+| `hytec-prostate-sbrt-5y-tcp` | `prostate-biochemical-control` | 4 risk-group TCP points | `royce-2021-hytec-prostate-tcp` | prostate SBRT | reviewed | n/a | outcome-model | 8 | validated |
+| `hytec-major-vessel-d0p5cc-5fx-20gy` | `major-vessel-grade3plus-bleeding` | D0.5cc <20 Gy; 5 fx | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-major-vessel-dmax-5fx-20gy-risk` | `major-vessel-grade3plus-bleeding` | Dmax about 20 Gy; about 2% risk | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | risk-point | 9 | validated |
+| `hytec-major-vessel-dmax-5fx-30gy-risk` | `major-vessel-grade3plus-bleeding` | Dmax about 30 Gy; about 12% risk | `grimm-2021-hytec-major-vessels` | H&N SBRT reirradiation | reviewed | n/a | risk-point | 9 | validated |
+| `hytec-lung-rilt-mean-dose-under8gy` | `lung-symptomatic-rilt` | Dmean <8 Gy | `kong-2021-hytec-lung-parenchyma` | lung SBRT; 3-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
+| `hytec-lung-rilt-v20-10to15pct` | `lung-symptomatic-rilt` | V20 <10-15% | `kong-2021-hytec-lung-parenchyma` | lung SBRT; 3-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
+| `hytec-liver-primary-mld-3fx-13gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=13 Gy; 3 fx | `miften-2021-hytec-liver-toxicity` | primary liver disease | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-liver-primary-mld-6fx-18gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=18 Gy; 6 fx | `miften-2021-hytec-liver-toxicity` | primary liver disease | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-liver-metastases-mld-3fx-15gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=15 Gy; 3 fx | `miften-2021-hytec-liver-toxicity` | metastatic liver lesions | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-liver-metastases-mld-6fx-20gy` | `liver-grade3plus-enzyme-toxicity` | Dmean <=20 Gy; 6 fx | `miften-2021-hytec-liver-toxicity` | metastatic liver lesions | reviewed | n/a | planning-limit | 9 | validated |
+| `hytec-prostate-sbrt-bladder-vrx-5to10cc` | `bladder-prostate-sbrt-late-urinary-toxicity` | V(Rx) <5-10 cc | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
+| `hytec-prostate-sbrt-urethra-dmax-38to42gy` | `urethra-prostate-sbrt-late-urinary-toxicity` | Dmax <38-42 Gy | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
+| `hytec-prostate-sbrt-rectum-dmax-35to38gy` | `rectum-prostate-sbrt-late-bowel-toxicity` | Dmax <35-38 Gy | `wang-2021-hytec-prostate-toxicity` | prostate SBRT; 4-5 fx | reviewed | n/a | observational-threshold | 9 | validated |
 
 ## Итог v0.10
 
