@@ -71,6 +71,8 @@ function constraintValue(
 ): string {
   if (constraint.valueRange) {
     return (
+      constraint.relation +
+      " " +
       formatUiNumber(language, constraint.valueRange.low, 1) +
       "–" +
       formatUiNumber(language, constraint.valueRange.high, 1) +
@@ -98,6 +100,8 @@ function riskValue(
 ): string {
   if (constraint.estimatedRiskRange) {
     return (
+      (constraint.riskRelation ?? "") +
+      (constraint.riskRelation ? " " : "") +
       formatUiNumber(
         language,
         constraint.estimatedRiskRange.low * 100,
