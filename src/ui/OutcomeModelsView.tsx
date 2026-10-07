@@ -145,6 +145,54 @@ function doseLabel(
   return parts.join(" · ") || "—";
 }
 
+function subgroupLabel(
+  language: Language,
+  value: string | undefined,
+): string {
+  if (!value) return "—";
+  if (language === "en") return value;
+
+  const labels: Record<string, string> = {
+    "Maximum tumour diameter ≤20 mm":
+      "Максимальный диаметр опухоли ≤20 мм",
+    "Maximum tumour diameter 21–30 mm":
+      "Максимальный диаметр опухоли 21–30 мм",
+    "Maximum tumour diameter 31–40 mm":
+      "Максимальный диаметр опухоли 31–40 мм",
+    "BED10 >100 Gy": "BED₁₀ >100 Гр",
+    "BED10 ≤100 Gy": "BED₁₀ ≤100 Гр",
+    "Low/intermediate-risk disease":
+      "Низкий/промежуточный риск",
+    "High-risk disease": "Высокий риск",
+  };
+  return labels[value] ?? value;
+}
+
+function followUpLabel(
+  language: Language,
+  value: string,
+): string {
+  if (language === "en") return value;
+  const labels: Record<string, string> = {
+    "1 year": "1 год",
+    "2 years": "2 года",
+    "3 years": "3 года",
+    "3–5 years": "3–5 лет",
+    "5 years": "5 лет",
+    "1-year local control":
+      "локальный контроль через 1 год",
+    "2-year local control":
+      "локальный контроль через 2 года",
+    "3-year local control":
+      "локальный контроль через 3 года",
+    "3–5 year tumour control":
+      "опухолевый контроль через 3–5 лет",
+    "5-year freedom from biochemical relapse":
+      "5-летняя свобода от биохимического рецидива",
+  };
+  return labels[value] ?? value;
+}
+
 function priorRtLabel(
   language: Language,
   value: OutcomeModel["priorRadiotherapy"],
@@ -236,7 +284,7 @@ export function OutcomeModelsView({
         <span className="eyebrow">
           {tx(
             language,
-            "HyTEC · outcome models",
+            "HyTEC · модели исходов",
             "HyTEC · outcome models",
           )}
         </span>
@@ -400,8 +448,12 @@ export function OutcomeModelsView({
                       )}
                     </dt>
                     <dd>
-                      {model.applicability
-                        ?.followUp ?? "—"}
+                      {model.applicability?.followUp
+                        ? followUpLabel(
+                            language,
+                            model.applicability.followUp,
+                          )
+                        : "—"}
                     </dd>
                   </div>
                 </dl>
@@ -445,8 +497,10 @@ export function OutcomeModelsView({
                         (point) => (
                           <tr key={point.id}>
                             <td>
-                              {point.subgroup ??
-                                "—"}
+                              {subgroupLabel(
+                                language,
+                                point.subgroup,
+                              )}
                               {point.extrapolated ? (
                                 <small className="outcome-extrapolated">
                                   {tx(
@@ -472,7 +526,10 @@ export function OutcomeModelsView({
                               </strong>
                             </td>
                             <td>
-                              {point.followUp}
+                              {followUpLabel(
+                                language,
+                                point.followUp,
+                              )}
                             </td>
                           </tr>
                         ),
@@ -481,7 +538,8 @@ export function OutcomeModelsView({
                   </table>
                 </div>
 
-                {model.notes?.length ? (
+                {model.notes?.length &&
+                language === "en" ? (
                   <ul className="outcome-model-notes">
                     {model.notes.map((note) => (
                       <li key={note}>{note}</li>
