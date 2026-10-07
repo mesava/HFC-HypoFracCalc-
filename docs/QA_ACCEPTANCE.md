@@ -189,4 +189,16 @@ Browser QA run №168 выполнен на commit `c92235e3f410674927b658cec57f
 - отклонять неизвестные envelope/schema/module;
 - не трактовать SHA-256 как цифровую подпись автора.
 
-После этого отдельным release gate остаётся import/replay с повторным расчётом.
+### Audit replay v0.1
+
+Browser/unit acceptance должна подтверждать:
+
+- verified envelope Quick EQD → replay match;
+- legacy raw schema 1.0 → `legacy-unverified`, но replay выполняется;
+- tampered envelope отклоняется **до** replay;
+- сохранённый изменённый legacy-result обнаруживается как replay difference;
+- Compare Regimens воспроизводит все endpoint/regimen результаты и provenance;
+- интерфейс показывает saved/current engine и evidence versions;
+- Treatment Gap/Reirradiation не выдаются за успешно replayed до реализации их повторного расчёта.
+
+Следующий release gate — расширить replay на Treatment Gap и Reirradiation.

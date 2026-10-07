@@ -14,6 +14,7 @@ import { buildQuickEqdAuditRecord } from "../audit/quickEqdAudit.js";
 import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { AboutSiteView } from "./AboutSiteView.js";
+import { AuditReplayView } from "./AuditReplayView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
 import { ClinicalConstraintsView } from "./ClinicalConstraintsView.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, releaseStatusLabel, selectionModeLabel, supportLabel, tx, userSpecifiedLabel } from "./i18n.js";
@@ -249,6 +250,8 @@ export function App() {
           "Повторное облучение",
           "Reirradiation",
         );
+      case "audit":
+        return tx(language, "Проверка аудита", "Audit Replay");
       case "methodology":
         return tx(language, "Методология", "Methodology");
       case "about":
@@ -996,6 +999,8 @@ export function App() {
         <ClinicalConstraintsView language={language} />
       ) : activeModule === "reirradiation" ? (
         <ReirradiationView language={language} />
+      ) : activeModule === "audit" ? (
+        <AuditReplayView language={language} />
       ) : activeModule === "methodology" ? (
         <MethodologyView language={language} />
       ) : (
@@ -1024,6 +1029,17 @@ export function App() {
               language,
               "Доказательная база и методология",
               "Evidence & methodology",
+            )}
+          </button>
+          <span>·</span>
+          <button
+            type="button"
+            onClick={() => navigate("audit")}
+          >
+            {tx(
+              language,
+              "Проверка аудита",
+              "Audit Replay",
             )}
           </button>
           <span>·</span>
