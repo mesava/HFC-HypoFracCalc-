@@ -25,6 +25,7 @@ import {
   type Language,
 } from "./labels.js";
 import { MethodologyView } from "./MethodologyView.js";
+import { OutcomeModelsView } from "./OutcomeModelsView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
 import { ReirradiationView } from "./ReirradiationView.js";
@@ -244,6 +245,12 @@ export function App() {
           "Клинические ограничения",
           "Clinical Constraints",
         );
+      case "outcomes":
+        return tx(
+          language,
+          "Модели исходов",
+          "Outcome Models",
+        );
       case "reirradiation":
         return tx(
           language,
@@ -364,6 +371,17 @@ export function App() {
           )}
         </button>
         <button
+          className={`module ${activeModule === "outcomes" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("outcomes")}
+        >
+          {tx(
+            language,
+            "Модели исходов",
+            "Outcome Models",
+          )}
+        </button>
+        <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
           type="button"
           onClick={() => navigate("methodology")}
@@ -420,6 +438,7 @@ export function App() {
                 "compare",
                 "gap",
                 "constraints",
+                "outcomes",
                 "reirradiation",
                 "methodology",
                 "about",
@@ -997,6 +1016,8 @@ export function App() {
         <TreatmentGapView language={language} />
       ) : activeModule === "constraints" ? (
         <ClinicalConstraintsView language={language} />
+      ) : activeModule === "outcomes" ? (
+        <OutcomeModelsView language={language} />
       ) : activeModule === "reirradiation" ? (
         <ReirradiationView language={language} />
       ) : activeModule === "audit" ? (
