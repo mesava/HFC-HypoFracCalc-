@@ -9,6 +9,7 @@ export type SitePage =
   | "gap"
   | "constraints"
   | "reirradiation"
+  | "audit"
   | "methodology"
   | "about";
 
