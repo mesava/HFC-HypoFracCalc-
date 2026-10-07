@@ -587,8 +587,13 @@ details li,
     align-items: flex-start;
   }
 
-  .segmented {
+  .segmented,
+  .regimen-library-picker {
     grid-template-columns: 1fr;
+  }
+
+  .regimen-library-picker .secondary-button {
+    width: 100%;
   }
 }
 
@@ -645,6 +650,27 @@ details li,
   place-items: center;
   padding: 0;
   font-size: 1rem;
+}
+
+.regimen-library-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+.regimen-library-picker .field {
+  margin-bottom: 0;
+}
+
+.regimen-preset-provenance {
+  margin-top: 10px;
+}
+
+.regimen-preset-provenance > span,
+.regimen-preset-provenance > small {
+  display: block;
 }
 
 .regimen-editor-list,
