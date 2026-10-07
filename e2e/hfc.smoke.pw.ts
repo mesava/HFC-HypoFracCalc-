@@ -172,7 +172,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
 
     await page.getByRole("button", { name: "Калькуляторы", exact: true }).click();
     await page.getByRole("button", { name: "Подбор режима по EQD₂", exact: true }).click();
-    await expect(page.getByText("17", { exact: true }).first()).toBeVisible();
+    await expect(page.getByText("17 фр.", { exact: true })).toBeVisible();
 
     await page.getByRole("button", { name: "Калькуляторы", exact: true }).click();
     await page.getByRole("button", { name: "Интерактивный календарь", exact: true }).click();
