@@ -61,16 +61,6 @@ const modules: ModuleCase[] = [
 ];
 
 async function navigate(page: Page, label: string) {
-  if (label === "Проверка аудита") {
-    await page
-      .getByRole("button", {
-        name: "Проверка аудита",
-        exact: true,
-      })
-      .click();
-    return;
-  }
-
   const desktopNav = page.locator(".site-nav");
   if (await desktopNav.isVisible()) {
     await desktopNav.getByRole("button", { name: label, exact: true }).click();
