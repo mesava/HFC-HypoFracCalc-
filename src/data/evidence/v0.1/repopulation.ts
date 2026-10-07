@@ -1,6 +1,6 @@
 import type { RepopulationRateEstimate } from "../../../domain/evidence.js";
 
-export const repopulationRateEstimates = [
+export const repopulationRateEstimates: RepopulationRateEstimate[] = [
   {
     id: "dprolif-mucosa-chart2001",
     endpointId: "oral-mucosa-mucositis",
@@ -55,33 +55,36 @@ export const repopulationRateEstimates = [
     kickOffDays: 21,
     kickOffNotes:
       "BCR 2025 Table 10.3 lists 21 days for a pooled 'various head and neck' estimate.",
-    status: "preferred",
-    defaultEligible: true,
-    support: "supported",
+    status: "deprecated",
+    defaultEligible: false,
+    support: "limited",
     supportReason:
-      "This is the best-supported treatment-gap default in the initial dataset and matches the biphasic HNSCC example discussed in Basic Clinical Radiobiology 2025.",
+      "The numerical 0.8 Gy/day and Tk=21 day pair is directly supported by Roberts 1994 for node-negative laryngeal cancer, not for a generic HNSCC endpoint. This broad BCR-derived record is therefore retained only for audit replay and removed from new selection.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
       priorRadiotherapy: "none",
       notes: [
         "BCR 2025 states that linear Dprolif correction is a pragmatic local approximation, probably reasonable for about a one-week difference but not for multi-week extrapolation.",
+        "RCR 2019 uses a different treatment-interruption formalism: a BED-based K factor, with a working head-and-neck value K=0.9 Gy BED/day and Tdelay=28 days. K and Dprolif are not numerically interchangeable.",
+        "Until Treatment Gap supports both dose bases explicitly, the RCR K/Tdelay model must not be entered into this EQD2 Dprolif record.",
+        "The numerical pair 0.8 Gy/day and Tk=21 days is independently reproduced in the official Roberts et al. 1994 publication abstract for node-negative laryngeal cancer, but HFC does not generalize that primary laryngeal dataset into a broad automatic H&N default without full primary-source sign-off.",
       ],
     },
   },
   {
     id: "dprolif-hn-various-alternative-bcr2025",
     endpointId: "head-neck-tumour-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "hendry-1996-missed-days",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.64,
     ci95: { level: 0.95, low: 0.42, high: 0.86 },
     status: "reviewed",
     defaultEligible: false,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Alternative pooled literature estimate listed in BCR 2025 Table 10.3; retained for sensitivity analysis.",
+      "Hendry 1996 is a modelled synthesis of clinical literature rather than a single endpoint-specific prospective estimate. The pooled 0.64 Gy/day (95% CI 0.42-0.86) value is retained for explicit sensitivity analysis only.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -96,11 +99,11 @@ export const repopulationRateEstimates = [
     basis: "EQD2",
     rateGyPerDay: 0.74,
     ci95: { level: 0.95, low: 0.30, high: 1.20 },
-    status: "reviewed",
+    status: "deprecated",
     defaultEligible: false,
-    support: "limited",
+    support: "poor-fit",
     supportReason:
-      "Subsite-specific estimate is listed, but no Tk value is supplied in Table 10.3.",
+      "The BCR summary value 0.74 Gy/day (95% CI 0.30-1.20) could not be reproduced from the identified Robertson 1998 primary analyses; a four-centre Robertson analysis reports gamma/alpha 0.89 Gy/day (95% CI 0.35-1.43). HFC retires the 0.74 record rather than silently substituting a different model result.",
     applicability: {
       radiationQuality: "photon",
       technique: ["larynx EBRT"],
@@ -108,9 +111,34 @@ export const repopulationRateEstimates = [
     },
   },
   {
+    id: "dprolif-larynx-roberts1994",
+    endpointId: "head-neck-larynx-tumour-control",
+    sourceId: "roberts-1994-larynx-time",
+    parameter: "repopulation-rate",
+    basis: "EQD2",
+    rateGyPerDay: 0.80,
+    ci95: { level: 0.95, low: 0.50, high: 1.10 },
+    kickOffDays: 21,
+    kickOffNotes:
+      "Roberts 1994: best-estimate Tk 21 days with 95% CI 0-27 days; no statistically significant lag phase could be demonstrated.",
+    status: "reviewed",
+    defaultEligible: false,
+    support: "supported",
+    supportReason:
+      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["larynx EBRT"],
+      priorRadiotherapy: "none",
+      notes: [
+        "Do not generalize this laryngeal estimate into a universal head-and-neck default.",
+      ],
+    },
+  },
+  {
     id: "dprolif-hn-tonsil-bcr2025",
     endpointId: "head-neck-tonsil-tumour-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "withers-1995-tonsil-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.73,
@@ -119,7 +147,7 @@ export const repopulationRateEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Subsite-specific estimate with Tk=30 days is listed in BCR 2025; no confidence interval is provided in the table.",
+      "The primary multicentre tonsillar-carcinoma analysis reports that the data are slightly more consistent with an approximately 30-day delay before accelerated repopulation and a compensatory dose of about 0.73 Gy/day. The estimate remains explicit-only because it is retrospective and model-dependent.",
     applicability: {
       radiationQuality: "photon",
       technique: ["tonsil/oropharynx EBRT"],
@@ -133,16 +161,18 @@ export const repopulationRateEstimates = [
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.54,
-    ci95: { level: 0.95, low: 0.13, high: 0.95 },
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "A clinical estimate is available, but BCR 2025 emphasizes that time corrections for normal-tissue early reactions are valid only over limited time ranges.",
+      "Bentzen 2000 directly supports an overall best estimate near 0.54 Gy/day for pneumonitis; QUANTEC later reports 0.54 ± 0.21 Gy/day (1 SE). The previous HFC 95% CI 0.13-0.95 was a derived 1.96×SE interval rather than a source-reported CI and is no longer stored as ci95.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
       priorRadiotherapy: "not-reported",
+      notes: [
+        "Time correction for pneumonitis is context-sensitive and this record remains explicit-only.",
+      ],
     },
   },
   {
@@ -167,8 +197,8 @@ export const repopulationRateEstimates = [
   },
   {
     id: "dprolif-nsclc-bcr2025",
-    endpointId: "nsclc-stage-i-local-control",
-    sourceId: "bcr-2025-ch10-tables",
+    endpointId: "nsclc-local-control",
+    sourceId: "koukourakis-1996-nsclc-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.45,
@@ -177,7 +207,7 @@ export const repopulationRateEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "A tumour time-loss estimate is listed, but without a usable Tk and from older clinical data; HFC must not silently apply it.",
+      "The primary retrospective NSCLC analysis estimated 0.45 Gy/day when all analysed cases were considered, but only 0.2 Gy/day without mediastinal involvement and did not provide a single validated Tk. HFC therefore keeps the estimate explicit-only and no longer labels it as stage-I-specific.",
     applicability: {
       radiationQuality: "photon",
       technique: ["lung EBRT"],
@@ -187,17 +217,37 @@ export const repopulationRateEstimates = [
   {
     id: "dprolif-medulloblastoma-bcr2025",
     endpointId: "medulloblastoma-tumour-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "hinata-2001-medulloblastoma-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.52,
     ci95: { level: 0.95, low: 0.29, high: 0.75 },
-    kickOffNotes: "BCR 2025 lists Tk as '0 or 21 days', i.e. not uniquely determined.",
+    kickOffDays: 0,
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The time-loss estimate is reported, but the kick-off assumption is ambiguous.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately.",
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["craniospinal/local radiotherapy"],
+      priorRadiotherapy: "none",
+    },
+  },
+  {
+    id: "dprolif-medulloblastoma-tk21-hinata2001",
+    endpointId: "medulloblastoma-tumour-control",
+    sourceId: "hinata-2001-medulloblastoma-time",
+    parameter: "repopulation-rate",
+    basis: "EQD2",
+    rateGyPerDay: 0.55,
+    ci95: { level: 0.95, low: 0.30, high: 0.80 },
+    kickOffDays: 21,
+    status: "reviewed",
+    defaultEligible: false,
+    support: "limited",
+    supportReason:
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -207,17 +257,17 @@ export const repopulationRateEstimates = [
   {
     id: "dprolif-prostate-bcr2025",
     endpointId: "prostate-biochemical-control",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "thames-2010-prostate-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.24,
-    ci95: { level: 0.95, low: 0.03, high: 0.44 },
-    kickOffDays: 52,
+    kickOffNotes:
+      "The primary Thames 2010 analysis used 52 days as an overall-treatment-time cut point; HFC does not interpret that cut point as a biologically estimated Tk.",
     status: "reviewed",
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "BCR 2025 lists a prostate estimate with Tk=52 days, but treatment-time effects in prostate are context dependent and the estimate should not become an automatic gap-compensation default.",
+      "The primary Thames 2010 abstract directly supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. Later peer-reviewed reviews reproduce a 95% CI of 0.03-0.44, but HFC does not store that interval as primary-source ci95 until the full primary text is curated. The 52-day analysis cut point is not stored as Tk.",
     applicability: {
       radiationQuality: "photon",
       technique: ["prostate EBRT"],
@@ -227,7 +277,7 @@ export const repopulationRateEstimates = [
   {
     id: "dprolif-breast-bcr2025",
     endpointId: "breast-ipsilateral-recurrence",
-    sourceId: "bcr-2025-ch10-tables",
+    sourceId: "haviland-2016-breast-time",
     parameter: "repopulation-rate",
     basis: "EQD2",
     rateGyPerDay: 0.60,
@@ -236,11 +286,11 @@ export const repopulationRateEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "BCR 2025 lists a breast tumour Dprolif estimate, but no universal Tk is supplied and modern short-course schedules fall outside the long-course context in which a simple daily-loss model is most defensible.",
+      "The START combined analysis directly estimated 0.60 Gy/day (95% CI 0.10-1.18) for local-regional relapse, but the authors describe the result as hypothesis-generating and the time-effect estimate is driven by START-B. No universal Tk is supplied, so HFC keeps it explicit-only.",
     applicability: {
       radiationQuality: "photon",
       technique: ["breast EBRT"],
       priorRadiotherapy: "none",
     },
   },
-] satisfies RepopulationRateEstimate[];
+];

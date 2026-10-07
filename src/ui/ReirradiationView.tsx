@@ -22,8 +22,8 @@ import {
 import { assessHytecSpinalCordReirradiation } from "../workflows/reirradiationGuidance.js";
 import {
   buildReirradiationAuditRecord,
-  serializeAuditRecord,
 } from "../audit/reirradiationAudit.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { downloadJsonFile } from "./download.js";
 import {
@@ -625,6 +625,7 @@ export function ReirradiationView({
         strategy,
       },
       result,
+      confirmThecalSacDmax,
       ...(budget ? { budget } : {}),
       ...(hytecSpinalGuidance
         ? { guidance: hytecSpinalGuidance }
@@ -632,13 +633,13 @@ export function ReirradiationView({
     });
   }
 
-  function downloadAuditJson() {
+  async function downloadAuditJson() {
     const record = currentReirradiationAudit();
     if (!record) return;
 
     downloadJsonFile(
       "HFC_reirradiation_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }

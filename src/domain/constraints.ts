@@ -8,10 +8,12 @@ export type DoseMetricKind =
   | "Dmax"
   | "D0.03cc"
   | "D0.1cc"
+  | "D0.5cc"
   | "D1cc"
   | "D2cc"
   | "mean-dose"
   | "Vx"
+  | "VleX"
   | "custom";
 
 export interface DoseMetric {

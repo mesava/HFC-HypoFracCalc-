@@ -9,6 +9,7 @@ export const evidenceManifest = {
   notes: [
     "Initial evidence-first dataset for photon external-beam radiotherapy.",
     "This draft is model-assisted curation from supplied primary literature and requires project-owner review before clinical release.",
-    "Scope of this first dataset: prostate tumour control, late rectal toxicity, late genitourinary toxicity, and breast tumour/normal-tissue endpoints.",
+    "Current scope includes endpoint-specific alpha/beta estimates, repair half-times, treatment-time parameters, initial HyTEC dose-volume guidance, source-traceable HyTEC tumour outcome points, and scalar reirradiation guidance for photon external-beam radiotherapy.",
+    "Inventory triage is complete: no evidence record remains in a pending validation state. The dataset remains draft until user acceptance testing, browser-level regression testing, audit replay checks, and project-owner release review are complete.",
   ],
 } satisfies EvidenceDatasetManifest;

@@ -231,7 +231,7 @@ describe("evidence-aware reirradiation workflow", () => {
       "ab-subcutis-fibrosis-bcr2025",
     );
     expect(result.alphaBetaSourceId).toBe(
-      "bcr-2025-ch10-tables",
+      "bentzen-overgaard-1991-postmastectomy",
     );
     expect(result.alphaBetaGy).toBeCloseTo(1.7, 12);
   });

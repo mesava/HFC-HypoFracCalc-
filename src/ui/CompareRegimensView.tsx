@@ -5,6 +5,12 @@ import {
   sources,
 } from "../data/evidence/v0.1/index.js";
 import {
+  regimenPresets,
+} from "../data/regimens/v0.1/index.js";
+import {
+  getRegimenPresetById,
+} from "../regimens/registry.js";
+import {
   getAlphaBetaEstimates,
   getPreferredAlphaBetaEstimate,
 } from "../evidence/alphaBetaRegistry.js";
@@ -14,7 +20,7 @@ import {
   type NamedRegimen,
 } from "../workflows/compareRegimens.js";
 import { buildCompareRegimensAuditRecord } from "../audit/compareRegimensAudit.js";
-import { serializeAuditRecord } from "../audit/common.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx, userSpecifiedLabel } from "./i18n.js";
 import {
@@ -30,6 +36,7 @@ interface UiRegimen {
   label: string;
   fractions: string;
   dosePerFractionGy: string;
+  presetId?: string;
 }
 
 type ParameterChoice =
@@ -82,6 +89,31 @@ function selectedRecord(selection: UiEndpointSelection) {
 function sourceFor(sourceId: string | undefined) {
   if (!sourceId) return undefined;
   return sources.find((source) => source.id === sourceId);
+}
+
+function regimenSiteLabel(
+  language: Language,
+  site: string,
+): string {
+  const labels: Record<string, { ru: string; en: string }> = {
+    breast: { ru: "Молочная железа", en: "Breast" },
+    prostate: { ru: "Предстательная железа", en: "Prostate" },
+    lung: { ru: "Лёгкое", en: "Lung" },
+    "bone-metastases": {
+      ru: "Метастазы в кости",
+      en: "Bone metastases",
+    },
+    "brain-metastases": {
+      ru: "Метастазы в головной мозг",
+      en: "Brain metastases",
+    },
+    glioblastoma: {
+      ru: "Глиобластома",
+      en: "Glioblastoma",
+    },
+  };
+
+  return labels[site]?.[language] ?? site;
 }
 
 function EndpointParameterEditor({
@@ -308,6 +340,9 @@ export function CompareRegimensView({
   ]);
   const [referenceRegimenId, setReferenceRegimenId] = useState("r1");
   const [nextRegimenId, setNextRegimenId] = useState(4);
+  const [presetToAdd, setPresetToAdd] = useState(
+    regimenPresets[0]?.id ?? "",
+  );
   const [tumour, setTumour] = useState<UiEndpointSelection>(
     makeEndpoint("tumour", "prostate-biochemical-control"),
   );
@@ -317,6 +352,19 @@ export function CompareRegimensView({
   ]);
   const [nextOarId, setNextOarId] = useState(3);
   const gy = language === "ru" ? "Гр" : "Gy";
+
+  const groupedRegimenPresets = useMemo(() => {
+    const grouped = new Map<
+      string,
+      typeof regimenPresets
+    >();
+    for (const preset of regimenPresets) {
+      const current = grouped.get(preset.site) ?? [];
+      current.push(preset);
+      grouped.set(preset.site, current);
+    }
+    return [...grouped.entries()];
+  }, []);
 
   const calculation = useMemo(() => {
     try {
@@ -346,6 +394,10 @@ export function CompareRegimensView({
           );
         }
 
+        const preset = regimen.presetId
+          ? getRegimenPresetById(regimen.presetId)
+          : undefined;
+
         return {
           id: regimen.id,
           label: regimen.label.trim() || regimen.id,
@@ -353,6 +405,18 @@ export function CompareRegimensView({
             fractions,
             dosePerFractionGy,
           },
+          ...(preset
+            ? {
+                preset: {
+                  presetId: preset.id,
+                  datasetVersion:
+                    preset.datasetVersion,
+                  sourceId: preset.sourceId,
+                  recommendationGrade:
+                    preset.recommendationGrade,
+                },
+              }
+            : {}),
         };
       });
 
@@ -439,10 +503,50 @@ export function CompareRegimensView({
 
   function updateRegimen(id: string, patch: Partial<UiRegimen>) {
     setRegimens((current) =>
-      current.map((regimen) =>
-        regimen.id === id ? { ...regimen, ...patch } : regimen,
-      ),
+      current.map((regimen) => {
+        if (regimen.id !== id) return regimen;
+
+        const scheduleChanged =
+          "fractions" in patch ||
+          "dosePerFractionGy" in patch;
+
+        const next = {
+          ...regimen,
+          ...patch,
+        };
+
+        if (scheduleChanged) {
+          delete next.presetId;
+        }
+
+        return next;
+      }),
     );
+  }
+
+  function addPresetRegimen() {
+    if (regimens.length >= 5) return;
+    const preset = getRegimenPresetById(
+      presetToAdd,
+    );
+    if (!preset) return;
+
+    const id = `r${nextRegimenId}`;
+    setNextRegimenId((value) => value + 1);
+    setRegimens((current) => [
+      ...current,
+      {
+        id,
+        label: preset.label[language],
+        fractions: String(
+          preset.schedule.fractions,
+        ),
+        dosePerFractionGy: String(
+          preset.schedule.dosePerFractionGy,
+        ),
+        presetId: preset.id,
+      },
+    ]);
   }
 
   function addRegimen() {
@@ -492,12 +596,12 @@ export function CompareRegimensView({
     );
   }
 
-  function downloadCompareAudit() {
+  async function downloadCompareAudit() {
     const record = currentCompareAudit();
     if (!record) return;
     downloadJsonFile(
       "HFC_compare_regimens_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }
@@ -530,6 +634,69 @@ export function CompareRegimensView({
           >
             {tx(language, "+ режим", "+ regimen")}
           </button>
+        </div>
+
+        <div className="regimen-library-picker">
+          <label className="field">
+            <span>
+              {tx(
+                language,
+                "Добавить режим из библиотеки RCR 2024",
+                "Add a regimen from the RCR 2024 library",
+              )}
+            </span>
+            <select
+              value={presetToAdd}
+              onChange={(event) =>
+                setPresetToAdd(event.target.value)
+              }
+            >
+              {groupedRegimenPresets.map(
+                ([site, presets]) => (
+                  <optgroup
+                    key={site}
+                    label={regimenSiteLabel(
+                      language,
+                      site,
+                    )}
+                  >
+                    {presets.map((preset) => (
+                      <option
+                        key={preset.id}
+                        value={preset.id}
+                      >
+                        {preset.label[language]} · Grade{" "}
+                        {preset.recommendationGrade}
+                      </option>
+                    ))}
+                  </optgroup>
+                ),
+              )}
+            </select>
+          </label>
+          <button
+            type="button"
+            className="secondary-button"
+            onClick={addPresetRegimen}
+            disabled={
+              regimens.length >= 5 ||
+              presetToAdd === ""
+            }
+          >
+            {tx(
+              language,
+              "+ из библиотеки",
+              "+ from library",
+            )}
+          </button>
+        </div>
+
+        <div className="inline-alert">
+          {tx(
+            language,
+            "Пресет переносит только опубликованную схему фракционирования и её источник. α/β и клинический исход выбираются отдельно. После ручного изменения n или d связь с пресетом снимается.",
+            "A preset only supplies the published fractionation schedule and its source. The endpoint and alpha/beta are selected separately. Manual changes to n or d remove the preset attribution.",
+          )}
         </div>
 
         <div className="regimen-editor-list">
@@ -616,6 +783,54 @@ export function CompareRegimensView({
                   />
                 </label>
               </div>
+
+              {regimen.presetId ? (() => {
+                const preset =
+                  getRegimenPresetById(
+                    regimen.presetId,
+                  );
+                const source = sourceFor(
+                  preset?.sourceId,
+                );
+                if (!preset) return null;
+
+                return (
+                  <div className="evidence-mini regimen-preset-provenance">
+                    <strong>
+                      RCR 2024 · Grade{" "}
+                      {preset.recommendationGrade}
+                    </strong>
+                    <span>
+                      {
+                        preset.indication[
+                          language
+                        ]
+                      }
+                    </span>
+                    {preset.overallTreatment ? (
+                      <span>
+                        {tx(
+                          language,
+                          "Общая длительность",
+                          "Overall treatment",
+                        )}
+                        :{" "}
+                        {
+                          preset
+                            .overallTreatment[
+                            language
+                          ]
+                        }
+                      </span>
+                    ) : null}
+                    {source ? (
+                      <small>
+                        {source.citation}
+                      </small>
+                    ) : null}
+                  </div>
+                );
+              })() : null}
             </div>
           ))}
         </div>

@@ -22,6 +22,15 @@ export const organLabelsRu: Record<string, string> = {
   "Central nervous system": "Центральная нервная система",
   "Optic pathways": "Зрительные пути",
   Brain: "Головной мозг",
+  "Brain metastases": "Метастазы в головной мозг",
+  "Carotid/major vessels": "Сонная артерия / крупные сосуды",
+  Liver: "Печень",
+  Bladder: "Мочевой пузырь",
+  Urethra: "Уретра",
+  "Vestibular schwannoma": "Вестибулярная шваннома",
+  "Spinal metastases": "Метастазы в позвоночник",
+  "Liver metastases": "Метастазы в печень",
+  "Adrenal metastases": "Метастазы в надпочечник",
 };
 
 export const endpointLabelsRu: Record<string, string> = {
@@ -68,6 +77,7 @@ export const endpointLabelsRu: Record<string, string> = {
   "head-neck-various-late-effects": "Различные поздние эффекты",
   "head-neck-tumour-control": "Локорегионарный / опухолевый контроль",
   "nsclc-stage-i-local-control": "Локальный контроль NSCLC I стадии",
+  "nsclc-local-control": "Локальный контроль немелкоклеточного рака лёгкого",
   "esophagus-pathologic-complete-response": "Патоморфологический полный ответ после предоперационной ХЛТ",
   "spinal-cord-radiation-myelopathy": "Лучевая миелопатия",
   "optic-pathway-radiation-neuropathy": "Лучевая нейропатия зрительных путей",
@@ -79,6 +89,17 @@ export const endpointLabelsRu: Record<string, string> = {
   "head-neck-larynx-tumour-control": "Опухолевый контроль гортани",
   "head-neck-tonsil-tumour-control": "Опухолевый контроль опухоли миндалины",
   "medulloblastoma-tumour-control": "Опухолевый контроль медуллобластомы",
+  "brain-metastases-local-control": "Локальный контроль облучённого метастаза",
+  "vestibular-schwannoma-tumour-control": "Опухолевый контроль",
+  "spinal-metastases-local-control": "Локальный контроль",
+  "liver-metastases-local-control": "Локальный контроль",
+  "adrenal-metastases-local-control": "Локальный контроль",
+  "major-vessel-grade3plus-bleeding": "Кровотечение G3–5 / carotid blowout syndrome",
+  "lung-symptomatic-rilt": "Симптомная лучевая токсичность лёгких",
+  "liver-grade3plus-enzyme-toxicity": "Повышение печёночных ферментов G3+",
+  "bladder-prostate-sbrt-late-urinary-toxicity": "Поздняя мочевая токсичность / ухудшение качества жизни после SBRT простаты",
+  "urethra-prostate-sbrt-late-urinary-toxicity": "Поздняя мочевая токсичность после SBRT простаты",
+  "rectum-prostate-sbrt-late-bowel-toxicity": "Поздняя кишечная токсичность после SBRT простаты",
 };
 
 export function endpointLabel(

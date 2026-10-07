@@ -1,0 +1,231 @@
+# Приёмка HFC 0.1.0-rc.1
+
+## Назначение
+
+Этот документ фиксирует browser-level и ручную пользовательскую приёмку текущего release candidate перед переносом в `main`.
+
+Автоматические E2E-тесты не заменяют независимую клиническую проверку. Их задача — ловить регрессии интерфейса, навигации, валидации ввода и основных пользовательских сценариев.
+
+## Автоматизированный пакет browser-qa-v0.1
+
+Playwright/Chromium проверяет:
+
+- старт сайта на русском языке;
+- переключение RU → EN;
+- навигацию по основным модулям;
+- Quick EQD с валидным расчётом;
+- ошибку при нулевом числе фракций;
+- скачивание JSON-аудита Quick EQD;
+- safety-поведение Treatment Gap после v0.8/v0.10: отсутствие скрытого H&N Dprolif/Tk и требование явного выбора модели;
+- загрузку Compare Regimens;
+- загрузку Clinical Constraints;
+- загрузку Reirradiation;
+- мобильное меню при ширине 390 px;
+- ручной α/β и отказ от нулевого значения;
+- отрицательную дозу за фракцию;
+- открытие печатного Quick EQD отчёта в отдельной странице;
+- ручной Dprolif/Tk без скрытых значений по умолчанию;
+- default Reirradiation scenario и валидацию ручного α/β.
+
+Запуск локально:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run build
+npm run test:e2e
+```
+
+### Воспроизводимый визуальный прогон
+
+Пакет visual browser QA открывает все десять основных разделов HFC в Chromium при двух размерах окна:
+
+- desktop: 1440 × 1000 px;
+- mobile: 390 × 844 px.
+
+Для каждого раздела автоматически проверяется отсутствие горизонтального переполнения страницы, отсутствие `pageerror` и ошибок `console.error`. Полностраничные PNG сохраняются в CI artifact `hfc-visual-acceptance` для фактического визуального просмотра.
+
+Это не snapshot-тест по пикселям: изменение дизайна само по себе не блокирует CI. Скриншоты используются как воспроизводимый материал ручной приёмки.
+
+## Develop preview
+
+Ручная визуальная приёмка выполняется на:
+
+https://mesava.github.io/HFC-HypoFracCalc-/develop/
+
+Стабильная версия для сравнения:
+
+https://mesava.github.io/HFC-HypoFracCalc-/
+
+Перед началом ручной приёмки необходимо проверить `/develop/preview-build.json` и убедиться, что поле `develop` совпадает с ожидаемой вершиной ветки `develop`.
+
+## Ручная приёмка — следующий слой
+
+В рамках финального release review необходимо отдельно пройти:
+
+- Главная;
+- Быстрый EQD;
+- Сравнение режимов;
+- Перерывы в лечении;
+- Клинические ограничения;
+- Модели исходов;
+- Повторное облучение;
+- Проверка аудита;
+- Методология;
+- О сайте.
+
+Для каждого клинического калькулятора проверить:
+
+- пустые поля;
+- ноль;
+- отрицательные числа;
+- дробное число фракций;
+- экстремальные дозы за фракцию;
+- endpoint без automatic α/β;
+- ручной α/β;
+- published explicit-only α/β;
+- диапазоны 95% ДИ;
+- warning при высокой дозе за фракцию;
+- JSON audit;
+- printable report.
+
+Для Treatment Gap дополнительно:
+
+- неверные даты;
+- gap вне курса;
+- excluded dates;
+- BID <6 ч;
+- BID 6–8 ч;
+- dose/fraction >2,2 Гр при BID;
+- manual Dprolif/Tk;
+- evidence Dprolif без Tk;
+- несколько OAR;
+- T½ range/lower-bound без автоматического превращения в point value.
+
+Для Reirradiation дополнительно:
+
+- Type I / Type II;
+- incomplete previous data;
+- registration suitability;
+- manual recovery = 0%;
+- manual recovery >0% без rationale;
+- разные dose metrics;
+- cumulative EQD₂ budget;
+- spinal HyTEC при корректном thecal-sac Dmax;
+- spinal HyTEC при неподтверждённой структуре.
+
+### Пакет browser-qa-v0.4
+
+Клинические safety-сценарии в браузере дополнительно проверяют:
+
+- календарный перерыв, в котором нет ни одной плановой фракции;
+- BID <6 ч как hard stop;
+- BID =6 ч как допустимый минимум с явным предупреждением о предпочтительном интервале около 8 ч и более;
+- предупреждение при BID и дозе за фракцию >2,2 Гр;
+- обязательное обоснование ручного recovery в повторном облучении;
+- явно заданное 0% recovery;
+- переключение классификации Type I → Type II при снятии геометрического перекрытия и сохранении опасения по кумулятивной токсичности;
+- запрет неположительной кумулятивной границы EQD₂;
+- HyTEC для повторного SBRT позвоночника только после явного подтверждения thecal-sac Dmax.
+
+### Пакет browser-qa-v0.5
+
+OAR/T½ safety-сценарии в Treatment Gap проверяют:
+
+- evidence range T½ 2–4 ч для орального мукозита не превращается автоматически в точечное значение;
+- после выбора range evidence BID-OAR расчёт требует явного пользовательского T½;
+- ручной T½ ≤0 отклоняется;
+- одновременно поддерживается до 5 независимых OAR cards;
+- Vx отсутствует среди скалярно суммируемых дозовых метрик.
+
+## Release gate
+
+Browser QA считается пройденным только если:
+
+1. unit tests зелёные;
+2. production build зелёный;
+3. Playwright E2E зелёный;
+4. ручная приёмка не содержит блокирующих дефектов;
+5. evidence dataset остаётся `draft` до отдельного release review.
+
+
+## Результат визуальной приёмки 2026-10-06
+
+Browser QA run №168 выполнен на commit `c92235e3f410674927b658cec57f2c1c84a77c3b`.
+
+Проверено:
+- 8 основных разделов;
+- desktop 1440×1000;
+- mobile 390×844;
+- 16 full-page screenshots;
+- horizontal overflow;
+- browser `pageerror`;
+- `console.error`.
+
+Первый visual run обнаружил реальный мобильный дефект раздела «Повторное облучение»: при viewport 390 px document width увеличивался до 660 px. Причиной была минимальная ширина таблицы курсов внутри grid-item с `min-width: auto`.
+
+Исправление:
+- `.reirradiation-config` и `.reirradiation-results` получили `min-width: 0`;
+- одноколоночный breakpoint использует `minmax(0, 1fr)`;
+- таблица курсов сохраняет собственный внутренний horizontal scroll, но больше не расширяет страницу.
+
+Повторный прогон:
+- unit/typecheck/build — PASS;
+- browser regression tests — PASS;
+- desktop visual capture — PASS;
+- mobile visual capture — PASS;
+- блокирующих layout-дефектов при ручном просмотре 16 PNG не выявлено.
+
+Это закрыло **визуальный слой** пользовательской приёмки для состояния проекта на 2026-10-06. После добавления разделов «Модели исходов» и «Проверка аудита» текущий automated visual suite охватывает уже 10 разделов и формирует 20 full-page screenshots; их финальный ручной просмотр относится к release review текущего RC. Клинические edge-case сценарии из чек-листа ниже по-прежнему считаются отдельным release gate.
+
+
+## Audit integrity
+
+Для release candidate новые JSON-аудиты должны:
+
+- экспортироваться в HFC audit envelope;
+- содержать SHA-256 по каноническому `record`;
+- успешно проходить повторную проверку без изменений;
+- отклоняться после изменения любого поля audit record;
+- поддерживать старые raw schema 1.0 как `legacy-unverified`;
+- отклонять неизвестные envelope/schema/module;
+- не трактовать SHA-256 как цифровую подпись автора.
+
+### Audit replay v0.1
+
+Browser/unit acceptance должна подтверждать:
+
+- verified envelope Quick EQD → replay match;
+- legacy raw schema 1.0 → `legacy-unverified`, но replay выполняется;
+- tampered envelope отклоняется **до** replay;
+- сохранённый изменённый legacy-result обнаруживается как replay difference;
+- Compare Regimens воспроизводит все endpoint/regimen результаты и provenance;
+- интерфейс показывает saved/current engine и evidence versions;
+- Treatment Gap/Reirradiation не выдаются за успешно replayed до реализации их повторного расчёта.
+
+### Audit replay v0.2
+
+Дополнительно должны проходить:
+
+- Treatment Gap calendar replay;
+- Treatment Gap strategies и OAR provenance replay;
+- исторические deprecated evidence IDs остаются воспроизводимыми;
+- drift в сохранённом Treatment Gap результате обнаруживается;
+- Reirradiation cumulative BED/EQD₂ replay;
+- remaining EQD₂ budget replay;
+- HyTEC replay как при подтверждённом, так и при неподтверждённом thecal-sac Dmax;
+- browser file-upload/replay для Compare, Treatment Gap и Reirradiation;
+- visual QA страницы «Проверка аудита» на desktop и mobile.
+
+После этого audit integrity/import/replay считается закрытым release gate для текущей schema 1.1; schema 1.0 сохраняется только как поддерживаемый исторический формат.
+
+
+### Audit schema 1.1
+
+Для release candidate дополнительно проверяется:
+
+- новые audit records имеют `schemaVersion: 1.1`;
+- Reirradiation сохраняет `userConfirmations.thecalSacDmaxMetric`;
+- replay schema 1.1 использует сохранённый boolean;
+- historical schema 1.0 без этого поля продолжает воспроизводиться через compatibility fallback;
+- schema 1.0 и 1.1 обе проходят integrity parsing, неизвестные версии отклоняются.

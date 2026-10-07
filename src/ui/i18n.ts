@@ -75,6 +75,18 @@ const warningMapRu = new Map<string, string>([
     "Прерывание превышает одну неделю. Basic Clinical Radiobiology 2025 подчёркивает, что простая линейная коррекция Dprolif наиболее обоснована при небольших различиях общей продолжительности лечения и не должна бездумно экстраполироваться на многонедельные изменения.",
   ],
   [
+    "RCR guidance requires at least 6 hours between twice-daily fractions.",
+    "Рекомендации RCR требуют интервал не менее 6 ч между двумя фракциями в сутки.",
+  ],
+  [
+    "gapEndDate must not precede gapStartDate.",
+    "Дата окончания перерыва не может быть раньше даты его начала.",
+  ],
+  [
+    "The interruption interval does not contain any planned treatment fraction.",
+    "В указанном интервале перерыва нет ни одной запланированной лечебной фракции.",
+  ],
+  [
     "RCR allows a minimum 6-hour BID interval, while Basic Clinical Radiobiology 2025 recommends the maximum practical interval, at least about 8 hours and preferably longer when feasible.",
     "RCR допускает минимальный интервал 6 ч между двумя фракциями в сутки, тогда как Basic Clinical Radiobiology 2025 рекомендует максимально практичный интервал — около 8 ч и более, когда это возможно.",
   ],
@@ -105,6 +117,10 @@ const warningMapRu = new Map<string, string>([
   [
     "The overall-treatment-time extension exceeds one week; the simple linear Dprolif approximation becomes increasingly uncertain.",
     "Удлинение общей продолжительности лечения превышает одну неделю; неопределённость простой линейной аппроксимации Dprolif возрастает.",
+  ],
+  [
+    "Manual repair half-time must be > 0 hours.",
+    "Пользовательское T½ должно быть больше 0 ч.",
   ],
   [
     "User-specified repair half-time overrides the curated evidence dataset for this calculation.",
@@ -221,7 +237,27 @@ export function localizeWarning(
   warning: string,
 ): string {
   if (language === "en") return warning;
-  return warningMapRu.get(warning) ?? warning;
+
+  const exact = warningMapRu.get(warning);
+  if (exact) return exact;
+
+  if (
+    /^Repair half-time record .* is a range or bound rather than a point estimate\./.test(
+      warning,
+    )
+  ) {
+    return "Выбранная оценка T½ является диапазоном или границей, а не точечным значением. Для расчёта необходимо явно задать численное T½.";
+  }
+
+  if (
+    /^No point repair half-time default exists for .+;/.test(
+      warning,
+    )
+  ) {
+    return "Для выбранного клинического исхода нет автоматического точечного T½. Выберите точечную опубликованную оценку или явно задайте T½ вручную.";
+  }
+
+  return warning;
 }
 
 export function languageName(language: Language): string {

@@ -1,0 +1,77 @@
+name: Deploy develop preview
+
+on:
+  push:
+    branches: ["develop"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout stable main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: stable
+
+      - name: Checkout develop preview
+        uses: actions/checkout@v7
+        with:
+          ref: develop
+          path: preview
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.12.0
+
+      - name: Build stable site from main
+        working-directory: stable
+        run: |
+          npm ci
+          npm run audit:security
+          npm run build
+
+      - name: Build preview site from develop
+        working-directory: preview
+        run: |
+          npm ci
+          npm run audit:security
+          npm run typecheck
+          npx vite build --base=/HFC-HypoFracCalc-/develop/
+
+      - name: Assemble stable root and develop preview
+        run: |
+          mkdir -p site/develop
+          cp -R stable/dist/. site/
+          cp -R preview/dist/. site/develop/
+          printf '{"stableMain":"%s","develop":"%s"}\n'             "$(git -C stable rev-parse HEAD)"             "$(git -C preview rev-parse HEAD)"             > site/develop/preview-build.json
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload combined Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+  deploy-preview:
+    environment:
+      name: github-pages-preview
+      url: ${{ steps.deployment.outputs.page_url }}develop/
+    runs-on: ubuntu-latest
+    needs: build-preview
+    steps:
+      - name: Deploy stable root plus develop preview
+        id: deployment
+        uses: actions/deploy-pages@v5

@@ -11,9 +11,10 @@ import {
 } from "../evidence/alphaBetaRegistry.js";
 import { calculateEvidenceLq } from "../workflows/evidenceLq.js";
 import { buildQuickEqdAuditRecord } from "../audit/quickEqdAudit.js";
-import { serializeAuditRecord } from "../audit/common.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { AboutSiteView } from "./AboutSiteView.js";
+import { AuditReplayView } from "./AuditReplayView.js";
 import { CompareRegimensView } from "./CompareRegimensView.js";
 import { ClinicalConstraintsView } from "./ClinicalConstraintsView.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, releaseStatusLabel, selectionModeLabel, supportLabel, tx, userSpecifiedLabel } from "./i18n.js";
@@ -24,6 +25,7 @@ import {
   type Language,
 } from "./labels.js";
 import { MethodologyView } from "./MethodologyView.js";
+import { OutcomeModelsView } from "./OutcomeModelsView.js";
 import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
 import { ReirradiationView } from "./ReirradiationView.js";
@@ -211,12 +213,12 @@ export function App() {
     );
   }
 
-  function downloadQuickEqdAudit() {
+  async function downloadQuickEqdAudit() {
     const record = currentQuickEqdAudit();
     if (!record) return;
     downloadJsonFile(
       "HFC_quick_eqd_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }
@@ -243,12 +245,20 @@ export function App() {
           "Клинические ограничения",
           "Clinical Constraints",
         );
+      case "outcomes":
+        return tx(
+          language,
+          "Модели исходов",
+          "Outcome Models",
+        );
       case "reirradiation":
         return tx(
           language,
           "Повторное облучение",
           "Reirradiation",
         );
+      case "audit":
+        return tx(language, "Проверка аудита", "Audit Replay");
       case "methodology":
         return tx(language, "Методология", "Methodology");
       case "about":
@@ -259,6 +269,11 @@ export function App() {
   const navigate = (page: SitePage) => {
     setActiveModule(page);
     setMobileMenuOpen(false);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
   };
 
   return (
@@ -361,6 +376,17 @@ export function App() {
           )}
         </button>
         <button
+          className={`module ${activeModule === "outcomes" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("outcomes")}
+        >
+          {tx(
+            language,
+            "Модели исходов",
+            "Outcome Models",
+          )}
+        </button>
+        <button
           className={`module ${activeModule === "methodology" ? "active" : ""}`}
           type="button"
           onClick={() => navigate("methodology")}
@@ -380,6 +406,13 @@ export function App() {
           onClick={() => navigate("reirradiation")}
         >
           {tx(language, "Повторное облучение", "Reirradiation")}
+        </button>
+        <button
+          className={`module ${activeModule === "audit" ? "active" : ""}`}
+          type="button"
+          onClick={() => navigate("audit")}
+        >
+          {tx(language, "Проверка аудита", "Audit Replay")}
         </button>
       </nav>
 
@@ -417,7 +450,9 @@ export function App() {
                 "compare",
                 "gap",
                 "constraints",
+                "outcomes",
                 "reirradiation",
+                "audit",
                 "methodology",
                 "about",
               ] as SitePage[]
@@ -436,7 +471,7 @@ export function App() {
       </div>
 
       {activeModule === "home" ? (
-        <SiteHome language={language} onNavigate={setActiveModule} />
+        <SiteHome language={language} onNavigate={navigate} />
       ) : activeModule === "quick" ? (
         <main className="workspace">
           <section className="panel input-panel">
@@ -994,8 +1029,12 @@ export function App() {
         <TreatmentGapView language={language} />
       ) : activeModule === "constraints" ? (
         <ClinicalConstraintsView language={language} />
+      ) : activeModule === "outcomes" ? (
+        <OutcomeModelsView language={language} />
       ) : activeModule === "reirradiation" ? (
         <ReirradiationView language={language} />
+      ) : activeModule === "audit" ? (
+        <AuditReplayView language={language} />
       ) : activeModule === "methodology" ? (
         <MethodologyView language={language} />
       ) : (
@@ -1024,6 +1063,17 @@ export function App() {
               language,
               "Доказательная база и методология",
               "Evidence & methodology",
+            )}
+          </button>
+          <span>·</span>
+          <button
+            type="button"
+            onClick={() => navigate("audit")}
+          >
+            {tx(
+              language,
+              "Проверка аудита",
+              "Audit Replay",
             )}
           </button>
           <span>·</span>

@@ -12,6 +12,9 @@ import type {
   ReirradiationCourse,
   ReirradiationScenarioContext,
 } from "../src/domain/reirradiation.js";
+import {
+  HFC_ENGINE_VERSION,
+} from "../src/version.js";
 
 const context: ReirradiationScenarioContext = {
   geometricOverlap: true,
@@ -89,12 +92,13 @@ describe("reirradiation audit record", () => {
       courses,
       context,
       result,
+      confirmThecalSacDmax: true,
       budget,
       guidance,
     });
 
-    expect(audit.schemaVersion).toBe("1.0");
-    expect(audit.engineVersion).toBe("0.1.0-dev");
+    expect(audit.schemaVersion).toBe("1.1");
+    expect(audit.engineVersion).toBe(HFC_ENGINE_VERSION);
     expect(audit.evidence.datasetVersion).toBe(
       "2026.10-v0.1",
     );
@@ -109,16 +113,23 @@ describe("reirradiation audit record", () => {
     expect(audit.guidance?.sourceId).toBe(
       "sahgal-2021-hytec-spinal-cord",
     );
+    expect(
+      audit.userConfirmations?.thecalSacDmaxMetric,
+    ).toBe(true);
 
     const sourceIds = audit.sources.map(
       (source) => source.id,
     );
-    expect(sourceIds).toContain(
+    for (const sourceId of [
       "andratschke-2022-estro-eortc-reirradiation",
-    );
-    expect(sourceIds).toContain(
+      "rcr-2024-principles-reirradiation",
+      "appelt-2026-cumulative-dose-reirradiation",
+      "paradis-2026-recog-consensus",
+      "zhang-2026-recog-case-guide",
       "sahgal-2021-hytec-spinal-cord",
-    );
+    ]) {
+      expect(sourceIds).toContain(sourceId);
+    }
   });
 
   it("serializes deterministically for a fixed timestamp", () => {

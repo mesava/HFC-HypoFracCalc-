@@ -170,7 +170,7 @@ describe("preferred alpha/beta selections", () => {
     expect(record?.ci95).toEqual({ level: 0.95, low: 1.6, high: 2.6 });
   });
 
-  it("selects evidence-based HN, lung and mucosal defaults", () => {
+  it("selects validated HN and mucosal defaults but requires explicit NSCLC selection", () => {
     expect(
       getPreferredAlphaBetaEstimate("head-neck-tumour-control")?.valueGy,
     ).toBe(10.5);
@@ -178,8 +178,8 @@ describe("preferred alpha/beta selections", () => {
       getPreferredAlphaBetaEstimate("head-neck-various-late-effects")?.valueGy,
     ).toBe(4.0);
     expect(
-      getPreferredAlphaBetaEstimate("nsclc-stage-i-local-control")?.valueGy,
-    ).toBe(8.2);
+      getPreferredAlphaBetaEstimate("nsclc-stage-i-local-control"),
+    ).toBeUndefined();
     expect(
       getPreferredAlphaBetaEstimate("oral-mucosa-mucositis")?.valueGy,
     ).toBe(9.3);
@@ -215,7 +215,7 @@ describe("repair and repopulation evidence", () => {
     expect(fibrosis?.valueHours).toBe(4.4);
   });
 
-  it("does not turn lower-bound repair evidence into a point default", () => {
+  it("keeps deprecated CNS repair bounds out of automatic point defaults", () => {
     const cord = repairHalfTimeEstimates.find(
       (record) =>
         record.endpointId === "spinal-cord-radiation-myelopathy",
@@ -223,16 +223,18 @@ describe("repair and repopulation evidence", () => {
     expect(cord?.qualifier).toBe("lower-bound");
     expect(cord?.rangeHours?.low).toBe(5);
     expect(cord?.defaultEligible).toBe(false);
+    expect(cord?.status).toBe("deprecated");
   });
 
-  it("stores a preferred HN Dprolif with explicit EQD2 basis and Tk", () => {
+  it("keeps the historical broad HN Dprolif record only for audit replay", () => {
     const hn = repopulationRateEstimates.find(
       (record) => record.id === "dprolif-hn-various-bcr2025",
     );
     expect(hn?.basis).toBe("EQD2");
     expect(hn?.rateGyPerDay).toBe(0.8);
     expect(hn?.kickOffDays).toBe(21);
-    expect(hn?.defaultEligible).toBe(true);
+    expect(hn?.defaultEligible).toBe(false);
+    expect(hn?.status).toBe("deprecated");
   });
 
   it("keeps prostate time-loss evidence available but not automatic", () => {
@@ -240,7 +242,8 @@ describe("repair and repopulation evidence", () => {
       (record) => record.id === "dprolif-prostate-bcr2025",
     );
     expect(prostate?.rateGyPerDay).toBe(0.24);
-    expect(prostate?.kickOffDays).toBe(52);
+    expect(prostate?.kickOffDays).toBeUndefined();
+    expect(prostate?.kickOffNotes).toMatch(/52 days.*cut point/i);
     expect(prostate?.defaultEligible).toBe(false);
   });
 });

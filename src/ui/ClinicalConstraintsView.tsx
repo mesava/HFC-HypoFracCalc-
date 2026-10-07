@@ -43,9 +43,20 @@ function guidanceLabel(
   }
 }
 
-function metricLabel(metric: DoseMetric): string {
+function metricLabel(
+  language: Language,
+  metric: DoseMetric,
+): string {
   if (metric.kind === "Vx") {
     return "V" + (metric.xGy ?? "?");
+  }
+  if (metric.kind === "VleX") {
+    return (
+      "V≤" +
+      (metric.xGy ?? "?") +
+      " " +
+      tx(language, "Гр", "Gy")
+    );
   }
   if (metric.kind === "mean-dose") {
     return "Dmean";
@@ -65,12 +76,22 @@ function unitLabel(
   return unit;
 }
 
+function relationLabel(
+  relation: ClinicalConstraint["relation"],
+): string {
+  if (relation === "<=") return "≤";
+  if (relation === ">=") return "≥";
+  return relation;
+}
+
 function constraintValue(
   language: Language,
   constraint: ClinicalConstraint,
 ): string {
   if (constraint.valueRange) {
     return (
+      relationLabel(constraint.relation) +
+      " " +
       formatUiNumber(language, constraint.valueRange.low, 1) +
       "–" +
       formatUiNumber(language, constraint.valueRange.high, 1) +
@@ -80,7 +101,7 @@ function constraintValue(
   }
   if (constraint.value === undefined) return "—";
   return (
-    constraint.relation +
+    relationLabel(constraint.relation) +
     " " +
     formatUiNumber(
       language,
@@ -98,6 +119,8 @@ function riskValue(
 ): string {
   if (constraint.estimatedRiskRange) {
     return (
+      (constraint.riskRelation ?? "") +
+      (constraint.riskRelation ? " " : "") +
       formatUiNumber(
         language,
         constraint.estimatedRiskRange.low * 100,
@@ -127,6 +150,56 @@ function riskValue(
     ) +
     "%"
   );
+}
+
+function populationLabel(
+  language: Language,
+  value: string | undefined,
+): string {
+  if (!value) {
+    return tx(language, "не указана", "not specified");
+  }
+  if (language === "en") return value;
+
+  const labels: Record<string, string> = {
+    "Primary liver disease":
+      "Первичная опухоль печени",
+    "Metastatic liver lesions":
+      "Метастатическое поражение печени",
+  };
+  return labels[value] ?? value;
+}
+
+function fractionationLabel(
+  language: Language,
+  constraint: ClinicalConstraint,
+): string {
+  const exact =
+    constraint.fractionation?.fractions;
+  if (exact !== undefined) {
+    return (
+      String(exact) +
+      " " +
+      tx(language, "фр.", "fx")
+    );
+  }
+
+  const range =
+    constraint.applicability?.fractionCountRange;
+  if (
+    range?.min !== undefined &&
+    range.max !== undefined
+  ) {
+    return (
+      String(range.min) +
+      "–" +
+      String(range.max) +
+      " " +
+      tx(language, "фр.", "fx")
+    );
+  }
+
+  return "—";
 }
 
 function priorRtLabel(
@@ -271,8 +344,8 @@ export function ClinicalConstraintsView({
           <span>
             {tx(
               language,
-              "Сейчас включены зрительные пути, головной мозг и спинной мозг для SRS/fSRS/SBRT. Эти записи не заменяют клинический протокол и не распространяются автоматически на повторное облучение.",
-              "Current records cover optic pathways, brain, and spinal cord for SRS/fSRS/SBRT. They do not replace clinical protocols and are not automatically transferable to reirradiation.",
+              "Набор включает зрительные пути, головной мозг, спинной мозг, лёгкие, печень, токсичность prostate SBRT и крупные сосуды при повторном облучении. Рядом с каждым числом явно указан тип доказательства.",
+              "The dataset covers optic pathways, brain, spinal cord, lung, liver, prostate-SBRT toxicity, and major-vessel reirradiation. Every number is explicitly labelled by evidence type.",
             )}
           </span>
         </div>
@@ -366,7 +439,10 @@ export function ClinicalConstraintsView({
                       )}
                     </span>
                     <strong>
-                      {metricLabel(constraint.metric)}{" "}
+                      {metricLabel(
+                        language,
+                        constraint.metric,
+                      )}{" "}
                       {constraintValue(
                         language,
                         constraint,
@@ -397,9 +473,10 @@ export function ClinicalConstraintsView({
                       )}
                     </dt>
                     <dd>
-                      {constraint.fractionation?.fractions ??
-                        "—"}{" "}
-                      {tx(language, "фр.", "fx")}
+                      {fractionationLabel(
+                        language,
+                        constraint,
+                      )}
                     </dd>
                   </div>
                   <div>
@@ -425,6 +502,23 @@ export function ClinicalConstraintsView({
                       {constraint.technique?.join(", ") ?? "—"}
                     </dd>
                   </div>
+                  {constraint.population ? (
+                    <div>
+                      <dt>
+                        {tx(
+                          language,
+                          "Популяция / контекст",
+                          "Population / context",
+                        )}
+                      </dt>
+                      <dd>
+                        {populationLabel(
+                          language,
+                          constraint.population,
+                        )}
+                      </dd>
+                    </div>
+                  ) : null}
                 </dl>
 
                 {source ? (
