@@ -1,0 +1,542 @@
+import { useMemo, useState } from "react";
+import {
+  endpoints,
+  hytecOutcomeModels,
+  sources,
+} from "../data/evidence/v0.1/index.js";
+import type {
+  OutcomeEvidenceForm,
+  OutcomeModel,
+  OutcomeProbabilityKind,
+  OutcomeProbabilityPoint,
+} from "../domain/outcomeModels.js";
+import { tx } from "./i18n.js";
+import {
+  endpointLabel,
+  formatUiNumber,
+  organLabel,
+  type Language,
+} from "./labels.js";
+
+function sourceFor(sourceId: string) {
+  return sources.find(
+    (source) => source.id === sourceId,
+  );
+}
+
+function evidenceFormLabel(
+  language: Language,
+  form: OutcomeEvidenceForm,
+): string {
+  switch (form) {
+    case "model-derived":
+      return tx(
+        language,
+        "модельная оценка",
+        "model-derived",
+      );
+    case "pooled-observation":
+      return tx(
+        language,
+        "объединённое наблюдение",
+        "pooled observation",
+      );
+    case "stratified-observation":
+      return tx(
+        language,
+        "стратифицированное наблюдение",
+        "stratified observation",
+      );
+  }
+}
+
+function outcomeKindLabel(
+  language: Language,
+  kind: OutcomeProbabilityKind,
+): string {
+  switch (kind) {
+    case "TCP":
+      return "TCP";
+    case "local-control":
+      return tx(
+        language,
+        "локальный контроль",
+        "local control",
+      );
+    case "biochemical-control":
+      return tx(
+        language,
+        "биохимический контроль",
+        "biochemical control",
+      );
+  }
+}
+
+function probabilityLabel(
+  language: Language,
+  point: OutcomeProbabilityPoint,
+): string {
+  return (
+    (point.probabilityRelation ?? "≈") +
+    " " +
+    formatUiNumber(
+      language,
+      point.probability * 100,
+      point.probability % 0.01 === 0 ? 0 : 1,
+    ) +
+    "%"
+  );
+}
+
+function doseLabel(
+  language: Language,
+  point: OutcomeProbabilityPoint,
+): string {
+  const parts: string[] = [];
+  const schedule = point.dose.schedule;
+  if (schedule) {
+    const total =
+      schedule.fractions *
+      schedule.dosePerFractionGy;
+    parts.push(
+      `${schedule.fractions} × ${formatUiNumber(
+        language,
+        schedule.dosePerFractionGy,
+        2,
+      )} ${language === "ru" ? "Гр" : "Gy"} = ${formatUiNumber(
+        language,
+        total,
+        2,
+      )} ${language === "ru" ? "Гр" : "Gy"}`,
+    );
+  }
+
+  const biological = point.dose.biologicalDose;
+  if (biological) {
+    parts.push(
+      `${biological.basis}${biological.alphaBetaGy === 10
+        ? "₁₀"
+        : ""} = ${formatUiNumber(
+        language,
+        biological.valueGy,
+        1,
+      )} ${language === "ru" ? "Гр" : "Gy"} (α/β = ${formatUiNumber(
+        language,
+        biological.alphaBetaGy,
+        1,
+      )} ${language === "ru" ? "Гр" : "Gy"})`,
+    );
+  }
+
+  if (point.dose.totalDoseGyRange) {
+    parts.push(
+      `${formatUiNumber(
+        language,
+        point.dose.totalDoseGyRange.low,
+        1,
+      )}–${formatUiNumber(
+        language,
+        point.dose.totalDoseGyRange.high,
+        1,
+      )} ${language === "ru" ? "Гр" : "Gy"}`,
+    );
+  }
+
+  return parts.join(" · ") || "—";
+}
+
+function priorRtLabel(
+  language: Language,
+  value: OutcomeModel["priorRadiotherapy"],
+): string {
+  switch (value) {
+    case "none":
+      return tx(
+        language,
+        "без предшествующей ЛТ",
+        "no prior RT",
+      );
+    case "yes":
+      return tx(
+        language,
+        "повторное облучение",
+        "prior RT",
+      );
+    case "mixed":
+      return tx(
+        language,
+        "смешанная выборка",
+        "mixed",
+      );
+    case "not-reported":
+      return tx(
+        language,
+        "неоднозначно",
+        "not clearly reported",
+      );
+    default:
+      return tx(
+        language,
+        "не указано",
+        "not specified",
+      );
+  }
+}
+
+export function OutcomeModelsView({
+  language,
+}: {
+  language: Language;
+}) {
+  const endpointIds = useMemo(
+    () =>
+      new Set(
+        hytecOutcomeModels.map(
+          (model) => model.endpointId,
+        ),
+      ),
+    [],
+  );
+
+  const availableEndpoints = useMemo(
+    () =>
+      endpoints
+        .filter((endpoint) =>
+          endpointIds.has(endpoint.id),
+        )
+        .sort((a, b) =>
+          (a.organ + " " + a.endpoint).localeCompare(
+            b.organ + " " + b.endpoint,
+            "en",
+          ),
+        ),
+    [endpointIds],
+  );
+
+  const [endpointId, setEndpointId] = useState(
+    "brain-metastases-local-control",
+  );
+
+  const models = useMemo(
+    () =>
+      hytecOutcomeModels.filter(
+        (model) =>
+          model.endpointId === endpointId,
+      ),
+    [endpointId],
+  );
+
+  const endpoint = endpoints.find(
+    (candidate) => candidate.id === endpointId,
+  );
+
+  return (
+    <main className="constraints-page">
+      <section className="panel constraints-hero">
+        <span className="eyebrow">
+          {tx(
+            language,
+            "HyTEC · outcome models",
+            "HyTEC · outcome models",
+          )}
+        </span>
+        <h2>
+          {tx(
+            language,
+            "Доза → вероятность исхода без подмены клинической рекомендации",
+            "Dose → outcome probability without pretending it is a recommendation",
+          )}
+        </h2>
+        <p>
+          {tx(
+            language,
+            "OutcomeModel хранит опубликованные TCP/локальный контроль вместе с дозой, временем наблюдения, подгруппой, типом доказательства и источником. HFC не интерполирует между точками и не превращает модельный TCP в назначение лечения.",
+            "OutcomeModel stores published TCP/local-control evidence together with dose, follow-up, subgroup, evidence form, and source. HFC does not interpolate between points or turn modelled TCP into a treatment prescription.",
+          )}
+        </p>
+        <div className="constraints-caution">
+          <strong>
+            {tx(
+              language,
+              "Первый пакет HyTEC",
+              "Initial HyTEC outcome package",
+            )}
+          </strong>
+          <span>
+            {tx(
+              language,
+              "Brain metastases, vestibular schwannoma, spinal metastases, liver metastases, adrenal metastases и prostate SBRT. Source-specific α/β для BED/EQD₂ сохраняется как часть опубликованной модели и не становится α/β по умолчанию в HFC.",
+              "Brain metastases, vestibular schwannoma, spinal metastases, liver metastases, adrenal metastases, and prostate SBRT. Source-specific alpha/beta values used for BED/EQD2 remain model provenance and do not become HFC alpha/beta defaults.",
+            )}
+          </span>
+        </div>
+      </section>
+
+      <section className="panel constraints-browser">
+        <label className="field">
+          <span>
+            {tx(
+              language,
+              "Клинический исход",
+              "Clinical endpoint",
+            )}
+          </span>
+          <select
+            value={endpointId}
+            onChange={(event) =>
+              setEndpointId(event.target.value)
+            }
+          >
+            {availableEndpoints.map((item) => (
+              <option
+                key={item.id}
+                value={item.id}
+              >
+                {organLabel(
+                  language,
+                  item.organ,
+                )}{" "}
+                ·{" "}
+                {endpointLabel(
+                  language,
+                  item.id,
+                  item.endpoint,
+                )}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <div className="constraints-context-line">
+          <strong>
+            {organLabel(
+              language,
+              endpoint?.organ ?? "",
+            )}
+          </strong>
+          <span>
+            {endpointLabel(
+              language,
+              endpointId,
+              endpoint?.endpoint ?? endpointId,
+            )}
+          </span>
+        </div>
+
+        <div className="constraint-card-list">
+          {models.map((model) => {
+            const source = sourceFor(
+              model.sourceId,
+            );
+
+            return (
+              <article
+                className="constraint-card outcome-model-card"
+                key={model.id}
+              >
+                <div className="constraint-card-top">
+                  <div>
+                    <span className="constraint-guidance-kind">
+                      {evidenceFormLabel(
+                        language,
+                        model.evidenceForm,
+                      )}
+                    </span>
+                    <strong>
+                      {outcomeKindLabel(
+                        language,
+                        model.outcomeKind,
+                      )}
+                    </strong>
+                  </div>
+                  <div className="constraint-risk">
+                    <span>
+                      {tx(
+                        language,
+                        "Точки",
+                        "Points",
+                      )}
+                    </span>
+                    <strong>
+                      {model.points.length}
+                    </strong>
+                  </div>
+                </div>
+
+                <dl className="constraint-meta">
+                  <div>
+                    <dt>
+                      {tx(
+                        language,
+                        "Методика",
+                        "Technique",
+                      )}
+                    </dt>
+                    <dd>
+                      {model.technique.join(", ")}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      {tx(
+                        language,
+                        "Предшествующая ЛТ",
+                        "Prior RT",
+                      )}
+                    </dt>
+                    <dd>
+                      {priorRtLabel(
+                        language,
+                        model.priorRadiotherapy,
+                      )}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      {tx(
+                        language,
+                        "Наблюдение",
+                        "Follow-up",
+                      )}
+                    </dt>
+                    <dd>
+                      {model.applicability
+                        ?.followUp ?? "—"}
+                    </dd>
+                  </div>
+                </dl>
+
+                <div className="outcome-point-table-scroll">
+                  <table className="outcome-point-table">
+                    <thead>
+                      <tr>
+                        <th>
+                          {tx(
+                            language,
+                            "Подгруппа",
+                            "Subgroup",
+                          )}
+                        </th>
+                        <th>
+                          {tx(
+                            language,
+                            "Доза",
+                            "Dose",
+                          )}
+                        </th>
+                        <th>
+                          {tx(
+                            language,
+                            "Исход",
+                            "Outcome",
+                          )}
+                        </th>
+                        <th>
+                          {tx(
+                            language,
+                            "Срок",
+                            "Time",
+                          )}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {model.points.map(
+                        (point) => (
+                          <tr key={point.id}>
+                            <td>
+                              {point.subgroup ??
+                                "—"}
+                              {point.extrapolated ? (
+                                <small className="outcome-extrapolated">
+                                  {tx(
+                                    language,
+                                    "экстраполяция",
+                                    "extrapolated",
+                                  )}
+                                </small>
+                              ) : null}
+                            </td>
+                            <td>
+                              {doseLabel(
+                                language,
+                                point,
+                              )}
+                            </td>
+                            <td>
+                              <strong>
+                                {probabilityLabel(
+                                  language,
+                                  point,
+                                )}
+                              </strong>
+                            </td>
+                            <td>
+                              {point.followUp}
+                            </td>
+                          </tr>
+                        ),
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {model.notes?.length ? (
+                  <ul className="outcome-model-notes">
+                    {model.notes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {source ? (
+                  <div className="constraint-source">
+                    <span>
+                      {tx(
+                        language,
+                        "Источник",
+                        "Source",
+                      )}
+                    </span>
+                    <p>{source.citation}</p>
+                    <div>
+                      {source.doi ? (
+                        <a
+                          href={
+                            "https://doi.org/" +
+                            source.doi
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          DOI {source.doi}
+                        </a>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="panel site-safety">
+        <strong>
+          {tx(
+            language,
+            "Не калькулятор TCP для конкретного пациента",
+            "Not a patient-specific TCP calculator",
+          )}
+        </strong>
+        <p>
+          {tx(
+            language,
+            "На этом этапе HFC показывает курируемые опубликованные outcome points. Он не выполняет скрытую интерполяцию, не экстраполирует за пределы публикации и не смешивает эти данные с OAR constraints или α/β defaults.",
+            "At this stage HFC displays curated published outcome points. It does not silently interpolate, extrapolate beyond the publication, or mix these data with OAR constraints or alpha/beta defaults.",
+          )}
+        </p>
+      </section>
+    </main>
+  );
+}
