@@ -118,6 +118,8 @@ export const evidenceValidationInventory = [
   { recordId: "hytec-liver-primary-mld-6fx-18gy", validationPackage: "9", state: "validated" },
   { recordId: "hytec-liver-metastases-mld-3fx-15gy", validationPackage: "9", state: "validated" },
   { recordId: "hytec-liver-metastases-mld-6fx-20gy", validationPackage: "9", state: "validated" },
+  { recordId: "hytec-liver-spared-vle15gy-700cc", validationPackage: "9", state: "validated" },
+  { recordId: "hytec-liver-spared-vle17gy-700cc", validationPackage: "9", state: "validated" },
   { recordId: "hytec-prostate-sbrt-bladder-vrx-5to10cc", validationPackage: "9", state: "validated" },
   { recordId: "hytec-prostate-sbrt-urethra-dmax-38to42gy", validationPackage: "9", state: "validated" },
   { recordId: "hytec-prostate-sbrt-rectum-dmax-35to38gy", validationPackage: "9", state: "validated" },
