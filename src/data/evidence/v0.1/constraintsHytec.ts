@@ -523,6 +523,54 @@ export const hytecClinicalConstraints = [
     ],
   },
 
+  // Liver SBRT spared-volume planning criteria reported across studies.
+  {
+    id: "hytec-liver-spared-vle15gy-700cc",
+    sourceId: "miften-2021-hytec-liver-toxicity",
+    endpointId: "liver-grade3plus-enzyme-toxicity",
+    status: "reviewed",
+    guidanceKind: "observational-threshold",
+    metric: { kind: "VleX", xGy: 15 },
+    relation: ">=",
+    value: 700,
+    unit: "cc",
+    priorRadiotherapy: "none",
+    technique: ["liver SBRT"],
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["liver SBRT"],
+      fractionCountRange: { min: 3, max: 6 },
+      priorRadiotherapy: "none",
+    },
+    notes: [
+      "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 15 Gy.",
+      "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+    ],
+  },
+  {
+    id: "hytec-liver-spared-vle17gy-700cc",
+    sourceId: "miften-2021-hytec-liver-toxicity",
+    endpointId: "liver-grade3plus-enzyme-toxicity",
+    status: "reviewed",
+    guidanceKind: "observational-threshold",
+    metric: { kind: "VleX", xGy: 17 },
+    relation: ">=",
+    value: 700,
+    unit: "cc",
+    priorRadiotherapy: "none",
+    technique: ["liver SBRT"],
+    applicability: {
+      radiationQuality: "photon",
+      technique: ["liver SBRT"],
+      fractionCountRange: { min: 3, max: 6 },
+      priorRadiotherapy: "none",
+    },
+    notes: [
+      "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 17 Gy.",
+      "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+    ],
+  },
+
   // Prostate SBRT: suggested constraints with explicitly limited tolerance evidence.
   {
     id: "hytec-prostate-sbrt-bladder-vrx-5to10cc",
