@@ -14,7 +14,7 @@ import {
   type NamedRegimen,
 } from "../workflows/compareRegimens.js";
 import { buildCompareRegimensAuditRecord } from "../audit/compareRegimensAudit.js";
-import { serializeAuditRecord } from "../audit/common.js";
+import { serializeAuditEnvelope } from "../audit/envelope.js";
 import { openPrintableAuditReport } from "../audit/report.js";
 import { confidenceIntervalLabel, estimateChoiceLabel, localizeWarning, tx, userSpecifiedLabel } from "./i18n.js";
 import {
@@ -492,12 +492,12 @@ export function CompareRegimensView({
     );
   }
 
-  function downloadCompareAudit() {
+  async function downloadCompareAudit() {
     const record = currentCompareAudit();
     if (!record) return;
     downloadJsonFile(
       "HFC_compare_regimens_audit",
-      serializeAuditRecord(record),
+      await serializeAuditEnvelope(record),
       record.generatedAtIso,
     );
   }
