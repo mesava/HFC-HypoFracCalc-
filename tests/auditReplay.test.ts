@@ -127,19 +127,18 @@ describe("audit replay v0.1", () => {
     expect(inspected.replay?.differences).toEqual([]);
   });
 
-  it("verifies but does not pretend to replay unsupported modules", async () => {
-    const unsupported = {
+  it("rejects a module-spoofed audit whose payload does not match the declared module", async () => {
+    const spoofed = {
       ...quickAudit(),
       module: "treatment-gap",
     };
 
-    const inspected = await inspectAuditDocument(
-      await serializeAuditEnvelope(unsupported),
+    await expect(
+      inspectAuditDocument(
+        await serializeAuditEnvelope(spoofed),
+      ),
+    ).rejects.toThrow(
+      /Treatment Gap audit record is missing required replay fields/i,
     );
-
-    expect(inspected.integrityStatus).toBe("verified");
-    expect(inspected.header.module).toBe("treatment-gap");
-    expect(inspected.replaySupported).toBe(false);
-    expect(inspected.replay).toBeUndefined();
   });
 });

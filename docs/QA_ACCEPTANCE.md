@@ -201,4 +201,18 @@ Browser/unit acceptance должна подтверждать:
 - интерфейс показывает saved/current engine и evidence versions;
 - Treatment Gap/Reirradiation не выдаются за успешно replayed до реализации их повторного расчёта.
 
-Следующий release gate — расширить replay на Treatment Gap и Reirradiation.
+### Audit replay v0.2
+
+Дополнительно должны проходить:
+
+- Treatment Gap calendar replay;
+- Treatment Gap strategies и OAR provenance replay;
+- исторические deprecated evidence IDs остаются воспроизводимыми;
+- drift в сохранённом Treatment Gap результате обнаруживается;
+- Reirradiation cumulative BED/EQD₂ replay;
+- remaining EQD₂ budget replay;
+- HyTEC replay как при подтверждённом, так и при неподтверждённом thecal-sac Dmax;
+- browser file-upload/replay для Compare, Treatment Gap и Reirradiation;
+- visual QA страницы «Проверка аудита» на desktop и mobile.
+
+После этого audit integrity/import/replay считается закрытым release gate для текущей schema 1.0; отдельным следующим этапом остаётся подготовка schema 1.1 для явного хранения всех user-confirmation inputs.

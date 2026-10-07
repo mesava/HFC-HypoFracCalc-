@@ -183,8 +183,8 @@ export function AuditReplayView({
         <p>
           {tx(
             language,
-            "HFC читает файл локально в браузере: данные не отправляются на внешний сервер. Для новых audit envelope сначала проверяется SHA-256, и только затем выполняется повторный расчёт.",
-            "HFC reads the file locally in the browser: no data is sent to an external server. New audit envelopes are SHA-256 verified before replay.",
+            "HFC читает файл локально в браузере: данные не отправляются на внешний сервер. Для новых audit envelope сначала проверяется SHA-256, и только затем выполняется повторный расчёт для всех четырёх расчётных модулей.",
+            "HFC reads the file locally in the browser: no data is sent to an external server. New audit envelopes are SHA-256 verified before replaying all four calculation modules.",
           )}
         </p>
       </section>
@@ -351,27 +351,6 @@ export function AuditReplayView({
           </>
         ) : null}
       </section>
-
-      {inspection && !inspection.replaySupported ? (
-        <section className="panel">
-          <div className="warning-card">
-            <strong>
-              {tx(
-                language,
-                "Целостность проверена, replay пока не включён",
-                "Integrity checked; replay is not enabled yet",
-              )}
-            </strong>
-            <p>
-              {tx(
-                language,
-                "В audit replay v0.1 повторный расчёт реализован для Quick EQD и Compare Regimens. Treatment Gap и Reirradiation уже можно проверить по envelope/hash, но их replay будет добавлен следующим пакетом.",
-                "Audit replay v0.1 recalculates Quick EQD and Compare Regimens. Treatment Gap and Reirradiation can already be integrity-checked, but their replay will be added in the next package.",
-              )}
-            </p>
-          </div>
-        </section>
-      ) : null}
 
       {replay ? (
         <section className="panel">
