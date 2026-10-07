@@ -5,7 +5,11 @@ import type { Language } from "./labels.js";
 export type SitePage =
   | "home"
   | "guide"
+  | "calculators"
   | "quick"
+  | "target-eqd"
+  | "course-correction"
+  | "calendar"
   | "compare"
   | "gap"
   | "constraints"
@@ -45,9 +49,9 @@ export function SiteHome({
             <button
               type="button"
               className="primary-button"
-              onClick={() => onNavigate("quick")}
+              onClick={() => onNavigate("calculators")}
             >
-              {tx(language, "Открыть быстрый расчёт EQD", "Open Quick EQD")}
+              {tx(language, "Открыть калькуляторы", "Open calculators")}
             </button>
             <button
               type="button"
