@@ -28,6 +28,27 @@ jobs:
           deleted=0
           kept=0
 
+          superseded_branches=(
+            "audit-schema-v1.1-current"
+            "evidence-v0.1"
+            "hytec-constraints-v0.2"
+            "regimen-library-v0.2"
+            "reirradiation-guidance-v0.1"
+            "treatment-time-basis-v0.3"
+            "treatment-time-model-v0.1"
+          )
+
+          is_superseded_branch() {
+            local candidate="$1"
+            local item
+            for item in "${superseded_branches[@]}"; do
+              if [[ "$candidate" == "$item" ]]; then
+                return 0
+              fi
+            done
+            return 1
+          }
+
           while IFS= read -r branch; do
             case "$branch" in
               HEAD|main|develop)
@@ -43,6 +64,14 @@ jobs:
                 deleted=$((deleted + 1))
               else
                 echo "::warning::Could not delete $branch"
+                kept=$((kept + 1))
+              fi
+            elif is_superseded_branch "$branch"; then
+              echo "Deleting reviewed superseded branch: $branch"
+              if git push origin --delete "$branch"; then
+                deleted=$((deleted + 1))
+              else
+                echo "::warning::Could not delete superseded branch $branch"
                 kept=$((kept + 1))
               fi
             else
