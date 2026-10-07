@@ -855,7 +855,7 @@ function TreatmentGapOarCard({
 
             {calculation.bid ? (
               "error" in calculation.bid ? (
-                <div className="oar-result-card warning">
+                <div className="oar-result-card warning" role="alert">
                   <span>
                     {tx(
                       language,
