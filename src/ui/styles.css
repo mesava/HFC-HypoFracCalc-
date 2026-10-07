@@ -4006,3 +4006,79 @@ html[data-theme="dark"] .legacy-example-grid p {
     overflow-x: auto;
   }
 }
+
+
+/* Flatten legacy landing/mobile surfaces under the v0.3 design system. */
+
+html[data-design="clinical"] .hero-panel,
+html[data-design="clinical"] .hero-status,
+html[data-design="clinical"] .site-section,
+html[data-design="clinical"] .module-card,
+html[data-design="clinical"] .mobile-nav-trigger,
+html[data-design="clinical"] .mobile-nav-menu,
+html[data-design="clinical"] .language-switch {
+  border-radius: 7px;
+  box-shadow: none;
+}
+
+html[data-design="clinical"] .hero-panel,
+html[data-design="clinical"] .site-section,
+html[data-design="clinical"] .module-card {
+  background: var(--hfc-surface);
+}
+
+html[data-design="clinical"] .hero-status {
+  background: var(--hfc-surface-muted);
+}
+
+html[data-design="journal"] .hero-panel,
+html[data-design="journal"] .hero-status,
+html[data-design="journal"] .site-section,
+html[data-design="journal"] .module-card,
+html[data-design="journal"] .mobile-nav-trigger,
+html[data-design="journal"] .mobile-nav-menu,
+html[data-design="journal"] .language-switch {
+  border-radius: 1px;
+  box-shadow: none;
+  background: var(--hfc-surface);
+}
+
+html[data-design="compact"] .hero-panel,
+html[data-design="compact"] .hero-status,
+html[data-design="compact"] .site-section,
+html[data-design="compact"] .module-card {
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .hero-panel,
+html[data-theme="dark"] .hero-status,
+html[data-theme="dark"] .site-section,
+html[data-theme="dark"] .module-card,
+html[data-theme="dark"] .mobile-nav-trigger,
+html[data-theme="dark"] .mobile-nav-menu,
+html[data-theme="dark"] .language-switch {
+  border-color: var(--hfc-border);
+  background: var(--hfc-surface);
+  color: var(--hfc-text);
+}
+
+html[data-theme="dark"] .hero-status,
+html[data-theme="dark"] .module-card {
+  background: var(--hfc-surface-muted);
+}
+
+html[data-theme="dark"] .hero-copy h2,
+html[data-theme="dark"] .hero-status strong,
+html[data-theme="dark"] .module-card h3,
+html[data-theme="dark"] .mobile-nav-trigger {
+  color: var(--hfc-text);
+}
+
+html[data-theme="dark"] .hero-copy p,
+html[data-theme="dark"] .hero-status span,
+html[data-theme="dark"] .hero-status small,
+html[data-theme="dark"] .module-card p,
+html[data-theme="dark"] .mobile-nav-caption {
+  color: var(--hfc-muted);
+}
