@@ -255,9 +255,11 @@ test.describe("HFC audit replay for all current modules", () => {
           ),
         ).toBeVisible();
         await expect(
-          page.getByText(scenario.moduleLabel, {
-            exact: true,
-          }),
+          page
+            .getByRole("main")
+            .getByText(scenario.moduleLabel, {
+              exact: true,
+            }),
         ).toBeVisible();
         await expect(
           page.getByRole("heading", {
