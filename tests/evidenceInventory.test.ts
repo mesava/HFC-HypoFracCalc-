@@ -4,6 +4,7 @@ import {
   evidenceManifest,
   evidenceValidationInventory,
   hytecClinicalConstraints,
+  hytecOutcomeModels,
   repairHalfTimeEstimates,
   repopulationRateEstimates,
   reirradiationGuidanceSets,
@@ -15,6 +16,7 @@ describe("evidence validation inventory coverage", () => {
     ...repairHalfTimeEstimates.map((record) => record.id),
     ...repopulationRateEstimates.map((record) => record.id),
     ...hytecClinicalConstraints.map((record) => record.id),
+    ...hytecOutcomeModels.map((record) => record.id),
     ...reirradiationGuidanceSets.map((record) => record.id),
   ];
 
@@ -23,7 +25,7 @@ describe("evidence validation inventory coverage", () => {
       (record) => record.recordId,
     );
 
-    expect(evidenceIds).toHaveLength(80);
+    expect(evidenceIds).toHaveLength(98);
     expect(inventoryIds).toHaveLength(evidenceIds.length);
     expect(new Set(inventoryIds).size).toBe(inventoryIds.length);
     expect([...inventoryIds].sort()).toEqual([...evidenceIds].sort());
