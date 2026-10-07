@@ -265,6 +265,39 @@ describe("clinical constraint registry", () => {
     ).toBe(true);
   });
 
+  it("represents liver 700-cc guidance as spared volume at dose rather than fake D700cc", () => {
+    const constraints = queryClinicalConstraints({
+      endpointId: "liver-grade3plus-enzyme-toxicity",
+      metricKind: "VleX",
+    });
+
+    expect(constraints).toHaveLength(2);
+    expect(
+      constraints.map((item) => ({
+        xGy: item.metric.xGy,
+        relation: item.relation,
+        value: item.value,
+        unit: item.unit,
+        kind: item.guidanceKind,
+      })),
+    ).toEqual([
+      {
+        xGy: 15,
+        relation: ">=",
+        value: 700,
+        unit: "cc",
+        kind: "observational-threshold",
+      },
+      {
+        xGy: 17,
+        relation: ">=",
+        value: 700,
+        unit: "cc",
+        kind: "observational-threshold",
+      },
+    ]);
+  });
+
   it("does not turn prostate SBRT suggested tolerance ranges into hard limits or point values", () => {
     const ids = [
       "hytec-prostate-sbrt-bladder-vrx-5to10cc",
