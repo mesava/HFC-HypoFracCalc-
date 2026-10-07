@@ -31,6 +31,15 @@ import { SiteHome, type SitePage } from "./SiteHome.js";
 import { TreatmentGapView } from "./TreatmentGapView.js";
 import { ReirradiationView } from "./ReirradiationView.js";
 import { downloadJsonFile } from "./download.js";
+import { CalculatorsHubView } from "./CalculatorsHubView.js";
+import { CourseCorrectionView } from "./CourseCorrectionView.js";
+import { TargetEqdSolverView } from "./TargetEqdSolverView.js";
+import { InteractiveCalendarView } from "./InteractiveCalendarView.js";
+import {
+  AppearanceControls,
+  type ColorTheme,
+  type DesignStyle,
+} from "./AppearanceControls.js";
 
 type ParameterMode = "evidence" | "manual";
 
@@ -43,6 +52,19 @@ export function App() {
   const [language, setLanguage] = useState<Language>("ru");
   const [activeModule, setActiveModule] = useState<SitePage>("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [colorTheme, setColorTheme] = useState<ColorTheme>(() => {
+    const stored = window.localStorage.getItem("hfc-color-theme");
+    if (stored === "light" || stored === "dark") return stored;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
+  const [designStyle, setDesignStyle] = useState<DesignStyle>(() => {
+    const stored = window.localStorage.getItem("hfc-design-style");
+    return stored === "journal" || stored === "compact"
+      ? stored
+      : "clinical";
+  });
 
   useEffect(() => {
     document.documentElement.lang = language;
@@ -59,6 +81,13 @@ export function App() {
       );
     }
   }, [language]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = colorTheme;
+    document.documentElement.dataset.design = designStyle;
+    window.localStorage.setItem("hfc-color-theme", colorTheme);
+    window.localStorage.setItem("hfc-design-style", designStyle);
+  }, [colorTheme, designStyle]);
 
   const availableEndpoints = useMemo(
     () =>
@@ -234,8 +263,16 @@ export function App() {
     switch (page) {
       case "home":
         return tx(language, "Главная", "Home");
+      case "calculators":
+        return tx(language, "Калькуляторы", "Calculators");
       case "quick":
         return tx(language, "Быстрый EQD", "Quick EQD");
+      case "target-eqd":
+        return tx(language, "Подбор режима по EQD₂", "Target EQD₂ solver");
+      case "course-correction":
+        return tx(language, "Коррекция курса", "Course correction");
+      case "calendar":
+        return tx(language, "Интерактивный календарь", "Interactive calendar");
       case "compare":
         return tx(language, "Сравнение режимов", "Compare Regimens");
       case "gap":
@@ -249,8 +286,8 @@ export function App() {
       case "outcomes":
         return tx(
           language,
-          "Модели исходов",
-          "Outcome Models",
+          "Клинические исходы HyTEC",
+          "HyTEC clinical outcomes",
         );
       case "reirradiation":
         return tx(
@@ -259,7 +296,11 @@ export function App() {
           "Reirradiation",
         );
       case "audit":
-        return tx(language, "Проверка аудита", "Audit Replay");
+        return tx(
+          language,
+          "Проверка сохранённого расчёта",
+          "Verify saved calculation",
+        );
       case "guide":
         return tx(language, "Как пользоваться?", "How to use");
       case "methodology":
@@ -327,10 +368,15 @@ export function App() {
             </button>
           </div>
 
+          <AppearanceControls
+            language={language}
+            colorTheme={colorTheme}
+            designStyle={designStyle}
+            onColorThemeChange={setColorTheme}
+            onDesignStyleChange={setDesignStyle}
+          />
           <div className="dataset-chip">
-            {tx(language, "Фотонная ДЛТ", "Photon EBRT")} ·{" "}
-            {evidenceManifest.datasetVersion} ·{" "}
-            {releaseStatusLabel(language, evidenceManifest.releaseStatus)}
+            {tx(language, "Фотонная ДЛТ", "Photon EBRT")}
           </div>
         </div>
       </header>
@@ -354,50 +400,33 @@ export function App() {
           {tx(language, "Как пользоваться?", "How to use")}
         </button>
         <button
-          className={`module ${activeModule === "quick" ? "active" : ""}`}
+          className={`module ${
+            [
+              "calculators",
+              "quick",
+              "compare",
+              "target-eqd",
+              "course-correction",
+              "calendar",
+              "gap",
+              "reirradiation",
+            ].includes(activeModule)
+              ? "active"
+              : ""
+          }`}
           type="button"
-          onClick={() => navigate("quick")}
+          onClick={() => navigate("calculators")}
         >
-          {tx(language, "Быстрый EQD", "Quick EQD")}
+          {tx(language, "Калькуляторы", "Calculators")}
         </button>
         <button
-          className={`module ${activeModule === "compare" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("compare")}
-        >
-          {tx(language, "Сравнение режимов", "Compare Regimens")}
-        </button>
-        <button
-          className={`module ${activeModule === "gap" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("gap")}
-        >
-          {tx(language, "Перерывы в лечении", "Treatment Gap")}
-        </button>
-        <button
-          className={`module ${activeModule === "constraints" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("constraints")}
-        >
-          {tx(
-            language,
-            "Клинические ограничения",
-            "Clinical Constraints",
-          )}
-        </button>
-        <button
-          className={`module ${activeModule === "outcomes" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("outcomes")}
-        >
-          {tx(
-            language,
-            "Модели исходов",
-            "Outcome Models",
-          )}
-        </button>
-        <button
-          className={`module ${activeModule === "methodology" ? "active" : ""}`}
+          className={`module ${
+            ["methodology", "constraints", "outcomes", "audit"].includes(
+              activeModule,
+            )
+              ? "active"
+              : ""
+          }`}
           type="button"
           onClick={() => navigate("methodology")}
         >
@@ -409,20 +438,6 @@ export function App() {
           onClick={() => navigate("about")}
         >
           {tx(language, "О сайте", "About")}
-        </button>
-        <button
-          className={`module ${activeModule === "reirradiation" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("reirradiation")}
-        >
-          {tx(language, "Повторное облучение", "Reirradiation")}
-        </button>
-        <button
-          className={`module ${activeModule === "audit" ? "active" : ""}`}
-          type="button"
-          onClick={() => navigate("audit")}
-        >
-          {tx(language, "Проверка аудита", "Audit Replay")}
         </button>
       </nav>
 
@@ -457,13 +472,7 @@ export function App() {
               [
                 "home",
                 "guide",
-                "quick",
-                "compare",
-                "gap",
-                "constraints",
-                "outcomes",
-                "reirradiation",
-                "audit",
+                "calculators",
                 "methodology",
                 "about",
               ] as SitePage[]
@@ -485,6 +494,14 @@ export function App() {
         <SiteHome language={language} onNavigate={navigate} />
       ) : activeModule === "guide" ? (
         <HowToView language={language} onNavigate={navigate} />
+      ) : activeModule === "calculators" ? (
+        <CalculatorsHubView language={language} onNavigate={navigate} />
+      ) : activeModule === "target-eqd" ? (
+        <TargetEqdSolverView language={language} />
+      ) : activeModule === "course-correction" ? (
+        <CourseCorrectionView language={language} />
+      ) : activeModule === "calendar" ? (
+        <InteractiveCalendarView language={language} />
       ) : activeModule === "quick" ? (
         <main className="workspace">
           <section className="panel input-panel">
@@ -1049,7 +1066,7 @@ export function App() {
       ) : activeModule === "audit" ? (
         <AuditReplayView language={language} />
       ) : activeModule === "methodology" ? (
-        <MethodologyView language={language} />
+        <MethodologyView language={language} onNavigate={navigate} />
       ) : (
         <AboutSiteView language={language} />
       )}
@@ -1092,8 +1109,8 @@ export function App() {
           >
             {tx(
               language,
-              "Проверка аудита",
-              "Audit Replay",
+              "Проверка расчёта",
+              "Verify calculation",
             )}
           </button>
           <span>·</span>

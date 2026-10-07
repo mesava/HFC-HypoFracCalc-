@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { openMethodologyTool } from "./navigation.js";
 import { Buffer } from "node:buffer";
 import { buildQuickEqdAuditRecord } from "../src/audit/quickEqdAudit.js";
 import { serializeAuditEnvelope } from "../src/audit/envelope.js";
@@ -21,10 +22,10 @@ function quickAudit() {
 
 async function openAuditReplay(page: Page) {
   await page.goto("/");
-  await page
-    .getByRole("contentinfo")
-    .getByRole("button", { name: "Проверка аудита", exact: true })
-    .click();
+  await openMethodologyTool(
+    page,
+    "Проверка сохранённого расчёта",
+  );
   await expect(
     page.getByRole("heading", {
       name: "Проверка и воспроизведение audit JSON",

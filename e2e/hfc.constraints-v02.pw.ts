@@ -1,14 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { openMethodologyTool } from "./navigation.js";
 
 test.describe("HFC expanded HyTEC clinical constraints", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
-    await page
-      .getByRole("button", {
-        name: "Клинические ограничения",
-        exact: true,
-      })
-      .click();
+    await openMethodologyTool(page, "Клинические ограничения");
   });
 
   test("preserves evidence type, ranges and clinical context", async ({
