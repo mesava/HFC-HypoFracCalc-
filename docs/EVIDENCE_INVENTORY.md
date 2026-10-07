@@ -22,7 +22,7 @@ Post-RC snapshot: `hytec-outcomes-v0.2`
 | Deprecated для audit replay | 4 |
 | Pending primary sign-off | **0** |
 
-Важно: **pending = 0 не означает clinical release**. `releaseStatus` остаётся `draft` до пользовательской приёмки, браузерных regression tests и release review.
+Важно: **pending = 0 не означает clinical release**. Технические CI/browser/audit/release-review gates уже пройдены; `releaseStatus` остаётся `draft` до независимой клинической валидации, локального комиссионирования и governance-решения.
 
 ## Матрица
 
