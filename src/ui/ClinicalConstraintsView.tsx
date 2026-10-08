@@ -531,6 +531,37 @@ export function ClinicalConstraintsView({
                   </p>
                 ) : null}
 
+                {constraint.sourceId === "miften-2021-hytec-liver-toxicity" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Miften: оценивать физическую дозу по структуре нормальная печень−GTV. MLD 13/18 Гр для первичных опухолей и 15/20 Гр для метастазов (3/6 фракций) — ориентиры QUANTEC; модель токсичности ферментов ≥3 степени статистически незначима (p=0,10), а печёночная недостаточность/Child–Pugh не моделировались. Сохранение ≥700 см³ нормальной печени при дозе ≤15–17 Гр — отдельная несмоделированная рекомендация (rVdose), не NTCP и не обычный объём V15/V17 выше порога. Исход 11/118 случаев из отдельных исследований описывает общую GI-токсичность ≥3 степени, НЕ токсичность печёночных ферментов.",
+                      "HyTEC Miften: assess physical dose to normal liver minus GTV. MLD 13/18 Gy for primary and 15/20 Gy for metastatic disease (3/6fx) are QUANTEC objectives; the grade≥3 liver-enzyme model was not significant (p=0.10), and liver failure/Child–Pugh outcomes were not modelled. Sparing ≥700 cc normal liver to ≤15–17 Gy is a separate unmodelled rVdose planning guide, NOT NTCP or standard V15/V17 above-threshold dose volume. The 11/118 events from separate studies were grade≥3 GENERAL GI toxicity, NOT liver enzyme toxicity.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "wang-2021-hytec-prostate-toxicity" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Wang: три значения — лишь предложенные ориентиры для SBRT простаты с назначением обычно 35–40 Гр за 4–5 фракций, без утверждённых общих пределов NTCP. Для мочевого пузыря V(Rx) — объём в см³, получающий дозу назначения (НЕ 5–10 Гр); Dmax уретры и прямой кишки — другие метрики. Уточняйте контур, степень токсичности и индивидуальный протокол; данные не подтверждают аналогичные пределы при повторной ЛТ.",
+                      "HyTEC Wang: these three values are suggested rather than validated NTCP limits for prostate SBRT, usually 35–40 Gy in 4–5 fractions. Bladder V(Rx) is absolute cc receiving the prescribed dose (NOT 5–10 Gy); urethral and rectal Dmax are distinct metrics. Confirm contour, toxicity endpoint and actual protocol; not validated for reirradiation.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "grimm-2021-hytec-major-vessels" &&
+                constraint.id === "hytec-major-vessel-d0p5cc-5fx-20gy" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Grimm: D0,5 см³ <20 Гр при 5 фракциях — консервативная рекомендация для повторной ЛТ сосудов головы/шеи, а НЕ рассчитанный порог NTCP. Риск ≈2% при Dmax=20 Гр взят из другой объединённой модели для Dmax, не для D0,5 см³; отдельная модель D0,5 см³ статистически незначима (p=0,182). Авторы также рекомендуют облучение через день и учитывать охват сонной артерии опухолью, некроз и предыдущую ЛТ. Это не абсолютное противопоказание к плану.",
+                      "HyTEC Grimm: D0.5cc <20 Gy in five fractions is a conservative suggestion for head/neck vessel reirradiation, NOT a fitted NTCP threshold. The approximately 2% risk at Dmax=20 Gy comes from a separate pooled Dmax fit, NOT the D0.5cc model (p=0.182). Authors also recommend nonconsecutive fractions and assessment of vessel encasement, necrosis and prior radiation. This is not an absolute contraindication.",
+                    )}
+                  </p>
+                ) : null}
+
                 {constraint.sourceId === "kong-2021-hytec-lung-parenchyma" ? (
                   <p className="constraint-evidence-note">
                     {tx(
