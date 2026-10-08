@@ -162,4 +162,16 @@ test.describe("HFC HyTEC outcome models", () => {
     await expect(page.getByText("> 90%",{exact:true})).toBeVisible();
   });
 
+  test("distinguishes Ohri 3-year liver metastasis BED strata from 2-year model and HCC", async ({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("liver-metastases-local-control");
+    const note=page.locator(".outcome-source-discrepancy");
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("141 и 149 очагов");
+    await expect(note).toContainText("двухлетнему исходу");
+    await expect(note).toContainText("ГЦК/холангиокарцинома");
+    await expect(page.getByText("≈ 93%",{exact:true})).toBeVisible();
+    await expect(page.getByText("≈ 65%",{exact:true})).toBeVisible();
+  });
+
 });
