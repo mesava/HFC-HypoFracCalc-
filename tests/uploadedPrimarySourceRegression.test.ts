@@ -185,4 +185,58 @@ describe("Uploaded primary literature: reproducible checks", () => {
     expect(record.ci95?.low).toBe(ciLow);
     expect(record.ci95?.high).toBe(ciHigh);
   });
+
+  it("reproduces Soltys spine pooled Supplement Table 1 logistic TCP on BED6 3-fraction equivalent axis", () => {
+    // HyTEC 09 Soltys 2021, supplementary Table 1: n=2606, alpha/beta=6 Gy,
+    // D50=19.44 Gy (95% CI 18.07–20.53); g50=0.8140 (0.6594–0.9741).
+    // Source equation: TCP=exp(z)/(1+exp(z)), z=4*g50*(D3eq/D50-1).
+    // These are rounded MODEL estimates, not eight independently observed outcomes.
+    const pooledTcp = (fractions: number, dosePerFractionGy: number) => {
+      const ab = 6;
+      const bed = fractions * dosePerFractionGy * (1 + dosePerFractionGy / ab);
+      const x = 3 * ab;
+      const d3eq = (Math.sqrt(x * x + 4 * x * bed) - x) / 2;
+      const z = 4 * 0.8140 * (d3eq / 19.44 - 1);
+      return 1 / (1 + Math.exp(-z));
+    };
+    const model = hytecOutcomeModels.find(x => x.id === "hytec-spinal-mets-2y-tcp")!;
+    for (const [id, n, d, expected] of [
+      ["spine-18gy-1fx", 1, 18, 0.8103],
+      ["spine-20gy-1fx", 1, 20, 0.8830],
+      ["spine-24gy-1fx", 1, 24, 0.9595],
+      ["spine-24gy-2fx", 2, 12, 0.8103],
+      ["spine-27gy-3fx", 3, 9, 0.7801],
+      ["spine-90tcp-28gy-2fx", 2, 14, 0.9060],
+      ["spine-90tcp-33gy-3fx", 3, 11, 0.9065],
+      ["spine-90tcp-40gy-5fx", 5, 8, 0.9060],
+    ] as const) {
+      const point = model.points.find(x => x.id === id)!;
+      expect(point).toBeDefined();
+      expect(point.dose.schedule).toEqual({fractions: n, dosePerFractionGy: d});
+      expect(pooledTcp(n, d)).toBeCloseTo(expected, 3);
+      expect(Math.abs(point.probability - pooledTcp(n, d))).toBeLessThan(0.02);
+      expect(point.probabilityRelation).toBe("≈");
+    }
+    expect(model.points.find(x => x.id === "spine-90tcp-40gy-5fx")?.extrapolated).toBe(true);
+  });
+
+  it("keeps HyTEC brain V12/V20/V24 target-inclusive volume context explicit", () => {
+    // Milano brain 2021, supplemental Figs E1–E3 compare different V12
+    // volume definitions. HFC risk-point labels must not imply brain-minus-PTV.
+    const brainIds = [
+      "hytec-brain-v12-5cc-symptomatic-rn",
+      "hytec-brain-v12-10cc-symptomatic-rn",
+      "hytec-brain-v12-over15cc-symptomatic-rn",
+      "hytec-brain-v20-3fx-any-necrosis-edema",
+      "hytec-brain-v20-3fx-resection",
+      "hytec-brain-v24-5fx-any-necrosis-edema",
+      "hytec-brain-v24-5fx-resection",
+    ];
+    for (const id of brainIds) {
+      const record = hytecClinicalConstraints.find(x => x.id === id)!;
+      expect(record).toBeDefined();
+      expect(record.guidanceKind).toBe("risk-point");
+      expect(record.population).toMatch(/(includes target|plus target)/i);
+    }
+  });
 });
