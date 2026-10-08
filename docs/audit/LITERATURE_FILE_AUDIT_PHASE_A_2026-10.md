@@ -5,7 +5,8 @@
 Связанные данные:
 
 - [Инвентаризация 60 файлов](2026-10-uploaded-literature-inventory.csv) — метаданные каждой загрузки и соответствие `source.id`.
-- [18 первичных сверок](2026-10-literature-spotchecks.csv) — конкретные числа, страницы статей и соответствующие записи HFC.
+- [18 первичных сверок](2026-10-literature-spotchecks.csv) — клинические числа, страницы статей и соответствующие записи HFC.
+- [22 построчные сверки α/β и 95% ДИ](2026-10-alpha-beta-primary-table-reconciliation.csv) — все 9 численных оценок из таблицы 3 Brand rectal 2021, все 10 из таблицы 2 Brand GU 2022/2023 и три значения из FAST-Forward 2026 Table D5. 22/22 совпали с `alphaBeta.ts`.
 - `docs/HYTEC_SOURCE_COVERAGE_2026-10.md` — предыдущая **библиографическая**, а не пофайловая карта выпуска.
 - Issue #56 — незакрытый научный release gate.
 
@@ -57,7 +58,7 @@
 | FAST-Forward 10y 2026 Appendix, c. 21, Table D5 | adjusted IBR α/β 3,3 [1,9–4,9], any AE breast/chest-wall 2,1 [1,6–2,6] | **Совпадает**. Приложение содержит пометку об исправленной редакции 24.08.2026; это приоритетная версия. |
 | Appelt, файл назван 2025, c. 1–2 | journal issue `Radiotherapy and Oncology 214 (2026) 111313`, online 27.11.2025 | **Библиография согласована**; 2025 в имени файла означает online year, реестр HFC использует 2026 issue year. |
 
-В этом **ограниченном наборе 18 page-level сверок** подтверждённых ошибочных клинических чисел пока не найдено. Этим не доказана корректность всех 103 evidence records.
+В этом **ограниченном наборе 18 page-level сверок** и дополнительной независимой **построчной таблице из 22 значений α/β с 95% ДИ (22/22 совпадения)** подтверждённых ошибочных клинических чисел пока не найдено. Это не независимая проверка всех 103 evidence records. Файл с 22 сверенными строками защищён тестом `tests/primaryTableReconciliation.test.ts`: CI проверяет согласованность исходных табличных значений, зафиксированных в CSV, и текущего массива HFC, но **не заменяет повторного чтения самих PDF при изменении источников**.
 
 ## 4. Новые содержательные проблемы, которые выявились только при чтении приложений и переписки
 
@@ -113,8 +114,8 @@ HyTEC Lee 2021 подтверждает общую регресс-модель �
 
 1. **HyTEC 05–09 и 18–20:** таблицы TCP, GTV/CTV/PTV, срок наблюдения, контроль, дозовая метрика, fitted vs observed, confidence intervals; приложенные DOC/DOCX.
 2. **HyTEC 12/14/16/20:** исходные NTCP fits, denominators, DVH-метрики, профиль риска, prior RT и допустимость интерполяции.
-3. **FAST-Forward 2026 Appendix Table D5:** полная строка за строкой сверка моделей и РКИ с `alphaBeta.ts`.
-4. **Brand 2021/2023:** таблицы всех endpoint-specific α/β, CI, шкал и значимости коррекции EQD2; приложения.
+3. **FAST-Forward 2026:** три применяемых `alphaBeta.ts` значения Appendix Table D5 теперь сверены полностью; осталась ревизия остальных параметров, популяции, follow-up, stratification и ограничений применимости.
+4. **Brand 2021/2023:** все 19 применяемых `alphaBeta.ts` оценок и 95% ДИ основных таблиц 3/2 уже совпали. Остались endpoint definition, исключения baseline toxicity, DMF, разбор fit significance, таблицы и calibration plots приложений.
 5. **RCR dose fractionation 2024:** построчная проверка `Regimen Library`, статусы guideline vs prescription and timing.
 6. **ESTRO–EORTC/Appelt:** reirradiation workflow applicability, cumulative dose framework, near-max and overlap metrics.
 7. **Provenance completeness:** источник Ohri 2012, книга BCR 2025 и другие материалы, присутствующие в source registry, но отсутствующие в данном наборе из 60 файлов.
