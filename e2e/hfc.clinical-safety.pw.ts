@@ -214,5 +214,8 @@ test.describe("HFC clinical-safety browser acceptance", () => {
     await expect(
       page.getByText("Интервал между курсами", { exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByText(/73,33 Гр, выше ориентира 70 Гр/),
+    ).toBeVisible();
   });
 });
