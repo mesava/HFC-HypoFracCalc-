@@ -14,7 +14,7 @@
 | Критерии `ReirradiationGuidance` Sahgal | 4 | 4 | 0 |
 | **Итого построчных записей** | **73** | **67** | **6** |
 
-## Статус независимого численного пересчёта (обновление P2.11)
+## Статус научно-источниковой проверки (обновление P2.13)
 
 Реестр **73 реализованных HyTEC + related Ohri2012 записей** различает ссылку на первоисточник, независимую арифметическую воспроизводимость и клиническую валидацию. Статусы групп **взаимоисключающие**; первичные численные проверки **не** равны модели для пациента.
 
@@ -30,9 +30,15 @@
 | `source_document_figure_endpoint_scope_checked_nonuniversal` | **2** | Kong lung MLD/V20: проверен билиатеральный контур, GTV/IGTV, G2+ и ILD, без универсальной модели NTCP |
 | `source_reported_R0_group_average_checked_not_fitted` | **1** | Mahadevan pancreas **R0**: Table2 округляет до 90%, текст >90%; оценка по трём R0-исследованиям, **не** fitted unresected TCP |
 | `source_stratified_KM_cohort_checked_not_fitted` | **2** | Ohri liver metastases: 3-летние Kaplan–Meier BED10 >100 vs ≤100 по n141/n149 очагам, отдельная 2-летняя fitted TCP не импортирована |
-| `source_text_anchor_only_not_independently_fitted` | **10** | Имеется привязка к PDF, но индивидуальная численная QA/CI ещё не проведена |
+| `source_reviewed_QUANTEC_mld_probit_nonsignificant` | **4** | Miften: 13/18/15/20 Gy QUANTEC MLD рекомендации source-reviewed, pooled liver-enzyme NTCP fit **P=.10, незначим**; не четыре самостоятельно fitted risk points |
+| `source_reviewed_reverse_volume_700cc_unmodelled` | **2** | Miften: `rV15/rV17≥700cc` spared normal liver−GTV — **нет** отдельного NTCP fit; 11/118 source GI adverse events не есть liver-enzyme toxicity |
+| `source_reviewed_prostate_suggested_not_fitted` | **3** | Wang: bladder `V(Rx) <5–10cc`, urethra Dmax<38–42Gy, rectum Dmax<35–38Gy — source *suggested*, не универсальные tolerated limits |
+| `source_reviewed_carotid_D0p5cc_guidance_not_Dmax_risk` | **1** | Grimm: `D0.5cc<20Gy/5fx` conservative suggestion ≠ pooled `Dmax=20Gy` predicted bleeding 2%; отдельная D0.5cc model P=.182 |
+| `source_text_anchor_only_not_independently_fitted` | **0** | Не осталось записей, ограниченных только ссылкой на первоисточник; **это не значит, что каждая source model/CI прошла независимую полную валидацию** |
 | `primary_not_supplied` | **6** | Отсутствует оригинал Ohri 2012 NSCLC в полученном пакете |
 | **Итого** | **73** | Научная база остаётся `draft` |
+
+**P2.13 — первичные Miften/Wang/Grimm:** завершена [проверка 10 оставшихся записей OAR](HYTEC_P2_MIFTEN_WANG_GRIMM_OAR_AUDIT_2026-10.md). Источники подтверждают исходные планировочные метрики, но сами 10 records нельзя объявить валидированными NTCP: Miften `Dmean` основана на QUANTEC/незначимой fitted модели для энзимов, `≥700cc` — reverse spared-volume без собственного fit; Wang — предложенные ограничения для 35–40Gy/4–5fx, мочевой пузырь `V(Rx)` в абсолютных см³; Grimm `D0.5cc` не приравнивается к независимому `Dmax` fit. Оригинальные Library PDFs не удалось повторно прочитать по байтам, использованы официальные AAPM копии той же публикации/DOI. **0 locator-only** означает завершённую первичную *классификацию происхождения*, **не** постраничную QA всех моделей, 95%-CI и клинический выпуск.
 
 **Последние аудиты:**
 - [P2.10 Soltys vestibular](HYTEC_P2_SOLTYS_VESTIBULAR_AUDIT_2026-10.md): 6/6 LQ Poisson TCP значений при α/β12.4Gy, D50=3.48Gy, γ50=.1446; максимальная разница 0.057 п.п.; 10Gy/1fx экстраполировано, LQ-L fit отличается и не заменяет LQ.
