@@ -63,6 +63,8 @@ RU | EN
 
 Документы научной сверки: [HyTEC (40 файлов)](docs/HYTEC_40_FILE_MANIFEST_2026-10.md), [остальная литература (29 файлов)](docs/ADDITIONAL_29_FILE_MANIFEST_2026-10.md), [проверенные численные данные](docs/SOURCE_NUMERICAL_CROSSCHECK_2026-10.md), [матрица 103 evidence records](docs/EVIDENCE_103_SOURCE_FILE_MATRIX_2026-10.md). Все 69 файлов учтены; полная независимая валидация 103 записей не завершена.
 
+**Углублённая проверка 08.10.2026:** [поэтапный пофайловый аудит](docs/audit/LITERATURE_FILE_AUDIT_PHASE_A_2026-10.md), [инвентаризация 60 файлов из основной шестибатчевой загрузки](docs/audit/2026-10-uploaded-literature-inventory.csv), [сверка 22 оценок α/β и их 95% ДИ с исходными таблицами](docs/audit/2026-10-alpha-beta-primary-table-reconciliation.csv) — совпадение 22/22. Это дополнение к полному реестру 69 файлов, а не повторная инвентаризация нового набора. Evidence dataset остаётся `draft`.
+
 ## Раздел «Как пользоваться?»
 
 Отдельная страница содержит пошаговый порядок работы с HFC, учебные примеры и семь опубликованных задач Batyan et al. (2023), используемых как regression/teaching cases:
