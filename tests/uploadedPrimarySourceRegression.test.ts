@@ -239,4 +239,37 @@ describe("Uploaded primary literature: reproducible checks", () => {
       expect(record.population).toMatch(/(includes target|plus target)/i);
     }
   });
+
+  it("marks Royce prostate low/intermediate EQD2 71 Gy TCP as extrapolated below observed ~80 Gy range", () => {
+    // Royce et al., HyTEC 2021: PDF p.6; Fig. 1 and caption p.7.
+    // Even though the article gives 71 Gy/90%, authors prohibit clinical
+    // conclusions below observed approximately 80 Gy EQD2 prescription range.
+    const m = hytecOutcomeModels.find(x => x.id === "hytec-prostate-sbrt-5y-tcp")!;
+    const low = m.points.find(x => x.id === "prostate-lowint-90tcp")!;
+    expect(low.dose.biologicalDose?.valueGy).toBe(71);
+    expect(low.probability).toBe(0.90);
+    expect(low.extrapolated).toBe(true);
+    expect(low.notes?.join(" ")).toMatch(/below approximately 80 Gy|below.*80 Gy/i);
+    expect(m.points.find(x => x.id === "prostate-lowint-95tcp")?.extrapolated).not.toBe(true);
+  });
+
+  it("retains qualified HyTEC Miften liver MLD objectives without presenting nonsignificant NTCP fit as validated", () => {
+    // Miften et al. 2021, PDF p.7 Fig.1 / p.9 Recommended Objectives:
+    // four QUANTEC objective pairs 13/18 and 15/20 Gy, 3/6fx.
+    // Grade >=3 liver enzyme vs MLD probit fit not significant (P=0.10).
+    for (const [id, gy, fractions, population] of [
+      ["hytec-liver-primary-mld-3fx-13gy", 13, 3, "Primary liver disease"],
+      ["hytec-liver-primary-mld-6fx-18gy", 18, 6, "Primary liver disease"],
+      ["hytec-liver-metastases-mld-3fx-15gy", 15, 3, "Metastatic liver lesions"],
+      ["hytec-liver-metastases-mld-6fx-20gy", 20, 6, "Metastatic liver lesions"],
+    ] as const) {
+      const row = hytecClinicalConstraints.find(x => x.id === id)!;
+      expect(row.value).toBe(gy);
+      expect(row.fractionation?.fractions).toBe(fractions);
+      expect(row.population).toBe(population);
+      expect(row.estimatedRisk).toBe(0.20);
+      expect(row.riskRelation).toBe("<");
+      expect(row.notes?.join(" ")).toMatch(/not statistically significant.*P=0.10/i);
+    }
+  });
 });
