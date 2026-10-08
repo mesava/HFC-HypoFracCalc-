@@ -45,10 +45,12 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
     ).toBeVisible();
 
     // Source caveat is visible to users (not hidden only in evidence data).
-    await expect(page.locator(".constraint-evidence-note")).toHaveCount(2);
-    await expect(
-      page.locator(".constraint-evidence-note").first(),
-    ).toContainText("p = 0,10");
+    // Two original per-MLD confidence warnings remain after adding
+    // an additional semantic caution on each card; don't assert total
+    // message count as new source warnings are added.
+    const originalEvidenceNotes=page.locator(".constraint-evidence-note")
+      .filter({hasText:"p = 0,10"});
+    await expect(originalEvidenceNotes).toHaveCount(2);
 
     await page
       .getByLabel("Число фракций")
