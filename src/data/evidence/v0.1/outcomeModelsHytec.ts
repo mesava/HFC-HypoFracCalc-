@@ -263,6 +263,11 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       followUp: "3-year local control",
       notes: [
         "The >100 Gy10 comparison applies to liver metastases; primary liver tumours were analysed separately and did not show a clear dose-response within commonly used schedules.",
+        "These are 3-year Kaplan–Meier strata rather than point values on a 3-year continuous TCP curve; metastases BED10 >100 Gy (141 lesions) versus <=100 Gy (149 lesions) achieved 93% versus 65% 3-year LC, log-rank P<0.001.",
+        "Primary HCC/CCA lesions (431) had 3-year LC about 86% with no detected BED10 >100 versus <=100 group difference (log-rank P=.972); do not use the metastatic grouping as primary liver TCP.",
+        "The paper also publishes a distinct fitted TWO-year TCP logistic model; its TCD50=16 Gy10 and k=74 Gy10 cannot substitute for the 3-year stratified Kaplan–Meier results.",
+        "The published source includes 13 cohorts, 290 metastatic liver lesions with colorectal histology dominant (~56%); tumour volume, histology and competing death risks were not jointly modelled.",
+
       ],
     },
     points: [
@@ -296,7 +301,10 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       },
     ],
     notes: [
-      "These are pooled stratified outcomes, not a fitted continuous TCP curve.",
+      "These are lesion-level 3-year Kaplan–Meier grouped results for BED10 >100 Gy (n=141 lesions, 93% LC) and BED10 <=100 Gy (n=149 lesions, 65% LC), not values from a fitted continuous 3-year TCP curve.",
+      "The same source reports an independent TWO-year logistic fitted TCP(BED10)=1/[1+exp((16-BED10)/74)] and 2-year ~70%/76%/90% at BED10 80/100/180 Gy; do not substitute its continuous predictions for these three-year KM group outcomes.",
+      "A group with BED10 >100 is NOT a biological step-function at exactly 100 Gy10, and the reported separation is not a patient-specific guarantee of 93% control.",
+
     ],
   },
   {
