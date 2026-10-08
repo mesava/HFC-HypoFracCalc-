@@ -13,3 +13,8 @@ P2-m11,Minor,Spine 20Gy/1fx HFC approx90pct differs from supplemental pooled log
 P2-m12,Minor,Moiseenko primer MLD50 6.06Gy is a methodological example not clinical limit,Moiseenko Supplement E1,prevent conversion to clinical constraint
 P2-I13,Informational,Redmond supplemental uses BED at alpha beta 20Gy,Redmond EA1-EA4,do not silently use BED10 as fitted model axis
 P2-I14,Informational,Klement and Ohri disagree on evidence of primary-liver BED response,HyTEC letters pp249-251,document model selection uncertainty and preserve metastatic stratified points
+P2-R15,Resolved,Prostate Royce EQD2 71Gy 90pct model point lacked extrapolated annotation,HyTEC Royce 2021 PDF pp6-7 Figure1,flag extrapolated=true and test while preserving 71Gy 90pct
+P2-M16,Major,Miften liver grade3 enzyme MLD fit not significant P=0.10 despite QUANTEC objective risk guidance,HyTEC Miften PDF p7 Fig1 and p9,add source-warning to all four MLD records; keep original objectives; second review needed
+P2-M17,Major,Page-level numeric reference exists but 67 HyTEC data entries not fully reconstructed including CI figures and model fits,HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv,perform independent per-field reproduction and visual figure comparison
+P2-M18,Major,Ohri 2012 NSCLC primary document missing for six related OutcomeModel points,non-HyTEC related model in HyTEC ledger,obtain original and validate all six examples separately
+P2-I19,Informational,Three explicitly extrapolated OutcomeModel points are now flagged,Soltys vestibular Soltys spinal Royce prostate,check UI flag and prevention of silent interpolation in future models
