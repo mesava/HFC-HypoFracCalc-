@@ -531,6 +531,16 @@ export function ClinicalConstraintsView({
                   </p>
                 ) : null}
 
+                {constraint.sourceId === "kong-2021-hytec-lung-parenchyma" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC лёгкие: MLD <8 Гр и V20 <10–15% — наблюдательные ориентиры для обоих лёгких при SBRT преимущественно небольших периферических опухолей за 3–5 фракций. Сопоставляйте одинаковые контуры: оба лёгких за вычетом GTV (или IGTV при 4D-КТ), не ипсилатеральное лёгкое и не Lung−PTV. Исход — симптоматическое RILT степени ≥2 (пневмонит и фиброз), не индивидуальная NTCP. При интерстициальном заболевании лёгких (ILD), центральных опухолях и повторном облучении эти оценки могут быть неприменимы.",
+                      "HyTEC lung: MLD <8 Gy and V20 <10–15% are observational guides for both lungs, mainly in small peripheral tumors treated in 3–5 SBRT fractions. Compare like-for-like contours: both lungs minus GTV (or IGTV with 4DCT), not ipsilateral-only or lung minus PTV. The endpoint is symptomatic grade ≥2 RILT (pneumonitis and fibrosis), not individualized NTCP. ILD, central tumors and reirradiation can invalidate these estimates.",
+                    )}
+                  </p>
+                ) : null}
+
                 {constraint.sourceId === "sahgal-2021-hytec-spinal-cord" &&
                 constraint.guidanceKind === "risk-point" ? (
                   <p className="constraint-evidence-note">
