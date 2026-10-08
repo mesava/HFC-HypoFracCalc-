@@ -57,7 +57,7 @@ describe("HyTEC Kong lung source boundaries", () => {
       expect(entry.applicability?.fractionCountRange).toEqual({min:3,max:5});
       expect(entry.population).toMatch(/small peripheral/i);
       expect(entry.population).toMatch(/bilateral lungs/i);
-      expect(entry.notes?.join(" ")).toMatch(/not a (guaranteed|validated|universal)/i);
+      expect(entry.notes?.join(" ")).toMatch(/no apparent universal|not a guaranteed|not a universal|not.*validated patient-level/i);
       expect(entry.applicability?.notes?.join(" ")).toMatch(/interstitial lung disease/i);
       expect(entry.applicability?.notes?.join(" ")).toMatch(/GTV|IGTV/);
     }
