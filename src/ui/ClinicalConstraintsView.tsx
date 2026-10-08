@@ -542,6 +542,16 @@ export function ClinicalConstraintsView({
                   </p>
                 ) : null}
 
+                {constraint.sourceId === "milano-2021-hytec-brain" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Обратите внимание: для оценки V12/V20/V24 нужен объём ткани, включая мишень. Объём Brain−GTV/PTV не эквивалентен. Частоты любого некроза, симптоматического некроза и некроза с резекцией относятся к разным исходам; оценки HyTEC описательные и не являются индивидуальными предсказаниями NTCP.",
+                      "Important: V12/V20/V24 here uses tissue volume including the target; Brain minus GTV/PTV is not interchangeable. Any necrosis, symptomatic necrosis and necrosis requiring resection are distinct endpoints. These descriptive HyTEC associations are not individualized NTCP predictions.",
+                    )}
+                  </p>
+                ) : null}
+
                 {source ? (
                   <div className="constraint-source">
                     <span>
