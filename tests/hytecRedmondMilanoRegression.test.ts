@@ -113,4 +113,80 @@ describe("P2 HyTEC Redmond / Milano source models and endpoint invariants", () =
       expect(r.population?.toLowerCase()).toMatch(/target/);
     }
   });
+
+  it("reproduces Milano Figures 5/6 nine Table 3 model points without mixing V12 and V14", () => {
+    // Source: Milano et al. HyTEC 2021, PDF p7 Fig5, p8 Fig6,
+    // p11 equation (3), p12 Table3 (printed journal pp74-75, 78-79).
+    // Eq3 EXPONENTIAL logistic, not earlier eq1 log(Vx) / log-logistic.
+    // Source figure parameters and rounded reference risks are supplied
+    // explicitly below to avoid circular lookup of HFC values.
+    const probability = (v: number, v50: number, gamma50: number) =>
+      1 / (1 + Math.exp(-4 * gamma50 * (v / v50 - 1)));
+
+    const sourceFits = [
+      {
+        name: "Fig5 V12 mixed grade1-3 edema-or-necrosis non-Korytko pooled",
+        axisGy: 12, v50: 63.2, gamma50: .87,
+        risks: [.036, .048, .086], maxDelta: .0031,
+      },
+      {
+        name: "Fig6A V14 grade1-3 edema-or-necrosis",
+        axisGy: 14, v50: 45.8, gamma50: .88,
+        risks: [.041, .060, .121], maxDelta: .0007,
+      },
+      {
+        name: "Fig6B V14 grade3 pathology-confirmed necrosis requiring surgery",
+        axisGy: 14, v50: 42.6, gamma50: 1.58,
+        risks: [.004, .008, .034], maxDelta: .0003,
+      },
+    ] as const;
+
+    let checked = 0;
+    for (const model of sourceFits) {
+      for (const [index, volume] of [5, 10, 20].entries()) {
+        const result = probability(volume, model.v50, model.gamma50);
+        const published = model.risks[index]!;
+        expect(result, model.name + " / " + volume + "cc")
+          .toBeGreaterThan(0);
+        expect(result, model.name + " / " + volume + "cc")
+          .toBeLessThan(1);
+        // Printed values and slope parameters are rounded; Fig5 source
+        // table vs printed γ50 differ by up to ~0.30 percentage points.
+        expect(Math.abs(result - published), model.name)
+          .toBeLessThan(model.maxDelta);
+        checked++;
+      }
+    }
+    expect(checked).toBe(9);
+    // Korytko was separated and contributes its own very different
+    // published V12 5/10/20cc estimates (19.6/25.8/41.5%).
+    expect(probability(5, 63.2, .87)).toBeLessThan(.05);
+    expect(.196).toBeGreaterThan(4 * probability(5, 63.2, .87));
+  });
+
+  it("reproduces Milano Table 3 LQ α/β=2 dose translations but never equates V12 and V14", () => {
+    // PDF p12 Table3: 1fx V12/V14 corresponds to V19.6/V23.1
+    // in 3fx and V24.4/V28.8 in 5fx (rounded to 0.1Gy).
+    // Dose conversions are radiation quality/source scoped and cannot
+    // make target-inclusive tissue Vx equal normal-brain Vx.
+    const bed = (doseTotal: number, fx: number, ab: number) =>
+      doseTotal * (1 + doseTotal / fx / ab);
+    const cases = [
+      { singleGy: 12, totalGy: 19.6, fx: 3 },
+      { singleGy: 12, totalGy: 24.4, fx: 5 },
+      { singleGy: 14, totalGy: 23.1, fx: 3 },
+      { singleGy: 14, totalGy: 28.8, fx: 5 },
+    ] as const;
+    for (const value of cases) {
+      const oneFractionBED = bed(value.singleGy, 1, 2);
+      const fractionatedBED = bed(value.totalGy, value.fx, 2);
+      expect(Math.abs(fractionatedBED - oneFractionBED))
+        .toBeLessThan(.38); // physical rounding to 0.1 Gy
+    }
+    expect(bed(12, 1, 2)).toBe(84);
+    expect(bed(14, 1, 2)).toBe(112);
+    // Using α/β=10 would be a semantic error.
+    expect(Math.abs(bed(19.6, 3, 10) - bed(12, 1, 10)))
+      .toBeGreaterThan(4);
+  });
 });
