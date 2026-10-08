@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { alphaBetaEstimates } from "../src/data/evidence/v0.1/alphaBeta.js";
+import type { AlphaBetaEstimate } from "../src/domain/evidence.js";
 
 const file = "docs/audit/2026-10-alpha-beta-primary-table-reconciliation.csv";
 const lines = readFileSync(file, "utf8").trim().split(/\r?\n/);
@@ -18,7 +19,7 @@ describe("Primary-table reconciled alpha/beta values", () => {
   });
 
   it.each(rows)("retains original alpha/beta and CI for $record_id", (row) => {
-    const found = alphaBetaEstimates.find((record) => record.id === row.record_id);
+    const found: AlphaBetaEstimate | undefined = alphaBetaEstimates.find((record) => record.id === row.record_id);
     expect(found, row.record_id).toBeDefined();
     expect(found?.valueGy).toBe(Number(row.source_alpha_beta_Gy));
     expect(found?.ci95?.low).toBe(Number(row.source_CI95_lo_Gy));
