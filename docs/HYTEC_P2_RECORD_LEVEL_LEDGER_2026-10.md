@@ -24,11 +24,14 @@
 | `published_fit_approx_checked_rounded_point` | **8** | Soltys spine: 8 приближённых HFC точек по опубликованному pooled fit с отклонениями не более 1,70 п.п. |
 | `UNRESOLVED_primary_source_equation_table_narrative_disagreement` | **2** | Royce **low/intermediate risk**: Table 3 + equation (2) НЕ воспроизводят опубликованный текст/график для 71 и 90 Гр |
 | `published_summary_endpoint_and_contour_checked_no_independent_fit` | **7** | Milano brain: 3 риска симптоматического радионекроза (V12) и 4 раздельных исхода (V20/3fx, V24/5fx) сопоставлены с текстом и типами контуров; **не** реконструированы как independent patient-level NTCP |
-| `source_text_anchor_only_not_independently_fitted` | **35** | Есть исходная статья и страница, но независимого пересчёта каждого значения/CI пока нет |
+| `published_optic_dmax_objective_and_pooled_probit_checked_no_prior_rt` | **3** | Milano optic: три рекомендации Dmax 10/20/25 Gy сохранены, сопоставлены с Table 3 и pooled probit; 1fx-only 10 Gy НЕ подменяется pooled 12.1 Gy. **Для ранее облучённых optic structures модель не применима.** |
+| `source_text_anchor_only_not_independently_fitted` | **32** | Есть исходная статья и страница, но независимого пересчёта каждого значения/CI пока нет |
 | `primary_not_supplied` | **6** | Нет первичного документа Ohri 2012 NSCLC в загруженном комплекте |
 | **Итого** | **73** | Числовая воспроизводимость `11+8` не равна клинической валидации |
 
 Четыре дополнительных результата Redmond (1y LC, модель 1–5fx на оси SFED20): 18 Гр/1fx ≤20 мм → **86,374%**, 24 Гр/1fx ≤20 мм → **95,113%**, 18 Гр/1fx 21–30 мм → **75,504%**, 15 Гр/1fx 31–40 мм → **69,178%**. Данные согласуются с HFC без численной корректировки; новые тесты и полноценные условия применимости: [P2.5 Redmond/Milano](HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md). Для семи Milano brain risk-point выполнена проверка контуров и endpoint по статье и визуально Table 3, но **ни один их fitted patient-level NTCP-вывод не объявлен независимо воспроизведённым**.
+
+**Дополнительный optic RION pass:** полные Table 3 и probit воспроизведены из AAPM author PDF (открытый оригинальный текст; загруженный в Library локальный PDF недоступен через извлечение текста). При `EQD2_(α/β=1.6) = 46.0 Gy` pooled модель даёт ≈1%: **12.1 Gy/1fx**, **20.0 Gy/3fx**, **25.1 Gy/5fx**. Авторы рекомендуют более строгие `Dmax ≤10 Gy/1fx, ≤20 Gy/3fx, ≤25 Gy/5fx` **только без предыдущей ЛТ**. Подробности: [P2.7 Optic RION](HYTEC_P2_OPTIC_RION_REPRODUCTION_2026-10.md).
 
 Детали уравнений, параметров, CI и расхождений: [HYTEC_P2_MODEL_REPRODUCTION_2026-10.md](HYTEC_P2_MODEL_REPRODUCTION_2026-10.md). **Особенно важно:** опубликованная формула Пуассона Royce *воспроизводит* high-risk predictions, но при low/intermediate даёт **77,44% вместо ≈90%** и **83,90% вместо ≈95%**; исходные 90/95% HFC сохранены только как **точки из текста и Figure 1**, со специальным предупреждением на сайте. Корректировка `gamma` на основании обратного подбора запрещена до авторского разъяснения или независимого re-fit. Никакая из этих записей пока не прошла независимый клинический commissioning.
 
