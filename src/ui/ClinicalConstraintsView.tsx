@@ -521,6 +521,16 @@ export function ClinicalConstraintsView({
                   ) : null}
                 </dl>
 
+                {constraint.notes?.some((note) => note.includes("P=0.10")) ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Ограничение доказательности: модель зависимости тяжёлой печёночной токсичности от средней дозы не достигла статистической значимости (p = 0,10). Указанная оценка риска менее 20% является ориентиром из HyTEC/QUANTEC, а не валидированным индивидуальным прогнозом.",
+                      "Evidence limitation: the fitted relationship between grade 3+ liver-enzyme toxicity and mean liver dose was not statistically significant (p = 0.10). The reported risk below 20% is qualified HyTEC/QUANTEC guidance, not a validated individual prediction.",
+                    )}
+                  </p>
+                ) : null}
+
                 {source ? (
                   <div className="constraint-source">
                     <span>
