@@ -152,4 +152,14 @@ test.describe("HFC HyTEC outcome models", () => {
       .toContainText("12,4 Гр");
   });
 
+  test("separates Mahadevan R0 source-averaged LC from unresected logistic TCP in UI", async ({ page }) => {
+    await page.getByLabel("Клинический исход").selectOption("pancreas-local-control");
+    const note = page.locator(".outcome-source-discrepancy");
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("НЕ на этой кривой");
+    await expect(note).toContainText("Table 2");
+    await expect(note).toContainText("R0");
+    await expect(page.getByText("> 90%",{exact:true})).toBeVisible();
+  });
+
 });
