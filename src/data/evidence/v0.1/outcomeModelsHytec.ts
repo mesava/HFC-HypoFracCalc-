@@ -101,8 +101,11 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       technique: ["SRS", "fSRS"],
       followUp: "3–5 year tumour control",
       notes: [
-        "The source reports limited analysable data below 11 Gy in one fraction.",
-        "Tumour-control definitions and dosimetric reporting were heterogeneous.",
+        "The source reports no analysable tumor-control outcomes below 11 Gy in one fraction; the 10 Gy modeled probability is an extrapolation.",
+        "The reported 3–5 year tumour-control endpoint pools 3-year control if 5-year control is unavailable, and combines crude control rates with Kaplan-Meier estimates across heterogeneous studies.",
+        "The source LQ Poisson fit uses a baseline TCP(0)=30% pseudo-observation as a weighted input, NOT a forced intercept; fitted TCP(0) is approximately 34.9%.",
+        "Sporadic vestibular schwannoma only for the fitted cohort; NF2-related vestibular schwannomas and repeat SRS were not included in this model.",
+        "The publication separately reports an alternative LQ-L fit (source alpha/beta=2.97 Gy, with transition dose 5.94 Gy) yielding different probabilities; HFC points belong to the LQ fit only.",
       ],
     },
     points: [
@@ -154,7 +157,8 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       },
     ],
     notes: [
-      "The source LQ TCP fit estimated alpha/beta 12.4 Gy (95% CI 9.0–19.3). HFC stores that as source-model provenance only and does not promote it to an endpoint alpha/beta default.",
+      "The source LQ TCP fit estimated alpha/beta 12.4 Gy (95% CI 9.0–19.3), EQD2_50=3.48 Gy (95% CI 3.15–4.08) and gamma50=0.1446 (95% CI 0.122–0.17). HFC stores these as fit provenance and does not promote any to a general endpoint alpha/beta default.",
+      "Source separate LQ-L model: fitted alpha/beta 2.97 Gy (1.72–4.27), and different TCP predictions e.g. 10 Gy/1fx ~89.7% versus LQ ~85.0%; outcomes and model choice are not interchangeable.",
     ],
   },
   {
