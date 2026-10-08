@@ -9,7 +9,7 @@ export const sources = [
     doi: "10.5772/intechopen.109621",
     kind: "other",
     notes:
-      "Methodological/software reference for the original Hypo-Calc web application. HFC uses its seven published teaching cases as regression and documentation scenarios, but does not inherit historical biological parameters as automatic defaults.",
+      "Published LQ web-calculation teaching scenarios are used as regression and documentation examples. Biological estimates reported in the study are not imported as automatic clinical defaults.",
   },
   {
     id: "rcr-2024-dose-fractionation",
