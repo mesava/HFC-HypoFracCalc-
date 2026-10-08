@@ -488,6 +488,16 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.id === "hytec-liver-metastases-bed10-local-control" ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "HyTEC Ohri: 93% и 65% — трёхлетний локальный контроль в двух группах метастазов печени по BED₁₀ >100 и ≤100 Гр (141 и 149 очагов). Это наблюдательные результаты Каплана–Майера, не две точки непрерывной модели и не гарантированный скачок риска при 100 Гр. Для первичных опухолей печени (ГЦК/холангиокарцинома) такого разделения авторы не обнаружили. Опубликованная в той же работе логистическая TCP-модель относится к двухлетнему исходу и сюда не подставляется.",
+                      "HyTEC Ohri: 93% and 65% are 3-year Kaplan–Meier local control observations for metastatic liver lesions grouped by BED10 >100 versus <=100 Gy (141 and 149 lesions). They are not points on a validated continuous 3-year TCP curve or a guaranteed jump at 100 Gy. The authors did not find this BED group effect for primary HCC/cholangiocarcinoma. A separate logistic TCP fit in the paper describes TWO-year control and is not substituted here.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-pancreas-1y-local-control" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
