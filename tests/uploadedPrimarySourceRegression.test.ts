@@ -116,6 +116,47 @@ describe("Uploaded primary literature: reproducible checks", () => {
       .toBeCloseTo(2.3, 1);
   });
 
+  it("tracks the published Redmond size-stratified one-year brain-metastasis TCP anchors", () => {
+    // Redmond et al., HyTEC 2021, Abstract/Results. These are one-year,
+    // NOT the distinct actuarial two-year values in the paper's Table 3.
+    const m = hytecOutcomeModels.find(x => x.id === "hytec-brain-mets-1y-local-control")!;
+    for (const [id, n, d, probability, relation] of [
+      ["brain-mets-le20mm-18gy-1fx", 1, 18, 0.85, ">"],
+      ["brain-mets-le20mm-24gy-1fx", 1, 24, 0.95, "≈"],
+      ["brain-mets-21-30mm-18gy-1fx", 1, 18, 0.75, "≈"],
+      ["brain-mets-31-40mm-15gy-1fx", 1, 15, 0.69, "≈"],
+    ] as const) {
+      const p = m.points.find(x => x.id === id);
+      expect(p?.dose.schedule).toEqual({fractions:n,dosePerFractionGy:d});
+      expect(p?.probability).toBe(probability);
+      expect(p?.probabilityRelation).toBe(relation);
+      expect(p?.followUp).toBe("1 year");
+    }
+  });
+
+  it("preserves Soltys HyTEC vestibular LQ TCP predictions and the below-11-Gy extrapolation warning", () => {
+    // Soltys et al., HyTEC 2021, Abstract/Results and section 8.
+    // At <11 Gy/1fx, no analyzable clinical dose-response data supported the fit.
+    // The source reports LQ-L as a distinct fitted response model, not interchangeable with LQ.
+    const m = hytecOutcomeModels.find(x => x.id === "hytec-vestibular-schwannoma-3to5y-tcp")!;
+    for (const [id, probability] of [
+      ["vs-10gy-1fx", 0.85],
+      ["vs-11gy-1fx", 0.884],
+      ["vs-12gy-1fx", 0.912],
+      ["vs-13gy-1fx", 0.935],
+      ["vs-18gy-3fx", 0.936],
+      ["vs-25gy-5fx", 0.972],
+    ] as const) {
+      const p = m.points.find(x => x.id === id);
+      expect(p?.probability).toBe(probability);
+      expect(p?.followUp).toBe("3–5 years");
+    }
+    const low = m.points.find(x => x.id === "vs-10gy-1fx");
+    expect(low?.extrapolated).toBe(true);
+    expect(low?.notes?.join(" ")).toMatch(/below 11 Gy/);
+    expect(m.points.find(x => x.id === "vs-11gy-1fx")?.extrapolated).not.toBe(true);
+  });
+
   it.each([
     ["ab-rectum-bleeding-g1-brand2021", 1.6, 0.9, 2.5],
     ["ab-rectum-bleeding-g2-brand2021", 1.7, 0.7, 3],
