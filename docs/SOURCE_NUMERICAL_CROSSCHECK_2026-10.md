@@ -20,6 +20,9 @@
 | HyTEC Stumpf adrenal 2021, Abstract | BED10 около 116.4 Gy → >95% 1-летний LC метастазов надпочечника | `hytec-adrenal-metastases-1y-tcp` | Совпадает; символ «>» сохранён |
 | HyTEC Royce prostate 2021, Abstract | Low/intermediate risk: EQD2(α/β=1.5) 71/90 Gy → 90/95% 5-летний биохимический контроль. High risk: 97/102 Gy → 90/95% | `hytec-prostate-sbrt-5y-tcp` | Совпадает; risk groups не объединены, source-specific α/β не становится универсальным default |
 
+| Brand 2021, *IJROBP* vol. 110, Table 3, LKB-EQD2 (all patients) | Девять ректальных endpoint-specific α/β: bleeding G1+/G2+, stool frequency G1+/G2+, pain G1+, proctitis G1+/G2+, sphincter G1+, stricture/ulcer G1+ — все центральные значения и обе границы 95% CI | `alphaBeta.ts`, 9 records | **9/9** чисел и CI совпадают; очень широкие CI у отдельных endpoints сохранены |
+| Brand online 2022 / print 2023, *IJROBP* vol. 115, Table 2, LKB-EQD2 | Десять GU endpoints: dysuria, haematuria, incontinence, reduced flow/stricture, urine frequency (каждый G1+/G2+) — все центральные α/β и обе границы 95% CI | `alphaBeta.ts`, 10 records | **10/10** чисел и CI совпадают; лишь dysuria G1+ и haematuria G1+/G2+ имели значимое улучшение модели при EQD2 correction, поэтому не следует трактовать остальные как надёжные defaults |
+
 ## Важные границы переноса
 
 1. ReCOG Zhang 2026 использует **институциональные** ограничения, α/β=2.5 Gy и tissue recovery factors; авторы явно не называют α/β=2.5 универсальным. Приведённые TRF и OAR constraints нельзя вводить как автоматические значения HFC.
