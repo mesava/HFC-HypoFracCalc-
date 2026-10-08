@@ -488,6 +488,16 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.id === "nsclc-stage-i-size-adjusted-2y-tcp" ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "Ohri 2012, НМРЛ I стадии: найден первичный текст статьи в PubMed Central. Шесть двухлетних прогнозов опубликованы для предписанной PTV-дозы с BED₁₀ с поправкой на максимальный диаметр опухоли. При 50 Гр/5 фракций и размере 1 см в тексте стоит 93%, но уравнение с опубликованными округлёнными коэффициентами даёт 94,8%; различие не разрешено и число не исправлено. Остальные пять примеров согласуются с формулой в пределах приблизительного округления. Исходная модель не валидирована для одной фракции, доз менее 8 Гр за фракцию или курсов свыше двух недель и не является индивидуальным клиническим TCP.",
+                      "Ohri 2012 stage-I NSCLC: the source manuscript is publicly available through PubMed Central. Six two-year predictions use prescribed PTV BED10 adjusted for maximum tumour diameter. For 50 Gy in five fractions and 1-cm disease the article prints 93%, but its rounded published coefficients predict 94.8%; this mismatch remains unresolved, so no value was silently corrected. The other five examples agree approximately. The fit is not validated for single-fraction treatment, less than 8 Gy/fraction or courses over two weeks, and is not an individual clinical TCP calculator.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-liver-metastases-bed10-local-control" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
