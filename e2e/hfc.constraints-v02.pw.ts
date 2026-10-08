@@ -150,4 +150,25 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       .toContainText("повторном облучении");
   });
 
+
+  test("Kong lung guidance discloses bilateral GTV/IGTV contours, ILD and nonuniversal G2+ RILT risk", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("lung-symptomatic-rilt");
+
+    await expect(page.getByText(
+      "Dmean < 8,0 Гр", {exact:true},
+    )).toBeVisible();
+    await expect(page.getByText(
+      "V20 < 10,0–15,0 %", {exact:true},
+    )).toBeVisible();
+
+    const cautions = page.locator(".constraint-evidence-note");
+    await expect(cautions).toHaveCount(2);
+    await expect(cautions.first()).toContainText("обоих лёгких");
+    await expect(cautions.first()).toContainText("IGTV");
+    await expect(cautions.first()).toContainText("Lung−PTV");
+    await expect(cautions.first()).toContainText("интерстициальном заболевании лёгких");
+    await expect(cautions.first()).toContainText("степени ≥2");
+  });
+
 });
