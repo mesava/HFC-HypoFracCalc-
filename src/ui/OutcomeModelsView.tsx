@@ -488,6 +488,16 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.id === "hytec-vestibular-schwannoma-3to5y-tcp" ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "HyTEC Soltys: эти вероятности рассчитаны по модели LQ для спорадических вестибулярных шванном и объединённой конечной точки локального контроля через 3–5 лет. Режим 10 Гр × 1 экстраполирован ниже исследованного диапазона. Альтернативная модель LQ-L даёт другие результаты; α/β = 12,4 Гр является параметром опубликованной LQ-подгонки, а не универсальным значением для ткани. Данные по NF2 и повторному SRS не включены.",
+                      "HyTEC Soltys: these probabilities come from the LQ fit for sporadic vestibular schwannomas, with combined 3–5-year tumor control. The 10 Gy × 1 estimate extrapolates below the analyzed dose range. The alternative LQ-L fit gives different predictions; alpha/beta = 12.4 Gy is source-fit provenance, not a universal tissue parameter. NF2 and repeat-SRS cases were excluded.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-prostate-sbrt-5y-tcp" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
