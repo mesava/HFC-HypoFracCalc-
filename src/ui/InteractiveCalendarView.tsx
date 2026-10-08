@@ -25,8 +25,40 @@ function dateLabel(language: Language, date: string) {
   }).format(parseIsoDate(date));
 }
 
+type MetricId = "fractions" | "physical" | "eqd2" | "bed" | "ott" | "multi";
+
+function MetricHelp({
+  id, label, explanation, language, opened, toggle,
+}: {
+  id: MetricId; label: string; explanation: string;
+  language: Language; opened: boolean; toggle: (id: MetricId) => void;
+}) {
+  const tipId = `calendar-tip-${id}`;
+  return (
+    <div className="calendar-metric-help">
+      <span className="calendar-metric-label">{label}</span>
+      <button
+        type="button"
+        className="calendar-metric-info"
+        aria-label={tx(language, `Что означает «${label}»?`, `What does ${label} mean?`)}
+        aria-controls={tipId}
+        aria-expanded={opened}
+        onClick={() => toggle(id)}
+      >ⓘ</button>
+      <div
+        id={tipId}
+        className={`calendar-metric-popover ${opened ? "open" : ""}`}
+        role="tooltip"
+      >{explanation}</div>
+    </div>
+  );
+}
+
 export function InteractiveCalendarView({ language }: { language: Language }) {
   const [startDate, setStartDate] = useState("2026-10-05");
+  const [openedMetric, setOpenedMetric] = useState<MetricId | null>(null);
+  const toggleMetric = (id: MetricId) =>
+    setOpenedMetric((current) => current === id ? null : id);
   const [plannedFractions, setPlannedFractions] = useState("35");
   const [dosePerFraction, setDosePerFraction] = useState("2");
   const [alphaBeta, setAlphaBeta] = useState("10");
@@ -219,27 +251,27 @@ export function InteractiveCalendarView({ language }: { language: Language }) {
           <>
             <div className="metric-grid calendar-metrics">
               <div className="metric">
-                <span>{tx(language, "Фракций", "Fractions")}</span>
+                <MetricHelp id="fractions" label={tx(language, "Фракций", "Fractions")} explanation={tx(language, "Суммарное число фракций по всем лечебным дням. Дни BID/TID дают две или три фракции.", "Total count of fractions across treatment days. BID/TID days contribute two or three fractions.")} language={language} opened={openedMetric === "fractions"} toggle={toggleMetric} />
                 <strong>{result.totalFractions}</strong>
               </div>
               <div className="metric">
-                <span>{tx(language, "Физическая доза", "Physical dose")}</span>
+                <MetricHelp id="physical" label={tx(language, "Физическая доза", "Physical dose")} explanation={tx(language, "Сумма физической дозы: D = n × d, при одинаковой дозе за фракцию. Пространственное распределение не учитывается.", "Physical total dose: D = n × d, assuming equal dose per fraction. Spatial dose distribution is not modelled.")} language={language} opened={openedMetric === "physical"} toggle={toggleMetric} />
                 <strong>{formatUiNumber(language, result.totalPhysicalDoseGy, 2)} {gy}</strong>
               </div>
               <div className="metric primary">
-                <span>EQD₂</span>
+                <MetricHelp id="eqd2" label={"EQD₂"} explanation={tx(language, "Эквивалентная доза в фракциях по 2 Гр: EQD₂ = BED / (1 + 2/(α/β)). Включает поправку на неполное восстановление для BID/TID, но не учитывает репопуляцию за время курса.", "Equivalent dose in 2 Gy fractions: EQD₂ = BED / (1 + 2/(α/β)). Includes incomplete repair for BID/TID but not treatment-time repopulation.")} language={language} opened={openedMetric === "eqd2"} toggle={toggleMetric} />
                 <strong>{formatUiNumber(language, result.eqd2Gy, 2)} {gy}</strong>
               </div>
               <div className="metric">
-                <span>BED</span>
+                <MetricHelp id="bed" label={"BED"} explanation={tx(language, "Биологически эффективная доза по LQ-модели. При нескольких фракциях за день учитывается Thames Hm; для одной фракции Hm = 0. Поправка на репопуляцию здесь отсутствует.", "Biologically effective dose under the LQ model. Multiple fractions/day include Thames Hm; for one fraction Hm = 0. No repopulation-time correction is applied here.")} language={language} opened={openedMetric === "bed"} toggle={toggleMetric} />
                 <strong>{formatUiNumber(language, result.bedGy, 2)} {gy}</strong>
               </div>
               <div className="metric">
-                <span>OTT</span>
+                <MetricHelp id="ott" label={"OTT"} explanation={tx(language, "Общая продолжительность лечения: число прошедших календарных суток между первой и последней фракцией (разность дат, не включительный подсчёт). В этом модуле OTT отображается, но не входит в BED/EQD₂.", "Overall Treatment Time: elapsed calendar days between first and last fractions (date difference, not inclusive day count). Here OTT is displayed but does not modify BED/EQD₂.")} language={language} opened={openedMetric === "ott"} toggle={toggleMetric} />
                 <strong>{result.overallTreatmentDays} {tx(language, "дн.", "d")}</strong>
               </div>
               <div className="metric">
-                <span>BID / TID</span>
+                <MetricHelp id="multi" label={"BID / TID"} explanation={tx(language, "Количество дней с двумя (BID) или тремя (TID) фракциями, а не количество самих фракций. Для неполного восстановления используются заданные T½ и Δt.", "Counts of days with two (BID) or three (TID) fractions, not the fraction count. Entered T½ and Δt determine incomplete repair.")} language={language} opened={openedMetric === "multi"} toggle={toggleMetric} />
                 <strong>{result.bidDays} / {result.tidDays}</strong>
               </div>
             </div>
