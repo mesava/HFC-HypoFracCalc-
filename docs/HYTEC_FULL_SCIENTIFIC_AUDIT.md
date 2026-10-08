@@ -152,6 +152,16 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **Royce 2025:** повторный поиск DOI **10.1016/j.ijrobp.2025.06.3899** подтвердил научный ответ Mavroidis/Royce/Chen по PubMed, но полного текста в проверенных источниках не получил (publisher 403/paywall). Блокер `P2-C21` не закрыт и не заменён предполагаемым коэффициентом.
 
+## P2.7 — Milano optic pathways RION: probit model + клинические Dmax-рекомендации
+
+Отчёт [HYTEC_P2_OPTIC_RION_REPRODUCTION_2026-10.md](HYTEC_P2_OPTIC_RION_REPRODUCTION_2026-10.md), [Vitest regression](../tests/hytecOpticRionReproduction.test.ts). Исходный пользовательский файл `HyTEC_07_Milano_2021_Optic_pathways_tolerance.pdf` не дал читаемого text index, поэтому использован **публичный AAPM original author PDF** (pp6/9; Table3 p9 проверена визуально) и проверено совпадение с опубликованной статьёй DOI 10.1016/j.ijrobp.2018.01.053; не выдавать отдельную early PDF за пофайлово верифицированный локальный PDF.
+
+**Probit model** on `EQD2_(α/β=1.6 Gy)` с `TD50=157.3 Gy` (95% formal parameter CI 157.2–157.4), `γ50=1.31` (1.30–1.32) независимо воспроизводит Table3 pooled **1%/2%/5% risk EQD2 ≈46.0/59.1/79.0 Gy**. В модели 1% при **12.1 Gy/1fx, 20.0 Gy/3fx, 25.1 Gy/5fx**. Однако **отдельная 1fx-only модель** показывает 1% при **10 Gy/1fx** (EQD2 32.2 Gy), и **клиническая рекомендация авторов — Dmax 10/20/25 Gy** при 1/3/5 фракциях соответственно, только если optic nerve/chiasm **не облучались ранее**. Это защищено unit/regression и явным двуязычным предупреждением на сайте. Менять 10→12.1 недопустимо.
+
+Предшествующая RT повышает исходный RION риск примерно в 10 раз в **грубом объединённом анализе**, но источник прямо отказывается от точных NTCP и Dmax рекомендаций для reirradiation. Запрещено автоматически переносить 10/20/25 на ранее облучённый зрительный нерв или использовать `10×` как индивидуальный множитель дозы/NTCP. Точный `α/β=1.6` — **только параметр источника, не новый HFC default**. Заявленные формально крайне узкие CI двух модельных параметров не доказывают узкую неопределённость риска для пациента.
+
+На уровне 73-строчного ledger три optic records переведены из «source anchor only» в «source-recommended threshold and pooled fit checked»; общий счёт не меняется: **15 reproduced source-model anchors, 8 rounded-fit, 2 Royce conflict, 7 Milano brain semantically checked, 3 optic Dmax separately checked, 32 unverified beyond locators, 6 missing original**. Стадия P2 не завершена, P4 и выпуск остаются заблокированы.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
