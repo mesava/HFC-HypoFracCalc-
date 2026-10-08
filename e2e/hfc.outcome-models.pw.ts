@@ -174,4 +174,17 @@ test.describe("HFC HyTEC outcome models", () => {
     await expect(page.getByText("≈ 65%",{exact:true})).toBeVisible();
   });
 
+  test("warns that Ohri NSCLC 50Gy five fraction 1cm source prediction disagrees with printed logistic formula", async ({page}) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("nsclc-stage-i-local-control");
+    const warning = page.locator(".outcome-source-discrepancy");
+    await expect(warning).toHaveCount(1);
+    await expect(warning).toContainText("PubMed Central");
+    await expect(warning).toContainText("93%");
+    await expect(warning).toContainText("94,8%");
+    await expect(warning).toContainText("не разрешено");
+    await expect(page.getByText("≈ 93%",{exact:true})).toBeVisible();
+  });
+
+
 });
