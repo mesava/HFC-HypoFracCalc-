@@ -78,7 +78,9 @@ export const alphaBetaEstimates = [
       population: "Randomized EBRT trials enrolling men with prostate cancer across risk groups.",
       notes: [
         "Substantial heterogeneity was present (I²=70%, P=0.0005).",
+        "The reported narrow 95% CI 1.3–2.0 Gy is the primary pooled meta-analysis interval; the authors' random-effects sensitivity analysis also gives alpha/beta 1.6 Gy but wider 95% CI 0.8–2.4 Gy due to study heterogeneity. The two intervals must not be mixed or presented as a patient-specific CI.",
         "Study-level alpha/beta estimates increased with experimental-arm fraction size (approximately 0.6 Gy per additional Gy/fraction; P=0.017).",
+        "Source figure 2 fitted slope 0.57 Gy/(Gy/fraction), SE 0.19 and P=0.017; this is a study-level association, not proof that tissue alpha/beta itself changes linearly with fraction size.",
         "The authors note that this may reflect non-constant fractionation sensitivity and/or saturation of biochemical control above approximately 80 Gy EQD2.",
         "Use as the preferred pooled estimate, but show an explicit heterogeneity/high-dose caveat.",
       ],
