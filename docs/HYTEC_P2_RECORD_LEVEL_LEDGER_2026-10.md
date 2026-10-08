@@ -20,12 +20,15 @@
 
 | verification_status | Записей | Смысл |
 |---|---:|---|
-| `published_fit_point_reproduced_secondary_review_pending` | **11** | 6 точек Vargo, 2 Grimm, 1 Stumpf, 2 Royce high-risk воспроизводятся из опубликованной модели/параметров в пределах округления |
+| `published_fit_point_reproduced_secondary_review_pending` | **15** | 6 Vargo, 2 Grimm, 1 Stumpf, 2 Royce high-risk, **4 Redmond 1y LC (Table EA4)** — независимый пересчёт печатной fitted модели в пределах округления |
 | `published_fit_approx_checked_rounded_point` | **8** | Soltys spine: 8 приближённых HFC точек по опубликованному pooled fit с отклонениями не более 1,70 п.п. |
 | `UNRESOLVED_primary_source_equation_table_narrative_disagreement` | **2** | Royce **low/intermediate risk**: Table 3 + equation (2) НЕ воспроизводят опубликованный текст/график для 71 и 90 Гр |
-| `source_text_anchor_only_not_independently_fitted` | **46** | Есть исходная статья и страница, но независимого пересчёта каждого значения/CI пока нет |
+| `published_summary_endpoint_and_contour_checked_no_independent_fit` | **7** | Milano brain: 3 риска симптоматического радионекроза (V12) и 4 раздельных исхода (V20/3fx, V24/5fx) сопоставлены с текстом и типами контуров; **не** реконструированы как independent patient-level NTCP |
+| `source_text_anchor_only_not_independently_fitted` | **35** | Есть исходная статья и страница, но независимого пересчёта каждого значения/CI пока нет |
 | `primary_not_supplied` | **6** | Нет первичного документа Ohri 2012 NSCLC в загруженном комплекте |
 | **Итого** | **73** | Числовая воспроизводимость `11+8` не равна клинической валидации |
+
+Четыре дополнительных результата Redmond (1y LC, модель 1–5fx на оси SFED20): 18 Гр/1fx ≤20 мм → **86,374%**, 24 Гр/1fx ≤20 мм → **95,113%**, 18 Гр/1fx 21–30 мм → **75,504%**, 15 Гр/1fx 31–40 мм → **69,178%**. Данные согласуются с HFC без численной корректировки; новые тесты и полноценные условия применимости: [P2.5 Redmond/Milano](HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md). Для семи Milano brain risk-point выполнена проверка контуров и endpoint по статье и визуально Table 3, но **ни один их fitted patient-level NTCP-вывод не объявлен независимо воспроизведённым**.
 
 Детали уравнений, параметров, CI и расхождений: [HYTEC_P2_MODEL_REPRODUCTION_2026-10.md](HYTEC_P2_MODEL_REPRODUCTION_2026-10.md). **Особенно важно:** опубликованная формула Пуассона Royce *воспроизводит* high-risk predictions, но при low/intermediate даёт **77,44% вместо ≈90%** и **83,90% вместо ≈95%**; исходные 90/95% HFC сохранены только как **точки из текста и Figure 1**, со специальным предупреждением на сайте. Корректировка `gamma` на основании обратного подбора запрещена до авторского разъяснения или независимого re-fit. Никакая из этих записей пока не прошла независимый клинический commissioning.
 
