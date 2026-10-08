@@ -115,4 +115,33 @@ describe("Uploaded primary literature: reproducible checks", () => {
     expect(dosePerFractionForTargetEqdGy(planned - delivered, 13, 10))
       .toBeCloseTo(2.3, 1);
   });
+
+  it.each([
+    ["ab-rectum-bleeding-g1-brand2021", 1.6, 0.9, 2.5],
+    ["ab-rectum-bleeding-g2-brand2021", 1.7, 0.7, 3],
+    ["ab-rectum-frequency-g1-brand2021", 2.3, 0.9, 5.3],
+    ["ab-rectum-frequency-g2-brand2021", 2.7, 0.9, 8.5],
+    ["ab-rectum-pain-g1-brand2021", 3.6, 0, 839.6],
+    ["ab-rectum-proctitis-g1-brand2021", 2.7, 1.5, 5.4],
+    ["ab-rectum-proctitis-g2-brand2021", 2.7, 1.3, 15.1],
+    ["ab-rectum-sphincter-g1-brand2021", 3.1, 1.4, 9.1],
+    ["ab-rectum-stricture-ulcer-g1-brand2021", 2.5, 0.9, 8.2],
+    ["ab-gu-dysuria-g1-brand2023", 2, 1.2, 3.2],
+    ["ab-gu-dysuria-g2-brand2023", 1.6, 0.1, 36],
+    ["ab-gu-hematuria-g1-brand2023", 0.9, 0.1, 2.2],
+    ["ab-gu-hematuria-g2-brand2023", 0.6, 0.1, 1.7],
+    ["ab-gu-incontinence-g1-brand2023", 1, 0.1, 17.6],
+    ["ab-gu-incontinence-g2-brand2023", 1.5, 0.1, 6.2],
+    ["ab-gu-reduced-flow-g1-brand2023", 1.9, 0.1, 424.6],
+    ["ab-gu-reduced-flow-g2-brand2023", 0.7, 0.1, 991.9],
+    ["ab-gu-frequency-g1-brand2023", 1.9, 0.1, 997.8],
+    ["ab-gu-frequency-g2-brand2023", 3.3, 0.1, 996],
+  ])("matches Brand CHHiP source Table 3/Table 2 for %s", (id, value, ciLow, ciHigh) => {
+    // Rectal: Brand 2021 Table 3 LKB-EQD2 (all patients, free α/β).
+    // GU: Brand 2022 online / 2023 print Table 2 LKB-EQD2 (all patients).
+    const record = estimate(id as string);
+    expect(record.valueGy).toBe(value);
+    expect(record.ci95?.low).toBe(ciLow);
+    expect(record.ci95?.high).toBe(ciHigh);
+  });
 });
