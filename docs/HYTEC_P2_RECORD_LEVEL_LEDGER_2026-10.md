@@ -14,23 +14,29 @@
 | Критерии `ReirradiationGuidance` Sahgal | 4 | 4 | 0 |
 | **Итого построчных записей** | **73** | **67** | **6** |
 
-## Статус независимого численного пересчёта (обновление P2.4)
+## Статус независимого численного пересчёта (обновление P2.11)
 
-Теперь реестр различает *наличие ссылки на источник* и *математическую воспроизводимость*:
+Реестр **73 реализованных HyTEC + related Ohri2012 записей** различает ссылку на первоисточник, независимую арифметическую воспроизводимость и клиническую валидацию. Статусы групп **взаимоисключающие**; первичные численные проверки **не** равны модели для пациента.
 
 | verification_status | Записей | Смысл |
 |---|---:|---|
-| `published_fit_point_reproduced_secondary_review_pending` | **15** | 6 Vargo, 2 Grimm, 1 Stumpf, 2 Royce high-risk, **4 Redmond 1y LC (Table EA4)** — независимый пересчёт печатной fitted модели в пределах округления |
-| `published_fit_approx_checked_rounded_point` | **8** | Soltys spine: 8 приближённых HFC точек по опубликованному pooled fit с отклонениями не более 1,70 п.п. |
-| `UNRESOLVED_primary_source_equation_table_narrative_disagreement` | **2** | Royce **low/intermediate risk**: Table 3 + equation (2) НЕ воспроизводят опубликованный текст/график для 71 и 90 Гр |
-| `published_summary_endpoint_and_contour_checked_no_independent_fit` | **7** | Milano brain: 3 риска симптоматического радионекроза (V12) и 4 раздельных исхода (V20/3fx, V24/5fx) сопоставлены с текстом и типами контуров; **не** реконструированы как independent patient-level NTCP |
-| `published_optic_dmax_objective_and_pooled_probit_checked_no_prior_rt` | **3** | Milano optic: три рекомендации Dmax 10/20/25 Gy сохранены, сопоставлены с Table 3 и pooled probit; 1fx-only 10 Gy НЕ подменяется pooled 12.1 Gy. **Для ранее облучённых optic structures модель не применима.** |
-| `visual_table3_contour_and_LQ_math_checked_fit_uncertain` | **5** | Sahgal de novo cord: 5 режимов, Table 3 визуально проверена; нижние и верхние Dmax относятся к **разным структурам**, верхние 2–5fx — LQ экстраполяция, а не отдельные клинические рекомендации |
-| `visual_table4_four_factor_and_software_math_checked_provenance_open` | **4** | Sahgal reirradiation: 4 lower-risk фактора; Table 4 и software workflow сверены; предшествующий фактический thecal-sac Dmax в таблице не доказан |
-| `source_document_figure_endpoint_scope_checked_nonuniversal` | **2** | Kong lung: MLD<8Gy и bilateral V20<10–15% проверены по исходнику/приложению, определены GTV/IGTV/ILD/G2+; **это не индивидуальные NTCP** |
-| `source_text_anchor_only_not_independently_fitted` | **21** | Есть исходная статья и страница, но независимого пересчёта каждого значения/CI пока нет |
-| `primary_not_supplied` | **6** | Нет первичного документа Ohri 2012 NSCLC в загруженном комплекте |
-| **Итого** | **73** | Числовая воспроизводимость `15+8` не равна клинической валидации |
+| `published_fit_point_reproduced_secondary_review_pending` | **23** | Vargo 6; Grimm 2; Stumpf 1; Royce high-risk 2; Redmond 4; **Soltys vestibular LQ 6**; **Mahadevan pancreas unresected 2**. Воспроизведены из опубликованных коэффициентов/уравнений с учётом округления; не patient-level re-fit |
+| `published_fit_approx_checked_rounded_point` | **8** | Soltys spine pooled fit, приблизительные точки (до 1,70 п.п. отличия) |
+| `UNRESOLVED_primary_source_equation_table_narrative_disagreement` | **2** | Royce prostate low/intermediate, Table3 + Eq2 не воспроизводят текст/рисунок; научная переписка 2025 не закрыта |
+| `published_summary_endpoint_and_contour_checked_no_independent_fit` | **7** | Milano brain V12/V20/V24: проверены endpoint/target-inclusive volume, не индивидуальная NTCP |
+| `published_optic_dmax_objective_and_pooled_probit_checked_no_prior_rt` | **3** | Milano optic: 10/20/25 Gy Dmax recommendation и отдельная pooled RION probit модель; не относится к уже облучённому зрительному аппарату |
+| `visual_table3_contour_and_LQ_math_checked_fit_uncertain` | **5** | Sahgal de novo: Table3 и LQ-эквивалентность, разные структуры в верхней и нижней колонках |
+| `visual_table4_four_factor_and_software_math_checked_provenance_open` | **4** | Sahgal reirradiation: 4 lower-risk фактора, Table4 и software проверены; фактическая previous thecal sac Dmax неизвестна |
+| `source_document_figure_endpoint_scope_checked_nonuniversal` | **2** | Kong lung MLD/V20: проверен билиатеральный контур, GTV/IGTV, G2+ и ILD, без универсальной модели NTCP |
+| `source_reported_R0_group_average_checked_not_fitted` | **1** | Mahadevan pancreas **R0**: Table2 округляет до 90%, текст >90%; оценка по трём R0-исследованиям, **не** fitted unresected TCP |
+| `source_text_anchor_only_not_independently_fitted` | **12** | Имеется привязка к PDF, но индивидуальная численная QA/CI ещё не проведена |
+| `primary_not_supplied` | **6** | Отсутствует оригинал Ohri 2012 NSCLC в полученном пакете |
+| **Итого** | **73** | Научная база остаётся `draft` |
+
+**Последние аудиты:**
+- [P2.10 Soltys vestibular](HYTEC_P2_SOLTYS_VESTIBULAR_AUDIT_2026-10.md): 6/6 LQ Poisson TCP значений при α/β12.4Gy, D50=3.48Gy, γ50=.1446; максимальная разница 0.057 п.п.; 10Gy/1fx экстраполировано, LQ-L fit отличается и не заменяет LQ.
+- [P2.11 Mahadevan pancreas](HYTEC_P2_MAHADEVAN_PANCREAS_AUDIT_2026-10.md): 2/2 unresected fitted points, α/β10 D3eq, D50=17.6Gy γ50=.64; R0 результат — отдельно усреднённый, Table2 90% vs prose >90% без самостоятельной R0 dose-response.
+
 
 Четыре дополнительных результата Redmond (1y LC, модель 1–5fx на оси SFED20): 18 Гр/1fx ≤20 мм → **86,374%**, 24 Гр/1fx ≤20 мм → **95,113%**, 18 Гр/1fx 21–30 мм → **75,504%**, 15 Гр/1fx 31–40 мм → **69,178%**. Данные согласуются с HFC без численной корректировки; новые тесты и полноценные условия применимости: [P2.5 Redmond/Milano](HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md). Для семи Milano brain risk-point выполнена проверка контуров и endpoint по статье и визуально Table 3, но **ни один их fitted patient-level NTCP-вывод не объявлен независимо воспроизведённым**.
 
