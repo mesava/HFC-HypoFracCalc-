@@ -136,4 +136,20 @@ test.describe("HFC HyTEC outcome models", () => {
 
   });
 
+  test("discloses Soltys LQ vestibular model alternatives and 10Gy source extrapolation", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("vestibular-schwannoma-tumour-control");
+
+    await expect(page.getByText("экстраполяция", { exact: true }))
+      .toHaveCount(1);
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toHaveCount(1);
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("LQ-L");
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("NF2");
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("12,4 Гр");
+  });
+
 });
