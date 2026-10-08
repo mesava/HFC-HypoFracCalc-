@@ -44,6 +44,12 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       }),
     ).toBeVisible();
 
+    // Source caveat is visible to users (not hidden only in evidence data).
+    await expect(page.locator(".constraint-evidence-note")).toHaveCount(2);
+    await expect(
+      page.locator(".constraint-evidence-note").first(),
+    ).toContainText("p = 0,10");
+
     await page
       .getByLabel("Число фракций")
       .selectOption("all");
