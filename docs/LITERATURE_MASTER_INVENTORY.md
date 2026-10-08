@@ -21,8 +21,8 @@
 | Письма/ответы HyTEC | 5 |
 | Остальная литература и её вложения | 29 |
 | Отдельно предоставлено | **69** |
-| Сопоставленные source IDs | **20 из 61** |
-| Связанные evidence records c исходным source | **38 из 103** |
+| Сопоставленные source IDs | **33 из 61** |
+| Связанные evidence records c исходным source | **68 из 103** |
 | Численно полностью подтверждены по всем страницам | **нет основания утверждать** |
 
 ## Пофайловая таблица
@@ -69,34 +69,34 @@
 | 38 | `HyTEC_23_Brown_2021_Letter_In_regard_to_Song.pdf` | scientific-letter | `HyTEC_23` | — | — | 0 | First text checked; numeric partial/pending |
 | 39 | `HyTEC_24_Song_2021_Letter_Reply_to_Brown_Carlson.pdf` | scientific-letter | `HyTEC_24` | — | — | 0 | First text checked; numeric partial/pending |
 | 40 | `HyTEC_25_Grimm_2021_Letter_Reply_to_Song_and_Brown.pdf` | scientific-letter | `HyTEC_25` | — | — | 0 | First text checked; numeric partial/pending |
-| 41 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose_supplement.pdf` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 42 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
+| 41 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose_supplement.pdf` | supplement | `appelt-2026-cumulative-dose-reirradiation` | 2026 | 10.1016/j.radonc.2025.111313 | 0 | First text checked; numeric partial/pending |
+| 42 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose.pdf` | primary-publication | `appelt-2026-cumulative-dose-reirradiation` | 2026 | 10.1016/j.radonc.2025.111313 | 0 | First text checked; numeric partial/pending |
 | 43 | `Basic Clinical Radiobiology 2025.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 44 | `bfco191_radiotherapy-treatment-interruptions.pdf` | guideline | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 45 | `Brand_2021_IJROBP_rectal_alpha-beta.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 46 | `Brand_2021_IJROBP_rectal_supplement.docx` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 47 | `Brand_2022_IJROBP_GU_alpha-beta_supplement.docx` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 48 | `Brand_2022_IJROBP_GU_alpha-beta.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 49 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_1.pdf` | supplementary-figure | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 50 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_2.pdf` | supplementary-figure | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 51 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_3.pdf` | supplementary-figure | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 52 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Manuscript.pdf` | accepted-manuscript | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 53 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Tables.pdf` | supplementary-tables | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 54 | `FAST_10y_JCO2020.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 55 | `FAST-Forward_10y_LancetOncol2026_appendix.pdf` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 56 | `FAST-Forward_10y_LancetOncol2026.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 57 | `FAST-Forward_5y_Lancet2020_appendix.pdf` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 58 | `FAST-Forward_5y_Lancet2020.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
+| 44 | `bfco191_radiotherapy-treatment-interruptions.pdf` | guideline | `rcr-2019-timely-delivery` | 2019 | — | 0 | First text checked; numeric partial/pending |
+| 45 | `Brand_2021_IJROBP_rectal_alpha-beta.pdf` | primary-publication | `brand-2021-chhip-rectal` | 2021 | 10.1016/j.ijrobp.2020.12.041 | 9 | First text checked; numeric partial/pending |
+| 46 | `Brand_2021_IJROBP_rectal_supplement.docx` | supplement | `brand-2021-chhip-rectal` | 2021 | 10.1016/j.ijrobp.2020.12.041 | 9 | First text checked; numeric partial/pending |
+| 47 | `Brand_2022_IJROBP_GU_alpha-beta_supplement.docx` | supplement | `brand-2023-chhip-gu` | 2023 | 10.1016/j.ijrobp.2022.08.030 | 10 | First text checked; numeric partial/pending |
+| 48 | `Brand_2022_IJROBP_GU_alpha-beta.pdf` | primary-publication | `brand-2023-chhip-gu` | 2023 | 10.1016/j.ijrobp.2022.08.030 | 10 | First text checked; numeric partial/pending |
+| 49 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_1.pdf` | supplementary-figure | `andratschke-2022-estro-eortc-reirradiation` | 2022 | 10.1016/S1470-2045(22)00447-8 | 0 | First text checked; numeric partial/pending |
+| 50 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_2.pdf` | supplementary-figure | `andratschke-2022-estro-eortc-reirradiation` | 2022 | 10.1016/S1470-2045(22)00447-8 | 0 | First text checked; numeric partial/pending |
+| 51 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Figure_3.pdf` | supplementary-figure | `andratschke-2022-estro-eortc-reirradiation` | 2022 | 10.1016/S1470-2045(22)00447-8 | 0 | First text checked; numeric partial/pending |
+| 52 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Manuscript.pdf` | accepted-manuscript | `andratschke-2022-estro-eortc-reirradiation` | 2022 | 10.1016/S1470-2045(22)00447-8 | 0 | First text checked; numeric partial/pending |
+| 53 | `ESTRO-EORTC_2022_LancetOncol_reirradiation_consensus_AAM_Tables.pdf` | supplementary-tables | `andratschke-2022-estro-eortc-reirradiation` | 2022 | 10.1016/S1470-2045(22)00447-8 | 0 | First text checked; numeric partial/pending |
+| 54 | `FAST_10y_JCO2020.pdf` | primary-publication | `brunt-2020-fast-10y` | 2020 | 10.1200/JCO.19.02750 | 7 | First text checked; numeric partial/pending |
+| 55 | `FAST-Forward_10y_LancetOncol2026_appendix.pdf` | supplement | `brunt-2026-fast-forward-10y` | 2026 | 10.1016/S1470-2045(26)00076-8 | 3 | First text checked; numeric partial/pending |
+| 56 | `FAST-Forward_10y_LancetOncol2026.pdf` | primary-publication | `brunt-2026-fast-forward-10y` | 2026 | 10.1016/S1470-2045(26)00076-8 | 3 | First text checked; numeric partial/pending |
+| 57 | `FAST-Forward_5y_Lancet2020_appendix.pdf` | supplement | `brunt-2020-fast-forward-5y` | 2020 | 10.1016/S0140-6736(20)30932-6 | 0 | First text checked; numeric partial/pending |
+| 58 | `FAST-Forward_5y_Lancet2020.pdf` | primary-publication | `brunt-2020-fast-forward-5y` | 2020 | 10.1016/S0140-6736(20)30932-6 | 0 | First text checked; numeric partial/pending |
 | 59 | `Handbook_of_Radiotherapy_Physics_Theory_and_Practice,_Second_Edition.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
 | 60 | `JoinerM.KogelA.BasicClinicalRadiobiology.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 61 | `Linear-Quadratic-Model-in-the-Clinical-Practice-via-the-Web-Application.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
+| 61 | `Linear-Quadratic-Model-in-the-Clinical-Practice-via-the-Web-Application.pdf` | primary-publication | `batyan-2023-hypocalc-webapp` | 2023 | 10.5772/intechopen.109621 | 0 | First text checked; numeric partial/pending |
 | 62 | `Quantitative Radiobiology for Proton Therapy.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 63 | `RCR_Dose_Fractionation_4th_ed_2024.pdf` | guideline | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 64 | `RCR_Principles_of_Reirradiation_2024.pdf` | guideline | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 65 | `Vogelius_Bentzen_2020_IJROBP_prostate_alpha-beta.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 66 | `Vogelius_Bentzen_2020_IJROBP_prostate_alpha-beta.xml` | publisher-xml | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 67 | `Zhang_2026_PRO_ReCOG_case_guide_supplement.docx` | supplement | `context` | — | — | 0 | First text checked; numeric partial/pending |
-| 68 | `Zhang_2026_PRO_ReCOG_case_guide.pdf` | primary-publication | `context` | — | — | 0 | First text checked; numeric partial/pending |
+| 63 | `RCR_Dose_Fractionation_4th_ed_2024.pdf` | guideline | `rcr-2024-dose-fractionation` | 2024 | — | 0 | First text checked; numeric partial/pending |
+| 64 | `RCR_Principles_of_Reirradiation_2024.pdf` | guideline | `rcr-2024-principles-reirradiation` | 2024 | — | 0 | First text checked; numeric partial/pending |
+| 65 | `Vogelius_Bentzen_2020_IJROBP_prostate_alpha-beta.pdf` | primary-publication | `vogelius-bentzen-2020-prostate` | 2020 | 10.1016/j.ijrobp.2020.01.010 | 1 | First text checked; numeric partial/pending |
+| 66 | `Vogelius_Bentzen_2020_IJROBP_prostate_alpha-beta.xml` | publisher-xml | `vogelius-bentzen-2020-prostate` | 2020 | 10.1016/j.ijrobp.2020.01.010 | 1 | First text checked; numeric partial/pending |
+| 67 | `Zhang_2026_PRO_ReCOG_case_guide_supplement.docx` | supplement | `zhang-2026-recog-case-guide` | 2026 | 10.1016/j.prro.2026.03.010 | 0 | First text checked; numeric partial/pending |
+| 68 | `Zhang_2026_PRO_ReCOG_case_guide.pdf` | primary-publication | `zhang-2026-recog-case-guide` | 2026 | 10.1016/j.prro.2026.03.010 | 0 | First text checked; numeric partial/pending |
 | 69 | `Основы_клинической_радиобиологии.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
 
 ## Отсутствующие материалы и дубликаты
