@@ -105,4 +105,19 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       }),
     ).toBeVisible();
   });
+
+  test("explains mixed thecal-sac and spinal-cord model risk ranges", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("spinal-cord-radiation-myelopathy");
+    await page.getByLabel("Число фракций")
+      .selectOption("1");
+
+    await expect(
+      page.locator(".constraint-evidence-note"),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(".constraint-evidence-note"),
+    ).toContainText("Это не доверительный интервал");
+  });
+
 });
