@@ -349,6 +349,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The pooled literature contained substantially fewer high-risk patients than low/intermediate-risk patients.",
         "Dose-volume information was insufficient; modelling used prescription dose.",
+        "UNRESOLVED PRIMARY-SOURCE REPRODUCIBILITY DISCREPANCY: Royce 2021 equation (2) and Table 3 low/intermediate parameters D50=20.6 Gy and gamma=0.15 yield about 77.4% at EQD2=71 Gy and 83.9% at EQD2=90 Gy, whereas the authors report 90% and 95%; the high-risk parameters reproduce the reported points. See the 2025 Chen letter (DOI 10.1016/j.ijrobp.2025.06.3898) and author response (DOI 10.1016/j.ijrobp.2025.06.3899); the full response needs review before assigning a cause. Published points are retained with explicit uncertainty, not a validated continuous TCP fit.",
       ],
     },
     points: [
@@ -370,6 +371,9 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         probabilityRelation: "≈",
         followUp: "5 years",
         subgroup: "Low/intermediate-risk disease",
+        notes: [
+          "Unresolved source-level discrepancy: Royce 2021 published equation and Table 3 low/intermediate fit do not reproduce this quoted probability. See HFC P2 fitted-model audit and the 2025 correspondence. Do not interpret as an independently validated continuous TCP model.",
+        ],
       },
       {
         id: "prostate-lowint-95tcp",
@@ -385,6 +389,9 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         probabilityRelation: "≈",
         followUp: "5 years",
         subgroup: "Low/intermediate-risk disease",
+        notes: [
+          "Unresolved source-level discrepancy: Royce 2021 published equation and Table 3 low/intermediate fit do not reproduce this quoted probability. See HFC P2 fitted-model audit and the 2025 correspondence. Do not interpret as an independently validated continuous TCP model.",
+        ],
       },
       {
         id: "prostate-high-90tcp",
