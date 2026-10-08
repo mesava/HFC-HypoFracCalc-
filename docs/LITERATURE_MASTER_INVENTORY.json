@@ -948,23 +948,29 @@
     },
     {
       "original_filename": "Basic Clinical Radiobiology 2025.pdf",
-      "publication_title": null,
-      "authors": null,
-      "publication_year": null,
-      "doi": null,
+      "publication_title": "The linear-quadratic approach in clinical practice",
+      "authors": "Bentzen SM, Joiner MC",
+      "publication_year": 2025,
+      "doi": "10.1201/9781003278337-10",
       "pmid": null,
       "type": "textbook",
-      "parent_publication": "",
-      "source_id": null,
-      "in_sources_ts": false,
-      "evidence_record_count": 0,
-      "evidence_record_ids": [],
+      "parent_publication": "bcr-2025-ch10-tables",
+      "source_id": "bcr-2025-ch10-tables",
+      "in_sources_ts": true,
+      "evidence_record_count": 5,
+      "evidence_record_ids": [
+        "ab-bowel-stricture-perforation-bcr2025",
+        "t12-spinal-cord-myelopathy-bcr2025",
+        "t12-temporal-lobe-necrosis-bcr2025",
+        "dprolif-hn-various-bcr2025",
+        "dprolif-hn-larynx-bcr2025"
+      ],
       "bytes": 39728888,
       "file_text_check": "PDF page 1 text read 2026-10-08",
       "numerical_validation": "not fully verified",
       "sha256": null,
-      "publication_citation": null,
-      "notes": "No dedicated source ID (context/reference/out of scope)."
+      "publication_citation": "Bentzen SM, Joiner MC. The linear-quadratic approach in clinical practice. In: Basic Clinical Radiobiology. 6th ed. 2025. Chapter 10.",
+      "notes": ""
     },
     {
       "original_filename": "bfco191_radiotherapy-treatment-interruptions.pdf",
@@ -1550,6 +1556,6 @@
     }
   ],
   "basedOnFiles": 69,
-  "linkedSourceIds": 33,
-  "linkedEvidenceRecords": 68
+  "linkedSourceIds": 34,
+  "linkedEvidenceRecords": 73
 }
