@@ -632,6 +632,10 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         "The pooled model converts schedules to three-fraction-equivalent dose using alpha/beta = 10 Gy.",
         "Resectability and R0 resection materially modify outcome; resected and unresected results must not be pooled into one universal TCP.",
         "The source emphasizes substantial heterogeneity, short follow-up, target-definition uncertainty, and competing-risk limitations.",
+        "The unresected logistic dose-response fit uses 8 pooled data points from studies with at least 80% unresected patients, published Table 2 and D50=17.6 Gy three-fraction equivalent, gamma50=0.64.",
+        "R0 negative-margin resection points are study-averaged results rather than the unresected logistic curve. Source Table 2 rounds the estimate to 90% while prose states >90%; neither is an independently calibrated continuous R0 response.",
+        "The definition of start time for Kaplan-Meier local-control estimates differs across studies (after diagnosis, SBRT, or other enrollment) and can bias pooled 1-year comparisons.",
+
       ],
     },
     points: [
@@ -681,11 +685,16 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         subgroup: "R0 resection",
         notes: [
           "The source reports >90% 1-year local control with margin-negative resection at or above approximately 28 Gy in three-fraction-equivalent dose.",
+          "In printed Table 2 the estimated R0 1-year LC is rounded to 90% for 33 Gy/5fx, while the article abstract and narrative say >90%, based on a study-averaged R0 subgroup; retain this reporting discrepancy instead of treating >90% as a fitted probability.",
+
         ],
       },
     ],
     notes: [
       "The source reports less than 70% 1-year local control below 24 Gy in three-fraction-equivalent dose, but HFC does not encode that statement as an exact point at 24 Gy.",
+      "Unresected fit: pooled 8 dose-response observations, D50=17.6 Gy (95% CI 8.8–21.5 Gy three-fraction-equivalent), gamma50=0.64 (95% CI 0.27–1.02), logistic TCP=1/(1+(D50/D3eq)^(4 gamma50)).",
+      "The three R0 resection studies gave a high weighted mean of approximately 96%, but the source Table 2 uses 90% as a rounded estimate at 33 Gy/5 fractions and does not fit a comparable R0 dose-response curve.",
+
     ],
   },
 ];
