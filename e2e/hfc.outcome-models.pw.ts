@@ -111,4 +111,18 @@ test.describe("HFC HyTEC outcome models", () => {
     ).toBeVisible();
   });
 
+
+  test("labels low-dose Royce prostate TCP as explicit extrapolation", async ({ page }) => {
+    // Primary: Royce et al. HyTEC 2021, Figure 1: no observed EQD2 <~80 Gy.
+    await page.getByLabel("Клинический исход")
+      .selectOption("prostate-biochemical-control");
+
+    await expect(
+      page.getByText("экстраполяция", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      page.getByText("≈ 90%", { exact: true }).first(),
+    ).toBeVisible();
+  });
+
 });
