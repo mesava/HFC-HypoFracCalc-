@@ -358,6 +358,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         extrapolated: true,
         notes: [
           "HyTEC Royce et al., PDF pp. 6–7 (Figure 1): the pooled cohorts did not include prescription EQD2 below approximately 80 Gy. The 71 Gy / 90% five-year FFBR point is a fitted extrapolation; no clinical conclusion should be made from that dose region.",
+          "Unresolved source-level discrepancy: Royce 2021 Eq.2/Table 3 published parameters do not reproduce this quoted 90% probability; 2025 Chen letter and author reply require review.",
         ],
         dose: {
           schedule: { fractions: 5, dosePerFractionGy: 31.7 / 5 },
@@ -371,9 +372,6 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         probabilityRelation: "≈",
         followUp: "5 years",
         subgroup: "Low/intermediate-risk disease",
-        notes: [
-          "Unresolved source-level discrepancy: Royce 2021 published equation and Table 3 low/intermediate fit do not reproduce this quoted probability. See HFC P2 fitted-model audit and the 2025 correspondence. Do not interpret as an independently validated continuous TCP model.",
-        ],
       },
       {
         id: "prostate-lowint-95tcp",
