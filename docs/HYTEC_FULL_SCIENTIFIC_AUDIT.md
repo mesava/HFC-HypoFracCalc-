@@ -126,6 +126,16 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **Невыполнено:** восстановление исходной ML fit по patient/study data, covariance и 95% confidence bands, проверка ещё не аудированных endpoint-моделей, 2025 ответ авторов и независимый clinical review.
 
+## P2.5 — Redmond brain TCP и Milano brain NTCP / семантика контуров
+
+**Детальный отчёт:** [HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md](HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md), [регрессионные тесты](../tests/hytecRedmondMilanoRegression.test.ts), [обновлённый 73-строчный ledger](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv).
+
+**Redmond et al. 2021**, PDF supplemental **Table EA4 pp.8–9**: для 1-year LC/1–5fx по размеру (small/medium/large) `TD50` 11.21/12.44/9.15 Gy SFED20, `g50` 0.9749/0.7617/0.4089. Лог-логистическое `P=1/(1+(TD50/D_SFED20)^(4*g50))` при однократных дозах воспроизводит четыре HFC brain-metastasis point values: **86.37%** vs >85% (18 Gy, ≤20mm), **95.11%** vs ≈95% (24 Gy, ≤20mm), **75.50%** vs ≈75% (18 Gy, 21–30mm), **69.18%** vs ≈69% (15 Gy, 31–40mm). Максимальная разница с указанной границей/округлённым процентом 1.38 п.п. **Все числа в HFC сохранены**. Отличие `1-year` от `2-year` моделей и применение `SFED20` отдельно защищены тестом. Исходный supplemental PDF доступен для текстового просмотра, но его **визуальное изображение page 8–9 недоступно**; нельзя выдавать эту стадию за visual QA или joint-CI reconstruction.
+
+**Milano et al. 2021**, PDF pp.4–5 и **page 12, Table 3** (страница проверена визуально): Table 3 содержит четыре отдельные модели: `any necrosis` V12 5cc **3.6%** (Chin/Inoue/Peng) versus **19.6%** (Korytko), `any necrosis` V14 5cc **4.1%** и `grade 3 requiring resection` V14 5cc **0.4%**. ЭТО НЕ 10% симптоматического радионекроза из pooled abstract / summary V12=5cc. Между volume semantics `tissue Vx including target` и `brain-minus-GTV/PTV`, а также endpoints `any` / `symptomatic` / `resection` нельзя ставить знак равенства. Семь Milano HyTEC-risk records проверены на правильный endpoint, 3fx/5fx и target-inclusive notes; **не все их числовые fitted estimates независимо реконструированы**. Показано новое двуязычное предупреждение в интерфейсе с браузерным тестом.
+
+В 73-row ledger P2 теперь: **15 fitted anchor reproduced; 8 rounded pooled fit checked; 2 unresolved source discrepancy Royce; 7 Milano endpoint/contour checked but no fit; 35 primary text locator only; 6 primary Ohri 2012 missing**. P2 ещё не закрыт; коэффициенты и клинические пороги не изменены, стадия остаётся `draft`.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
