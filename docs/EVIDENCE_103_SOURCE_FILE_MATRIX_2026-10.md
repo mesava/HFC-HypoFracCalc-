@@ -18,6 +18,14 @@
 
 Из **30** records без прямого файла в данном комплекте: **13 α/β**, **4 repair half-time**, **12 repopulation/time-penalty** и **1 other (Ohri2012 source)**. Источники без прямого PDF по-прежнему требуют независимого primary-source crosscheck, особенно repair and time compensation clinical applicability. Новый [P1/P2/P3 release gate](HFC_SCIENTIFIC_PHASE_GATE_2026-10.md) задаёт порядок и блокеры. Пока нет исходного ZIP SHA256, полной постраничной HyTEC QA и второго клинического рецензента, **статус clinical release останется draft**.
 
+## P3.1 — Brand/CHHiP: 19 опубликованных endpoint-specific α/β (09.10.2026)
+
+Сверены два первоисточника из пользовательского пакета: Brand 2021 rectal, **PDF p8 Table 3 / p9 Table 4**, и Brand GU (online 2022, print 2023), **PDF p6 Table 2 / p7 Table 3 context**, включая 95% bootstrap percentile CI. Документы: [подробный P3.1 отчёт](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_AUDIT_2026-10.md), [19-строчная численная матрица](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_CROSSCHECK_2026-10.csv), [регрессионные проверки](../tests/p3BrandChhipAlphaBetaPrimaryAudit.test.ts).
+
+**9/9 rectal и 10/10 GU** HFC α/β с опубликованными доверительными интервалами совпали. Значения **не изменены**. Это **проверка переноса printed parameters + CI**, не новое patient-DVH LKB-EQD2 fitting, bootstrap или независимый predictive validation. Существующий auto-choice разрешён для **1 rectal bleeding G1+** и **3 GU исходов** (dysuria G1+, haematuria G1/G2); другие **15** только explicit. Например, rectal pain имеет α/β=3.6 Gy (95% CI **0–839.6**) и крайне плохо ограниченный fit.
+
+Эти **19 записей уже входят** в 103-record базу: 19 сейчас получили дополнительный evidence-level source-table numeric check, а это не означает отсутствие всех предыдущих проверок остальных 84 записей. В инвентаре источников всё ещё **73/103 с приложенным пользователем источником**, **30/103 без**. Научная база `draft`, P3 открыт, PR №60 не слит.
+
 ## Полная матрица
 
 | Record ID | Source ID | Файл в поставке | Первый первичный файл / причина | Прежняя validation state |
