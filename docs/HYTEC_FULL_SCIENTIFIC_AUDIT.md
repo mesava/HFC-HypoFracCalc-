@@ -192,6 +192,16 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **Обновлённый 73-row HFC ledger:** **23 reproduced source fits, 8 approximate, 2 Royce unresolved, 7 Milano brain semantic, 3 Milano optic source reviewed, 9 Sahgal structural/arithmetic, 2 Kong scope-reviewed, 1 Mahadevan R0 averaged no-fit, 12 remaining source text only, 6 missing original Ohri2012**. Воспроизведение printed fit parameters не равно re-fit пациентских исходов/95%-band и не даёт разрешения на clinical release. Math engine, численные clinic entries и статус `draft` не менялись.
 
+## P2.12 — Ohri liver SBRT: source-level BED10 strata and 3y KM versus 2y logistic model
+
+Точный источник: Ohri et al. 2021 DOI 10.1016/j.ijrobp.2017.12.288. Файл пользовательской Library не удалось получить как readable text или rendered page, **поэтому открыт официальный DOI-идентичный оригинальный AAPM PDF**, https://www.aapm.org/pubs/protected_files/HyTEC/21/HyTEC_15_TCP_Liver.pdf, оригинальная PDF p5 Figure3 сверена визуально, текст PDF pp1–5 и Eq1/Fig4 — дополнительно по оригиналу. **Byte-to-byte сравнение двух PDF не выполнялось.** Отдельный [научный отчёт P2.12](HYTEC_P2_OHRI_LIVER_METASTASES_AUDIT_2026-10.md), [unit regression](../tests/hytecOhriLiverStrataSourceRegression.test.ts).
+
+Две существующие HFC точки `BED10>100 Gy → 3y LC 93%` и `BED10≤100 Gy → 3y LC 65%` подтверждены как **стратифицированные Kaplan–Meier оценки по 141 и 149 очагам метастазов печени**, log-rank **P<.001**, n290. Данные источника — 13 включённых статей, n721 очаг/642 пациента, n431 первичных HCC+CCA (в 3y LC ~86%, сравнение по BED P=.972). Метастатические когорты преимущественно колоректальные (~56% очагов). Оценки **не формируют непрерывную 3y-TCP-кривую и не означают мгновенный скачок probability на пороге 100 Гр BED10**.
+
+Тот же документ **публикует отдельный 2y fitted TCP(BED10) logistic**, source `TCD50=16 Gy`, `k=74 Gy`, прогнозы ~70/76/90% для BED10=80/100/180Gy и source bootstrap 5000; этот **двухлетний fit нельзя подменять трёхлетними группами**, и он не активирован в HFC. Упоминание отсутствия clear dose-response для первичных HCC/CCA не доказывает общей независимости TCP от дозы/размера; в публикации не были доступны individual tumour sizes, competing-risk подход не использован. Добавлены source provenance notes, RU/EN видимое предупреждение и Playwright+unit safeguards. Source ClinicalProbability data (93/65%) сохранены.
+
+С учётом P2.10–P2.12 актуальный **73-record ledger**: **23 reproduced model points, 8 rounded approximate, 2 Royce contradicted, 7 Milano brain semantics, 3 optic fit/recommended, 9 Sahgal spine/reirr, 2 Kong lung source verified, 1 Mahadevan R0 group mean, 2 Ohri liver KM strata checked, 10 primary text locators not yet verified, 6 missing Ohri2012 primary**. P2 открыт; к 103 evidence full audit и клинической валидации ещё не приступали. Без изменения математического ядра или численных дозно-исходных данных.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
