@@ -29,7 +29,8 @@
 | `visual_table4_four_factor_and_software_math_checked_provenance_open` | **4** | Sahgal reirradiation: 4 lower-risk фактора, Table4 и software проверены; фактическая previous thecal sac Dmax неизвестна |
 | `source_document_figure_endpoint_scope_checked_nonuniversal` | **2** | Kong lung MLD/V20: проверен билиатеральный контур, GTV/IGTV, G2+ и ILD, без универсальной модели NTCP |
 | `source_reported_R0_group_average_checked_not_fitted` | **1** | Mahadevan pancreas **R0**: Table2 округляет до 90%, текст >90%; оценка по трём R0-исследованиям, **не** fitted unresected TCP |
-| `source_text_anchor_only_not_independently_fitted` | **12** | Имеется привязка к PDF, но индивидуальная численная QA/CI ещё не проведена |
+| `source_stratified_KM_cohort_checked_not_fitted` | **2** | Ohri liver metastases: 3-летние Kaplan–Meier BED10 >100 vs ≤100 по n141/n149 очагам, отдельная 2-летняя fitted TCP не импортирована |
+| `source_text_anchor_only_not_independently_fitted` | **10** | Имеется привязка к PDF, но индивидуальная численная QA/CI ещё не проведена |
 | `primary_not_supplied` | **6** | Отсутствует оригинал Ohri 2012 NSCLC в полученном пакете |
 | **Итого** | **73** | Научная база остаётся `draft` |
 
@@ -37,6 +38,8 @@
 - [P2.10 Soltys vestibular](HYTEC_P2_SOLTYS_VESTIBULAR_AUDIT_2026-10.md): 6/6 LQ Poisson TCP значений при α/β12.4Gy, D50=3.48Gy, γ50=.1446; максимальная разница 0.057 п.п.; 10Gy/1fx экстраполировано, LQ-L fit отличается и не заменяет LQ.
 - [P2.11 Mahadevan pancreas](HYTEC_P2_MAHADEVAN_PANCREAS_AUDIT_2026-10.md): 2/2 unresected fitted points, α/β10 D3eq, D50=17.6Gy γ50=.64; R0 результат — отдельно усреднённый, Table2 90% vs prose >90% без самостоятельной R0 dose-response.
 
+
+**P2.12 Ohri liver:** [официальный первичный AAPM PDF и научный аудит](HYTEC_P2_OHRI_LIVER_METASTASES_AUDIT_2026-10.md), Figure3 визуально проверена: две **3-летние актюарные** оценки **93% при BED10>100 (141 очаг)** и **65% при BED10≤100 (149 очагов)**, P<.001. У первичных HCC/CCA различия по этой границе не найдено (P=.972); авторская **2-летняя логистическая TCP-кривая** — отдельная модель, не источник наших 3-летних процентов. Пользовательский файл оказался недоступен для текстовой/постраничной проверки, поэтому использован официальный доступный AAPM PDF с DOI; file checksum сравнение остаётся открытым.
 
 Четыре дополнительных результата Redmond (1y LC, модель 1–5fx на оси SFED20): 18 Гр/1fx ≤20 мм → **86,374%**, 24 Гр/1fx ≤20 мм → **95,113%**, 18 Гр/1fx 21–30 мм → **75,504%**, 15 Гр/1fx 31–40 мм → **69,178%**. Данные согласуются с HFC без численной корректировки; новые тесты и полноценные условия применимости: [P2.5 Redmond/Milano](HYTEC_P2_REDMOND_MILANO_AUDIT_2026-10.md). Для семи Milano brain risk-point выполнена проверка контуров и endpoint по статье и визуально Table 3, но **ни один их fitted patient-level NTCP-вывод не объявлен независимо воспроизведённым**.
 
