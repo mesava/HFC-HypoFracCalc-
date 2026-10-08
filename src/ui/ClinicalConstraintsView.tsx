@@ -536,8 +536,8 @@ export function ClinicalConstraintsView({
                   <p className="constraint-evidence-note">
                     {tx(
                       language,
-                      "Ограничение доказательности: границы диапазона получены из разных моделей и для разных контуров — оболочки спинного мозга (thecal sac, модель Sahgal) и собственно спинного мозга (Katsoulakis–Gibbs). Это не доверительный интервал и не единое безопасное ограничение.",
-                      "Evidence limitation: the two ends of this range come from different models and dose-reporting structures: thecal sac (Sahgal) versus spinal cord itself (Katsoulakis–Gibbs). This is neither a confidence interval nor a universal safe limit.",
+                      "Ограничение доказательности: границы диапазона получены из разных моделей и для разных контуров — оболочки спинного мозга (thecal sac, модель Sahgal) и собственно спинного мозга (Katsoulakis–Gibbs). Это не доверительный интервал и не единое безопасное ограничение. Значения Katsoulakis–Gibbs для 2–5 фракций — LQ-экстраполяция от 14 Гр за 1 фракцию; рекомендованные в статье для 2–5 фракций дозы Dmax относятся к колонке Sahgal.",
+                      "Evidence limitation: the two ends of this range come from different models and dose-reporting structures: thecal sac (Sahgal) versus spinal cord itself (Katsoulakis–Gibbs). This is neither a confidence interval nor a universal safe limit. The Katsoulakis–Gibbs 2–5-fraction values are LQ extrapolations from 14 Gy in 1 fraction; the source's recommended 2–5-fraction Dmax values are in the Sahgal column.",
                     )}
                   </p>
                 ) : null}
