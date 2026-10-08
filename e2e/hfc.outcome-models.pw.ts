@@ -121,6 +121,10 @@ test.describe("HFC HyTEC outcome models", () => {
       page.getByText("экстраполяция", { exact: true }),
     ).toHaveCount(1);
     await expect(
+      page.locator(".outcome-evidence-warning"),
+    ).toContainText("не воспроизводят заявленные 90% и 95%");
+
+    await expect(
       page.getByText("≈ 90%", { exact: true }).first(),
     ).toBeVisible();
     await expect(
