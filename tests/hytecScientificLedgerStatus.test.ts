@@ -1,10 +1,5 @@
-import { readFileSync } from "node:fs";
+import ledgerCsv from "../docs/HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv?raw";
 import { describe, expect, it } from "vitest";
-
-const ledgerPath = new URL(
-  "../docs/HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv",
-  import.meta.url,
-);
 
 function parseCsvRow(row: string): string[] {
   const fields: string[] = [];
@@ -31,7 +26,7 @@ function parseCsvRow(row: string): string[] {
   return fields;
 }
 
-const csv = readFileSync(ledgerPath, "utf8").trimEnd();
+const csv = ledgerCsv.trimEnd();
 const lines = csv.split(/\r?\n/).filter(Boolean);
 const columns = parseCsvRow(lines[0]!);
 const items = lines.slice(1).map((line, index) => {
