@@ -340,8 +340,8 @@ export function HowToView({
             <h2>
               {tx(
                 language,
-                "Примеры из публикации исходного Hypo-Calc",
-                "Examples from the original Hypo-Calc publication",
+                "Опубликованные примеры расчётов по LQ-модели",
+                "Published LQ calculation examples",
               )}
             </h2>
           </div>

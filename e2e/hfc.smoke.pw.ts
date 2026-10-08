@@ -41,7 +41,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
     await expect(page.getByText("89.11 Гр", { exact: true })).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Примеры из публикации исходного Hypo-Calc",
+        name: "Опубликованные примеры расчётов по LQ-модели",
       }),
     ).toBeVisible();
     await expect(

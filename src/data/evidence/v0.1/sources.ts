@@ -2,6 +2,50 @@ import type { SourceReference } from "../../../domain/evidence.js";
 
 export const sources = [
   {
+    id: "grimm-2021-hytec-overview",
+    citation:
+      "Grimm J, Marks LB, Jackson A, et al. High Dose per Fraction, Hypofractionated Treatment Effects in the Clinic (HyTEC): An Overview. Int J Radiat Oncol Biol Phys. 2021;110(1):1-10.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.10.039",
+    kind: "other",
+    notes:
+      "HyTEC programme overview and scope. Contextual evidence only; not a numerical clinical coefficient or a patient-specific prediction.",
+  },
+  {
+    id: "moiseenko-2021-hytec-modeling-primer",
+    citation:
+      "Moiseenko V, Marks LB, Grimm J, et al. A Primer on Dose-Response Data Modeling in Radiation Therapy. Int J Radiat Oncol Biol Phys. 2021;110(1):11-20.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2020.11.020",
+    pmid: "33358230",
+    kind: "other",
+    notes:
+      "HyTEC methodology for dose-response fitting, likelihood models and uncertainty. Contextual methodological source; no implicit fit, generic NTCP function or automatic prediction is introduced.",
+  },
+  {
+    id: "song-2021-hytec-biological-principles",
+    citation:
+      "Song CW, Glatstein E, Marks LB, et al. Biological Principles of Stereotactic Body Radiation Therapy (SBRT) and Stereotactic Radiation Surgery (SRS): Indirect Cell Death. Int J Radiat Oncol Biol Phys. 2021;110(1):21-34.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2019.02.047",
+    pmid: "30836165",
+    kind: "other",
+    notes:
+      "Mechanistic discussion of indirect radiation response at high doses per fraction. No universal correction to the clinical LQ or BED/EQD2 formulas is inferred.",
+  },
+  {
+    id: "marciscano-2021-hytec-immunomodulation",
+    citation:
+      "Marciscano AE, Haimovitz-Friedman A, Lee P, et al. Immunomodulatory Effects of Stereotactic Body Radiation Therapy: Preclinical Insights and Clinical Opportunities. Int J Radiat Oncol Biol Phys. 2021;110(1):35-52.",
+    year: 2021,
+    doi: "10.1016/j.ijrobp.2019.02.046",
+    pmid: "30836168",
+    kind: "other",
+    notes:
+      "Review of immunomodulatory hypotheses and translational limitations. Background only; not a quantitative TCP/NTCP or automatically selectable model.",
+  },
+
+  {
     id: "batyan-2023-hypocalc-webapp",
     citation:
       "Batyan A, Dziameshka P, Hancharova K, Lemiasheuski V, Orgish A. Linear Quadratic Model in the Clinical Practice via the Web-Application. In: Radiation Therapy. IntechOpen; 2023.",
@@ -9,7 +53,7 @@ export const sources = [
     doi: "10.5772/intechopen.109621",
     kind: "other",
     notes:
-      "Methodological/software reference for the original Hypo-Calc web application. HFC uses its seven published teaching cases as regression and documentation scenarios, but does not inherit historical biological parameters as automatic defaults.",
+      "Published LQ web-calculation teaching scenarios are used as regression and documentation examples. Biological estimates reported in the study are not imported as automatic clinical defaults.",
   },
   {
     id: "rcr-2024-dose-fractionation",

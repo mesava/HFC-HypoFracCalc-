@@ -210,6 +210,12 @@ export function SiteHome({
             </p>
             <span className="module-state beta">v0.2-dev</span>
           </button>
+          <article className="module-card future-module" aria-disabled="true">
+            <span className="module-index">07</span>
+            <strong>{tx(language, "DICOM / воксельный EQD₂", "DICOM / voxel EQD₂")}</strong>
+            <p>{tx(language, "Будущая технология пространственного анализа дозы. В текущей версии недоступна.", "Future spatial dose analysis technology. Unavailable in the current version.")}</p>
+            <span className="module-state beta">{tx(language, "в разработке", "in development")}</span>
+          </article>
         </div>
       </section>
 
