@@ -21,8 +21,8 @@
 | Письма/ответы HyTEC | 5 |
 | Остальная литература и её вложения | 29 |
 | Отдельно предоставлено | **69** |
-| Сопоставленные source IDs | **33 из 61** |
-| Связанные evidence records c исходным source | **68 из 103** |
+| Сопоставленные source IDs | **34 из 61** |
+| Связанные evidence records c исходным source | **73 из 103** |
 | Численно полностью подтверждены по всем страницам | **нет основания утверждать** |
 
 ## Пофайловая таблица
@@ -71,7 +71,7 @@
 | 40 | `HyTEC_25_Grimm_2021_Letter_Reply_to_Song_and_Brown.pdf` | scientific-letter | `HyTEC_25` | — | — | 0 | First text checked; numeric partial/pending |
 | 41 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose_supplement.pdf` | supplement | `appelt-2026-cumulative-dose-reirradiation` | 2026 | 10.1016/j.radonc.2025.111313 | 0 | First text checked; numeric partial/pending |
 | 42 | `Appelt_2025_RadiotherOncol_ESTRO_cumulative_dose.pdf` | primary-publication | `appelt-2026-cumulative-dose-reirradiation` | 2026 | 10.1016/j.radonc.2025.111313 | 0 | First text checked; numeric partial/pending |
-| 43 | `Basic Clinical Radiobiology 2025.pdf` | textbook | `context` | — | — | 0 | First text checked; numeric partial/pending |
+| 43 | `Basic Clinical Radiobiology 2025.pdf` | textbook | `bcr-2025-ch10-tables` | 2025 | 10.1201/9781003278337-10 | 5 | First text checked; numeric partial/pending |
 | 44 | `bfco191_radiotherapy-treatment-interruptions.pdf` | guideline | `rcr-2019-timely-delivery` | 2019 | — | 0 | First text checked; numeric partial/pending |
 | 45 | `Brand_2021_IJROBP_rectal_alpha-beta.pdf` | primary-publication | `brand-2021-chhip-rectal` | 2021 | 10.1016/j.ijrobp.2020.12.041 | 9 | First text checked; numeric partial/pending |
 | 46 | `Brand_2021_IJROBP_rectal_supplement.docx` | supplement | `brand-2021-chhip-rectal` | 2021 | 10.1016/j.ijrobp.2020.12.041 | 9 | First text checked; numeric partial/pending |
