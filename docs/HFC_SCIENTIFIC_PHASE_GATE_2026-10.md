@@ -34,6 +34,12 @@
 
 Важна научная интерпретация: *первый комплект содержит 69 файлов, но отсутствие прямого документа для одного Source ID ещё не доказывает ошибку коэффициента*. Не добавлять «исправленные» α/β/T½/Dprolif без первоисточника и отдельного независимого расчёта.
 
+## Новый вход в P2.14: проверка каждой из 40 исходных HyTEC публикаций
+
+Созданы [сплошная матрица всех 40 source files](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv) и [пояснения](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.md), состав сверяется автотестом с 69-entry P1 inventory JSON. Проверяемые исходные объекты: **20 core + 15 supplements + 5 letters**. **Все 40** требуют дополнительного критерия `full figure/table/image/CI/page QA`; это не отменяет уже проведённые выборочные проверки статей, 15/15 extracted supplement texts, 5/5 letter texts или 73-record semantic classifications. Без full-page source review G2 остаётся OPEN.
+
+Для критического P2-C21 оформлен [Royce response verification gate](HYTEC_P2_ROYCE_2025_CORRESPONDENCE_GATE_2026-10.md): по PubMed и Red Journal подтверждён DOI ответа `10.1016/j.ijrobp.2025.06.3899` от 2025, но **полный текст не получен**, поэтому причины ошибки опубликованного low/intermediate Eq/Table/figure установить нельзя. Изменять коэффициенты в P4 преждевременно.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
