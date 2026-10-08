@@ -457,6 +457,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
     ],
   },
   {
@@ -478,6 +479,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
     ],
   },
   {
@@ -499,6 +501,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
     ],
   },
   {
@@ -520,6 +523,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
     ],
   },
 
