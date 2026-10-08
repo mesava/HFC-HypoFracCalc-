@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { alphaBetaEstimates } from "../src/data/evidence/v0.1/index.js";
+import type { AlphaBetaEstimate } from "../src/domain/evidence.js";
 
 /**
  * P3 scientific source audit. ORIGINAL USER-SUPPLIED primary papers:
@@ -43,7 +44,7 @@ const gu: readonly Case[] = [
 
 describe("P3 Brand CHHiP endpoint-specific alpha/beta primary-paper audit", () => {
   it("matches all 9 original rectal LKB-EQD2 free-fitted alpha/beta + 95% bootstrap CIs", () => {
-    const actual = alphaBetaEstimates.filter(
+    const actual: AlphaBetaEstimate[] = alphaBetaEstimates.filter(
       e => e.sourceId === "brand-2021-chhip-rectal",
     );
     expect(actual).toHaveLength(9);
@@ -61,7 +62,7 @@ describe("P3 Brand CHHiP endpoint-specific alpha/beta primary-paper audit", () =
   });
 
   it("matches all 10 GU LKB-EQD2 Table 2 estimates and percentile intervals", () => {
-    const actual = alphaBetaEstimates.filter(
+    const actual: AlphaBetaEstimate[] = alphaBetaEstimates.filter(
       e => e.sourceId === "brand-2023-chhip-gu",
     );
     expect(actual).toHaveLength(10);
