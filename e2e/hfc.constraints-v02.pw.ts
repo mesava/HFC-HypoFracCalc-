@@ -118,6 +118,12 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
     await expect(
       page.locator(".constraint-evidence-note"),
     ).toContainText("Это не доверительный интервал");
+
+    await page.getByLabel("Число фракций").selectOption("3");
+    await expect(page.locator(".constraint-evidence-note"))
+      .toContainText("LQ-экстраполяция");
+    await expect(page.locator(".constraint-evidence-note"))
+      .toContainText("рекомендованные в статье");
   });
 
   test("surfaces target-inclusive Milano brain V12 and distinct radionecrosis endpoints", async ({ page }) => {
