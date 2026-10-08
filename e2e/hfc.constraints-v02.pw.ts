@@ -171,4 +171,39 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
     await expect(cautions.first()).toContainText("степени ≥2");
   });
 
+  test("Miften liver warns QUANTEC MLD is not fitted liver-function NTCP and rV700cc is reverse-volume",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("liver-grade3plus-enzyme-toxicity");
+    const cautions=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Miften"});
+    await expect(cautions).toHaveCount(6);
+    await expect(cautions.first()).toContainText("печень−GTV");
+    await expect(cautions.first()).toContainText("p=0,10");
+    await expect(cautions.first()).toContainText("≥700 см³");
+    await expect(cautions.first()).toContainText("GI-токсичность");
+  });
+
+  test("Wang prostate bladder V(Rx) is prescription isodose volume not 5–10Gy",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("bladder-prostate-sbrt-late-urinary-toxicity");
+    const notes=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Wang"});
+    await expect(notes).toHaveCount(1);
+    await expect(notes).toContainText("V(Rx)");
+    await expect(notes).toContainText("НЕ 5–10 Гр");
+    await expect(notes).toContainText("4–5 фракций");
+  });
+
+  test("Grimm D0.5cc guidance is not the pooled Dmax-based NTCP risk",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("major-vessel-grade3plus-bleeding");
+    const note=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Grimm"});
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("D0,5 см³");
+    await expect(note).toContainText("Dmax=20 Гр");
+    await expect(note).toContainText("p=0,182");
+    await expect(note).toContainText("через день");
+  });
+
 });
