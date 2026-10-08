@@ -112,6 +112,10 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         probability: 0.85,
         probabilityRelation: "≈",
         followUp: "3–5 years",
+        extrapolated: true,
+        notes: [
+          "The HyTEC source reports no analysable dose-response data below 11 Gy in one fraction; the 10 Gy/1 fraction 85% value is a model extrapolation and should not be read as an observed cohort outcome.",
+        ],
       },
       {
         id: "vs-11gy-1fx",
