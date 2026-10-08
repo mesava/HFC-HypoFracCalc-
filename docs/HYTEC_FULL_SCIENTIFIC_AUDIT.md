@@ -94,6 +94,25 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **P2 остаётся открыт.** Значения клинических коэффициентов, dataset manifest, пользовательские пороги и auto-defaults не изменялись; не путать CI tests и независимое второе clinical review.
 
+## P2.3: Индивидуальная карта происхождения HyTEC-значений и научные аннотации
+
+Добавлены [73-строчный реестр](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv) и [методическое пояснение](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md): **34** точки девяти OutcomeModel, имеющих HyTEC-источник (на самом деле **восемь HyTEC-моделей**), **6** точек отдельной Ohri 2012 NSCLC модели, **29** ClinicalConstraint и **4** отдельные reirradiation criteria. Таким образом, 73 записи в реестре: **67 связанных с HyTEC и 6 без предоставленного первичного Ohri 2012 PDF**. Наличие локального файла и страниц подтверждено; model fits, plots и CI построчно ещё не валидированы.
+
+### Royce prostate TCP — подтверждённый недостающий маркер экстраполяции
+
+В `HyTEC_19_Royce_2021_Prostate_TCP.pdf`, **PDF pp. 6–7, Figure 1 caption**, авторы указывают отсутствие в исследованных когортах EQD2 <≈80 Gy и не рекомендуют клинических выводов вне доступного интервала. При этом `prostate-lowint-90tcp` означает 71 Gy EQD2(α/β=1.5), ≈90% 5-year FFBR. **Числа не изменены**, только добавлены `extrapolated: true` и объяснение на основе source. Этот флаг выводится в UI как «экстраполяция». Дописан regression test. Одновременно сохраняется ограничение модели для high-risk cohorts (всего 85 пациентов в Figure 1).
+
+### Miften liver SBRT — слабая статистическая поддержка модели риска
+
+В `HyTEC_16_Miften_2021_Liver_dose-volume_effects.pdf`, **p.7 Fig.1**, модель probit токсичности liver enzymes grade≥3 vs MLD **не статистически значима (P=0.10)**, несмотря на то что авторы рекомендуют **QUANTEC** MLD objectives 13/18 Gy (primary liver 3/6fx) и 15/20 Gy (metastases 3/6fx) и предполагают риск <20% (PDF p.9). Во все четыре записи добавлена оговорка; **числа, тип planning-limit и risk relation оставлены без изменений**. Нет оснований объявлять эти пороги надёжным индивидуальным NTCP-предсказанием.
+
+### Доказательность и завершение этапа
+
+- `text_anchor_only_not_independently_fitted`: источник и место есть, но вся математика/CI/популяция не валидированы индивидуально;
+- `primary_not_supplied`: шесть point records Ohri 2012 NSCLC не имеют предоставленного исходного PDF;
+- `draft` и запрет на P4 остаются; ни одна корректировка probability/constraint, радиобиологического движка или клинического default не проводилась.
+- После этого прохода имеются **три** явных point-level флага `extrapolated`: vestibular 10Gy/1fx, spinal mets 40Gy/5fx, prostate low-intermediate 71 Gy EQD2.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
@@ -105,6 +124,7 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 ## Связанные документы
 
 - [P1 полный пофайловый реестр](LITERATURE_MASTER_INVENTORY.md) и [CSV](LITERATURE_MASTER_INVENTORY.csv)
+- [73-line P2 record-level ledger](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md) и [CSV](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.csv)
 - [Источник 103-record crosswalk](EVIDENCE_103_SOURCE_FILE_MATRIX_2026-10.md)
 - [Прошлый выборочный численный crosscheck](SOURCE_NUMERICAL_CROSSCHECK_2026-10.md)
 - [Недостающие 27 источников](PRIMARY_SOURCE_GAPS_2026-10.md)
