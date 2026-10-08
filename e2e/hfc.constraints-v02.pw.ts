@@ -131,4 +131,17 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       .toContainText("разным исходам");
   });
 
+  test("makes optic 10 Gy recommendation distinct from pooled 12.1 Gy and blocks prior RT inference", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("optic-pathway-radiation-neuropathy");
+
+    await expect(page.locator(".constraint-evidence-note")).toHaveCount(3);
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("12,1 Гр");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("не заменяет рекомендацию 10 Гр");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("повторном облучении");
+  });
+
 });
