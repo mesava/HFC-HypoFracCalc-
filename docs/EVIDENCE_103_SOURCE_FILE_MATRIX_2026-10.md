@@ -10,6 +10,14 @@
 - В частности, состояние `validated` не гарантирует source-by-source независимое подтверждение в рамках предоставленных PDF.
 - Дубликаты PDF/XML, supplements и рисунки сгруппированы под родительской публикацией, но не считаются самостоятельными клиническими коэффициентами.
 
+## После этапа P2.13: разграничение выборок и следующий научный контроль
+
+Число «73» здесь **означает 73 из 103 alpha/beta/repair/repopulation evidence records с source ID, для которых пользователь предоставил хотя бы один первичный файл**. Это **не 73 source-linked HyTEC clinical point/constraint records** из [отдельного P2 реестра](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md): последний имеет 67 записей с полученным первичным документом и 6 NSCLC non-HyTEC points без оригинала. Совпадение чисел не свидетельствует об одинаковом составе выборок.
+
+После P2.13 у 73-записного HyTEC ledger больше **нет записей в состоянии только указателя на страницу**, но **2 source contradictory и 6 primary absent**, а оставшиеся source-guidance records **не равны независимо fitted/validated clinical models**. Для 103-record матрицы прежние validation labels (`validated`/ `validated-primary`) — **предшествующий software inventory**, не post-2026-10 научная оценка.
+
+Из **30** records без прямого файла в данном комплекте: **13 α/β**, **4 repair half-time**, **12 repopulation/time-penalty** и **1 other (Ohri2012 source)**. Источники без прямого PDF по-прежнему требуют независимого primary-source crosscheck, особенно repair and time compensation clinical applicability. Новый [P1/P2/P3 release gate](HFC_SCIENTIFIC_PHASE_GATE_2026-10.md) задаёт порядок и блокеры. Пока нет исходного ZIP SHA256, полной постраничной HyTEC QA и второго клинического рецензента, **статус clinical release останется draft**.
+
 ## Полная матрица
 
 | Record ID | Source ID | Файл в поставке | Первый первичный файл / причина | Прежняя validation state |
