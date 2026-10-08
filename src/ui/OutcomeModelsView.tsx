@@ -578,6 +578,16 @@ export function OutcomeModelsView({
                   </table>
                 </div>
 
+                {model.id === "hytec-prostate-sbrt-5y-tcp" ? (
+                  <p className="outcome-evidence-warning" role="note">
+                    {tx(
+                      language,
+                      "Проверка первоисточника: опубликованные параметры формулы Royce для группы низкого/промежуточного риска не воспроизводят заявленные 90% и 95% пятилетнего биохимического контроля. Значения здесь сохранены как опубликованные ориентиры, но не подтверждены независимым расчётом. Существуют научное письмо и ответ авторов 2025 года; необходима проверка полного текста ответа. Не применять как непрерывную индивидуальную TCP-модель.",
+                      "Primary-source discrepancy: Royce's printed low/intermediate-risk formula parameters do not reproduce the quoted 90% and 95% five-year biochemical control rates. These are preserved as source-quoted estimates, not independently reproduced predictions. A 2025 letter and author reply exist; the full reply still needs review. Do not apply as a continuous patient-specific TCP model.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.notes?.length &&
                 language === "en" ? (
                   <ul className="outcome-model-notes">
