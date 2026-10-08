@@ -1,0 +1,8 @@
+id,severity,finding,scope,action
+P2-M01,Major,27 source IDs have no direct primary file,30 evidence records affected,obtain/verify source
+P2-M02,Major,103-record page-level numeric provenance incomplete,all evidence groups,independent record-by-record ledger
+P2-M03,Major,HyTEC supplementary and comments not fully read,15 supplements / 5 letters,full primary + supplement + correspondence review
+P2-M04,Major,Vargo D50 confidence intervals not exposed as OutcomeModel fields,HN reirradiation LC,model/data UX review; no coefficient changes
+P2-m05,Minor,Bibliography update after evidenceCutoffDate,2026.10-v0.2,write explicit cutoff policy
+P2-I06,Informational,Optic modeled 12Gy risk vs 10Gy author recommendation,optic SRS 1fx,retain clinical recommendation
+P2-I07,Informational,Discrete anchors are not a continuous TCP/NTCP fit,multiple HyTEC reports,avoid interpolation/extrapolation
