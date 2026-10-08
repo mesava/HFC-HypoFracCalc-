@@ -68,6 +68,6 @@ describe("HyTEC Mahadevan pancreas — strata and published fit", () => {
     // P=.002 Fisher exact test. R0 3-series estimate is separate.
     expect(model.applicability?.followUp).toBe("1-year local control");
     expect(model.applicability?.notes?.join(" ")).toMatch(/Kaplan-Meier|starting time/i);
-    expect(model.notes?.join(" ")).toMatch(/three studies|3 studies/i);
+    expect(model.notes?.join(" ")).toMatch(/three R0 resection studies|three studies|3 studies/i);
   });
 });
