@@ -456,7 +456,12 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The primary model uses size-adjusted BED10: sBED = BED10 - 10 × maximum tumour diameter in centimetres.",
         "HFC stores only explicit example predictions published by the source and does not run the continuous sBED TCP formula patient-specifically.",
-        "The model was derived predominantly from 3–8 fraction SBRT and should not be extrapolated outside the published domain.",
+        "The original publication (DOI 10.1016/j.ijrobp.2012.04.040; NIH author manuscript PMC3867931) derived the model from 504 NSCLC tumors in 482 patients with 26 observed local failures and median 18.4-month follow-up; only a small number of recurrences were available for calibration.",
+        "The published source fitted c=10 Gy/cm, TCD50=0 Gy and k=31 Gy in TCP=logistic((BED10-10*tumour_diameter_cm)/31); BED10 is prescribed PTV BED10, not isocenter dose or maximum PTV dose.",
+        "The publication explicitly warns not to interpret sBED=0 / TCD50=0 as 50% untreated control; observations mostly had sBED >=50 Gy, so the logistic tail outside the fit is not calibrated.",
+        "Only about 2% of original tumors received single-fraction SBRT; the source specifically excludes reliable predictions for single-fraction, dose per fraction below 8 Gy, and duration longer than two weeks.",
+        "Source discussion prints 50 Gy/5fx for 1 cm as 93% at 2 years, while rounded published logistic parameters yield 94.8%: unresolved internal numerical example-versus-equation mismatch, NOT independently corrected. The other five examples differ from printed rounded values by <=0.54 percentage points.",
+        "The NIH-author-manuscript original text is externally accessible at PMC3867931 although this source PDF was not supplied in the original 69-file user batch. No local original SHA256 or full figure-by-figure QA has been performed.",
       ],
     },
     points: [
@@ -511,6 +516,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
     ],
     notes: [
       "The later HyTEC stage-I NSCLC review reports model-dependent PTV doses near the asymptotic TCP plateau of approximately 43, 47, and 50 Gy in 3, 4, and 5 fractions for combined T1/T2 disease. HFC registers that HyTEC source separately but does not fabricate a single plateau probability.",
+      "Five of six Ohri 2012 published 2-year LC examples reproduce from rounded fitted parameters within 0.6 percentage points; 50 Gy/5fx, maximum diameter 1 cm, is printed as 93% but gives 94.8% by the printed model. Preserve the source-reported estimate and explicitly flag disagreement pending external scientific review.",
     ],
   },
   {
