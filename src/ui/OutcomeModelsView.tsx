@@ -488,6 +488,16 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.id === "hytec-prostate-sbrt-5y-tcp" ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "Научная проверка: для группы низкого/промежуточного риска опубликованные вероятности согласуются с текстом и графиком Royce et al., но не воспроизводятся из уравнения (2) с параметрами Table 3. Это не независимо подтверждённая непрерывная TCP-модель; расхождение источника остаётся открытым. Точка EQD₂ 71 Гр дополнительно выходит за пределы исследованного диапазона.",
+                      "Scientific audit: the reported low/intermediate-risk probabilities agree with the text and figure in Royce et al., but cannot be reproduced from equation (2) and Table 3 parameters. This is not an independently validated continuous TCP model; the source inconsistency remains unresolved. The EQD2 71 Gy point is also outside the observed dose range.",
+                    )}
+                  </p>
+                ) : null}
+
                 <div className="outcome-point-table-scroll">
                   <table className="outcome-point-table">
                     <thead>
