@@ -531,6 +531,17 @@ export function ClinicalConstraintsView({
                   </p>
                 ) : null}
 
+                {constraint.sourceId === "sahgal-2021-hytec-spinal-cord" &&
+                constraint.guidanceKind === "risk-point" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Ограничение доказательности: границы диапазона получены из разных моделей и для разных контуров — оболочки спинного мозга (thecal sac, модель Sahgal) и собственно спинного мозга (Katsoulakis–Gibbs). Это не доверительный интервал и не единое безопасное ограничение.",
+                      "Evidence limitation: the two ends of this range come from different models and dose-reporting structures: thecal sac (Sahgal) versus spinal cord itself (Katsoulakis–Gibbs). This is neither a confidence interval nor a universal safe limit.",
+                    )}
+                  </p>
+                ) : null}
+
                 {source ? (
                   <div className="constraint-source">
                     <span>
