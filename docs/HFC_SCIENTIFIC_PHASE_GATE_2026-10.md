@@ -16,7 +16,7 @@
 
 1. **P1 пофайловый реестр:** 69 отдельных пользовательских документов инвентаризованы (20 HyTEC primary / 15 supplements / 5 letters / 29 other). Названия, типы, предполагаемый DOI, локальный доступ и ссылка на source IDs зафиксированы. **Нельзя объявить P1 окончательным**: пользовательский ZIP ~357 MB не удалось получить в исходных байтах; SHA256 и проверка точного содержимого полного архива отсутствуют, часть официальных AAPM PDF читалась вместо файлов Library.
 2. **P2 HyTEC source-linked ledger:** 73 реализованных clinical source records = **34 HyTEC `OutcomeModel.points` + 6 Ohri2012 NSCLC non-HyTEC example points + 29 HyTEC `ClinicalConstraint` + 4 Sahgal `ReirradiationGuidance` criteria**. Прямой файл в переданном комплекте есть для **67/73** records; **6 Ohri2012** без оригинала.
-3. **Классификация всех 73, без locator-only:** независимое воспроизведение **23 fitted точек**, приблизительный source-fit crosscheck **8**, source paper internal contradiction Royce **2**, клинический source/endpoint/contour/guidance-specific обзор **34**, первоисточник Ohri2012 отсутствует для **6**. Арифметически: `23+8+2+34+6=73`. **Клинический source-reviewed (34) не означает численное refit или полный 95% confidence interval QA.**
+3. **Классификация всех 73, без locator-only:** воспроизведено **23 fitted точки**, приблизительно сверены **8**, клинический source/endpoint/contour/guidance-specific обзор **34**, нерешённые Royce **2**; **5** Ohri2012 NSCLC examples проверены по внешнему открытому авторскому первоисточнику, **1** пример имеет расхождение напечатанных значений и напечатанной функции. Итого: `23+8+34+2+5+1=73`. **Клинический source-reviewed (34) не означает patient-level refit или полную 95% CI QA.**
 4. **Главные расхождения P2:** Royce low/intermediate 5y prostate TCP Eq(2)+Table3 не совпадает с Fig1 и текстом; опубликованы Chen letter DOI `10.1016/j.ijrobp.2025.06.3898` и author reply DOI `10.1016/j.ijrobp.2025.06.3899`, однако **полный ответ авторов не получен**, поэтому нельзя исправлять γ по догадке. Mahadevan R0 printed 90% vs narrative >90%; Miften 700cc rVdose без независимой fitted NTCP; Grimm 5fx D0.5cc guideline ≠ pooled Dmax 2% fit; Milano brain volume includes target; Sahgal cord/thecal sac differing structures + LQ extrapolation; Kong ILD/contour nonuniformity.
 5. **P2 постраничные figures/tables:** первичные 20 HyTEC, 15 supplement и 5 letters доступны по инвентарю, однако не доказано, что **каждый рисунок, численный элемент таблицы и 95% CI** сверены визуально с исходными страницами и независимо пересчитаны. Нельзя считать P2 научно **закрытым**. 73-row source-review closed ≠ P2 scientifically complete.
 6. **Независимое рецензирование:** нет утверждённого second medical physicist + radiation oncologist sign-off с протоколом отклонений; конечный endpoint/dose-volume metric local commissioning не проведён. Эти работы нельзя заменить зелёным CI.
@@ -40,13 +40,21 @@
 
 Для критического P2-C21 оформлен [Royce response verification gate](HYTEC_P2_ROYCE_2025_CORRESPONDENCE_GATE_2026-10.md): по PubMed и Red Journal подтверждён DOI ответа `10.1016/j.ijrobp.2025.06.3899` от 2025, но **полный текст не получен**, поэтому причины ошибки опубликованного low/intermediate Eq/Table/figure установить нельзя. Изменять коэффициенты в P4 преждевременно.
 
+## P2.16 — первичный Ohri 2012 NSCLC найден, но есть внутреннее численное расхождение
+
+Внешне доступен **авторский опубликованный оригинальный текст** DOI `10.1016/j.ijrobp.2012.04.040`, `PMCID: PMC3867931`, https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/ . **Факт отсутствия файла в пользовательском ZIP сохраняется**: исходная поставка по-прежнему покрывает 67 из 73 HyTEC-related records, но для 6 записей Ohri2012 теперь существует внешний легальный full-text, что позволяет независимую проверку. PDF/ZIP SHA256 и постраничный visual QA отсутствуют.
+
+Исходная функция `TCP_2y=logistic((BED10−10Gy/cm·L)/31Gy)` из опубликованных коэффициентов воспроизводит **5 из 6** напечатанных примеров в пределах 0.6 п.п., но для `50Gy/5fx, L=1cm` даёт **94.8006%** против напечатанных **93%**. В HFC 93% сохранено и UI сообщает об открытом несовпадении. [Подробный научный аудит](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md), [source regression](../tests/hytecOhri2012NsclcPrimaryModel.test.ts). Для клинического применения model constraints по опубликованному диапазону также исключают **1fx, <8Gy/fx и >2 недель**; кумулятивная вероятность за 2 года не переносится на 5y endpoint.
+
+**Контроль G3 НЕ закрыт**: проблема Royce остаётся, Ohri2012 имеет внутреннее source discrepancy, нет второго рецензента. G1/G2/4/5/6/7 без изменений.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
 |---|---|---|
 | **G1 P1 binary provenance** | ZIP и доступные оригиналы проверены SHA256, file-title↔DOI сопоставлены; версионирование supplements/letters | **OPEN** |
 | **G2 P2 source completeness** | Для каждого из 20 core, 15 supplements, 5 letters проставлены `page/figure/table/equation/endpoint/metric/contour/CI` и результат независимого анализа или явно *неприменимо* | **OPEN** |
-| **G3 P2 high-risk conflicts** | Royce Eq/Table/Fig issue научно разрешено по полному author reply либо модель помечена unusable/deprecated; шесть Ohri2012 точек подтверждены оригиналом либо деактивированы при согласованном P4 решении | **OPEN** |
+| **G3 P2 high-risk conflicts** | Royce Eq/Table/Fig issue разрешено по полному author reply либо точкам назначен ограничительный статус; для Ohri2012 (внешний первичный fulltext теперь доступен) должно быть научно разрешено 93% vs 94.8% и завершён независимый review остальных 5 source examples | **OPEN** |
 | **G4 full 103-record P3** | Каждый record полной базы имеет source locator и собственную независимую проверку либо явный blocker; все 30 file-gaps обработаны; проверены FAST/FAST-Forward/Brand/Vogelius/RCR/HyTEC/BCR | **OPEN** |
 | **G5 independent review** | Второй медицинский физик + клинический радиотерапевт проверяют numeric output, выбор модели, противопоказания и предупреждения; подписан разбор ошибок | **OPEN** |
 | **G6 software regression and local commissioning** | `npm ci`, unit/typecheck/build, Playwright, manual reference cases, clinical OAR contour/DVH QA и документированная проверка локальной применимости | **PARTIAL** |
