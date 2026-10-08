@@ -172,6 +172,18 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **После прохода:** 9 ранее существовавших Sahgal records переведены из `locator-only` в специализированные статусы source-table / structure / software-math QA (5 de novo + 4 reirr). **Ledger по-прежнему 73:** 15 воспроизведённых исходных model points + 8 approximate Soltys + 2 unresolved Royce + 7 Milano brain semantics + 3 optic guidance+model + 9 Sahgal structural+math + 23 remaining primary anchor only + 6 Ohri2012 original not supplied. Эти статусы НЕ означают, что диапазоны риска, CI и истинные зависимости NTCP уже валидированы; выпуск и PR merge по-прежнему заблокированы.
 
+## P2.9 — Kong lung SBRT: G2+ RILT, bilateral contour, ILD и Table 5 model heterogeneity
+
+Первичный пользовательский Kong HyTEC 2021 (DOI 10.1016/j.ijrobp.2018.11.028, PDF 16p) и supplement 11p проверены по relevant тексту, таблицам и изображениям: Table3 p4, Fig1 p5, Fig3 p7, Table4 p8, Table5 pp11–12, Fig4 p13, supplemental S-Table3 p10. Полная визуальная QA Fig2 PDF p6 недоступна (текст доступен). Подробности: [P2.9 научный отчёт](HYTEC_P2_KONG_LUNG_AUDIT_2026-10.md), [audit-only two-source-probit comparison](HYTEC_P2_KONG_MODEL_HETEROGENEITY_2026-10.csv), [regression tests](../tests/hytecKongLungSourceRegression.test.ts).
+
+**Два существующих HFC observational records** `MLD<8Gy` и `combined-lung V20<10–15%` соответствуют рекомендациям, но относятся к преимущественно **small peripheral tumor SBRT 3–5fx** и риску **symptomatic G2+ RILT** (пневмонит/фиброз), а не абсолютному индивидуальному безопасному NTCP. Обязательно совпадение `paired/bilateral lungs minus GTV` (или `IGTV` при free breathing 4DCT), а не `ipsilateral-only`, `lung−PTV` и `whole-lung including GTV`; Fig1 одного и того же плана даёт **7.7Gy ipsilateral-minus-GTV vs 4.6Gy bilateral-minus-GTV**. Наблюдения не доказывают универсальный 10–15% риск, и `V20<12%` из одного анализа не должен вытеснять source summary.
+
+**ILD:** в Table4, endpoint G3–5 RP (не G2+ RILT), четыре исследования дают наблюдённые события при ILD **2/3, 9/13, 2/20, 9/28**, против без ILD **5/125, 2/104, 2/137, 10/476**; диапазоны сильно неоднородны и не пригодны для универсального ILD risk multiplier. **Table5:** source-specific `Ong n18 combined-minus-PTV MLD D50=7.9Gy γ50=4.85` против `Borst combined-minus-GTV D50=14.9Gy γ50=.82` создают *разные* расчетные probit risk при одном условном MLD8Gy; они **не** HFC clinical NTCP. Отдельный S-Table3 описывает protocol-specific RTOG trial metrics, не общие Kong рекомендации.
+
+**Программные последствия:** два Kong records дополнены точной population/applicability provenance; source risk/doses не менялись. Добавлено RU/EN clinical caution в `ClinicalConstraintsView` и Playwright тест. Новые unit-тесты проверяют contour effect, четыре ILD cohorts, независимые single-cohort fits и отсутствие несанкционированной трансформации наблюдательных порогов. Два source-record ID получили статус `source_document_figure_endpoint_scope_checked_nonuniversal` вместо locator-only.
+
+**Итого 73 реализованные записи по окончании этого прохода:** 15 fit reproduced, 8 rounded fit, 2 Royce conflict, 7 Milano brain endpoint/contour, 3 optic guideline/probit, 9 Sahgal structural/arithmetic, **2 Kong scope/figure audited**, 21 source-locator only и 6 Ohri2012 original missing. Независимой реконструкции risk confidence bands, individual lung DVHs и source-level universal fit нет; dataset остаётся draft, P2 незавершён.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
