@@ -232,6 +232,16 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 Публикация №02 переведена из отметки «только initial first page» в [40-file completion matrix](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv) в `entire_extracted_text_screened_not_all_visual` с отдельным `selected_Fig2_Fig3_Fig4_visual_CI_reviewed`. **Это ещё не полная постраничная image/table QA**, поэтому P2 остаётся OPEN и численный механизм клинического сайта не затронут.
 
+## P2.16 — внешне найден первичный Ohri 2012 NSCLC, пять совпадений и одно расхождение
+
+[Полный отдельный первичный аудит](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md), [регрессионный тест](../tests/hytecOhri2012NsclcPrimaryModel.test.ts). В NIH PubMed Central законно доступен полный исходный авторский текст `PMCID PMC3867931, PMID 22999272, DOI 10.1016/j.ijrobp.2012.04.040` (публикация 2012; NIH author manuscript); это реальный оригинал, хотя **в пользовательских 69 файлах данный источник по-прежнему отсутствует**, и ни один архивный SHA256 ещё не проверен.
+
+Для 2y local control при NSCLC stage I опубликовано: `BED10=D*(1+D/(10n))`, `sBED=BED10−10L[cm]`, `TCP=logistic(sBED/31)` с `c=10Gy/cm,TCD50=0,k=31Gy`. **504 опухоли от 482 пациентов, 26 local failures, mean follow-up 18.4 months**, авторы описали сильные ограничения для **1fx, doses/fraction<8Gy, course>2weeks и sBED<50Gy**. `TCD50=0` не означает 50% контроля нелеченной опухоли, так как экстраполированный левый хвост fit клинически невалиден.
+
+6 опубликованных Discussion example values в HFC `50Gy/5fx` для `L=1/3/5cm`: 93/90/83%; `54Gy/3fx`: 99/98/96%. Подстановка приведённых модельных коэффициентов даёт **94.8006/90.5344/83.3814%** и **98.9593/98.0347/96.3191%**. Следовательно **5/6** согласуются приблизительно в пределах **0.6 п.п.**, а **первая точка** отличается на **+1.8006 п.п.** относительно напечатанных **93%**. Это **ещё одно UNRESOLVED расхождение текста публикации с округлённой функцией**, нельзя утверждать без авторского разъяснения, что это типографская ошибка, или менять число в HFC самостоятельно. В UI присутствует RU/EN объяснение и e2e-test; source JSON HFC содержит provenance notes, численные данные не изменены.
+
+**Актуальные mutually-exclusive 73 source verification records после этого pass:** **23** independently reproduced source fit, **8** approximate fit, **34** source-reviewed metrics/guidance not independent fitted NTCP, **2** Royce contradictory, **5** Ohri2012 public original examples approximately reproduced, **1** Ohri2012 internal mismatch = **73**. Original PDF не входил в пакет, хотя легальный первичный full text найден. 103-evidence crosswalk и 40-HyTEC visual/CI gate остаются OPEN, P4 не начат.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
