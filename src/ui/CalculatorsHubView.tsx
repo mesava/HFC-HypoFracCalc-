@@ -90,6 +90,12 @@ export function CalculatorsHubView({
       </section>
 
       <section className="calculator-card-grid">
+        <article className="calculator-card panel future-module" aria-disabled="true">
+          <span className="calculator-tag">{tx(language, "в разработке", "in development")}</span>
+          <h3>{tx(language, "DICOM / воксельный EQD₂", "DICOM / voxel EQD₂")}</h3>
+          <p>{tx(language, "Будущий модуль для RT Dose и пространственных расчётов. Пока недоступен — расчёт из DICOM не выполняется.", "Future RT Dose and spatial calculation module. Not available yet; DICOM calculations are disabled.")}</p>
+          <span className="calculator-open">{tx(language, "Недоступно", "Not available")}</span>
+        </article>
         {calculators.map((item) => (
           <button
             type="button"
