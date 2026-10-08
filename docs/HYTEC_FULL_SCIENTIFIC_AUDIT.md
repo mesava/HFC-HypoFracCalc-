@@ -224,6 +224,14 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 После P2.13 73 реализованные HyTEC и смежные clinical records имеют source-status и автоматическую проверку CSV. При этом 73-row point ledger, 40-file P2 coverage matrix и 103-record alpha/beta/repair/proliferation source matrix — **три самостоятельных множества**. Для P2 требуется закрыть оставшиеся полные file-level/CI/source-correction gates и второй clinical review; не выдавать окончание первичной классификации за завершение P2.
 
+## P2.15 — Moiseenko dose-response modeling primer: source statistical confidence gates
+
+По исходным пользовательским `HyTEC_02_Moiseenko_2021_Dose-response_modeling_primer.pdf` и `_supplement.docx` проверен полный доступный извлечённый текст и **оригинальные изображения основного PDF pp5–7 Fig2–4**. [Научный отчёт](HYTEC_P2_MOISEENKO_UQ_AUDIT_2026-10.md), [source regression](../tests/hytecMoiseenkoUncertaintySemantics.test.ts). Исходные данные методического примера n96, G2+ lung pneumonitis events13; logistic physical MLD50=6.06Gy, γ50=1.19; 95% profile likelihood marginal parameter CI для D50 5.05–9.04Gy и gamma .73–1.77, но 95% bootstrap parameter CI после **2000** реплик D50 5.20–8.70 и gamma .79–1.89. Значимость демонстрационного fitted association LRT: MLL=-31.41, LLnull=-38.07, 2ΔLL=13.32, p≈.0003. Эти числа **не NTCP tolerance HFC**.
+
+**Строгое правило научной неопределённости**: CI отдельных fitted parameter values не являются joint model CI, а их декартово произведение по углам прямоугольника не является 95% confidence band для NTCP при дозе пациента; требуются **совместные fitted пары из bootstrap/likelihood** и оценка prediction quantiles на конкретной оси. Рисунки Fig3/4 прямо демонстрируют корреляцию и бананообразные формы joint parameter regions; Fig2 содержит отдельные 68%/95% model prediction bands. При отсутствии patient-level data нельзя подменять эти диапазоны независимым mixing lower/upper `D50` и `γ50` и объявлять в HFC риском с validated CI. Наличие significant fit не отменяет неопределённость и риск экстраполяции.
+
+Публикация №02 переведена из отметки «только initial first page» в [40-file completion matrix](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv) в `entire_extracted_text_screened_not_all_visual` с отдельным `selected_Fig2_Fig3_Fig4_visual_CI_reviewed`. **Это ещё не полная постраничная image/table QA**, поэтому P2 остаётся OPEN и численный механизм клинического сайта не затронут.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
