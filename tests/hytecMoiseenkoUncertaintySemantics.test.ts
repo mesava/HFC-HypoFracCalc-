@@ -65,7 +65,7 @@ describe("HyTEC Moiseenko source uncertainty audit",()=>{
     // Explicit scientific invariant: the paper uses correlated joint pairs.
     // A mathematically possible rectangular cross-product DOES NOT
     // have documented 95% joint coverage. The below is illustration only.
-    const corners=[
+    const corners: Array<readonly [number, number]> = [
       [original.profileLikelihood95.d50[0]!,original.profileLikelihood95.gamma[0]!],
       [original.profileLikelihood95.d50[0]!,original.profileLikelihood95.gamma[1]!],
       [original.profileLikelihood95.d50[1]!,original.profileLikelihood95.gamma[0]!],
