@@ -59,6 +59,19 @@
 
 **Не завершено:** FAST/FAST-Forward 10y, остальные эпителиальные и OAR-specific alpha/beta первоисточники, T½ repair, Dprolif/K/Tk сопоставимость, BCR книжные secondary estimates, full CI source pages и 30 отсутствующих originals. Нет основания поднять `draft` или автоматически merge PR #60.
 
+### Структурированная P3 очередь из всех 103 записей
+
+Добавлен [полный 103-row реестр научного статуса](P3_103_EVIDENCE_SOURCE_AUDIT_STATUS_2026-10.csv) с отдельными полями `record_id/source_id/family/supplied original file/legacy label/current review status/next verification/release approval` и [автоматической защитой структуры/счетчиков](../tests/p3SourceCoverage103.test.ts).
+
+| Статус | Записей | Смысл |
+|---|---:|---|
+| **P3 primary source numerical + 95% CI checked** | **20** | Brand rectal 9, Brand GU 10, Vogelius prostate 1; не повторная подгонка и не clinical commissioning |
+| **P2 source-scoped review (другой предмет аудита)** | **39** | HyTEC `OutcomeModel`, `ClinicalConstraint` и отдельный reirradiation source record; их фактическая проверка по точкам/критериям находится в [73-record P2 ledger](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md), нельзя трактовать как 39 независимо fitted |
+| **P3 quantitative crosscheck pending** | **44** | Остальные alpha/beta 24, repair T½ 6, repopulation/time 14; **15** из них имеют источник в предоставленной пользовательской поставке и **29** не имеют отдельного файла |
+| **Всего** | **103** | Это **103 record IDs**, а не 73 HyTEC source-point/constraint IDs; все без клинического `release approval` |
+
+**Приоритет исполнения:** из **15 ожидающих и обеспеченных файлами** начать с оригинальных FAST/FAST-Forward/2026 corrected supplements и BCR/Thames repair; отдельно добывать **29** не включённых в поставку первоисточников (без приписывания им отсутствия в литературе). Затем сопоставить свободно используемые temporal/repair modifiers с source units (BED vs EQD2) и ограничениями клинического контекста. До результата independent primary source/CI/manual checking нельзя повышать `defaultEligible`, вводить новые формулы или объявлять `validated`.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
