@@ -48,6 +48,17 @@
 
 **Контроль G3 НЕ закрыт**: проблема Royce остаётся, Ohri2012 имеет внутреннее source discrepancy, нет второго рецензента. G1/G2/4/5/6/7 без изменений.
 
+## P3 начат: 20 source-table checks в полной базе из 103 (09.10.2026)
+
+В режиме **source-by-source numerical P3**, напрямую по предоставленным пользователем PDF (не по интернет-сниппетам), проверены:
+
+- [P3.1 — Brand CHHiP 2021 rectal и 2023 GU](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_AUDIT_2026-10.md): **9/9 + 10/10** оригинальных fitted α/β и 95% percentile-bootstrap CI, включая оценку поддержки endpoint/default selection и предельной ширины CI. [19-строчная матрица](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_CROSSCHECK_2026-10.csv), [test](../tests/p3BrandChhipAlphaBetaPrimaryAudit.test.ts).
+- [P3.2 — Vogelius & Bentzen 2020](P3_VOGELIUS_BENTZEN_PROSTATE_PRIMARY_AUDIT_2026-10.md): **1/1** pooled prostate biochemical-control α/β=1.6Gy (95% CI **1.3–2.0**), но **random-effects sensitivity CI 0.8–2.4**; высокая гетерогенность I²=70% и meta-regression fraction size slope 0.57 Gy/Gy. [test](../tests/p3VogeliusBentzenProstatePrimaryAudit.test.ts).
+
+**20/103** из полного evidence set получили **дополнительный текущий P3 source-table / CI crosscheck**. Это не означает, что остальные 83 «не проверялись никогда», но именно **полный строгий P3-протокол и независимая клиническая валидация для них не завершены**. **19+1 относятся к числу уже имевшихся 103 записей**, никакого расширения clinical dataset или нового alpha/beta default не произошло. В частности, общее наличие исходного файла по-прежнему **73/103**, отсутствие отдельного файла — **30/103**. Ранее проверенные P2 HyTEC `OutcomeModel`/constraints составляют **другую** выборку.
+
+**Не завершено:** FAST/FAST-Forward 10y, остальные эпителиальные и OAR-specific alpha/beta первоисточники, T½ repair, Dprolif/K/Tk сопоставимость, BCR книжные secondary estimates, full CI source pages и 30 отсутствующих originals. Нет основания поднять `draft` или автоматически merge PR #60.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
