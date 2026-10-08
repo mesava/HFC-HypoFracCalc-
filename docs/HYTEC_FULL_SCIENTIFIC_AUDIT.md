@@ -216,6 +216,14 @@ Equivalent total dose at 3 fractions: 28.225 Gy ≈ 28.2 Gy
 
 **Важное различие с [103-record evidence matrix](EVIDENCE_103_SOURCE_FILE_MATRIX_2026-10.md):** цифра **73 здесь** — количество HyTEC-подобных *point/constraint/criterion записей*, из которых **67** имеют файлы в пользовательском пакете и **6** нет. В другой таблице цифра **73 из 103** означает количество всех категорий evidence, для source ID которых есть файл в комплекте (а **30** без). Совпадение «73» в двух разных выборках случайно, **это разные множества, их нельзя отождествлять**. Более широкий crosswalk нужен для P3.
 
+## P2.14 — проверка полноты 40 HyTEC источников и 2025 Royce correspondence blocker
+
+По исходному [P1 inventory JSON](LITERATURE_MASTER_INVENTORY.json) создан [40-document coverage CSV](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv) и [инструкция по закрытию](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.md). В матрице **20 core papers / 15 supplements / 5 letters**; для каждого сохраняются filename, DOI, source ID, выбранный научный отчёт, уже проведённый screening и отдельные явные `NO` для полной визуальной page/figure/table QA, независимой проверки **всех** исходных model CI и SHA256 оригиналов. Новый [Vitest regression](../tests/hytec40DocumentReviewMatrix.test.ts) сверяет точные 40 filenames с JSON inventory и предотвращает исчезновение source object без обновления матрицы. Эти поля описывают **незавершённую** работу: completion `0/40` на уровне всех требований, **не** `0/40` прочитанных текстов или отдельных математических проверок.
+
+**Royce correspondence 2025:** подтверждены авторы/DOI/печатные страницы письма Chen `10.1016/j.ijrobp.2025.06.3898` и ответа Mavroidis–Royce–Chen `10.1016/j.ijrobp.2025.06.3899` через publisher TOC/PubMed; публичный excerpt письма указывает на low/intermediate fit discrepancy, однако полный ответ авторов **не получен** (публичный Red Journal fulltext ответил 403, ResearchGate предлагает Request PDF). Подробный [Royce full-text and author-questions gate](HYTEC_P2_ROYCE_2025_CORRESPONDENCE_GATE_2026-10.md). Нет оснований менять исходную таблицу `D50=20.6Gy, γ=0.15` на «исправленные» параметры по догадке; кодовый warning и 2 unresolved records сохранены. **P2-C21 остаётся Critical и OPEN.**
+
+После P2.13 73 реализованные HyTEC и смежные clinical records имеют source-status и автоматическую проверку CSV. При этом 73-row point ledger, 40-file P2 coverage matrix и 103-record alpha/beta/repair/proliferation source matrix — **три самостоятельных множества**. Для P2 требуется закрыть оставшиеся полные file-level/CI/source-correction gates и второй clinical review; не выдавать окончание первичной классификации за завершение P2.
+
 ## Критерии закрытия P2
 
 1. Для 20 primary завершено чтение всех релевантных страниц, figures/tables, методов и расшифровок endpoints.
