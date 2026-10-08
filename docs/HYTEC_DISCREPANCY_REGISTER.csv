@@ -1,8 +1,15 @@
 id,severity,finding,scope,action
 P2-M01,Major,27 source IDs have no direct primary file,30 evidence records affected,obtain/verify source
 P2-M02,Major,103-record page-level numeric provenance incomplete,all evidence groups,independent record-by-record ledger
-P2-M03,Major,HyTEC supplementary and comments not fully read,15 supplements / 5 letters,full primary + supplement + correspondence review
+P2-M03,Major,Text of all 15 supplements and 5 letters reviewed but figures and numerical source crosswalk are not fully visually verified,15 supplements / 5 letters,visual table and figure review plus record-level provenance
 P2-M04,Major,Vargo D50 confidence intervals not exposed as OutcomeModel fields,HN reirradiation LC,model/data UX review; no coefficient changes
 P2-m05,Minor,Bibliography update after evidenceCutoffDate,2026.10-v0.2,write explicit cutoff policy
 P2-I06,Informational,Optic modeled 12Gy risk vs 10Gy author recommendation,optic SRS 1fx,retain clinical recommendation
 P2-I07,Informational,Discrete anchors are not a continuous TCP/NTCP fit,multiple HyTEC reports,avoid interpolation/extrapolation
+P2-M08,Major,Milano brain V12 uses target-inclusive tissue vs brain-minus-target contour conventions,Milano brain supplements 1 and 3,block cross-contour comparisons pending explicit structure semantics
+P2-M09,Major,Supplemental pooled spine TCP fitted D50 and g50 with confidence intervals not represented as source-verifiable model parameters,Soltys spinal supplement Table 1,decide on metadata model provenance without enabling arbitrary continuous clinical TCP
+P2-M10,Major,Model extrapolation risk for high dose per fraction and 40Gy/5fx,Grimm correspondence and Soltys spinal TCP,retain extrapolated marker and constrain applicability
+P2-m11,Minor,Spine 20Gy/1fx HFC approx90pct differs from supplemental pooled logistic prediction 88.30pct by 1.70 percentage points,Soltys spinal supplement Table 1,verify main text rounding before changing point
+P2-m12,Minor,Moiseenko primer MLD50 6.06Gy is a methodological example not clinical limit,Moiseenko Supplement E1,prevent conversion to clinical constraint
+P2-I13,Informational,Redmond supplemental uses BED at alpha beta 20Gy,Redmond EA1-EA4,do not silently use BED10 as fitted model axis
+P2-I14,Informational,Klement and Ohri disagree on evidence of primary-liver BED response,HyTEC letters pp249-251,document model selection uncertainty and preserve metastatic stratified points
