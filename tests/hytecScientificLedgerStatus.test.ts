@@ -54,7 +54,8 @@ const expectedCount: Record<string, number> = {
   source_reviewed_reverse_volume_700cc_unmodelled: 2,
   source_reviewed_prostate_suggested_not_fitted: 3,
   source_reviewed_carotid_D0p5cc_guidance_not_Dmax_risk: 1,
-  primary_not_supplied: 6,
+  external_primary_formula_reproduced_rounded_review_pending: 5,
+  UNRESOLVED_source_example_vs_published_rounded_fit: 1,
 };
 
 describe("P2 scientific source-audit ledger schema and review-state guardrails", () => {
@@ -85,12 +86,16 @@ describe("P2 scientific source-audit ledger schema and review-state guardrails",
     const source = (id: string) => items.filter(x => x.source_id === id);
     expect(source("ohri-2012-nsclc-size-tcp")).toHaveLength(6);
     expect(source("ohri-2012-nsclc-size-tcp")
-      .every(x => x.verification_status === "primary_not_supplied")).toBe(true);
+      .filter(x => x.verification_status === "external_primary_formula_reproduced_rounded_review_pending")).toHaveLength(5);
+    expect(source("ohri-2012-nsclc-size-tcp")
+      .filter(x => x.verification_status === "UNRESOLVED_source_example_vs_published_rounded_fit")).toHaveLength(1);
+    expect(source("ohri-2012-nsclc-size-tcp")
+      .every(x => x.primary_file === "NOT_SUPPLIED")).toBe(true);
 
     const low = items.filter(x => x.verification_status?.startsWith("UNRESOLVED"));
-    expect(low).toHaveLength(2);
-    expect(low.every(x => x.source_id === "royce-2021-hytec-prostate-tcp"))
-      .toBe(true);
+    expect(low).toHaveLength(3);
+    expect(low.filter(x => x.source_id === "royce-2021-hytec-prostate-tcp")).toHaveLength(2);
+    expect(low.filter(x => x.source_id === "ohri-2012-nsclc-size-tcp")).toHaveLength(1);
 
     expect(source("miften-2021-hytec-liver-toxicity")).toHaveLength(6);
     expect(source("miften-2021-hytec-liver-toxicity")
