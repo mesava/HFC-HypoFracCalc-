@@ -230,6 +230,7 @@ export const hytecClinicalConstraints = [
       "HyTEC presents model-derived point-maximum limits spanning approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
       "The lower value is from the Sahgal model and the upper value from the Katsoulakis-Gibbs model; this is not a confidence interval.",
       "The model range is preserved and is not collapsed to one default dose.",
+      "At 1 fraction the upper 14 Gy is based on a true spinal cord (myelographic/MRI) Dmax model, while 12.4 Gy is for thecal-sac Dmax; do not transfer either number to the other contour.",
     ],
   },
   {
@@ -249,6 +250,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 17.0 Gy lower value comes from the Sahgal model and 19.3 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -268,6 +270,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 20.3 Gy lower value comes from the Sahgal model and 23.1 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -287,6 +290,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 23.0 Gy lower value comes from the Sahgal model and 26.2 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -306,6 +310,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 25.3 Gy lower value comes from the Sahgal model and 28.8 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
 
