@@ -400,6 +400,7 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.10, high: 0.15 },
     riskRelation: "<",
     priorRadiotherapy: "none",
+    population: "Small peripheral lung tumors; observational lung SBRT cohort context; combined bilateral lungs with GTV/IGTV excluded",
     technique: ["lung SBRT"],
     applicability: {
       radiationQuality: "photon",
@@ -408,11 +409,15 @@ export const hytecClinicalConstraints = [
       priorRadiotherapy: "none",
       notes: [
         "Interstitial lung disease is a major susceptibility factor for severe RILT and can invalidate population-average risk expectations.",
+        "The review's clinical objective is scoped to predominantly small peripheral lung tumors in 3-5 fractions, often prescribed at BED10 >100 Gy, and does not automatically extend to ultracentral disease or prior thoracic reirradiation.",
+        "Use both lungs (combined), subtract GTV for controlled breathing or IGTV from 4DCT for free breathing where those study definitions apply; neither ipsilateral-only lung nor PTV-subtracted lung is an interchangeable metric.",
       ],
     },
     notes: [
       "HyTEC states that there is no apparent universal lung tolerance dose-volume threshold.",
       "Most reviewed studies reported symptomatic RILT below approximately 10%-15% when combined-lung mean dose was below 8 Gy in 3-5 fractions.",
+      "The risk endpoint is mainly clinically symptomatic grade 2+ radiation-induced lung toxicity, including pneumonitis and pulmonary fibrosis; 10%-15% is an observed study-level range, not a guaranteed risk upper bound or a calibrated continuous NTCP curve.",
+      "HyTEC Figure 1 illustrates different mean doses from the very same plan: ipsilateral lung minus GTV 7.7 Gy versus combined lungs minus GTV 4.6 Gy; compare only matching contour definitions.",
     ],
   },
   {
@@ -428,17 +433,24 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.10, high: 0.15 },
     riskRelation: "<",
     priorRadiotherapy: "none",
+    population: "Small peripheral lung tumors; observational lung SBRT cohort context; combined bilateral lungs with GTV/IGTV excluded",
     technique: ["lung SBRT"],
     applicability: {
       radiationQuality: "photon",
       technique: ["lung SBRT"],
       fractionCountRange: { min: 3, max: 5 },
       priorRadiotherapy: "none",
+      notes: [
+        "The dose-volume estimate describes both lungs (combined), with GTV or IGTV subtraction according to respiratory image definition; ipsilateral-only and PTV-subtracted lungs are not equivalent.",
+        "Interstitial lung disease is an important clinical effect modifier; the pooled observational range is not a validated NTCP prediction for ILD, ultracentral tumors or repeat RT.",
+      ],
     },
     notes: [
       "HyTEC states that there is no apparent universal lung tolerance dose-volume threshold.",
       "Most reviewed studies reported symptomatic RILT below approximately 10%-15% when total combined-lung V20 was below approximately 10%-15%.",
       "A more specific pooled comparison suggested V20 below about 12% was associated with grade 2+ pneumonitis below 15%, but HFC preserves the broader conclusion range rather than promoting 12% to a universal limit.",
+      "The reported V20 is the percentage of the combined bilateral lung contour irradiated above 20 Gy, not the percentage of ipsilateral lung, or dose to PTV or an absolute V20 volume in cc.",
+      "This is a study-level association for symptomatic grade 2+ RILT (pneumonitis and fibrosis) in predominantly small peripheral 3-5-fraction SBRT; interstitial lung disease, other contours and altered fractionation prevent a validated patient-level NTCP prediction.",
     ],
   },
 
