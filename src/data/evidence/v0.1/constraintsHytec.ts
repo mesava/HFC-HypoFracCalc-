@@ -335,12 +335,15 @@ export const hytecClinicalConstraints = [
       priorRadiotherapy: "yes",
       notes: [
         "Most modelled data were from patients with a prior conventionally fractionated course on the order of 70 Gy and an interval of about 6 months or more.",
+        "The authors recommend nonconsecutive (every-other-day) SBRT reirradiation; carotid encasement, skin necrosis and short interval are important clinical factors.",
       ],
     },
     notes: [
       "HyTEC recommends trying to keep major-vessel D0.5cc below 20 Gy in 5 fractions while keeping the volume exceeding 20-30 Gy as small as possible.",
       "The source explicitly labels the available complication data as limited and suitable for general guidance rather than strong probability conclusions.",
       "Target coverage versus vessel sparing remains a clinical trade-off; this is not an unconditional hard constraint.",
+      "Source Table2 separately fits D0.5cc from 61 cases: TD50=53.7 Gy (95% CI 36.1–191), gamma50=0.5756 (0.14–1.6), P=0.182; D0.5cc<20 Gy is conservative guidance, not validated D0.5cc-based NTCP.",
+      "The pooled Dmax model yields roughly 2% risk at Dmax 20 Gy, but Dmax and D0.5cc are different metrics; never apply that Dmax probability to D0.5cc.",
     ],
   },
   {
@@ -475,6 +478,8 @@ export const hytecClinicalConstraints = [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
       "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -497,6 +502,8 @@ export const hytecClinicalConstraints = [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
       "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -519,6 +526,8 @@ export const hytecClinicalConstraints = [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
       "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -541,6 +550,8 @@ export const hytecClinicalConstraints = [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
       "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
 
@@ -566,6 +577,8 @@ export const hytecClinicalConstraints = [
     notes: [
       "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 15 Gy.",
       "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+      "rVdose is the absolute volume of normal liver minus GTV spared to dose <=15/17 Gy; it is not a standard Vx above threshold nor a total liver-inclusive-tumor volume.",
+      "The pooled 11/118 (9.3%) events among studies using 700cc guides were grade3+ GENERAL GI toxicity, not liver enzyme toxicity or a fitted dose-volume NTCP.",
     ],
   },
   {
@@ -589,6 +602,8 @@ export const hytecClinicalConstraints = [
     notes: [
       "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 17 Gy.",
       "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+      "rVdose is the absolute volume of normal liver minus GTV spared to dose <=15/17 Gy; it is not a standard Vx above threshold nor a total liver-inclusive-tumor volume.",
+      "The pooled 11/118 (9.3%) events among studies using 700cc guides were grade3+ GENERAL GI toxicity, not liver enzyme toxicity or a fitted dose-volume NTCP.",
     ],
   },
 
@@ -617,6 +632,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists bladder V(Rx dose) <5-10 cc among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore stores this as an observational threshold, not a hard planning limit.",
+      "Bladder V(Rx dose) is absolute cc of bladder receiving the prescription-dose isodose, not an absolute 5-10 Gy dose and not Dmax; source treatments were typically 35–40 Gy in 4–5fx.",
     ],
   },
   {
@@ -640,6 +656,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists urethra Dmax <38-42 Gy among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore preserves the reported range and stores it as an observational threshold.",
+      "For urethra, Dmax is distinct from D0.1cc and D1cc; these are example objectives for 35–40 Gy prostate SBRT over 4–5 fractions, not individualized NTCP or reirradiation tolerances.",
     ],
   },
   {
@@ -663,6 +680,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists rectum Dmax <35-38 Gy among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore preserves the reported range and stores it as an observational threshold.",
+      "For rectum, Dmax is distinct from wall or circumferential dose, and source solid-organ contours depend on filling; this is a suggested objective in 35–40 Gy prostate SBRT, not validated NTCP.",
     ],
   },
 ] satisfies ClinicalConstraint[];
