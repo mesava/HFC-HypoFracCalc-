@@ -126,6 +126,12 @@
 | `hytec-prostate-sbrt-urethra-dmax-38to42gy` | `wang-2021-hytec-prostate-toxicity` | Получен | `HyTEC_20_Wang_2021_Prostate_toxicity.pdf` (+1 связанных) | `validated` |
 | `hytec-prostate-sbrt-rectum-dmax-35to38gy` | `wang-2021-hytec-prostate-toxicity` | Получен | `HyTEC_20_Wang_2021_Prostate_toxicity.pdf` (+1 связанных) | `validated` |
 
+## Дополнение P2.16 — первоисточник Ohri 2012 найден вне поставки
+
+Указанная здесь цифра **30 evidence records без прямо поставленного пользователем source PDF** остаётся фактом исходной поставки, и отчёт/CSV **не фальсифицирует** наличие файла. Однако один из этих 30, `ohri-2012-nsclc-size-tcp`, **теперь имеет законно найденный первичный полный текст** `PMCID PMC3867931`, DOI `10.1016/j.ijrobp.2012.04.040`, https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/ . Это **внешняя верификация**, не `source_file_supplied`.
+
+Шесть связанных HFC point IDs, учтённых в другом 73-record P2 ledger, проверены по формуле. Пять публикационных прогнозов совпадают приблизительно (<0.6 п.п.), но первый пример `50Gy/5fx, L=1cm` напечатан как **93%** при результате округлённой исходной формулы **94.8006%**; зафиксирован [отдельный научный отчёт](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md). **Не повышать этому source статус clinical validated**, пока не разрешено внутреннее расхождение и не завершена независимая проверка в оригинальном manuscript PDF.
+
 ## Научная интерпретация
 
 1. **Приоритет 1 — 30 records без первичного файла:** проверить по доступному оригинальному DOI/PDF до объявления независимой валидации; особенно параметры **α/β**, **T½**, **Dprolif/Tk** и Ohri 2012 (NSCLC size-adjusted TCP).
