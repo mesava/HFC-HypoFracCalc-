@@ -488,6 +488,16 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.id === "hytec-pancreas-1y-local-control" ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "HyTEC Mahadevan: значения без операции взяты из логистической модели восьми опубликованных точек после пересчёта в эквивалент за 3 фракции (α/β = 10 Гр). Оценка после R0-резекции основана на других исследованиях, НЕ на этой кривой: Table 2 округляет её до 90%, а текст сообщает более 90%. Начальная дата расчёта локального контроля в исследованиях различалась. Не применять эти оценки как индивидуальные TCP-прогнозы и не смешивать группы.",
+                      "HyTEC Mahadevan: unresected estimates come from a logistic fit of eight reported observations using 3-fraction equivalents (alpha/beta = 10 Gy). The R0-resected estimate is derived from separate studies, NOT this dose-response curve: Table 2 rounds it to 90%, whereas the narrative reports above 90%. Kaplan–Meier starting times varied between source studies. These are not individual TCP predictions; do not pool resection strata.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-vestibular-schwannoma-3to5y-tcp" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
