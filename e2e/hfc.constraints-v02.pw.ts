@@ -120,4 +120,15 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
     ).toContainText("Это не доверительный интервал");
   });
 
+  test("surfaces target-inclusive Milano brain V12 and distinct radionecrosis endpoints", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("brain-symptomatic-radionecrosis");
+
+    await expect(page.locator(".constraint-evidence-note")).toHaveCount(3);
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("Brain−GTV/PTV");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("разным исходам");
+  });
+
 });
