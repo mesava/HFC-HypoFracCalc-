@@ -542,6 +542,16 @@ export function ClinicalConstraintsView({
                   </p>
                 ) : null}
 
+                {constraint.sourceId === "milano-2021-hytec-optic" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC для зрительных путей: 10 Гр за 1 фракцию — рекомендованная граница Dmax при отсутствии предыдущей ЛТ. Более высокий уровень 12,1 Гр относится к объединённой модельной оценке 1% риска, но не заменяет рекомендацию 10 Гр. При повторном облучении зрительных нервов/хиазмы надёжная модель NTCP отсутствует — эти ограничения неприменимы автоматически.",
+                      "HyTEC optic pathways: 10 Gy in 1 fraction is the recommended Dmax limit without prior radiotherapy. The higher 12.1 Gy comes from a pooled model's 1% risk estimate, NOT the recommended 1-fraction limit. Reliable reirradiation NTCP data are insufficient; do not automatically apply these limits after previous optic radiation.",
+                    )}
+                  </p>
+                ) : null}
+
                 {constraint.sourceId === "milano-2021-hytec-brain" ? (
                   <p className="constraint-evidence-note">
                     {tx(
