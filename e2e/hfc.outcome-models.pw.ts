@@ -123,6 +123,13 @@ test.describe("HFC HyTEC outcome models", () => {
     await expect(
       page.getByText("≈ 90%", { exact: true }).first(),
     ).toBeVisible();
+    await expect(
+      page.locator(".outcome-source-discrepancy"),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(".outcome-source-discrepancy"),
+    ).toContainText("не воспроизводятся из уравнения (2)");
+
   });
 
 });
