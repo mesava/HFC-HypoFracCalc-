@@ -23,6 +23,11 @@
 | Brand 2021, *IJROBP* vol. 110, Table 3, LKB-EQD2 (all patients) | Девять ректальных endpoint-specific α/β: bleeding G1+/G2+, stool frequency G1+/G2+, pain G1+, proctitis G1+/G2+, sphincter G1+, stricture/ulcer G1+ — все центральные значения и обе границы 95% CI | `alphaBeta.ts`, 9 records | **9/9** чисел и CI совпадают; очень широкие CI у отдельных endpoints сохранены |
 | Brand online 2022 / print 2023, *IJROBP* vol. 115, Table 2, LKB-EQD2 | Десять GU endpoints: dysuria, haematuria, incontinence, reduced flow/stricture, urine frequency (каждый G1+/G2+) — все центральные α/β и обе границы 95% CI | `alphaBeta.ts`, 10 records | **10/10** чисел и CI совпадают; лишь dysuria G1+ и haematuria G1+/G2+ имели значимое улучшение модели при EQD2 correction, поэтому не следует трактовать остальные как надёжные defaults |
 
+| HyTEC Grimm major vessels 2021, section 8 | После повторного SBRT головы/шеи: стараться держать D0.5cc крупных сосудов <20 Gy при 5 fx и минимизировать объём >20–30 Gy; logistic Dmax ≈2% при 20 Gy и ≈12% при 30 Gy | `hytec-major-vessel-*` | Совпадает; не делать «жёсткую» универсальную толерантность |
+| HyTEC Kong lung 2021, Abstract | При 3–5 fx в большинстве серий симптоматическая лёгочная токсичность <10–15% при combined MLD <8 Gy и V20 <10–15%; общий порог толерантности не установлен | `hytec-lung-rilt-*` | Совпадает; учитывается исключительная чувствительность при ILD |
+| HyTEC Miften liver 2021, section 8 | MLD primary liver 13 Gy/3 fx и 18 Gy/6 fx; metastases 15 Gy/3 fx и 20 Gy/6 fx, заимствовано из QUANTEC и контекстуализировано HyTEC | `hytec-liver-*-mld-*` | Совпадает; необходимо сохранять разницу primary/metastases |
+| HyTEC Wang prostate toxicity 2021, Conclusions | Bladder V(Rx Dose) <5–10 cc, urethra Dmax <38–42 Gy, rectum Dmax <35–38 Gy; явная оговорка «не дают твёрдых tolerance doses» | `hytec-prostate-sbrt-*` | Совпадает; диапазоны не превращены в универсальные клинические ограничения |
+
 ## Важные границы переноса
 
 1. ReCOG Zhang 2026 использует **институциональные** ограничения, α/β=2.5 Gy и tissue recovery factors; авторы явно не называют α/β=2.5 универсальным. Приведённые TRF и OAR constraints нельзя вводить как автоматические значения HFC.
