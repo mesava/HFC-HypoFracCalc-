@@ -80,6 +80,12 @@
 
 **Дополнительный внешний источник вне переданного пользовательского корпуса:** Huang et al., Front Oncol online 10.01.2025, DOI `10.3389/fonc.2024.1431140`. Их 153-пациентная mixed primary/metastatic SBRT когорта даёт для Ohri 2-year LC `ROC AUC=0.633 [95% CI 0.552–0.710]` (Table 4), но **лишь 48 пациентов stage I, 60 metastatic; присутствуют 1fx курсы**, поэтому результат нельзя переименовывать в независимую stage-I-only clinical validation и нельзя переносить AUC CI на patient TCP. [Контекст с Table 2/4/5](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CONTEXT_2026-10.md) и [machine crosswalk](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CROSSWALK_2026-10.csv). Clinical G2/G3 remain OPEN; все source parameters и 6 TCP HFC values прежние.
 
+### P3.4 — repair T½: четыре source-abstract checks без клинического повышения статуса
+
+По двум внешне доступным официальным PubMed-аннотациям **исходных** работ Bentzen 1999 (PMID 10660202) и Bentzen/Ruifrok/Thames 1996 (PMID 8966232) сверены **3 endpoint-specific mean T½ с опубликованными 95%-ми Монте-Карло CI** (laryngeal oedema 4.9 [3.2–6.4] h, skin telangiectasia 3.8 [2.5–4.6] h, subcutaneous fibrosis 4.4 [3.8–4.9] h) и **1 предполагаемый диапазон mucosal repair 2–4h**, который **не является 95%-м CI**. Значение 3.2h для mucosa в первичном 1996 abstract описывает максимум modelled dose-equivalent difference between 4h vs 6h inter-fraction intervals, **не** опубликованную точечную оценку T½.
+
+Существующие шесть T½ записей: **3 external source-abstract point+MC-CI checked**, **1 external source-abstract qualitative-range checked**, **2 deprecated spinal/temporal-lobe остаются pending**. Счётчики полной базы теперь **20 full-primary-table/CI source checks + 39 separate P2 review + 4 external-primary-abstract limited checks + 40 P3 quantitative pending = 103**. Из 40 pending 15 имеют source file в пользовательском корпусе; 25 не имеют прямого файла. При этом первоначальные покрытие **73/103 user-file-supplied и 30/103 not supplied НЕ изменилось**. Сведения и численные crosswalk: [P3.4 report](P3_REPAIR_KINETICS_PRIMARY_ABSTRACT_AUDIT_2026-10.md), [data](P3_REPAIR_KINETICS_PRIMARY_CROSSCHECK_2026-10.csv), [source test](../tests/p3RepairKineticsSourceAudit.test.ts). Полные журнальные PDF, методики испытаний, схемы пациентской репарации и второй рецензент не проверены. Всё клиническое ядро, source dose/CI и `defaultEligible` остались прежними; **G4 остаётся OPEN**.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
