@@ -463,6 +463,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         "Only about 2% of original tumors received single-fraction SBRT; the source specifically excludes reliable predictions for single-fraction, dose per fraction below 8 Gy, and duration longer than two weeks.",
         "Source discussion prints 50 Gy/5fx for 1 cm as 93% at 2 years, while rounded published logistic parameters yield 94.8%: unresolved internal numerical example-versus-equation mismatch, NOT independently corrected. The other five examples differ from printed rounded values by <=0.54 percentage points.",
         "The NIH-author-manuscript original text is externally accessible at PMC3867931 although this source PDF was not supplied in the original 69-file user batch. No local original SHA256 or full figure-by-figure QA has been performed.",
+        "An additional external validation study (Huang et al., Front Oncol 2025, DOI 10.3389/fonc.2024.1431140; NOT in the original user literature bundle) reported Ohri 2-year ROC AUC 0.633 (95% CI 0.552–0.710) among 153 mixed primary/metastatic lung SBRT patients, including only 48 stage-I patients and 60 metastatic cases. This AUC is not a predicted TCP confidence interval, and the mixed population does NOT independently validate stage-I-specific calibration or expand the original model applicability.",
       ],
     },
     points: [

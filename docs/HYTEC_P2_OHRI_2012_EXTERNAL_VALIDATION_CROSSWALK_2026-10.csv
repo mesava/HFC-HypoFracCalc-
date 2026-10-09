@@ -1,0 +1,11 @@
+doi,source_kind,source_locator,metric,value,ci95_low,ci95_high,unit,endpoint,cohort,total_n,scope
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 2,cohort_total,153,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 2,stage_I,48,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 2,stage_IV,81,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 2,metastatic,60,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Results 3.2,two_year_local_recurrence,59,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 2,at_least_single_fraction_cases,21,,,patients,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 4,ohri_2y_auc,0.633,0.552,0.710,roc_auc,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 4,ohri_2y_sensitivity,42.4,,,% ,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 4,ohri_2y_specificity,80.9,,,% ,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only
+10.3389/fonc.2024.1431140,external_additional_not_user_supplied,Table 5,ohri_2y_HL_p,0.867,,,p_value,2y_local_control,mixed_primary_and_metastatic_lung_SBRT,153,not_stage_I_only

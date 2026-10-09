@@ -76,6 +76,10 @@
 
 По внешнему опубликованному авторскому оригиналу (PMC3867931, Results) сверены **маргинальные 95% CI** трёх параметров логистической модели: `TCD50=0 Gy [−30;30]`, `k=31 Gy [19;43]`, `c=10 Gy/cm [2;18]`. В HFC исходные `0/31/10` и все 6 опубликованных TCP-примера **не менялись**. Ошибочный **median follow-up 18.4 months** в meta-notes заменён на подтверждённый оригиналом **mean follow-up 18.4 months**. [Построчный CI-реестр](HYTEC_P2_OHRI_2012_PARAMETER_CI_LEDGER_2026-10.csv), [тест](../tests/hytecOhri2012ParameterUncertainty.test.ts), [подробный аудиторский отчёт](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md). Это **не** независимая полоса вероятности TCP и **не** снятие расхождения 93% vs 94.8%; источник в пользовательском архиве отсутствует, PDF SHA и page image не проверены. G2/G3 остаются OPEN.
 
+### P2.18 — внешний контекст модели Ohri 2012
+
+**Дополнительный внешний источник вне переданного пользовательского корпуса:** Huang et al., Front Oncol online 10.01.2025, DOI `10.3389/fonc.2024.1431140`. Их 153-пациентная mixed primary/metastatic SBRT когорта даёт для Ohri 2-year LC `ROC AUC=0.633 [95% CI 0.552–0.710]` (Table 4), но **лишь 48 пациентов stage I, 60 metastatic; присутствуют 1fx курсы**, поэтому результат нельзя переименовывать в независимую stage-I-only clinical validation и нельзя переносить AUC CI на patient TCP. [Контекст с Table 2/4/5](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CONTEXT_2026-10.md) и [machine crosswalk](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CROSSWALK_2026-10.csv). Clinical G2/G3 remain OPEN; все source parameters и 6 TCP HFC values прежние.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
