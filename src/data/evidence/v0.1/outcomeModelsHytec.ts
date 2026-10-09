@@ -456,8 +456,9 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The primary model uses size-adjusted BED10: sBED = BED10 - 10 × maximum tumour diameter in centimetres.",
         "HFC stores only explicit example predictions published by the source and does not run the continuous sBED TCP formula patient-specifically.",
-        "The original publication (DOI 10.1016/j.ijrobp.2012.04.040; NIH author manuscript PMC3867931) derived the model from 504 NSCLC tumors in 482 patients with 26 observed local failures and median 18.4-month follow-up; only a small number of recurrences were available for calibration.",
+        "The original publication (DOI 10.1016/j.ijrobp.2012.04.040; NIH author manuscript PMC3867931) derived the model from 504 NSCLC tumors in 482 patients with 26 observed local failures and mean 18.4-month follow-up; only a small number of recurrences were available for calibration.",
         "The published source fitted c=10 Gy/cm, TCD50=0 Gy and k=31 Gy in TCP=logistic((BED10-10*tumour_diameter_cm)/31); BED10 is prescribed PTV BED10, not isocenter dose or maximum PTV dose.",
+        "The published original reports marginal 95% confidence intervals for fitted parameters: c=10 Gy/cm (2–18 Gy/cm), TCD50=0 Gy (−30 to 30 Gy), and k=31 Gy (19–43 Gy). These source intervals are not independent patient-level TCP confidence bands; parameter covariance and fitted-curve 95% bands have not been reconstructed.",
         "The publication explicitly warns not to interpret sBED=0 / TCD50=0 as 50% untreated control; observations mostly had sBED >=50 Gy, so the logistic tail outside the fit is not calibrated.",
         "Only about 2% of original tumors received single-fraction SBRT; the source specifically excludes reliable predictions for single-fraction, dose per fraction below 8 Gy, and duration longer than two weeks.",
         "Source discussion prints 50 Gy/5fx for 1 cm as 93% at 2 years, while rounded published logistic parameters yield 94.8%: unresolved internal numerical example-versus-equation mismatch, NOT independently corrected. The other five examples differ from printed rounded values by <=0.54 percentage points.",

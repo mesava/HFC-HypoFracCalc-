@@ -1,0 +1,4 @@
+source_id,doi,primary_locator,coefficient,estimate,ci95_low,ci95_high,unit,interval_kind,user_original_pdf_supplied,pdf_page_verified,source_url
+ohri-2012-nsclc-size-tcp,10.1016/j.ijrobp.2012.04.040,PMC3867931 Results,TCD50,0,-30,30,Gy,published_marginal_parameter_95pct_CI,false,false,https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/
+ohri-2012-nsclc-size-tcp,10.1016/j.ijrobp.2012.04.040,PMC3867931 Results,k,31,19,43,Gy,published_marginal_parameter_95pct_CI,false,false,https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/
+ohri-2012-nsclc-size-tcp,10.1016/j.ijrobp.2012.04.040,PMC3867931 Results,c,10,2,18,Gy/cm,published_marginal_parameter_95pct_CI,false,false,https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/
