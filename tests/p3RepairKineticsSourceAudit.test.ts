@@ -58,7 +58,7 @@ describe("P3 repair source: exact endpoint means/Monte Carlo intervals and mucos
 
   it("retains the primary 1996 mucosal 2–4 h probable RANGE; 3.2 h is not a fitted point", () => {
     const row = byId("t12-oral-mucositis-bcr2025");
-    const record = fromHfc(row.record_id);
+    const record = fromHfc(row.record_id!);
     expect(row.doi).toBe("10.1016/0167-8140(95)01689-9");
     expect(row.pmid).toBe("8966232");
     expect(row.ci95_kind).toBe("qualitative_probable_range_no_CI");
