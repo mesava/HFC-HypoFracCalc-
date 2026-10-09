@@ -37,7 +37,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The CHART point estimate is small and its 95% confidence interval includes zero.",
+      "The CHART point estimate is small and its 95% confidence interval includes zero. This is early SKIN ERYTHEMA rather than tumour-control repopulation, and the original 2001 author abstract does not independently establish its displayed EQD2 normalization or a numerical Tk.",
     applicability: {
       radiationQuality: "photon",
       technique: ["head-and-neck EBRT"],
@@ -125,7 +125,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "supported",
     supportReason:
-      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only.",
+      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only. Published source best-fit Tk=21 days (95% CI 0–27), but did not demonstrate a statistically significant lag. The 0.8 Gy/day extra-dose time factor is not independently shown here to be numerically identical to an EQD2 Gy/day loss.",
     applicability: {
       radiationQuality: "photon",
       technique: ["larynx EBRT"],
@@ -227,7 +227,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -247,7 +247,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -286,7 +286,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The START combined analysis directly estimated 0.60 Gy/day (95% CI 0.10-1.18) for local-regional relapse, but the authors describe the result as hypothesis-generating and the time-effect estimate is driven by START-B. No universal Tk is supplied, so HFC keeps it explicit-only.",
+      "The START combined analysis directly estimated 0.60 Gy/day (95% CI 0.10-1.18) for local-regional relapse, but the authors describe the result as hypothesis-generating and the time-effect estimate is driven by START-B. No universal Tk is supplied, so HFC keeps it explicit-only. The estimate was principally informed by START-B; it is hypothesis-generating. Conversion of published extra Gy/day to an HFC EQD2 dose-time penalty requires independent source-equation verification.",
     applicability: {
       radiationQuality: "photon",
       technique: ["breast EBRT"],
