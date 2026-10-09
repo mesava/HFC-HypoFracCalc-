@@ -43,15 +43,16 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
     const count=(state:string)=>data.filter(x=>x.current_phase_review_status===state).length;
     expect(count("p3_primary_table_parameter_and_95pct_ci_checked")).toBe(20);
     expect(count("p2_source_review_in_separate_73_record_ledger")).toBe(39);
-    expect(count("p3_primary_numeric_and_uncertainty_crosscheck_pending")).toBe(40);
+    expect(count("p3_primary_numeric_and_uncertainty_crosscheck_pending")).toBe(38);
     expect(count("p3_external_primary_abstract_MC_parameter_CI_checked_full_pdf_pending")).toBe(3);
     expect(count("p3_external_primary_abstract_qualitative_range_checked_full_pdf_pending")).toBe(1);
+    expect(count("p3_external_primary_abstract_counterevidence_legacy_bound_unverified")).toBe(2);
     const strict=data.filter(x=>x.current_phase_review_status==="p3_primary_table_parameter_and_95pct_ci_checked");
     expect(strict.filter(x=>x.source_id==="brand-2021-chhip-rectal")).toHaveLength(9);
     expect(strict.filter(x=>x.source_id==="brand-2023-chhip-gu")).toHaveLength(10);
     expect(strict.filter(x=>x.source_id==="vogelius-bentzen-2020-prostate")).toHaveLength(1);
     const unresolved=data.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending");
-    expect(unresolved.filter(x=>x.user_file_supplied==="true")).toHaveLength(15);
+    expect(unresolved.filter(x=>x.user_file_supplied==="true")).toHaveLength(13);
     expect(unresolved.filter(x=>x.user_file_supplied==="false")).toHaveLength(25);
   });
 
@@ -61,9 +62,10 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
       const rows=data.filter(x=>x.record_family===group);
       expect(rows.length).toBeGreaterThan(0);
       if(group==="repair-half-time") {
-        expect(rows.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending")).toHaveLength(2);
+        expect(rows.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending")).toHaveLength(0);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_MC_parameter_CI_checked_full_pdf_pending")).toHaveLength(3);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_qualitative_range_checked_full_pdf_pending")).toHaveLength(1);
+        expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_counterevidence_legacy_bound_unverified")).toHaveLength(2);
       } else {
         expect(rows.every(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending")).toBe(true);
       }

@@ -105,6 +105,7 @@ export const repairHalfTimeEstimates = [
       priorRadiotherapy: "not-reported",
       notes: [
         "Deprecated from active selection in v0.10; use an explicit user assumption if a spinal-cord repair half-time is required.",
+      "Independent primary-publication abstract audit: Bender ET 2012 (DOI 10.1118/1.4762562; PMID 23127096) reports a 4.1-hour monoexponential spinal-cord myelopathy best fit, range 0–8 hours. It does not verify the legacy >5-hour secondary summary bound. Its reported range must not be re-labeled as a 95% CI without full-paper statistical verification.",
       ],
     },
   },
@@ -125,6 +126,7 @@ export const repairHalfTimeEstimates = [
       priorRadiotherapy: "not-reported",
       notes: [
         "Deprecated from active selection in v0.10; no single validated temporal-lobe repair half-time is proposed.",
+      "Bender ET 2012 reports a 38.1-hour monoexponential repair estimate (range 6.9–76 hours) for broad brain necrosis, not an independently established temporal-lobe-specific T1/2. Lee et al 1998 (PMID 9422555) and 2002 (PMID 12007944) report fractionation/OTT/BID-related temporal-lobe necrosis risks, but their accessible abstracts do not give the legacy >4-hour repair halftime. The Lee 2002 BID hazard ratio (13; 95% CI 3–54) is an outcome risk ratio, not a repair-time estimate.",
       ],
     },
   },
