@@ -59,7 +59,7 @@ describe("P3.8 FAST 2020 primary article table four seven endpoints",()=>{
  it("all FAST cohort schedules preserve once-weekly 5fx context and original exact comparator",()=>{
   const note=alphaBetaEstimates.find(x=>x.id==="ab-breast-photo-fast2020")!.applicability!;
   expect(note.notes?.join(" ")).toMatch(/once weekly/i);
-  expect(note.fractionCountRange).toEqual({min:5,max:25});
+  expect("fractionCountRange" in note && note.fractionCountRange).toEqual({min:5,max:25});
   expect(rows.some(x=>x.source_primary_fulltext_access==="publisher_article_PMC_text_and_author_upload_table4")).toBe(true);
  });
 });
