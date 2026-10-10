@@ -71,7 +71,8 @@
 | **P3 external primary-abstract numeric+95% CI checks (repopulation)** | **7** | CHART×2, Roberts, Hinata×2, Haviland, Geh; BED/EQD2 normalization OPEN |
 | **P3.7 limited original abstract point-only checks** | **3** | Withers, Koukourakis, Thames; dose basis OPEN |
 | **P3.7 original approximate + QUANTEC exact secondary** | **1** | Bentzen pneumonitis, one SE not CI |
-| **P3 quantitative crosscheck pending** | **27** | 24 alpha/beta + 3 repopulation; 13 with source files, 14 without |
+| **P3.8 external published primary FAST Table 4 numeric+EQD2 checked** | **7** | Seven FAST 2020 alpha/beta rows checked against accessible primary article/table; original user PDF binary and primary GEE refit pending |
+| **P3 quantitative crosscheck pending** | **20** | 17 alpha/beta + 3 repopulation; 6 with source files, 14 without |
 | **Всего** | **103** | Это **103 record IDs**, а не 73 HyTEC source-point/constraint IDs; все без клинического `release approval` |
 
 **Приоритет исполнения:** из **15 ожидающих и обеспеченных файлами** начать с оригинальных FAST/FAST-Forward/2026 corrected supplements и BCR/Thames repair; отдельно добывать **29** не включённых в поставку первоисточников (без приписывания им отсутствия в литературе). Затем сопоставить свободно используемые temporal/repair modifiers с source units (BED vs EQD2) и ограничениями клинического контекста. До результата independent primary source/CI/manual checking нельзя повышать `defaultEligible`, вводить новые формулы или объявлять `validated`.
@@ -109,6 +110,12 @@
 [Source report](P3_REPOPULATION_REMAINING_EIGHT_PRIMARY_SOURCE_AUDIT_2026-10.md), [8-record crosswalk](P3_REPOPULATION_REMAINING_EIGHT_CROSSWALK_2026-10.csv), [regression test](../tests/p3RepopulationRemainingEightSourceAudit.test.ts). Confirmed original abstract numbers (no full PDF or EQD2 formula sign-off): Withers tonsil 0.73 Tk30 vs alternate 0.53 for early onset; Geh preoperative oesophageal pCR 0.59 (95% CI .18–.99); Koukourakis NSCLC NTD-T 0.45 pooled vs 0.20 without mediastinal involvement; Thames prostate 0.24 and statistical 52-day cut != Tk. Bentzen 2000 pneumonitis original abstract says around 0.5; QUANTEC reports exact 0.54 ± 0.21 **one SE**, not primary 95% CI. Three remain pending BCR generic HN 0.8 Tk21 (deprecated), BCR larynx 0.74 (deprecated), Hendry 0.64 (.42–.86 not in author abstract).
 
 Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs while list excludes them; any hard block is a P4 approval issue, not modified during P3. 103=20 primary tables +39 P2 separate +6 repair abstracts +7 repopulation CI abstracts +3 repopulation source point-only +1 secondary approximate +27 pending. Original files 73/103, clinical approval none; `draft` retained, G4/G5 OPEN.
+
+### P3.8 — FAST 2020 source Table 4 seven alpha/beta estimates
+
+[Источник и методологические границы](P3_FAST_2020_SEVEN_ENDPOINT_PRIMARY_TABLE_AUDIT_2026-10.md), [числовой crosswalk Table 4](P3_FAST_2020_TABLE4_SOURCE_CROSSWALK_2026-10.csv), [regression](../tests/p3Fast2020PrimaryTableAudit.test.ts). Первичный JCO Brunt 2020 DOI 10.1200/JCO.19.02750, PMC7526720, Table 4, printed p3270, source article text plus author-uploaded table transcription. **7/7 HFC points matched source, 6/6 reported CI bounds matched; edema 1.9 Gy has NO reported CI; induration CI low=0 was publication-truncated**. Table 4 EQD2 values checked by independent LQ formula with limited tolerance for rounded alpha/beta; not a GEE re-fit or patient-level validation. FAST **once-weekly** 5fx/5 weeks, not FAST-Forward daily 5fx/1 week. Source paper PDF user binary/SHA/page visual remains pending and approval all false. No coefficient changes.
+
+**103 audit counts:** 20 earlier primary PDF-table checks +39 P2 ledger +6 restricted repair abstracts +7 time-rate primary CI abstracts +3 time-rate point-only +1 lung approximate/secondary +7 FAST external primary-fulltext table transcriptions +20 pending =103. Pending 6 supplied-source-ID files /14 absent, original user-source file coverage remains 73/103. G4 OPEN.
 
 ## Release gates (обязательные до вывода P4/RC)
 

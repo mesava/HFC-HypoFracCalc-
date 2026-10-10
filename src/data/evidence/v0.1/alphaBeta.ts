@@ -40,6 +40,8 @@ const fastApplicability: ApplicabilityDomain = {
   notes: [
     "Schedules: 50 Gy/25 fractions over 5 weeks, or 30 Gy/5 and 28.5 Gy/5 once-weekly fractions over 5 weeks.",
     "The 5-fraction schedules were once weekly, not daily.",
+    "P3.8 external source audit: original FAST 2020 Table 4 has seven late-NTE alpha/beta entries; breast induration lower 95% limit was truncated at zero, breast edema 1.9 Gy has no published 95% interval, and Table 4 EQD2 results may differ slightly from results recalculated using rounded printed alpha/beta.",
+    "Scientific review is limited to source parameter/table transcription; user-supplied binary PDF verification and independent GEE fit remain outstanding.",
   ],
 };
 
