@@ -1,0 +1,5 @@
+record_id,source_id,source_table,source_file_page_1indexed,source_printed_page,clinical_endpoint,source_point_Gy_or_Gy_day,source_95CL_low,source_95CL_high,source_Tk_days,source_original_referenced_author,source_is_secondary,user_BCR_supplied,primary_origin_paper_verified,source_page_image_verified,default_eligible,clinical_release_approved
+ab-bowel-stricture-perforation-bcr2025,bcr-2025-ch10-tables,table10_1,120,105,bowel_stricture_perforation,3.9,2.5,5.3,,Deore_1993,true,true,false,false,false,false
+dprolif-hn-various-bcr2025,bcr-2025-ch10-tables,table10_3,123,108,head_neck_various_legacy,0.8,0.5,1.1,21,Roberts_1994_source_cohort_is_node_negative_larynx,true,true,false,true,false,false
+dprolif-hn-larynx-bcr2025,bcr-2025-ch10-tables,table10_3,123,108,larynx_local_control,0.74,0.3,1.2,,Robertson_1998_primary_0point89_not_reconciled,true,true,false,true,false,false
+dprolif-hn-various-alternative-bcr2025,hendry-1996-missed-days,table10_3,123,108,head_neck_various_literature_pooled,0.64,0.42,0.86,,Hendry_1996_literature_pooled_footnote_a_not_primary_paper_table,true,false,false,true,false,false

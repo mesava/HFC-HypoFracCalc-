@@ -110,7 +110,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Endpoint-specific historical human estimate summarized in Basic Clinical Radiobiology 2025; the originating Deore et al. analysis has not yet been independently curated to the level required for automatic selection.",
+      "Endpoint-specific historical human estimate summarized in Basic Clinical Radiobiology 2025; the originating Deore et al. analysis has not yet been independently curated to the level required for automatic selection. P3.11: exact 3.9 Gy alpha/beta with textbook 95% CL 2.5–5.3 copied from user-supplied BCR 2025 Chapter 10 Table 10.1 (PDF page 120, printed 105). This is SECONDARY source fidelity only, not Deore 1993 original primary-model reanalysis; no default selection or clinical approval.",
     applicability: photonClinical,
   },
   {

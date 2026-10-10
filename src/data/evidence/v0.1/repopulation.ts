@@ -59,7 +59,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The numerical 0.8 Gy/day and Tk=21 day pair is directly supported by Roberts 1994 for node-negative laryngeal cancer, not for a generic HNSCC endpoint. This broad BCR-derived record is therefore retained only for audit replay and removed from new selection.",
+      "The numerical 0.8 Gy/day and Tk=21 day pair is directly supported by Roberts 1994 for node-negative laryngeal cancer, not for a generic HNSCC endpoint. This broad BCR-derived record is therefore retained only for audit replay and removed from new selection. P3.11: uploaded BCR Table 10.3 PDF page 123 does directly display a head-neck Various row 0.8 [0.5,1.1] Gy/day Tk21 sourced as Robers 1994 (textbook spelling). Chapter 10.6 defines its Dprolif as EQD2 loss/day; this verifies textbook transcription only and does not generalize the restricted Roberts primary larynx cohort.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -84,7 +84,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Hendry 1996 is a modelled synthesis of clinical literature rather than a single endpoint-specific prospective estimate. The pooled 0.64 Gy/day (95% CI 0.42-0.86) value is retained for explicit sensitivity analysis only.",
+      "Hendry 1996 is a modelled synthesis of clinical literature rather than a single endpoint-specific prospective estimate. The pooled 0.64 Gy/day (95% CI 0.42-0.86) value is retained for explicit sensitivity analysis only. P3.11: BCR 2025 Table 10.3 original supplied textbook p123 prints 0.64 [0.42,0.86] and explicitly footnotes the figure as a literature-pooled estimate, under its EQD2/day dose-loss definition. Hendry original full model/source interval unverified; not clinical default.",
     applicability: {
       radiationQuality: "photon",
       technique: ["radical head-and-neck EBRT"],
@@ -103,7 +103,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "poor-fit",
     supportReason:
-      "The BCR summary value 0.74 Gy/day (95% CI 0.30-1.20) could not be reproduced from the identified Robertson 1998 primary analyses; a four-centre Robertson analysis reports gamma/alpha 0.89 Gy/day (95% CI 0.35-1.43). HFC retires the 0.74 record rather than silently substituting a different model result.",
+      "The BCR summary value 0.74 Gy/day (95% CI 0.30-1.20) could not be reproduced from the identified Robertson 1998 primary analyses; a four-centre Robertson analysis reports gamma/alpha 0.89 Gy/day (95% CI 0.35-1.43). HFC retires the 0.74 record rather than silently substituting a different model result. P3.11: BCR 2025 original Table 10.3 PDF page 123 does reproduce 0.74 with [0.30,1.20] Gy/day under EQD2-based Dprolif and identifies Robertson et al 1998, but this does NOT resolve discrepancy with Robertson published 0.89 [0.35,1.43] and cannot reactivate the deprecated record.",
     applicability: {
       radiationQuality: "photon",
       technique: ["larynx EBRT"],
