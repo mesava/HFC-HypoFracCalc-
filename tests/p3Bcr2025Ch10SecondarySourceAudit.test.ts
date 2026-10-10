@@ -29,7 +29,7 @@ describe("P3.11 BCR 2025 exact secondary table source fidelity without false pri
    expect(Number(row.source_95CL_high)).toBe(hi);
    expect(row.source_Tk_days).toBe(Tk);
    expect(row.source_is_secondary).toBe("true");
-   expect(row.user_BCR_supplied).toBe(String(bcrSupplied));
+   expect(row.record_direct_source_file_supplied).toBe(id==="dprolif-hn-various-alternative-bcr2025"?"false":"true");
    expect(row.primary_origin_paper_verified).toBe("false");
    expect(row.source_page_image_verified).toBe(page===123?"true":"false");
    expect(row.clinical_release_approved).toBe("false");

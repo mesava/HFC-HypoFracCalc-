@@ -84,12 +84,12 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
       expect(rows.length).toBeGreaterThan(0);
       if(group==="repair-half-time") {
         expect(rows.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending")).toHaveLength(0);
-        expect(rows.filter(x=>x.current_phase_review_status==="p3_user_secondary_BCR_table_original_numbers_checked_primary_source_open")).toHaveLength(2);
-        expect(rows.filter(x=>x.current_phase_review_status==="p3_external_secondary_BCR_1996_Hendry_95limits_checked_primary_synthesis_open")).toHaveLength(1);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_MC_parameter_CI_checked_full_pdf_pending")).toHaveLength(3);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_qualitative_range_checked_full_pdf_pending")).toHaveLength(1);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_counterevidence_legacy_bound_unverified")).toHaveLength(2);
       } else {
+        expect(rows.filter(x=>x.current_phase_review_status==="p3_user_secondary_BCR_table_original_numbers_checked_primary_source_open")).toHaveLength(2);
+        expect(rows.filter(x=>x.current_phase_review_status==="p3_external_secondary_BCR_1996_Hendry_95limits_checked_primary_synthesis_open")).toHaveLength(1);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_numeric_CI_matched_dose_basis_open")).toHaveLength(7);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending")).toHaveLength(0);
         expect(rows.filter(x=>x.current_phase_review_status==="p3_external_primary_abstract_point_and_alternative_assumption_checked_EQD2_open")).toHaveLength(1);
