@@ -1,0 +1,3 @@
+record_id,source_gamma_alpha_GyBED_day,Tk_days,toy_alpha_beta_Gy,toy_fractions,toy_fraction_dose_Gy,toy_OTT_days,toy_active_days,toy_raw_BED_Gy,toy_raw_EQD2_Gy,toy_source_BED_penalty_GyBED,toy_source_final_time_EQD2_penalty_GyEQD2,toy_HFC_current_EQD2_penalty_GyEQD2,toy_excess_loss_GyEQD2,source_tBEDmax_reproduced,original_PDF_binary_visual_verified,clinical_release_approved
+dprolif-medulloblastoma-bcr2025,0.52,0,10,30,2,45,45,72,60,23.4,19.5,23.4,3.9,false,false,false
+dprolif-medulloblastoma-tk21-hinata2001,0.55,21,10,30,2,45,24,72,60,13.2,11,13.2,2.2,false,false,false

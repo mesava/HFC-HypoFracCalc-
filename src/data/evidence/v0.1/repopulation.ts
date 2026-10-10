@@ -227,7 +227,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review. This original-source maximum-tBED endpoint can occur BEFORE the final fraction in prolonged courses; HFC v0.1 computes only final OTT EQD2 penalties. P3.9 documents dimensional counterexamples, not a clinically validated model conversion.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -247,7 +247,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review. This original-source maximum-tBED endpoint can occur BEFORE the final fraction in prolonged courses; HFC v0.1 computes only final OTT EQD2 penalties. P3.9 documents dimensional counterexamples, not a clinically validated model conversion.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],

@@ -117,6 +117,10 @@ Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs wh
 
 **103 audit counts:** 20 earlier primary PDF-table checks +39 P2 ledger +6 restricted repair abstracts +7 time-rate primary CI abstracts +3 time-rate point-only +1 lung approximate/secondary +7 FAST external primary-fulltext table transcriptions +20 pending =103. Pending 6 supplied-source-ID files /14 absent, original user-source file coverage remains 73/103. G4 OPEN.
 
+### P3.9 — Hinata 2001: published tBED equation, tBEDmax and numerical BED/EQD2 dimensional boundary
+
+[Primary author-uploaded manuscript text vs HFC source-only audit](P3_HINATA_2001_TBED_MAXIMUM_SOURCE_EQUATION_AUDIT_2026-10.md), [two fixed hypothetical scenario rows](P3_HINATA_2001_DOSE_BASIS_COUNTEREXAMPLES_2026-10.csv), [regression test](../tests/p3HinataTbedDoseBasisBoundary.test.ts). Source PMID 11383644: original author abstract states tBEDmax calculated via profile-likelihood Cox model. An independently available 2001 author-uploaded full-paper searchable text transcription shows the explicit time-corrected LQ form `tBED=D(1+d/(alpha/beta))-(gamma/alpha)*max(T-Tk,0)` and maximum-over-time definition of tBEDmax, **but original PDF binary/page-image and full article model re-fit still not verified**. HFC stores original 0.52/0.55 as `EQD2` basis; source tBED coefficients are **BED/day**. Toy 30x2Gy at OTT45/Tk21, alpha/beta10 illustrates nominal model mismatch 2.2 Gy_EQD2 (source final-time BED penalty converts to 11.0 Gy_EQD2, HFC currently applies 13.2 Gy_EQD2); the original source uses **maximum tBED**, so even this arithmetic is only an illustrative dimensional counterexample, not clinical correction. No runtime calculations/coefficients changed, clinical release stays draft, critical P3-C03 OPEN.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
