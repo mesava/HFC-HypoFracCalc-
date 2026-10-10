@@ -57,6 +57,8 @@ const fastForwardApplicability: ApplicabilityDomain = {
   notes: [
     "Schedules: 40 Gy/15 fractions over 3 weeks, 27 Gy/5 fractions over 1 week, 26 Gy/5 fractions over 1 week.",
     "Alpha/beta estimates are from the planned 10-year FAST-Forward analysis (Appendix Table D5).",
+    "P3.10 primary supplied appendix audit: file page 21 (printed appendix page 20) Table D5 verified from text and page image. Three record estimates and 95% intervals match; table prints 12 model/regimen EQD2 points across Cox IBR and composite GEE NTE fits. Differences of 0.1 Gy between adjusted/unadjusted NTE EQD2 despite identical displayed alpha/beta 2.1 Gy are due to rounding of fitted coefficients, not an independent discrepancy.",
+    "Scientific provenance status: user source PDF indexed page checked; original binary SHA and independent refitting of Cox/GEE remain unavailable; does not approve clinical release.",
   ],
 };
 
