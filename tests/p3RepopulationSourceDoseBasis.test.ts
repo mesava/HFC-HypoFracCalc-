@@ -35,7 +35,9 @@ describe("P3.6 14-record repopulation primary-abstract and dose-basis integrity"
   expect(new Set(records.map(r=>r.record_id)).size).toBe(14);
   expect(new Set(repopulationRateEstimates.map(r=>r.id))).toEqual(new Set(records.map(r=>r.record_id)));
   expect(records.filter(r=>r.source_validation_depth==="author_abstract_numeric_matched_full_model_pending")).toHaveLength(6);
-  expect(records.filter(r=>r.source_validation_depth==="pending_primary_numeric_and_units")).toHaveLength(8);
+  expect(records.filter(r=>r.source_validation_depth==="author_abstract_point_matched_model_pending")).toHaveLength(4);
+  expect(records.filter(r=>r.source_validation_depth==="primary_abstract_approx_QUANTEC_secondary_exact")).toHaveLength(1);
+  expect(records.filter(r=>r.source_validation_depth==="P3.7_still_primary_numeric_pending_after_source_review")).toHaveLength(3);
   expect(records.every(r=>r.clinical_approved==="false")).toBe(true);
   expect(records.filter(r=>r.pdf_original_user_supplied==="true")).toHaveLength(2);
  });
@@ -76,8 +78,8 @@ describe("P3.6 14-record repopulation primary-abstract and dose-basis integrity"
   expect(bedRateToEqdRate(.55,10)).toBeCloseTo(.55/1.2,12);
   expect(bedRateToEqdRate(.52,10)).not.toBeCloseTo(.52,2);
  });
- it("does not fabricate model coefficients or CIs for eight source-review pending records",()=>{
-  for(const row of records.filter(r=>r.source_validation_depth==="pending_primary_numeric_and_units")){
+ it("does not fabricate primary-publication numerical CIs for three source-review pending records",()=>{
+  for(const row of records.filter(r=>r.source_validation_depth==="P3.7_still_primary_numeric_pending_after_source_review")){
     expect(row.published_parameter_gy_per_day).toBe("");
     expect(row.published_ci95_low).toBe("");
     expect(row.published_ci95_high).toBe("");
