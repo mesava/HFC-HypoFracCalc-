@@ -68,8 +68,10 @@
 | **P3 primary source numerical + 95% CI checked** | **20** | Brand rectal 9, Brand GU 10, Vogelius prostate 1; не повторная подгонка и не clinical commissioning |
 | **P2 source-scoped review (другой предмет аудита)** | **39** | HyTEC `OutcomeModel`, `ClinicalConstraint` и отдельный reirradiation source record; их фактическая проверка по точкам/критериям находится в [73-record P2 ledger](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md), нельзя трактовать как 39 независимо fitted |
 | **P3 ограниченный review по внешним primary abstracts (T½)** | **6** | 3 matched MC-derived parameter CI, 1 probable range, 2 CNS legacy threshold NOT verified / external comparative evidence |
-| **P3 external primary-abstract numeric+95% CI checks (repopulation)** | **6** | CHART 2001 ×2, Roberts 1994 ×1, Hinata 2001 ×2, Haviland 2016 ×1; source BED↔EQD2 normalization remains OPEN |
-| **P3 quantitative crosscheck pending** | **32** | Остальные alpha/beta 24, repopulation/time 8; **13** имеют пользовательский файл, **19** без файла |
+| **P3 external primary-abstract numeric+95% CI checks (repopulation)** | **7** | CHART×2, Roberts, Hinata×2, Haviland, Geh; BED/EQD2 normalization OPEN |
+| **P3.7 limited original abstract point-only checks** | **3** | Withers, Koukourakis, Thames; dose basis OPEN |
+| **P3.7 original approximate + QUANTEC exact secondary** | **1** | Bentzen pneumonitis, one SE not CI |
+| **P3 quantitative crosscheck pending** | **27** | 24 alpha/beta + 3 repopulation; 13 with source files, 14 without |
 | **Всего** | **103** | Это **103 record IDs**, а не 73 HyTEC source-point/constraint IDs; все без клинического `release approval` |
 
 **Приоритет исполнения:** из **15 ожидающих и обеспеченных файлами** начать с оригинальных FAST/FAST-Forward/2026 corrected supplements и BCR/Thames repair; отдельно добывать **29** не включённых в поставку первоисточников (без приписывания им отсутствия в литературе). Затем сопоставить свободно используемые temporal/repair modifiers с source units (BED vs EQD2) и ограничениями клинического контекста. До результата independent primary source/CI/manual checking нельзя повышать `defaultEligible`, вводить новые формулы или объявлять `validated`.
@@ -101,6 +103,12 @@
 **Высокий риск:** Hinata рассчитан как \(\gamma/\alpha\) с временем-скорректированной **BED (tBED)**, но в HFC обе записи имеют `basis: EQD2`; полное уравнение, размерности, преобразование и клинические следствия требуют P4 отдельного решения. Пока численный расчёт/набор не изменён, добавлено критическое научное предупреждение для явного выбора записи (limited support). BCR timing BED-based K не заменяется числами Dprolif; весь Treatment Gap v0.1 использует EQD2 basis only. **G4 OPEN**.
 
 Итог P3 queue: **20** primary-table checks + **39** separate P2 review + **6** repair limited abstracts + **6** time-loss limited abstracts + **32** pending = **103**. У 32 pending: 13 user-file supplied/19 not; пользовательское покрытие исходными файлами по всем 103 **не изменено (73/103)**. Все клинические release approvals false.
+
+### P3.7 — eight residual time-loss records (10 October 2026)
+
+[Source report](P3_REPOPULATION_REMAINING_EIGHT_PRIMARY_SOURCE_AUDIT_2026-10.md), [8-record crosswalk](P3_REPOPULATION_REMAINING_EIGHT_CROSSWALK_2026-10.csv), [regression test](../tests/p3RepopulationRemainingEightSourceAudit.test.ts). Confirmed original abstract numbers (no full PDF or EQD2 formula sign-off): Withers tonsil 0.73 Tk30 vs alternate 0.53 for early onset; Geh preoperative oesophageal pCR 0.59 (95% CI .18–.99); Koukourakis NSCLC NTD-T 0.45 pooled vs 0.20 without mediastinal involvement; Thames prostate 0.24 and statistical 52-day cut != Tk. Bentzen 2000 pneumonitis original abstract says around 0.5; QUANTEC reports exact 0.54 ± 0.21 **one SE**, not primary 95% CI. Three remain pending BCR generic HN 0.8 Tk21 (deprecated), BCR larynx 0.74 (deprecated), Hendry 0.64 (.42–.86 not in author abstract).
+
+Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs while list excludes them; any hard block is a P4 approval issue, not modified during P3. 103=20 primary tables +39 P2 separate +6 repair abstracts +7 repopulation CI abstracts +3 repopulation source point-only +1 secondary approximate +27 pending. Original files 73/103, clinical approval none; `draft` retained, G4/G5 OPEN.
 
 ## Release gates (обязательные до вывода P4/RC)
 

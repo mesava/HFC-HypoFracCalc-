@@ -1,0 +1,9 @@
+record_id,source_id,pmid,doi,HFC_Gy_day,primary_abstract_point,primary_95CI_low,primary_95CI_high,scope,primary_exact,full_pdf_checked,EQD2_units_checked,clinical_approved
+dprolif-hn-tonsil-bcr2025,withers-1995-tonsil-time,7558943,10.1016/0360-3016(95)00228-Q,.73,.73,,,tonsil_0.53_if_early_vs_0.73_Tk30,true,false,false,false
+dprolif-esophagus-pcr-geh2006,geh-2006-esophagus,16545878,10.1016/j.radonc.2006.01.009,.59,.59,.18,.99,preoperative_CRT_pCR_1335patients,true,false,false,false
+dprolif-nsclc-bcr2025,koukourakis-1996-nsclc-time,8567332,10.1016/0360-3016(95)02102-7,.45,.45,,,NTD_T_0.45_all_0.20_no_mediastinal,true,false,false,false
+dprolif-prostate-bcr2025,thames-2010-prostate-time,20400191,10.1016/j.radonc.2010.03.020,.24,.24,,,low_intermediate_GE70Gy_52day_cut_not_Tk,true,false,false,false
+dprolif-lung-pneumonitis-bentzen2000,bentzen-skoczylas-bernier-2000-lung,10815624,10.1080/095530000138448,.54,,,,primary_around0.5_QUANTEC_0.54_plusminus0.21_ONE_SE,false,false,false,false
+dprolif-hn-various-bcr2025,bcr-2025-ch10-tables,,,,,,,BCR_generic_versus_specific_Roberts_larynx,false,false,false,false
+dprolif-hn-various-alternative-bcr2025,hendry-1996-missed-days,8934049,,,,,,Hendry_0.64_CI_not_in_author_abstract,false,false,false,false
+dprolif-hn-larynx-bcr2025,bcr-2025-ch10-tables,,,,,,,BCR_0.74_vs_Robertson_0.89_unresolved,false,false,false,false
