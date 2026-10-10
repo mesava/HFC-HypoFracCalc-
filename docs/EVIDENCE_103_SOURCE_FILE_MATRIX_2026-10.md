@@ -10,6 +10,22 @@
 - В частности, состояние `validated` не гарантирует source-by-source независимое подтверждение в рамках предоставленных PDF.
 - Дубликаты PDF/XML, supplements и рисунки сгруппированы под родительской публикацией, но не считаются самостоятельными клиническими коэффициентами.
 
+## После этапа P2.13: разграничение выборок и следующий научный контроль
+
+Число «73» здесь **означает 73 из 103 alpha/beta/repair/repopulation evidence records с source ID, для которых пользователь предоставил хотя бы один первичный файл**. Это **не 73 source-linked HyTEC clinical point/constraint records** из [отдельного P2 реестра](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md): последний имеет 67 записей с полученным первичным документом и 6 NSCLC non-HyTEC points без оригинала. Совпадение чисел не свидетельствует об одинаковом составе выборок.
+
+После P2.13 у 73-записного HyTEC ledger больше **нет записей в состоянии только указателя на страницу**, но **2 source contradictory и 6 primary absent**, а оставшиеся source-guidance records **не равны независимо fitted/validated clinical models**. Для 103-record матрицы прежние validation labels (`validated`/ `validated-primary`) — **предшествующий software inventory**, не post-2026-10 научная оценка.
+
+Из **30** records без прямого файла в данном комплекте: **13 α/β**, **4 repair half-time**, **12 repopulation/time-penalty** и **1 other (Ohri2012 source)**. Источники без прямого PDF по-прежнему требуют независимого primary-source crosscheck, особенно repair and time compensation clinical applicability. Новый [P1/P2/P3 release gate](HFC_SCIENTIFIC_PHASE_GATE_2026-10.md) задаёт порядок и блокеры. Пока нет исходного ZIP SHA256, полной постраничной HyTEC QA и второго клинического рецензента, **статус clinical release останется draft**.
+
+## P3.1 — Brand/CHHiP: 19 опубликованных endpoint-specific α/β (09.10.2026)
+
+Сверены два первоисточника из пользовательского пакета: Brand 2021 rectal, **PDF p8 Table 3 / p9 Table 4**, и Brand GU (online 2022, print 2023), **PDF p6 Table 2 / p7 Table 3 context**, включая 95% bootstrap percentile CI. Документы: [подробный P3.1 отчёт](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_AUDIT_2026-10.md), [19-строчная численная матрица](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_CROSSCHECK_2026-10.csv), [регрессионные проверки](../tests/p3BrandChhipAlphaBetaPrimaryAudit.test.ts).
+
+**9/9 rectal и 10/10 GU** HFC α/β с опубликованными доверительными интервалами совпали. Значения **не изменены**. Это **проверка переноса printed parameters + CI**, не новое patient-DVH LKB-EQD2 fitting, bootstrap или независимый predictive validation. Существующий auto-choice разрешён для **1 rectal bleeding G1+** и **3 GU исходов** (dysuria G1+, haematuria G1/G2); другие **15** только explicit. Например, rectal pain имеет α/β=3.6 Gy (95% CI **0–839.6**) и крайне плохо ограниченный fit.
+
+Эти **19 записей уже входят** в 103-record базу: 19 сейчас получили дополнительный evidence-level source-table numeric check, а это не означает отсутствие всех предыдущих проверок остальных 84 записей. В инвентаре источников всё ещё **73/103 с приложенным пользователем источником**, **30/103 без**. Научная база `draft`, P3 открыт, PR №60 не слит.
+
 ## Полная матрица
 
 | Record ID | Source ID | Файл в поставке | Первый первичный файл / причина | Прежняя validation state |
@@ -117,6 +133,12 @@
 | `hytec-prostate-sbrt-bladder-vrx-5to10cc` | `wang-2021-hytec-prostate-toxicity` | Получен | `HyTEC_20_Wang_2021_Prostate_toxicity.pdf` (+1 связанных) | `validated` |
 | `hytec-prostate-sbrt-urethra-dmax-38to42gy` | `wang-2021-hytec-prostate-toxicity` | Получен | `HyTEC_20_Wang_2021_Prostate_toxicity.pdf` (+1 связанных) | `validated` |
 | `hytec-prostate-sbrt-rectum-dmax-35to38gy` | `wang-2021-hytec-prostate-toxicity` | Получен | `HyTEC_20_Wang_2021_Prostate_toxicity.pdf` (+1 связанных) | `validated` |
+
+## Дополнение P2.16 — первоисточник Ohri 2012 найден вне поставки
+
+Указанная здесь цифра **30 evidence records без прямо поставленного пользователем source PDF** остаётся фактом исходной поставки, и отчёт/CSV **не фальсифицирует** наличие файла. Однако один из этих 30, `ohri-2012-nsclc-size-tcp`, **теперь имеет законно найденный первичный полный текст** `PMCID PMC3867931`, DOI `10.1016/j.ijrobp.2012.04.040`, https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/ . Это **внешняя верификация**, не `source_file_supplied`.
+
+Шесть связанных HFC point IDs, учтённых в другом 73-record P2 ledger, проверены по формуле. Пять публикационных прогнозов совпадают приблизительно (<0.6 п.п.), но первый пример `50Gy/5fx, L=1cm` напечатан как **93%** при результате округлённой исходной формулы **94.8006%**; зафиксирован [отдельный научный отчёт](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md). **Не повышать этому source статус clinical validated**, пока не разрешено внутреннее расхождение и не завершена независимая проверка в оригинальном manuscript PDF.
 
 ## Научная интерпретация
 

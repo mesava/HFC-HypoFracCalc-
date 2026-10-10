@@ -37,7 +37,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The CHART point estimate is small and its 95% confidence interval includes zero.",
+      "The CHART point estimate is small and its 95% confidence interval includes zero. This is early SKIN ERYTHEMA rather than tumour-control repopulation, and the original 2001 author abstract does not independently establish its displayed EQD2 normalization or a numerical Tk.",
     applicability: {
       radiationQuality: "photon",
       technique: ["head-and-neck EBRT"],
@@ -125,7 +125,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "supported",
     supportReason:
-      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only.",
+      "Direct maximum-likelihood analysis of node-negative laryngeal cancer from two BIR trials. The estimate is subsite-specific and remains explicit-only. Published source best-fit Tk=21 days (95% CI 0–27), but did not demonstrate a statistically significant lag. The 0.8 Gy/day extra-dose time factor is not independently shown here to be numerically identical to an EQD2 Gy/day loss.",
     applicability: {
       radiationQuality: "photon",
       technique: ["larynx EBRT"],
@@ -147,7 +147,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The primary multicentre tonsillar-carcinoma analysis reports that the data are slightly more consistent with an approximately 30-day delay before accelerated repopulation and a compensatory dose of about 0.73 Gy/day. The estimate remains explicit-only because it is retrospective and model-dependent.",
+      "The primary multicentre tonsillar-carcinoma analysis reports that the data are slightly more consistent with an approximately 30-day delay before accelerated repopulation and a compensatory dose of about 0.73 Gy/day. The estimate remains explicit-only because it is retrospective and model-dependent. The original source also gave 0.53 Gy/day under early (<9-day) accelerated regrowth versus 0.73 Gy/day if onset is delayed until ~30 days. Model alternatives are not interchangeable; original extra physical dose/day to EQD2 basis is unverified.",
     applicability: {
       radiationQuality: "photon",
       technique: ["tonsil/oropharynx EBRT"],
@@ -165,7 +165,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Bentzen 2000 directly supports an overall best estimate near 0.54 Gy/day for pneumonitis; QUANTEC later reports 0.54 ± 0.21 Gy/day (1 SE). The previous HFC 95% CI 0.13-0.95 was a derived 1.96×SE interval rather than a source-reported CI and is no longer stored as ci95.",
+      "Bentzen 2000 directly supports an overall best estimate near 0.54 Gy/day for pneumonitis; QUANTEC later reports 0.54 ± 0.21 Gy/day (1 SE). The previous HFC 95% CI 0.13-0.95 was a derived 1.96×SE interval rather than a source-reported CI and is no longer stored as ci95. The original 2000 abstract reports only around 0.5 Gy/day; QUANTEC separately reports 0.54 +/- 0.21 Gy/day as ONE SE, not a 95% CI. No source-supported time factor for late fibrosis.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
@@ -187,7 +187,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Directly estimated in the same preoperative chemoradiotherapy meta-analysis as the 4.9 Gy alpha/beta, but the endpoint and treatment context are highly specific.",
+      "Directly estimated in the same preoperative chemoradiotherapy meta-analysis as the 4.9 Gy alpha/beta, but the endpoint and treatment context are highly specific. Source endpoint is pathologic complete response after preoperative chemoradiotherapy (26 studies; 1335 patients), not RT-alone cure; HFC EQD2 rate basis has not been independently reconstructed.",
     applicability: {
       radiationQuality: "photon",
       technique: ["preoperative chemoradiotherapy"],
@@ -207,7 +207,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The primary retrospective NSCLC analysis estimated 0.45 Gy/day when all analysed cases were considered, but only 0.2 Gy/day without mediastinal involvement and did not provide a single validated Tk. HFC therefore keeps the estimate explicit-only and no longer labels it as stage-I-specific.",
+      "The primary retrospective NSCLC analysis estimated 0.45 Gy/day when all analysed cases were considered, but only 0.2 Gy/day without mediastinal involvement and did not provide a single validated Tk. HFC therefore keeps the estimate explicit-only and no longer labels it as stage-I-specific. Source models NTD-T with alpha/beta=10 Gy; a different 0.20 Gy/day effect without mediastinal disease is not a stage-I calibration or universal Tk.",
     applicability: {
       radiationQuality: "photon",
       technique: ["lung EBRT"],
@@ -227,7 +227,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 0 days. The same publication gives a distinct estimate when Tk is fixed at 21 days, so HFC stores the two assumptions separately. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review. This original-source maximum-tBED endpoint can occur BEFORE the final fraction in prolonged courses; HFC v0.1 computes only final OTT EQD2 penalties. P3.9 documents dimensional counterexamples, not a clinically validated model conversion.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -247,7 +247,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter.",
+      "Primary model estimate for alpha/beta=10 Gy with Tk fixed at 21 days. It is a model alternative to the Tk=0 estimate, not a single interchangeable 0-or-21-day parameter. Scientific dose-basis blocker (P3.6): the original Hinata 2001 parameter is gamma/alpha in a time-corrected BED (tBED) model; HFC presently stores this historical rate with basis EQD2. Direct source-equivalent EQD2 conversion is NOT verified. Do not use for clinical gap-dose compensation pending full-paper dimensional audit and independent review. This original-source maximum-tBED endpoint can occur BEFORE the final fraction in prolonged courses; HFC v0.1 computes only final OTT EQD2 penalties. P3.9 documents dimensional counterexamples, not a clinically validated model conversion.",
     applicability: {
       radiationQuality: "photon",
       technique: ["craniospinal/local radiotherapy"],
@@ -267,7 +267,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The primary Thames 2010 abstract directly supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. Later peer-reviewed reviews reproduce a 95% CI of 0.03-0.44, but HFC does not store that interval as primary-source ci95 until the full primary text is curated. The 52-day analysis cut point is not stored as Tk.",
+      "The primary Thames 2010 abstract directly supports a dose-equivalent proliferation effect of 0.24 Gy/day in selected low/intermediate-risk patients treated to at least 70 Gy. Later peer-reviewed reviews reproduce a 95% CI of 0.03-0.44, but HFC does not store that interval as primary-source ci95 until the full primary text is curated. The 52-day analysis cut point is not stored as Tk. Only low/intermediate-risk men treated at >=70 Gy showed that time association; source EQD2 dose equivalence and original model CI remain unverified.",
     applicability: {
       radiationQuality: "photon",
       technique: ["prostate EBRT"],
@@ -286,7 +286,7 @@ export const repopulationRateEstimates: RepopulationRateEstimate[] = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "The START combined analysis directly estimated 0.60 Gy/day (95% CI 0.10-1.18) for local-regional relapse, but the authors describe the result as hypothesis-generating and the time-effect estimate is driven by START-B. No universal Tk is supplied, so HFC keeps it explicit-only.",
+      "The START combined analysis directly estimated 0.60 Gy/day (95% CI 0.10-1.18) for local-regional relapse, but the authors describe the result as hypothesis-generating and the time-effect estimate is driven by START-B. No universal Tk is supplied, so HFC keeps it explicit-only. The estimate was principally informed by START-B; it is hypothesis-generating. Conversion of published extra Gy/day to an HFC EQD2 dose-time penalty requires independent source-equation verification.",
     applicability: {
       radiationQuality: "photon",
       technique: ["breast EBRT"],

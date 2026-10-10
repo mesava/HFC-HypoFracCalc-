@@ -1,0 +1,32 @@
+# P3.6 — репопуляция и временная компенсация: исходы, размерности и 14 записей
+
+**Дата 09.10.2026. Результат:** 14/14 исходных HFC time-loss IDs инвентаризованы; **6/14 численно совпали с официальными аннотациями первичных работ** (опубликованные point estimate и 95% confidence limits), **8/14 остаются в очереди**. Не выполнялись оригинальные patient-level refit, full-PDF/figure QA, независимый source BED→EQD2 derivation, second clinical review. Исходные PDF 69-файлового архива не были доступны по байтам.
+
+## 1. Проверенные первичные аннотации
+
+- Bentzen SM et al., *Radiotherapy-related early morbidity in head and neck cancer: quantitative clinical radiobiology as deduced from the CHART trial*, Radiother Oncol. 2001, DOI **10.1016/S0167-8140(01)00358-9**, PMID **11439207**, [PubMed Abstract Results](https://pubmed.ncbi.nlm.nih.gov/11439207/). N=918 randomized CHART vs conventional, **early mucositis Dprolif=0.80 [0.70–1.10] Gy/day**, **skin erythema=0.12 [−0.12–0.22] Gy/day**. Skin CI includes zero. Endpoint normal tissue, not HNSCC TCP; cannot transfer their rate to tumour.
+- Roberts SA et al., *The influence of radiotherapy treatment time on the control of laryngeal cancer...*, Br J Radiol. 1994;67:790–794; DOI **10.1259/0007-1285-67-800-790**, PMID **8087485**, [PubMed Abstract](https://pubmed.ncbi.nlm.nih.gov/8087485/): node-negative laryngeal tumours in two British Institute of Radiology trials; **time factor 0.8 [0.5–1.1] Gy/day**; **best Tk=21 days [0–27]**; a separate statistically significant delay could **not** be shown. This is not automatically valid for generic head and neck malignancy nor proven EQD2-normalized from abstract.
+- Hinata H et al., *Estimation of time parameter of LQ-model in fractionated radiotherapy of medulloblastoma*, Radiat Med. 2001;19:61–70, PMID **11383644**, [PubMed Abstract](https://pubmed.ncbi.nlm.nih.gov/11383644/): **65 medulloblastoma patients**, Cox proportional hazards with profile-likelihood and **tBEDmax**, fixed **alpha/beta=10 Gy**; for **fixed Tk=0** gamma/alpha **0.52 [0.29–0.75] Gy/day**; for **fixed Tk=21** gamma/alpha **0.55 [0.30–0.80] Gy/day**. Alternative prespecified model assumptions, **not** one patient-specific universal time coefficient. The time-incorporated **BED** equation is distinct from **EQD2**; original publisher PDF page/equations not independently validated this pass.
+- Haviland JS et al., *Prolongation of overall treatment time as a cause of treatment failure in early breast cancer: an analysis of the UK START trials*, Radiother Oncol. 2016;121:420–423, DOI **10.1016/j.radonc.2016.08.027**, PMID **27666929**, [PubMed Abstract](https://pubmed.ncbi.nlm.nih.gov/27666929/). Of **5861 recruited**, 5831 had relapse data and 444 events; endpoint **local-regional relapse**, not fibrosis/skin cosmesis. **Time loss 0.60 [0.10–1.18] Gy/day**, p=0.02 from START trials; authors call this **hypothesis-generating**, driven by START-B (3 vs 5 weeks). Corresponding normal tissue photographic appearance 0.14 [−0.09,0.34] Gy/day, p=0.29, is **not** a competing valid tumour repopulation rate and is not inserted into HFC. Source does not provide an estimated onset Tk in abstract.
+
+All original values match corresponding HFC fields. Machine-readable exact source and record mapping, including *eight pending entries with NO invented values or confidence intervals*: [P3_REPOPULATION_14_SOURCE_CROSSWALK_2026-10.csv](P3_REPOPULATION_14_SOURCE_CROSSWALK_2026-10.csv).
+
+## 2. High-priority blocker: tBED vs EQD2 units
+
+HFC's `src/domain/evidence.ts` allows an estimate `basis="EQD2"|"BED"`. However current `src/evidence/repopulationRegistry.ts` and `TreatmentGap v0.1` explicitly select **EQD2** rates and subtract `Dprolif × max(OTT−Tk,0)` from `EQD2`. Clinical equivalence requires the source parameter to represent **EQD2-normalized Gy/day**.
+
+Hinata's fitted time factor **gamma/alpha (0.52 or 0.55 Gy/day)** was defined in a time-incorporated **BED** model. This is a credible **source-basis conflict with the existing `basis:"EQD2"` assignment** in HFC. Thus matching six digits in a table is NOT sufficient to validate their usage in course correction.
+
+The mathematical conversion if the source explicitly confirms `K_BED` and a suitable target `α/β`, at reference **2 Gy/fraction**, is:
+`K_EQD2 = K_BED / (1 + 2/(α/β))`. At `α/β=10 Gy`, a purely ILLUSTRATIVE conversion `0.52 → 0.43333 Gy_EQD2/day`, `0.55 → 0.45833 Gy_EQD2/day`; **these numbers are NOT new HFC coefficients, clinical recommendations, source publications, model recasts or approved P4 replacements**. Need check original source equation, how Hinata computes `tBEDmax`, its maximum-time penalty and α/β assumptions before any amendment.
+
+Roberts and Haviland source abstracts express *compensating extra physical dose per day*; exact equivalence to HFC EQD2 penalty is **not established by simply matching "Gy/day"**. CHART early tissue rates likewise require source-specific normalization and scope checks. There is **no universal (T_k)** inferred from Haviland or CHART; Roberts best fit (T_k) has CI including 0 and was not statistically demonstrable.
+
+## 3. Non-numeric action, no release promotion
+
+- Six entries in 103-registry move only to `p3_external_primary_abstract_numeric_CI_matched_dose_basis_open`; **8** repop/time entries retain `p3_primary_numeric_and_uncertainty_crosscheck_pending`. Every record remains `clinical_release_approved=false`.
+- HFC `repopulation.ts` scientific metadata now warns explicitly for **both Hinata** records; they remain `status=reviewed`, `defaultEligible=false` and only manually selectable. Existing limited-support `supportReason` warnings in the resolver surface the high-risk dose-basis caveat when the model is selected, without silently changing coefficients.
+- In the scientific release gate, **G4 and G5 remain open**; no coefficient, CI, model input schema, source ID, calculated answer, BED/EQD2 engine or site deploy changed.
+- Source values for the other **8 pending** records require original exact page/clinical cohort, dose basis and endpoint checks: BCR two summaries, Hendry, Withers, Bentzen lung, Geh esophagus, Koukourakis NSCLC, Thames prostate. Especially do not copy BED-based RCR K into EQD2-based Dprolif without conversion.
+
+The safe next substantive step is a fully equation-level source audit of Hinata (priority critical), with parallel source-first verification of remaining 8. **Scientific draft continues.**

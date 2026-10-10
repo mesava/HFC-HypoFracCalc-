@@ -111,4 +111,80 @@ test.describe("HFC HyTEC outcome models", () => {
     ).toBeVisible();
   });
 
+
+  test("labels low-dose Royce prostate TCP as explicit extrapolation", async ({ page }) => {
+    // Primary: Royce et al. HyTEC 2021, Figure 1: no observed EQD2 <~80 Gy.
+    await page.getByLabel("Клинический исход")
+      .selectOption("prostate-biochemical-control");
+
+    await expect(
+      page.getByText("экстраполяция", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(".outcome-evidence-warning"),
+    ).toContainText("не воспроизводят заявленные 90% и 95%");
+
+    await expect(
+      page.getByText("≈ 90%", { exact: true }).first(),
+    ).toBeVisible();
+    await expect(
+      page.locator(".outcome-source-discrepancy"),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(".outcome-source-discrepancy"),
+    ).toContainText("не воспроизводятся из уравнения (2)");
+
+  });
+
+  test("discloses Soltys LQ vestibular model alternatives and 10Gy source extrapolation", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("vestibular-schwannoma-tumour-control");
+
+    await expect(page.getByText("экстраполяция", { exact: true }))
+      .toHaveCount(1);
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toHaveCount(1);
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("LQ-L");
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("NF2");
+    await expect(page.locator(".outcome-source-discrepancy"))
+      .toContainText("12,4 Гр");
+  });
+
+  test("separates Mahadevan R0 source-averaged LC from unresected logistic TCP in UI", async ({ page }) => {
+    await page.getByLabel("Клинический исход").selectOption("pancreas-local-control");
+    const note = page.locator(".outcome-source-discrepancy");
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("НЕ на этой кривой");
+    await expect(note).toContainText("Table 2");
+    await expect(note).toContainText("R0");
+    await expect(page.getByText("> 90%",{exact:true})).toBeVisible();
+  });
+
+  test("distinguishes Ohri 3-year liver metastasis BED strata from 2-year model and HCC", async ({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("liver-metastases-local-control");
+    const note=page.locator(".outcome-source-discrepancy");
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("141 и 149 очагов");
+    await expect(note).toContainText("двухлетнему исходу");
+    await expect(note).toContainText("ГЦК/холангиокарцинома");
+    await expect(page.getByText("≈ 93%",{exact:true})).toBeVisible();
+    await expect(page.getByText("≈ 65%",{exact:true})).toBeVisible();
+  });
+
+  test("warns that Ohri NSCLC 50Gy five fraction 1cm source prediction disagrees with printed logistic formula", async ({page}) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("nsclc-stage-i-local-control");
+    const warning = page.locator(".outcome-source-discrepancy");
+    await expect(warning).toHaveCount(1);
+    await expect(warning).toContainText("PubMed Central");
+    await expect(warning).toContainText("93%");
+    await expect(warning).toContainText("94,8%");
+    await expect(warning).toContainText("не разрешено");
+    await expect(page.getByText("≈ 93%",{exact:true})).toBeVisible();
+  });
+
+
 });

@@ -1,0 +1,136 @@
+# HFC — научная контрольная точка P1/P2/P3 перед P4 и release candidate
+
+**Состояние на 08–09.10.2026; источник истины — draft PR #60.** Эта таблица оценивает только прослеживаемость и готовность к независимому исследовательскому рецензированию. **Ни один коэффициент не считается автоматически клинически утверждённым.**
+
+## Техническое состояние
+
+| Контроль | Проверенный статус |
+|---|---|
+| Репозиторий / публичный сайт | `mesava/HFC-HypoFracCalc-`, GitHub Pages; основной выпуск `0.1.0-rc.1` |
+| `main` / `develop` | Одинаковая базовая ветка `08fff483c659c6d6d93a4cf5bd96eb0248ec5316`. Новые научные замечания не слиты |
+| Научный PR | **#60, DRAFT**, head branch `audit-p1-p2-scientific-review-20261008`. UI design PR #55 не затронут |
+| Evidence dataset | `2026.10-v0.2`, **`releaseStatus: draft`**; старые per-record `validated` метки означают прежнюю техническую работу, НЕ прохождение нынешнего строгого source-by-source scientific P2/P3 |
+| CI | Проверяется на каждом коммите. TypeScript/Vitest/Playwright successful run нужен как техническое, но **недостаточное** условие клинической валидации |
+
+## Что завершено по P1/P2, что не завершено
+
+1. **P1 пофайловый реестр:** 69 отдельных пользовательских документов инвентаризованы (20 HyTEC primary / 15 supplements / 5 letters / 29 other). Названия, типы, предполагаемый DOI, локальный доступ и ссылка на source IDs зафиксированы. **Нельзя объявить P1 окончательным**: пользовательский ZIP ~357 MB не удалось получить в исходных байтах; SHA256 и проверка точного содержимого полного архива отсутствуют, часть официальных AAPM PDF читалась вместо файлов Library.
+2. **P2 HyTEC source-linked ledger:** 73 реализованных clinical source records = **34 HyTEC `OutcomeModel.points` + 6 Ohri2012 NSCLC non-HyTEC example points + 29 HyTEC `ClinicalConstraint` + 4 Sahgal `ReirradiationGuidance` criteria**. Прямой файл в переданном комплекте есть для **67/73** records; **6 Ohri2012** без оригинала.
+3. **Классификация всех 73, без locator-only:** воспроизведено **23 fitted точки**, приблизительно сверены **8**, клинический source/endpoint/contour/guidance-specific обзор **34**, нерешённые Royce **2**; **5** Ohri2012 NSCLC examples проверены по внешнему открытому авторскому первоисточнику, **1** пример имеет расхождение напечатанных значений и напечатанной функции. Итого: `23+8+34+2+5+1=73`. **Клинический source-reviewed (34) не означает patient-level refit или полную 95% CI QA.**
+4. **Главные расхождения P2:** Royce low/intermediate 5y prostate TCP Eq(2)+Table3 не совпадает с Fig1 и текстом; опубликованы Chen letter DOI `10.1016/j.ijrobp.2025.06.3898` и author reply DOI `10.1016/j.ijrobp.2025.06.3899`, однако **полный ответ авторов не получен**, поэтому нельзя исправлять γ по догадке. Mahadevan R0 printed 90% vs narrative >90%; Miften 700cc rVdose без независимой fitted NTCP; Grimm 5fx D0.5cc guideline ≠ pooled Dmax 2% fit; Milano brain volume includes target; Sahgal cord/thecal sac differing structures + LQ extrapolation; Kong ILD/contour nonuniformity.
+5. **P2 постраничные figures/tables:** первичные 20 HyTEC, 15 supplement и 5 letters доступны по инвентарю, однако не доказано, что **каждый рисунок, численный элемент таблицы и 95% CI** сверены визуально с исходными страницами и независимо пересчитаны. Нельзя считать P2 научно **закрытым**. 73-row source-review closed ≠ P2 scientifically complete.
+6. **Независимое рецензирование:** нет утверждённого second medical physicist + radiation oncologist sign-off с протоколом отклонений; конечный endpoint/dose-volume metric local commissioning не проведён. Эти работы нельзя заменить зелёным CI.
+
+## Пересечение с полной доказательной базой из 103 records
+
+Это **другая выборка**: [103-record matrix](EVIDENCE_103_SOURCE_FILE_MATRIX_2026-10.md) учитывает `alphaBetaEstimate`, `repairHalfTime`, `repopulationRate` и смежные записи исходного evidence data model. В комплекте **73 из 103** имеют source ID с полученным пользовательским файлом, **30 из 103** прямого файла **не имеют**. Это **не то же самое**, что 73 HyTEC-related `OutcomeModel.points + ClinicalConstraint + ReirradiationGuidance` records.
+
+| Группа из 30 без файла в поставке | Число records | Приоритет следующего P3 source work |
+|---|---:|---|
+| α/β, source-specific endpoint | **13** | Высокий: endpoints кожа/фиброз/лёгкие/пищевод/спинной мозг и независимые клинические дробления; наличие вторичного BCR не гарантирует прямую цифру |
+| T½ repair | **4** | Очень высокий для учета неполного восстановления, интервалов между фракциями и тканеспецифичных temporal models |
+| Time penalty / repopulation dose `Dprolif` | **12** | Очень высокий при использовании инструмента компенсации перерывов; отличать population mean, radiobiological source and uncertainty |
+| Остальные / source Ohri2012 | **1** | Требует оригинала. **Не путать** эту одну запись в матрице 103 с шестью отдельными model points в реестре 73 |
+
+Важна научная интерпретация: *первый комплект содержит 69 файлов, но отсутствие прямого документа для одного Source ID ещё не доказывает ошибку коэффициента*. Не добавлять «исправленные» α/β/T½/Dprolif без первоисточника и отдельного независимого расчёта.
+
+## Новый вход в P2.14: проверка каждой из 40 исходных HyTEC публикаций
+
+Созданы [сплошная матрица всех 40 source files](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv) и [пояснения](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.md), состав сверяется автотестом с 69-entry P1 inventory JSON. Проверяемые исходные объекты: **20 core + 15 supplements + 5 letters**. **Все 40** требуют дополнительного критерия `full figure/table/image/CI/page QA`; это не отменяет уже проведённые выборочные проверки статей, 15/15 extracted supplement texts, 5/5 letter texts или 73-record semantic classifications. Без full-page source review G2 остаётся OPEN.
+
+Для критического P2-C21 оформлен [Royce response verification gate](HYTEC_P2_ROYCE_2025_CORRESPONDENCE_GATE_2026-10.md): по PubMed и Red Journal подтверждён DOI ответа `10.1016/j.ijrobp.2025.06.3899` от 2025, но **полный текст не получен**, поэтому причины ошибки опубликованного low/intermediate Eq/Table/figure установить нельзя. Изменять коэффициенты в P4 преждевременно.
+
+## P2.16 — первичный Ohri 2012 NSCLC найден, но есть внутреннее численное расхождение
+
+Внешне доступен **авторский опубликованный оригинальный текст** DOI `10.1016/j.ijrobp.2012.04.040`, `PMCID: PMC3867931`, https://pmc.ncbi.nlm.nih.gov/articles/PMC3867931/ . **Факт отсутствия файла в пользовательском ZIP сохраняется**: исходная поставка по-прежнему покрывает 67 из 73 HyTEC-related records, но для 6 записей Ohri2012 теперь существует внешний легальный full-text, что позволяет независимую проверку. PDF/ZIP SHA256 и постраничный visual QA отсутствуют.
+
+Исходная функция `TCP_2y=logistic((BED10−10Gy/cm·L)/31Gy)` из опубликованных коэффициентов воспроизводит **5 из 6** напечатанных примеров в пределах 0.6 п.п., но для `50Gy/5fx, L=1cm` даёт **94.8006%** против напечатанных **93%**. В HFC 93% сохранено и UI сообщает об открытом несовпадении. [Подробный научный аудит](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md), [source regression](../tests/hytecOhri2012NsclcPrimaryModel.test.ts). Для клинического применения model constraints по опубликованному диапазону также исключают **1fx, <8Gy/fx и >2 недель**; кумулятивная вероятность за 2 года не переносится на 5y endpoint.
+
+**Контроль G3 НЕ закрыт**: проблема Royce остаётся, Ohri2012 имеет внутреннее source discrepancy, нет второго рецензента. G1/G2/4/5/6/7 без изменений.
+
+## P3 начат: 20 source-table checks в полной базе из 103 (09.10.2026)
+
+В режиме **source-by-source numerical P3**, напрямую по предоставленным пользователем PDF (не по интернет-сниппетам), проверены:
+
+- [P3.1 — Brand CHHiP 2021 rectal и 2023 GU](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_AUDIT_2026-10.md): **9/9 + 10/10** оригинальных fitted α/β и 95% percentile-bootstrap CI, включая оценку поддержки endpoint/default selection и предельной ширины CI. [19-строчная матрица](P3_BRAND_CHHIP_19_ENDPOINT_PRIMARY_CROSSCHECK_2026-10.csv), [test](../tests/p3BrandChhipAlphaBetaPrimaryAudit.test.ts).
+- [P3.2 — Vogelius & Bentzen 2020](P3_VOGELIUS_BENTZEN_PROSTATE_PRIMARY_AUDIT_2026-10.md): **1/1** pooled prostate biochemical-control α/β=1.6Gy (95% CI **1.3–2.0**), но **random-effects sensitivity CI 0.8–2.4**; высокая гетерогенность I²=70% и meta-regression fraction size slope 0.57 Gy/Gy. [test](../tests/p3VogeliusBentzenProstatePrimaryAudit.test.ts).
+
+**20/103** из полного evidence set получили **дополнительный текущий P3 source-table / CI crosscheck**. Это не означает, что остальные 83 «не проверялись никогда», но именно **полный строгий P3-протокол и независимая клиническая валидация для них не завершены**. **19+1 относятся к числу уже имевшихся 103 записей**, никакого расширения clinical dataset или нового alpha/beta default не произошло. В частности, общее наличие исходного файла по-прежнему **73/103**, отсутствие отдельного файла — **30/103**. Ранее проверенные P2 HyTEC `OutcomeModel`/constraints составляют **другую** выборку.
+
+**Не завершено:** FAST/FAST-Forward 10y, остальные эпителиальные и OAR-specific alpha/beta первоисточники, T½ repair, Dprolif/K/Tk сопоставимость, BCR книжные secondary estimates, full CI source pages и 30 отсутствующих originals. Нет основания поднять `draft` или автоматически merge PR #60.
+
+### Структурированная P3 очередь из всех 103 записей
+
+Добавлен [полный 103-row реестр научного статуса](P3_103_EVIDENCE_SOURCE_AUDIT_STATUS_2026-10.csv) с отдельными полями `record_id/source_id/family/supplied original file/legacy label/current review status/next verification/release approval` и [автоматической защитой структуры/счетчиков](../tests/p3SourceCoverage103.test.ts).
+
+| Статус | Записей | Смысл |
+|---|---:|---|
+| **P3 primary source numerical + 95% CI checked** | **20** | Brand rectal 9, Brand GU 10, Vogelius prostate 1; не повторная подгонка и не clinical commissioning |
+| **P2 source-scoped review (другой предмет аудита)** | **39** | HyTEC `OutcomeModel`, `ClinicalConstraint` и отдельный reirradiation source record; их фактическая проверка по точкам/критериям находится в [73-record P2 ledger](HYTEC_P2_RECORD_LEVEL_LEDGER_2026-10.md), нельзя трактовать как 39 независимо fitted |
+| **P3 ограниченный review по внешним primary abstracts (T½)** | **6** | 3 matched MC-derived parameter CI, 1 probable range, 2 CNS legacy threshold NOT verified / external comparative evidence |
+| **P3 external primary-abstract numeric+95% CI checks (repopulation)** | **7** | CHART×2, Roberts, Hinata×2, Haviland, Geh; BED/EQD2 normalization OPEN |
+| **P3.7 limited original abstract point-only checks** | **3** | Withers, Koukourakis, Thames; dose basis OPEN |
+| **P3.7 original approximate + QUANTEC exact secondary** | **1** | Bentzen pneumonitis, one SE not CI |
+| **P3.8 external published primary FAST Table 4 numeric+EQD2 checked** | **7** | Seven FAST 2020 alpha/beta rows checked against accessible primary article/table; original user PDF binary and primary GEE refit pending |
+| **P3 quantitative crosscheck pending** | **20** | 17 alpha/beta + 3 repopulation; 6 with source files, 14 without |
+| **Всего** | **103** | Это **103 record IDs**, а не 73 HyTEC source-point/constraint IDs; все без клинического `release approval` |
+
+**Приоритет исполнения:** из **15 ожидающих и обеспеченных файлами** начать с оригинальных FAST/FAST-Forward/2026 corrected supplements и BCR/Thames repair; отдельно добывать **29** не включённых в поставку первоисточников (без приписывания им отсутствия в литературе). Затем сопоставить свободно используемые temporal/repair modifiers с source units (BED vs EQD2) и ограничениями клинического контекста. До результата independent primary source/CI/manual checking нельзя повышать `defaultEligible`, вводить новые формулы или объявлять `validated`.
+
+### P2.17 — интервалы параметров Ohri 2012 и исправление описания follow-up
+
+По внешнему опубликованному авторскому оригиналу (PMC3867931, Results) сверены **маргинальные 95% CI** трёх параметров логистической модели: `TCD50=0 Gy [−30;30]`, `k=31 Gy [19;43]`, `c=10 Gy/cm [2;18]`. В HFC исходные `0/31/10` и все 6 опубликованных TCP-примера **не менялись**. Ошибочный **median follow-up 18.4 months** в meta-notes заменён на подтверждённый оригиналом **mean follow-up 18.4 months**. [Построчный CI-реестр](HYTEC_P2_OHRI_2012_PARAMETER_CI_LEDGER_2026-10.csv), [тест](../tests/hytecOhri2012ParameterUncertainty.test.ts), [подробный аудиторский отчёт](HYTEC_P2_OHRI_2012_NSCLC_EXTERNAL_PRIMARY_AUDIT_2026-10.md). Это **не** независимая полоса вероятности TCP и **не** снятие расхождения 93% vs 94.8%; источник в пользовательском архиве отсутствует, PDF SHA и page image не проверены. G2/G3 остаются OPEN.
+
+### P2.18 — внешний контекст модели Ohri 2012
+
+**Дополнительный внешний источник вне переданного пользовательского корпуса:** Huang et al., Front Oncol online 10.01.2025, DOI `10.3389/fonc.2024.1431140`. Их 153-пациентная mixed primary/metastatic SBRT когорта даёт для Ohri 2-year LC `ROC AUC=0.633 [95% CI 0.552–0.710]` (Table 4), но **лишь 48 пациентов stage I, 60 metastatic; присутствуют 1fx курсы**, поэтому результат нельзя переименовывать в независимую stage-I-only clinical validation и нельзя переносить AUC CI на patient TCP. [Контекст с Table 2/4/5](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CONTEXT_2026-10.md) и [machine crosswalk](HYTEC_P2_OHRI_2012_EXTERNAL_VALIDATION_CROSSWALK_2026-10.csv). Clinical G2/G3 remain OPEN; все source parameters и 6 TCP HFC values прежние.
+
+### P3.4 — repair T½: четыре source-abstract checks без клинического повышения статуса
+
+По двум внешне доступным официальным PubMed-аннотациям **исходных** работ Bentzen 1999 (PMID 10660202) и Bentzen/Ruifrok/Thames 1996 (PMID 8966232) сверены **3 endpoint-specific mean T½ с опубликованными 95%-ми Монте-Карло CI** (laryngeal oedema 4.9 [3.2–6.4] h, skin telangiectasia 3.8 [2.5–4.6] h, subcutaneous fibrosis 4.4 [3.8–4.9] h) и **1 предполагаемый диапазон mucosal repair 2–4h**, который **не является 95%-м CI**. Значение 3.2h для mucosa в первичном 1996 abstract описывает максимум modelled dose-equivalent difference between 4h vs 6h inter-fraction intervals, **не** опубликованную точечную оценку T½.
+
+Существующие шесть T½ записей: **3 external source-abstract point+MC-CI checked**, **1 external source-abstract qualitative-range checked**, **2 deprecated spinal/temporal-lobe остаются pending**. Счётчики полной базы теперь **20 full-primary-table/CI source checks + 39 separate P2 review + 4 external-primary-abstract limited checks + 40 P3 quantitative pending = 103**. Из 40 pending 15 имеют source file в пользовательском корпусе; 25 не имеют прямого файла. При этом первоначальные покрытие **73/103 user-file-supplied и 30/103 not supplied НЕ изменилось**. Сведения и численные crosswalk: [P3.4 report](P3_REPAIR_KINETICS_PRIMARY_ABSTRACT_AUDIT_2026-10.md), [data](P3_REPAIR_KINETICS_PRIMARY_CROSSCHECK_2026-10.csv), [source test](../tests/p3RepairKineticsSourceAudit.test.ts). Полные журнальные PDF, методики испытаний, схемы пациентской репарации и второй рецензент не проверены. Всё клиническое ядро, source dose/CI и `defaultEligible` остались прежними; **G4 остаётся OPEN**.
+
+### P3.5 — два исторических T½ ЦНС: первичная проверка отрицательного соответствия
+
+[Документ P3.5](P3_CNS_REPAIR_HALF_TIME_SOURCE_AUDIT_2026-10.md) и [source-level CSV](P3_CNS_REPAIR_SOURCE_CONTRADICTION_LEDGER_2026-10.csv) оформляют проверку по официальному PubMed/Wiley abstract Bender ET 2012 (**DOI 10.1118/1.4762562, PMID 23127096**) и Lee et al. 1998/2002 (**PMID 9422555/12007944**). Bender оценивает **spinal myelopathy 4.1 h (range 0–8)** и **общий brain necrosis 38.1 h (range 6.9–76)**, последний **не** temporal-lobe-specific. Lee 2002 даёт BID-related **hazard ratio 13 (95% CI 3–54)**, который **не T½**. Доступные оригинальные abstracts **не подтверждают** исторические BCR нижние границы `>5h cord` и `>4h temporal lobe`; сам пользовательский BCR PDF отмечен как имеющийся, но точные страницы и цепочка ссылок не верифицированы. Поэтому в `repairHalfTime.ts` обе `deprecated` записи/числа/eligibility оставлены без изменения и добавлена проверяемая оговорка. **Библиографический author-list исправлен** в `sources.ts`: DOI 10.1118/1.4762562 имеет единственного автора **Bender ET**, а не Bender ET и Tomé WA. Новый [тест](../tests/p3CnsRepairSourceConflict.test.ts) защищает значения и запрет на подмену source endpoint.
+
+Шесть T½ теперь классифицированы на уровне доступных первичных аннотаций (**3 modelled+MC CI, 1 approximate range, 2 unresolved historic bounds**), что **не означает шесть прошедших полной научно-клинической валидации записей**. Полная матрица **20 full primary-table +39 separate P2 +6 limited abstract checks +38 P3 pending =103**, без изменения файлового coverage 73/103. В P3 pending осталось **13** с пользовательским файлом / **25** без него. G4 остаётся **OPEN**.
+
+### P3.6 — шесть time-loss values сверены по первичным abstracts, BED/EQD2 source basis открыт
+
+[Научный отчёт](P3_REPOPULATION_SOURCE_DOSE_BASIS_AUDIT_2026-10.md), [14-row source matrix](P3_REPOPULATION_14_SOURCE_CROSSWALK_2026-10.csv), [test](../tests/p3RepopulationSourceDoseBasis.test.ts). В официальных первичных publication abstracts сверены CHART mucosa 0.80 [0.70,1.10], skin 0.12 [-0.12,0.22]; Roberts node-negative larynx 0.80 [0.50,1.10], Tk point 21d [0,27] without statistically significant lag; Hinata medulloblastoma 0.52 [0.29,0.75] for Tk=0 and 0.55 [0.30,0.80] for Tk=21 at alpha/beta10; Haviland breast local-regional relapse 0.60 [0.10,1.18]. **Это сверка чисел с аннотациями; не source-endorsed EQD2 conversion, full-text PDF model / 95% CI reproduction или patient validation.**
+
+**Высокий риск:** Hinata рассчитан как \(\gamma/\alpha\) с временем-скорректированной **BED (tBED)**, но в HFC обе записи имеют `basis: EQD2`; полное уравнение, размерности, преобразование и клинические следствия требуют P4 отдельного решения. Пока численный расчёт/набор не изменён, добавлено критическое научное предупреждение для явного выбора записи (limited support). BCR timing BED-based K не заменяется числами Dprolif; весь Treatment Gap v0.1 использует EQD2 basis only. **G4 OPEN**.
+
+Итог P3 queue: **20** primary-table checks + **39** separate P2 review + **6** repair limited abstracts + **6** time-loss limited abstracts + **32** pending = **103**. У 32 pending: 13 user-file supplied/19 not; пользовательское покрытие исходными файлами по всем 103 **не изменено (73/103)**. Все клинические release approvals false.
+
+### P3.7 — eight residual time-loss records (10 October 2026)
+
+[Source report](P3_REPOPULATION_REMAINING_EIGHT_PRIMARY_SOURCE_AUDIT_2026-10.md), [8-record crosswalk](P3_REPOPULATION_REMAINING_EIGHT_CROSSWALK_2026-10.csv), [regression test](../tests/p3RepopulationRemainingEightSourceAudit.test.ts). Confirmed original abstract numbers (no full PDF or EQD2 formula sign-off): Withers tonsil 0.73 Tk30 vs alternate 0.53 for early onset; Geh preoperative oesophageal pCR 0.59 (95% CI .18–.99); Koukourakis NSCLC NTD-T 0.45 pooled vs 0.20 without mediastinal involvement; Thames prostate 0.24 and statistical 52-day cut != Tk. Bentzen 2000 pneumonitis original abstract says around 0.5; QUANTEC reports exact 0.54 ± 0.21 **one SE**, not primary 95% CI. Three remain pending BCR generic HN 0.8 Tk21 (deprecated), BCR larynx 0.74 (deprecated), Hendry 0.64 (.42–.86 not in author abstract).
+
+Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs while list excludes them; any hard block is a P4 approval issue, not modified during P3. 103=20 primary tables +39 P2 separate +6 repair abstracts +7 repopulation CI abstracts +3 repopulation source point-only +1 secondary approximate +27 pending. Original files 73/103, clinical approval none; `draft` retained, G4/G5 OPEN.
+
+### P3.8 — FAST 2020 source Table 4 seven alpha/beta estimates
+
+[Источник и методологические границы](P3_FAST_2020_SEVEN_ENDPOINT_PRIMARY_TABLE_AUDIT_2026-10.md), [числовой crosswalk Table 4](P3_FAST_2020_TABLE4_SOURCE_CROSSWALK_2026-10.csv), [regression](../tests/p3Fast2020PrimaryTableAudit.test.ts). Первичный JCO Brunt 2020 DOI 10.1200/JCO.19.02750, PMC7526720, Table 4, printed p3270, source article text plus author-uploaded table transcription. **7/7 HFC points matched source, 6/6 reported CI bounds matched; edema 1.9 Gy has NO reported CI; induration CI low=0 was publication-truncated**. Table 4 EQD2 values checked by independent LQ formula with limited tolerance for rounded alpha/beta; not a GEE re-fit or patient-level validation. FAST **once-weekly** 5fx/5 weeks, not FAST-Forward daily 5fx/1 week. Source paper PDF user binary/SHA/page visual remains pending and approval all false. No coefficient changes.
+
+**103 audit counts:** 20 earlier primary PDF-table checks +39 P2 ledger +6 restricted repair abstracts +7 time-rate primary CI abstracts +3 time-rate point-only +1 lung approximate/secondary +7 FAST external primary-fulltext table transcriptions +20 pending =103. Pending 6 supplied-source-ID files /14 absent, original user-source file coverage remains 73/103. G4 OPEN.
+
+### P3.9 — Hinata 2001: published tBED equation, tBEDmax and numerical BED/EQD2 dimensional boundary
+
+[Primary author-uploaded manuscript text vs HFC source-only audit](P3_HINATA_2001_TBED_MAXIMUM_SOURCE_EQUATION_AUDIT_2026-10.md), [two fixed hypothetical scenario rows](P3_HINATA_2001_DOSE_BASIS_COUNTEREXAMPLES_2026-10.csv), [regression test](../tests/p3HinataTbedDoseBasisBoundary.test.ts). Source PMID 11383644: original author abstract states tBEDmax calculated via profile-likelihood Cox model. An independently available 2001 author-uploaded full-paper searchable text transcription shows the explicit time-corrected LQ form `tBED=D(1+d/(alpha/beta))-(gamma/alpha)*max(T-Tk,0)` and maximum-over-time definition of tBEDmax, **but original PDF binary/page-image and full article model re-fit still not verified**. HFC stores original 0.52/0.55 as `EQD2` basis; source tBED coefficients are **BED/day**. Toy 30x2Gy at OTT45/Tk21, alpha/beta10 illustrates nominal model mismatch 2.2 Gy_EQD2 (source final-time BED penalty converts to 11.0 Gy_EQD2, HFC currently applies 13.2 Gy_EQD2); the original source uses **maximum tBED**, so even this arithmetic is only an illustrative dimensional counterexample, not clinical correction. No runtime calculations/coefficients changed, clinical release stays draft, critical P3-C03 OPEN.
+
+## Release gates (обязательные до вывода P4/RC)
+
+| Gate | Условие снятия | Статус |
+|---|---|---|
+| **G1 P1 binary provenance** | ZIP и доступные оригиналы проверены SHA256, file-title↔DOI сопоставлены; версионирование supplements/letters | **OPEN** |
+| **G2 P2 source completeness** | Для каждого из 20 core, 15 supplements, 5 letters проставлены `page/figure/table/equation/endpoint/metric/contour/CI` и результат независимого анализа или явно *неприменимо* | **OPEN** |
+| **G3 P2 high-risk conflicts** | Royce Eq/Table/Fig issue разрешено по полному author reply либо точкам назначен ограничительный статус; для Ohri2012 (внешний первичный fulltext теперь доступен) должно быть научно разрешено 93% vs 94.8% и завершён независимый review остальных 5 source examples | **OPEN** |
+| **G4 full 103-record P3** | Каждый record полной базы имеет source locator и собственную независимую проверку либо явный blocker; все 30 file-gaps обработаны; проверены FAST/FAST-Forward/Brand/Vogelius/RCR/HyTEC/BCR | **OPEN** |
+| **G5 independent review** | Второй медицинский физик + клинический радиотерапевт проверяют numeric output, выбор модели, противопоказания и предупреждения; подписан разбор ошибок | **OPEN** |
+| **G6 software regression and local commissioning** | `npm ci`, unit/typecheck/build, Playwright, manual reference cases, clinical OAR contour/DVH QA и документированная проверка локальной применимости | **PARTIAL** |
+| **G7 publication** | Проверенный P4 data-only PR, release notes, signed acceptance, `develop→main` и Pages deploy только после G1–G6 | **BLOCKED** |
+
+**Рекомендованная последовательность:** завершить остающийся full-page/CI pass и high-risk blockers P2 → сформировать полный P3 аудит 103 entries → согласовать корректировки P4 только по документированным discrepancy → передать на независимое научно-клиническое ревью → пройти release gates. **Никакого автоматического merge PR#60 и #55, backend/voxel/DICOM или patient-use release сейчас не требуется.**

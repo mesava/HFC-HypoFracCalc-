@@ -44,6 +44,14 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       }),
     ).toBeVisible();
 
+    // Source caveat is visible to users (not hidden only in evidence data).
+    // Two original per-MLD confidence warnings remain after adding
+    // an additional semantic caution on each card; don't assert total
+    // message count as new source warnings are added.
+    const originalEvidenceNotes=page.locator(".constraint-evidence-note")
+      .filter({hasText:"p = 0,10"});
+    await expect(originalEvidenceNotes).toHaveCount(2);
+
     await page
       .getByLabel("Число фракций")
       .selectOption("all");
@@ -99,4 +107,105 @@ test.describe("HFC expanded HyTEC clinical constraints", () => {
       }),
     ).toBeVisible();
   });
+
+  test("explains mixed thecal-sac and spinal-cord model risk ranges", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("spinal-cord-radiation-myelopathy");
+    await page.getByLabel("Число фракций")
+      .selectOption("1");
+
+    await expect(
+      page.locator(".constraint-evidence-note"),
+    ).toHaveCount(1);
+    await expect(
+      page.locator(".constraint-evidence-note"),
+    ).toContainText("Это не доверительный интервал");
+
+    await page.getByLabel("Число фракций").selectOption("3");
+    await expect(page.locator(".constraint-evidence-note"))
+      .toContainText("LQ-экстраполяция");
+    await expect(page.locator(".constraint-evidence-note"))
+      .toContainText("рекомендованные в статье");
+  });
+
+  test("surfaces target-inclusive Milano brain V12 and distinct radionecrosis endpoints", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("brain-symptomatic-radionecrosis");
+
+    await expect(page.locator(".constraint-evidence-note")).toHaveCount(3);
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("Brain−GTV/PTV");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("разным исходам");
+  });
+
+  test("makes optic 10 Gy recommendation distinct from pooled 12.1 Gy and blocks prior RT inference", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("optic-pathway-radiation-neuropathy");
+
+    await expect(page.locator(".constraint-evidence-note")).toHaveCount(3);
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("12,1 Гр");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("не заменяет рекомендацию 10 Гр");
+    await expect(page.locator(".constraint-evidence-note").first())
+      .toContainText("повторном облучении");
+  });
+
+
+  test("Kong lung guidance discloses bilateral GTV/IGTV contours, ILD and nonuniversal G2+ RILT risk", async ({ page }) => {
+    await page.getByLabel("Клинический исход")
+      .selectOption("lung-symptomatic-rilt");
+
+    await expect(page.getByText(
+      "Dmean < 8,0 Гр", {exact:true},
+    )).toBeVisible();
+    await expect(page.getByText(
+      "V20 < 10,0–15,0 %", {exact:true},
+    )).toBeVisible();
+
+    const cautions = page.locator(".constraint-evidence-note");
+    await expect(cautions).toHaveCount(2);
+    await expect(cautions.first()).toContainText("обоих лёгких");
+    await expect(cautions.first()).toContainText("IGTV");
+    await expect(cautions.first()).toContainText("Lung−PTV");
+    await expect(cautions.first()).toContainText("интерстициальном заболевании лёгких");
+    await expect(cautions.first()).toContainText("степени ≥2");
+  });
+
+  test("Miften liver warns QUANTEC MLD is not fitted liver-function NTCP and rV700cc is reverse-volume",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("liver-grade3plus-enzyme-toxicity");
+    const cautions=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Miften"});
+    await expect(cautions).toHaveCount(6);
+    await expect(cautions.first()).toContainText("печень−GTV");
+    await expect(cautions.first()).toContainText("p=0,10");
+    await expect(cautions.first()).toContainText("≥700 см³");
+    await expect(cautions.first()).toContainText("GI-токсичность");
+  });
+
+  test("Wang prostate bladder V(Rx) is prescription isodose volume not 5–10Gy",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("bladder-prostate-sbrt-late-urinary-toxicity");
+    const notes=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Wang"});
+    await expect(notes).toHaveCount(1);
+    await expect(notes).toContainText("V(Rx)");
+    await expect(notes).toContainText("НЕ 5–10 Гр");
+    await expect(notes).toContainText("4–5 фракций");
+  });
+
+  test("Grimm D0.5cc guidance is not the pooled Dmax-based NTCP risk",async({page})=>{
+    await page.getByLabel("Клинический исход")
+      .selectOption("major-vessel-grade3plus-bleeding");
+    const note=page.locator(".constraint-evidence-note")
+      .filter({hasText:"HyTEC Grimm"});
+    await expect(note).toHaveCount(1);
+    await expect(note).toContainText("D0,5 см³");
+    await expect(note).toContainText("Dmax=20 Гр");
+    await expect(note).toContainText("p=0,182");
+    await expect(note).toContainText("через день");
+  });
+
 });

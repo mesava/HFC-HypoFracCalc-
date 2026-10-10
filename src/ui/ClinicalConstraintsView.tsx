@@ -521,6 +521,88 @@ export function ClinicalConstraintsView({
                   ) : null}
                 </dl>
 
+                {constraint.notes?.some((note) => note.includes("P=0.10")) ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Ограничение доказательности: модель зависимости тяжёлой печёночной токсичности от средней дозы не достигла статистической значимости (p = 0,10). Указанная оценка риска менее 20% является ориентиром из HyTEC/QUANTEC, а не валидированным индивидуальным прогнозом.",
+                      "Evidence limitation: the fitted relationship between grade 3+ liver-enzyme toxicity and mean liver dose was not statistically significant (p = 0.10). The reported risk below 20% is qualified HyTEC/QUANTEC guidance, not a validated individual prediction.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "miften-2021-hytec-liver-toxicity" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Miften: оценивать физическую дозу по структуре нормальная печень−GTV. MLD 13/18 Гр для первичных опухолей и 15/20 Гр для метастазов (3/6 фракций) — ориентиры QUANTEC; модель токсичности ферментов ≥3 степени статистически незначима (p=0,10), а печёночная недостаточность/Child–Pugh не моделировались. Сохранение ≥700 см³ нормальной печени при дозе ≤15–17 Гр — отдельная несмоделированная рекомендация (rVdose), не NTCP и не обычный объём V15/V17 выше порога. Исход 11/118 случаев из отдельных исследований описывает общую GI-токсичность ≥3 степени, НЕ токсичность печёночных ферментов.",
+                      "HyTEC Miften: assess physical dose to normal liver minus GTV. MLD 13/18 Gy for primary and 15/20 Gy for metastatic disease (3/6fx) are QUANTEC objectives; the grade≥3 liver-enzyme model was not significant (p=0.10), and liver failure/Child–Pugh outcomes were not modelled. Sparing ≥700 cc normal liver to ≤15–17 Gy is a separate unmodelled rVdose planning guide, NOT NTCP or standard V15/V17 above-threshold dose volume. The 11/118 events from separate studies were grade≥3 GENERAL GI toxicity, NOT liver enzyme toxicity.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "wang-2021-hytec-prostate-toxicity" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Wang: три значения — лишь предложенные ориентиры для SBRT простаты с назначением обычно 35–40 Гр за 4–5 фракций, без утверждённых общих пределов NTCP. Для мочевого пузыря V(Rx) — объём в см³, получающий дозу назначения (НЕ 5–10 Гр); Dmax уретры и прямой кишки — другие метрики. Уточняйте контур, степень токсичности и индивидуальный протокол; данные не подтверждают аналогичные пределы при повторной ЛТ.",
+                      "HyTEC Wang: these three values are suggested rather than validated NTCP limits for prostate SBRT, usually 35–40 Gy in 4–5 fractions. Bladder V(Rx) is absolute cc receiving the prescribed dose (NOT 5–10 Gy); urethral and rectal Dmax are distinct metrics. Confirm contour, toxicity endpoint and actual protocol; not validated for reirradiation.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "grimm-2021-hytec-major-vessels" &&
+                constraint.id === "hytec-major-vessel-d0p5cc-5fx-20gy" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC Grimm: D0,5 см³ <20 Гр при 5 фракциях — консервативная рекомендация для повторной ЛТ сосудов головы/шеи, а НЕ рассчитанный порог NTCP. Риск ≈2% при Dmax=20 Гр взят из другой объединённой модели для Dmax, не для D0,5 см³; отдельная модель D0,5 см³ статистически незначима (p=0,182). Авторы также рекомендуют облучение через день и учитывать охват сонной артерии опухолью, некроз и предыдущую ЛТ. Это не абсолютное противопоказание к плану.",
+                      "HyTEC Grimm: D0.5cc <20 Gy in five fractions is a conservative suggestion for head/neck vessel reirradiation, NOT a fitted NTCP threshold. The approximately 2% risk at Dmax=20 Gy comes from a separate pooled Dmax fit, NOT the D0.5cc model (p=0.182). Authors also recommend nonconsecutive fractions and assessment of vessel encasement, necrosis and prior radiation. This is not an absolute contraindication.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "kong-2021-hytec-lung-parenchyma" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC лёгкие: MLD <8 Гр и V20 <10–15% — наблюдательные ориентиры для обоих лёгких при SBRT преимущественно небольших периферических опухолей за 3–5 фракций. Сопоставляйте одинаковые контуры: оба лёгких за вычетом GTV (или IGTV при 4D-КТ), не ипсилатеральное лёгкое и не Lung−PTV. Исход — симптоматическое RILT степени ≥2 (пневмонит и фиброз), не индивидуальная NTCP. При интерстициальном заболевании лёгких (ILD), центральных опухолях и повторном облучении эти оценки могут быть неприменимы.",
+                      "HyTEC lung: MLD <8 Gy and V20 <10–15% are observational guides for both lungs, mainly in small peripheral tumors treated in 3–5 SBRT fractions. Compare like-for-like contours: both lungs minus GTV (or IGTV with 4DCT), not ipsilateral-only or lung minus PTV. The endpoint is symptomatic grade ≥2 RILT (pneumonitis and fibrosis), not individualized NTCP. ILD, central tumors and reirradiation can invalidate these estimates.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "sahgal-2021-hytec-spinal-cord" &&
+                constraint.guidanceKind === "risk-point" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Ограничение доказательности: границы диапазона получены из разных моделей и для разных контуров — оболочки спинного мозга (thecal sac, модель Sahgal) и собственно спинного мозга (Katsoulakis–Gibbs). Это не доверительный интервал и не единое безопасное ограничение. Значения Katsoulakis–Gibbs для 2–5 фракций — LQ-экстраполяция от 14 Гр за 1 фракцию; рекомендованные в статье для 2–5 фракций дозы Dmax относятся к колонке Sahgal.",
+                      "Evidence limitation: the two ends of this range come from different models and dose-reporting structures: thecal sac (Sahgal) versus spinal cord itself (Katsoulakis–Gibbs). This is neither a confidence interval nor a universal safe limit. The Katsoulakis–Gibbs 2–5-fraction values are LQ extrapolations from 14 Gy in 1 fraction; the source's recommended 2–5-fraction Dmax values are in the Sahgal column.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "milano-2021-hytec-optic" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "HyTEC для зрительных путей: 10 Гр за 1 фракцию — рекомендованная граница Dmax при отсутствии предыдущей ЛТ. Более высокий уровень 12,1 Гр относится к объединённой модельной оценке 1% риска, но не заменяет рекомендацию 10 Гр. При повторном облучении зрительных нервов/хиазмы надёжная модель NTCP отсутствует — эти ограничения неприменимы автоматически.",
+                      "HyTEC optic pathways: 10 Gy in 1 fraction is the recommended Dmax limit without prior radiotherapy. The higher 12.1 Gy comes from a pooled model's 1% risk estimate, NOT the recommended 1-fraction limit. Reliable reirradiation NTCP data are insufficient; do not automatically apply these limits after previous optic radiation.",
+                    )}
+                  </p>
+                ) : null}
+
+                {constraint.sourceId === "milano-2021-hytec-brain" ? (
+                  <p className="constraint-evidence-note">
+                    {tx(
+                      language,
+                      "Обратите внимание: для оценки V12/V20/V24 нужен объём ткани, включая мишень. Объём Brain−GTV/PTV не эквивалентен. Частоты любого некроза, симптоматического некроза и некроза с резекцией относятся к разным исходам; оценки HyTEC описательные и не являются индивидуальными предсказаниями NTCP.",
+                      "Important: V12/V20/V24 here uses tissue volume including the target; Brain minus GTV/PTV is not interchangeable. Any necrosis, symptomatic necrosis and necrosis requiring resection are distinct endpoints. These descriptive HyTEC associations are not individualized NTCP predictions.",
+                    )}
+                  </p>
+                ) : null}
+
                 {source ? (
                   <div className="constraint-source">
                     <span>
