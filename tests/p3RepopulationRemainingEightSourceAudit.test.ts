@@ -20,8 +20,8 @@ describe("P3.7 remaining eight original time source checks",()=>{
  it("does not invent primary 95% CI from QUANTEC's secondary one-standard-error estimate",()=>{
   const r=rows.find(x=>x.record_id==="dprolif-lung-pneumonitis-bentzen2000")!;
   expect(r.primary_exact).toBe("false");expect(r.primary_abstract_point).toBe("");
-  expect(r.scope).toMatch(/ONE_SE/);expect(find(r.record_id).ci95).toBeUndefined();
-  expect(find(r.record_id).rateGyPerDay).toBe(.54);
+  expect(r.scope).toMatch(/ONE_SE/);expect(find(r.record_id!).ci95).toBeUndefined();
+  expect(find(r.record_id!).rateGyPerDay).toBe(.54);
  });
  it("keeps 3 pending rate records and two BCR entries deprecated",()=>{
   const p=["dprolif-hn-various-bcr2025","dprolif-hn-various-alternative-bcr2025","dprolif-hn-larynx-bcr2025"];
