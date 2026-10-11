@@ -393,6 +393,34 @@ export function AuditReplayView({
                 "Select an appropriate current source or create a separately justified manual research scenario. Do not automatically substitute models or treat the saved result as newly verified.",
               )}
             </p>
+            {inspection.replayBlocked.archivedEqd2Snapshot ? (
+              <div className="audit-preview" data-testid="archived-audit-results">
+                <strong>
+                  {tx(
+                    language,
+                    "Архивные значения — только чтение, НЕ пересчитаны",
+                    "Archived values — read-only, NOT recalculated",
+                  )}
+                </strong>
+                <p>
+                  {tx(language, "Плановая эффективная EQD₂", "Planned effective EQD2")}:{" "}
+                  {inspection.replayBlocked.archivedEqd2Snapshot.plannedEffectiveEqd2Gy.toFixed(2)}{" "}
+                  {tx(language, "Гр", "Gy")}
+                </p>
+                <p>
+                  {tx(language, "Изменение EQD₂ при перерыве", "EQD2 difference with interruption")}:{" "}
+                  {inspection.replayBlocked.archivedEqd2Snapshot.uncompensatedDeltaEffectiveEqd2Gy.toFixed(2)}{" "}
+                  {tx(language, "Гр", "Gy")}
+                </p>
+                <small>
+                  {tx(
+                    language,
+                    "Это численные поля исходного файла. Они не проверены текущим движком и не разрешены для клинического решения.",
+                    "These numbers are copied from the imported file. They have not been validated by the current engine and are not approved for clinical decisions.",
+                  )}
+                </small>
+              </div>
+            ) : null}
           </div>
         </section>
       ) : null}
