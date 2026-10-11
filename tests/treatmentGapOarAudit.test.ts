@@ -116,9 +116,10 @@ describe("Treatment Gap OAR audit", () => {
       rationale: "Regression test",
     };
     const repopulationSelection = {
-      selectionMode: "evidence" as const,
-      parameterRecordId:
-        "dprolif-hn-various-bcr2025",
+      selectionMode: "manual" as const,
+      rateGyPerDay: 0.8,
+      kickOffDays: 21,
+      rationale: "Legacy BCR academic regression scenario; generic HN source is deprecated",
     };
 
     const baseline = buildTreatmentGapBaseline({
