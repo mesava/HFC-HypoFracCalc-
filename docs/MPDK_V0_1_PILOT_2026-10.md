@@ -9,7 +9,7 @@ Add explicit instructions, five project-scoped domain workflows, and a determini
 - AGENTS.md — read-first instructions for compatible coding agents.
 - .agents/skills/*/SKILL.md — portable on-demand scientific workflows.
 - scripts/mpdk-guard.mjs — checks companion file *presence* when protected scientific paths are modified.
-- scripts/mpdk-guard.test.mjs — synthetic red/green checks of the guard itself.
+- scripts/mpdk-guard.node-check.mjs — synthetic red/green checks of the guard itself.
 - .github/workflows/mpdk-governance.yml — runs guard tests and evaluates a PR diff against its base.
 - docs/MPDK_ECC_CAPABILITY_AUDIT_2026-10.md — targeted upstream inventory.
 - docs/MPDK_STANDALONE_PROJECT_RFC_2026-10.md — future independent project, not yet created.
@@ -17,7 +17,7 @@ Add explicit instructions, five project-scoped domain workflows, and a determini
 ## Guard rules (first iteration)
 Protected: src/core/, src/workflows/, src/evidence/, src/data/evidence/, src/regimens/, src/data/regimens/.
 A PR touching one of these directories must also change at least one tests/ unit test and one docs/ scientific or QA note. These are *procedural* gates only: a fabricated test, incorrect formula or misleading documentation can still pass. E2E alone is not a numerical oracle.
-Tests run with `node --test scripts/mpdk-guard.test.mjs`; local changed-file audit:
+Tests run with `node --test scripts/mpdk-guard.node-check.mjs`; local changed-file audit:
 `node scripts/mpdk-guard.mjs --base origin/develop` (after fetching origin/develop).
 
 ## Mandatory manual review before merge
