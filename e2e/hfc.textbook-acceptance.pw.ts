@@ -39,6 +39,6 @@ test.describe("HFC clinical textbook acceptance (RU interface)", () => {
     await page.getByLabel("Фактическая доза / фракцию, Гр").fill("5");
     await page.getByLabel("Оставшихся фракций").fill("2");
     await page.getByLabel("α/β, Гр").fill("10");
-    await expect(page.getByText("6,73 Гр",{exact:false})).toBeVisible();
+    await expect(page.getByText("6,726 Гр",{exact:false})).toBeVisible(); // UI deliberately prints 3 decimals; book rounds to 6.7
   });
 });
