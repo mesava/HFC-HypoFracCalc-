@@ -276,12 +276,13 @@ test.describe("HFC audit replay for all current modules", () => {
 });
 
 test.describe("P4 backward-compatible historical audit inspection", () => {
-  test.each([
+  for (const [sourceId, reason] of [
     ["dprolif-hn-various-bcr2025", "историческая запись"],
     ["dprolif-hn-larynx-bcr2025", "историческая запись"],
     ["dprolif-medulloblastoma-bcr2025", "Hinata"],
     ["dprolif-medulloblastoma-tk21-hinata2001", "Hinata"],
-  ])("opens valid signed old audit %s but never replays its unsafe source", async ({ page }, sourceId, reason) => {
+  ] as const) {
+    test(`opens valid signed old audit ${sourceId} but never replays its unsafe source`, async ({ page }) => {
     await openAuditReplay(page);
     const old = treatmentGapAudit();
     old.inputs.repopulationSelection = {
@@ -297,7 +298,8 @@ test.describe("P4 backward-compatible historical audit inspection", () => {
     await expect(alert).toContainText(reason);
     await expect(page.getByRole("heading",{name:"Сохранённый расчёт воспроизведён"})).not.toBeVisible();
     await expect(page.getByText("Файл не принят")).not.toBeVisible();
-  });
+    });
+  }
 
   test("shows legacy raw JSON as intact data without claiming a verified digest", async ({page})=>{
     await openAuditReplay(page);
