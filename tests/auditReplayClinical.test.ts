@@ -57,12 +57,13 @@ function treatmentGapAudit() {
     unit: "Gy" as const,
     rationale: "Clinical replay regression",
   };
-  // Historical/deprecated records must remain replayable for old audits.
+  // New clinical-looking audits must not replay deprecated evidence as an approved source.
   const repopulationSelection = {
-    selectionMode: "evidence" as const,
-    parameterRecordId:
-      "dprolif-hn-various-bcr2025",
-  };
+    selectionMode: "manual" as const,
+    rateGyPerDay: 0.8,
+    kickOffDays: 21,
+    rationale: "Legacy BCR academic regression scenario; generic HN source is deprecated",
+    };
 
   const baseline = buildTreatmentGapBaseline({
     endpointId: "head-neck-tumour-control",
