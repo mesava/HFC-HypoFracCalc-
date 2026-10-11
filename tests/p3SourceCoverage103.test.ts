@@ -43,7 +43,8 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
     const count=(state:string)=>data.filter(x=>x.current_phase_review_status===state).length;
     expect(count("p3_primary_table_parameter_and_95pct_ci_checked")).toBe(20);
     expect(count("p2_source_review_in_separate_73_record_ledger")).toBe(39);
-    expect(count("p3_primary_numeric_and_uncertainty_crosscheck_pending")).toBe(5);
+    expect(count("p3_primary_numeric_and_uncertainty_crosscheck_pending")).toBe(0);
+    expect(count("p3_user_secondary_BCR_2025_table10_1_verified_primary_optional")).toBe(5);
     expect(count("p3_external_primary_abstract_MC_parameter_CI_checked_full_pdf_pending")).toBe(3);
     expect(count("p3_external_primary_abstract_qualitative_range_checked_full_pdf_pending")).toBe(1);
     expect(count("p3_external_primary_abstract_counterevidence_legacy_bound_unverified")).toBe(2);
@@ -60,7 +61,10 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
     expect(count("p3_external_primary_abstract_point_CI_rounded_matched_full_pdf_pending")).toBe(1);
     expect(count("p3_external_primary_abstract_point_only_CI_secondary_pending")).toBe(1);
     const remaining=data.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending");
-    expect(remaining.map(x=>x.record_id).sort()).toEqual(["ab-lung-pneumonitis-bentzen2000","ab-oral-mucosa-mucositis-denham1995","ab-skin-erythema-bcr2025","ab-skin-telangiectasia-bcr2025","ab-subcutis-fibrosis-bcr2025"]);
+    expect(remaining).toHaveLength(0);
+    const textbook=data.filter(x=>x.current_phase_review_status==="p3_user_secondary_BCR_2025_table10_1_verified_primary_optional");
+    expect(textbook.map(x=>x.record_id).sort()).toEqual(["ab-lung-pneumonitis-bentzen2000","ab-oral-mucosa-mucositis-denham1995","ab-skin-erythema-bcr2025","ab-skin-telangiectasia-bcr2025","ab-subcutis-fibrosis-bcr2025"]);
+    expect(textbook.every(x=>x.user_file_supplied==="false" && x.clinical_release_approved==="false")).toBe(true);
     expect(remaining.every(x=>x.record_family==="alpha-beta" && x.user_file_supplied==="false")).toBe(true);
     const fast=data.filter(x=>x.current_phase_review_status==="p3_external_primary_fulltext_table4_numeric_checked_pdf_binary_pending");
     expect(fast).toHaveLength(7);
@@ -80,7 +84,7 @@ describe("P3 entire evidence 103-record crosswalk and review gate",()=>{
     expect(strict.filter(x=>x.source_id==="vogelius-bentzen-2020-prostate")).toHaveLength(1);
     const unresolved=data.filter(x=>x.current_phase_review_status==="p3_primary_numeric_and_uncertainty_crosscheck_pending");
     expect(unresolved.filter(x=>x.user_file_supplied==="true")).toHaveLength(0);
-    expect(unresolved.filter(x=>x.user_file_supplied==="false")).toHaveLength(5);
+    expect(unresolved.filter(x=>x.user_file_supplied==="false")).toHaveLength(0);
   });
 
   it("blocks promotion to clinical release and leaves repair/time corrections reviewable",()=>{
