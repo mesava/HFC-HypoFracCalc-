@@ -341,6 +341,10 @@ describe("P4 legacy blocked-source audit imports", () => {
       expect(inspected.replayBlocked?.code).toBe(expectedCode);
       expect(inspected.replayBlocked?.parameterRecordId).toBe(sourceId);
       expect(inspected.replayBlocked?.reason).toMatch(/cannot be used|blocked until/);
+      expect(inspected.replayBlocked?.archivedEqd2Snapshot).toEqual({
+        plannedEffectiveEqd2Gy: originalDose,
+        uncompensatedDeltaEffectiveEqd2Gy: saved.baseline.uncompensatedDeltaEffectiveEqd2Gy,
+      });
       expect(saved.baseline.plannedEffectiveEqd2Gy).toBe(originalDose);
     },
   );
