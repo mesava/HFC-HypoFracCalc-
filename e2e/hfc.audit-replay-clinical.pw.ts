@@ -296,6 +296,8 @@ test.describe("P4 backward-compatible historical audit inspection", () => {
     await expect(alert).toBeVisible();
     await expect(alert).toContainText(sourceId);
     await expect(alert).toContainText(reason);
+    await expect(page.getByTestId("archived-audit-results")).toContainText("Архивные значения");
+    await expect(page.getByTestId("archived-audit-results")).toContainText("НЕ пересчитаны");
     await expect(page.getByRole("heading",{name:"Сохранённый расчёт воспроизведён"})).not.toBeVisible();
     await expect(page.getByText("Файл не принят")).not.toBeVisible();
     });
@@ -315,6 +317,7 @@ test.describe("P4 backward-compatible historical audit inspection", () => {
     });
     await expect(page.getByText("Legacy audit: целостность не подтверждена")).toBeVisible();
     await expect(page.getByTestId("audit-replay-blocked")).toContainText("dprolif-hn-various-bcr2025");
+    await expect(page.getByTestId("archived-audit-results")).toBeVisible();
     await expect(page.getByRole("heading",{name:"Сохранённый расчёт воспроизведён"})).not.toBeVisible();
   });
 
