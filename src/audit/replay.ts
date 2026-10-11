@@ -79,6 +79,11 @@ export interface AuditReplayBlocked {
   code: "deprecated" | "incompatible-dose-basis";
   parameterRecordId: string;
   reason: string;
+  /** Signed (or unsigned legacy) saved output, NEVER a current recomputation. */
+  archivedEqd2Snapshot?: {
+    plannedEffectiveEqd2Gy: number;
+    uncompensatedDeltaEffectiveEqd2Gy: number;
+  };
 }
 
 export interface AuditImportInspection {
@@ -692,13 +697,22 @@ export function blockedSavedTreatmentGapReplay(
     return undefined;
   }
   const blocker = getRepopulationSourceBlocker(selection.parameterRecordId);
-  return blocker
-    ? {
-        code: blocker.code,
-        parameterRecordId: blocker.recordId,
-        reason: blocker.reason,
-      }
-    : undefined;
+  if (!blocker) return undefined;
+  // Read-only copy from original archive, no dose calculation is performed.
+  const baseline = isObject(saved.baseline) ? saved.baseline : undefined;
+  const planned = baseline?.plannedEffectiveEqd2Gy;
+  const delta = baseline?.uncompensatedDeltaEffectiveEqd2Gy;
+  const archivedEqd2Snapshot =
+    typeof planned === "number" && Number.isFinite(planned) &&
+    typeof delta === "number" && Number.isFinite(delta)
+      ? { plannedEffectiveEqd2Gy: planned, uncompensatedDeltaEffectiveEqd2Gy: delta }
+      : undefined;
+  return {
+    code: blocker.code,
+    parameterRecordId: blocker.recordId,
+    reason: blocker.reason,
+    ...(archivedEqd2Snapshot ? { archivedEqd2Snapshot } : {}),
+  };
 }
 
 export async function inspectAuditDocument(
