@@ -166,6 +166,14 @@ Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs wh
 
 **Статус блокеров:** P3-C07 `deprecated` **runtime use contained**, но UI/replay compatibility и независимый clinical review не завершены. P3-C03 Hinata **unsafe selection contained**, но полноценной реконструкции `tBEDmax`, перевода BED/EQD₂ и независимого клинического утверждения **нет**, научная проблема открыта. G5 OPEN, G6 PARTIAL, G7 BLOCKED. Это P4 **защитное изменение поведения выбора**, а не математическое исправление Hinata и не выпуск.
 
+### P4-R1 — архивные audit JSON и пакет независимого review (11.10.2026)
+
+[Технический и научный аудит с **неподписанным** внешним клиническим review checklist](P4_INDEPENDENT_TECHNICAL_SCIENTIFIC_REVIEW_AND_CLINICAL_SIGNOFF_2026-10.md), [исходный P4 runtime report](P4_REPOPULATION_RUNTIME_CONTAINMENT_AND_CLINICAL_REVIEW_PACKET_2026-10.md), [unit replay regression](../tests/auditReplayClinical.test.ts), [Playwright UI](../e2e/hfc.audit-replay-clinical.pw.ts). Старая загрузка ранее интерпретировала запрещённый ID в **целом валидном JSON** как ошибку структуры файла; теперь старый файл читается, SHA-256 проверяется **до** source policy, показывается отдельный `replayBlocked` и текст с точным ID/причиной. Два исходных числа EQD₂ показываются read-only с предупреждением **«НЕ пересчитаны»**; импорт не выдаёт новые рассчитанные дозы, не удаляет архив и не заменяет модель автоматически. Для `schema1.0` честно сохраняется `legacy-unverified`, tampered signed envelope отвергается раньше. Четыре unsafe-source ID покрыты unit и Playwright: две deprecated HN/ларинкс и две Hinata BED-only.
+
+**Научное решение tBEDmax:** отдельная, возможно необязательная `research-only` модель со специальными BED-единицами, временными фракциями и максимумом эффекта; **не** внедрять source `gamma/alpha` в EQD₂ Treatment Gap и **не** подменять `tBEDmax` конечной BED. Арифметика условного 30×2Gy `alpha/beta=10`, `Tk=21`, `OTT=45` даёт исходную BED 72, исходную EQD₂ 60, потери 13.2 BED и 11.0 EQD₂ после формального приведения, ошибочная прямая EQD₂ поправка 13.2, разница 2.2 EQD₂. Это **не** реконструкция исходного клинического tBEDmax и не рекомендация по фракционированию.
+
+**Независимый аудит:** выполнен только внутренний second-pass вычислений и исходников; внешние независимые рецензенты **не участвовали и ничего не подписали**. В приложенном документе созданы role-specific acceptance criteria, риски, ссылочная база TG-166/RCR/Hinata и пустые формы обеих подписей. `G5 OPEN`, `G6 PARTIAL`, `G7 BLOCKED`, `releaseStatus=draft` и все 103 `clinical_release_approved=false`. Этот этап нельзя выдавать за внешнее клиническое одобрение.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
