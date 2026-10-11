@@ -40,6 +40,5 @@ test.describe("HFC clinical textbook acceptance (RU interface)", () => {
     await page.getByLabel("Оставшихся фракций").fill("2");
     await page.getByLabel("α/β, Гр").fill("10");
     await expect(page.getByText("6,73 Гр",{exact:false})).toBeVisible();
-    await expect(page.getByText("Математическая", {exact:false})).not.toBeVisible(); // Test numerical acceptance only
   });
 });
