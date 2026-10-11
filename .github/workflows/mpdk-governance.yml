@@ -1,0 +1,27 @@
+name: MPDK Governance Pilot
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  procedural-science-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with base history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+      - name: Test positive and negative guard cases
+        run: node --test scripts/mpdk-guard.test.mjs
+      - name: Check scientific source and test companion changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/mpdk-guard.mjs --base "$BASE_SHA"
+
