@@ -312,6 +312,65 @@ function spinalGuidanceAudit(
   });
 }
 
+describe("P4 legacy blocked-source audit imports", () => {
+  const scenarios = [
+    ["dprolif-hn-various-bcr2025", "deprecated"],
+    ["dprolif-hn-larynx-bcr2025", "deprecated"],
+    ["dprolif-medulloblastoma-bcr2025", "incompatible-dose-basis"],
+    ["dprolif-medulloblastoma-tk21-hinata2001", "incompatible-dose-basis"],
+  ] as const;
+
+  it.each(scenarios)(
+    "opens SHA-verified historical %s and blocks only the unsafe replay",
+    async (sourceId, expectedCode) => {
+      // Simulate an export from an earlier HFC that permitted the source;
+      // its saved output remains intact and its digest authentic.
+      const saved = treatmentGapAudit();
+      const originalDose = saved.baseline.plannedEffectiveEqd2Gy;
+      saved.inputs.repopulationSelection = {
+        selectionMode: "evidence",
+        parameterRecordId: sourceId,
+      };
+      const inspected = await inspectAuditDocument(
+        await serializeAuditEnvelope(saved),
+      );
+      expect(inspected.integrityStatus).toBe("verified");
+      expect(inspected.header.module).toBe("treatment-gap");
+      expect(inspected.replaySupported).toBe(true);
+      expect(inspected.replay).toBeUndefined();
+      expect(inspected.replayBlocked?.code).toBe(expectedCode);
+      expect(inspected.replayBlocked?.parameterRecordId).toBe(sourceId);
+      expect(inspected.replayBlocked?.reason).toMatch(/cannot be used|blocked until/);
+      expect(saved.baseline.plannedEffectiveEqd2Gy).toBe(originalDose);
+    },
+  );
+
+  it("opens the same old record without claiming cryptographic integrity for raw legacy JSON", async () => {
+    const saved = treatmentGapAudit();
+    saved.inputs.repopulationSelection = {
+      selectionMode: "evidence",
+      parameterRecordId: "dprolif-hn-various-bcr2025",
+    };
+    const result = await inspectAuditDocument(JSON.stringify(saved));
+    expect(result.integrityStatus).toBe("legacy-unverified");
+    expect(result.replayBlocked?.code).toBe("deprecated");
+    expect(result.replay).toBeUndefined();
+  });
+
+  it("rejects a tampered signed old file even when the replay source was blocked", async () => {
+    const saved = treatmentGapAudit();
+    saved.inputs.repopulationSelection = {
+      selectionMode: "evidence",
+      parameterRecordId: "dprolif-medulloblastoma-bcr2025",
+    };
+    const envelope = JSON.parse(await serializeAuditEnvelope(saved));
+    envelope.record.baseline.plannedEffectiveEqd2Gy += 1;
+    await expect(
+      inspectAuditDocument(JSON.stringify(envelope)),
+    ).rejects.toThrow(/integrity check failed/i);
+  });
+});
+
 describe("clinical audit replay v0.2", () => {
   it("replays a Treatment Gap audit including calendar, strategies and OAR provenance", async () => {
     const inspected = await inspectAuditDocument(
