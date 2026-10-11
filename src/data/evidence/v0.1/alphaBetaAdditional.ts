@@ -18,9 +18,9 @@ export const alphaBetaAdditionalEstimates = [
     ci95: { level: 0.95, low: 5.8, high: 17.9 },
     status: "preferred",
     defaultEligible: true,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Direct clinical analysis of human oropharyngeal mucosal reactions; the 2025 textbook identifies 9.3 Gy as a clinical estimate for mucositis.",
+      "Direct clinical analysis of human oropharyngeal mucosal reactions; the 2025 textbook identifies 9.3 Gy as a clinical estimate for mucositis. P3.13: numeric point and 95% confidence limits remain SECONDARY textbook transcriptions; original 7569021 article's full numerical table and model were not accessible for independent source verification. Do not interpret this value as independently clinically commissioned.",
     applicability: {
       radiationQuality: "photon",
       technique: ["head-and-neck radiotherapy"],
@@ -39,9 +39,9 @@ export const alphaBetaAdditionalEstimates = [
     ci95: { level: 0.95, low: 6.9, high: 11.6 },
     status: "preferred",
     defaultEligible: true,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Human postmastectomy skin fractionation data from Turesson and Thames (1989); the 8.8 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+      "Human postmastectomy skin fractionation data from Turesson and Thames (1989); the 8.8 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025. P3.13: numeric point and 95% confidence limits remain SECONDARY textbook transcriptions; original 2762590 article's full numerical table and model were not accessible for independent source verification. Do not interpret this value as independently clinically commissioned.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy skin irradiation"],
@@ -62,9 +62,9 @@ export const alphaBetaAdditionalEstimates = [
     ci95: { level: 0.95, low: 2.2, high: 3.3 },
     status: "preferred",
     defaultEligible: true,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Direct graded-response clinical analysis of postmastectomy telangiectasia; the 2.6 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+      "Direct graded-response clinical analysis of postmastectomy telangiectasia; the 2.6 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025. P3.13: numeric point and 95% confidence limits remain SECONDARY textbook transcriptions; original 2367694 article's full numerical table and model were not accessible for independent source verification. Do not interpret this value as independently clinically commissioned.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy radiotherapy"],
@@ -85,9 +85,9 @@ export const alphaBetaAdditionalEstimates = [
     ci95: { level: 0.95, low: 0.6, high: 2.6 },
     status: "preferred",
     defaultEligible: true,
-    support: "supported",
+    support: "limited",
     supportReason:
-      "Clinical postmastectomy fractionation analysis; the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) is reproduced in Basic Clinical Radiobiology 2025.",
+      "Clinical postmastectomy fractionation analysis; the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) is reproduced in Basic Clinical Radiobiology 2025. P3.13: numeric point and 95% confidence limits remain SECONDARY textbook transcriptions; original 1852907 article's full numerical table and model were not accessible for independent source verification. Do not interpret this value as independently clinically commissioned.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy radiotherapy"],
@@ -147,7 +147,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Clinical-data synthesis of human lung reactions rather than one independently validated endpoint-specific primary fit; retained for explicit selection but not automatic use.",
+      "Clinical-data synthesis of human lung reactions rather than one independently validated endpoint-specific primary fit; retained for explicit selection but not automatic use. P3.13: numeric point and 95% confidence limits remain SECONDARY textbook transcriptions; original 10815624 article's full numerical table and model were not accessible for independent source verification. Do not interpret this value as independently clinically commissioned.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
