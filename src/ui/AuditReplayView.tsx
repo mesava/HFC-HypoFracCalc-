@@ -287,8 +287,8 @@ export function AuditReplayView({
                     )
                   : tx(
                       language,
-                      "Файл schema 1.0 можно воспроизводить, но он был создан без криптографического контроля целостности.",
-                      "The schema 1.0 record can be replayed, but it was created without cryptographic integrity protection.",
+                      "Файл schema 1.0 можно просмотреть, но он создан без криптографического контроля целостности. Повторный расчёт может быть ограничен действующей политикой источников.",
+                      "The schema 1.0 record can be inspected but has no cryptographic integrity protection. Replay may be restricted by current source-safety policy.",
                     )}
               </p>
             </div>
@@ -351,6 +351,51 @@ export function AuditReplayView({
           </>
         ) : null}
       </section>
+
+      {inspection?.replayBlocked ? (
+        <section className="panel" aria-label="Historical calculation replay blocked">
+          <div className="inline-alert" role="alert" data-testid="audit-replay-blocked">
+            <strong>
+              {tx(
+                language,
+                "Сохранённый расчёт открыт, но повторный расчёт заблокирован",
+                "Saved calculation opened, but replay is blocked",
+              )}
+            </strong>
+            <p>
+              {tx(
+                language,
+                "Целостность файла проверяется отдельно. Сохранённые результаты не удалены и не заменены; текущая версия HFC не будет пересчитывать их с недопустимым коэффициентом.",
+                "File integrity is checked separately. Saved results have not been deleted or replaced; this HFC version will not recalculate them with an unsafe coefficient.",
+              )}
+            </p>
+            <p>
+              <strong>{tx(language, "Запись:", "Record:")}</strong>{" "}
+              <code>{inspection.replayBlocked.parameterRecordId}</code>
+            </p>
+            <p>
+              {inspection.replayBlocked.code === "deprecated"
+                ? tx(
+                    language,
+                    "Причина: историческая запись исключена из новых расчётов.",
+                    "Reason: this historical evidence record is deprecated for new calculations.",
+                  )
+                : tx(
+                    language,
+                    "Причина: параметр Hinata относится к BED/tBEDmax и не совместим с текущей поправкой EQD₂.",
+                    "Reason: the Hinata parameter uses BED/tBEDmax and is incompatible with the current EQD2 correction.",
+                  )}
+            </p>
+            <p>
+              {tx(
+                language,
+                "Используйте новый допустимый источник либо создайте отдельно обоснованный ручной исследовательский сценарий. Не заменяйте модель автоматически и не трактуйте этот сохранённый результат как вновь проверенный.",
+                "Select an appropriate current source or create a separately justified manual research scenario. Do not automatically substitute models or treat the saved result as newly verified.",
+              )}
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       {replay ? (
         <section className="panel">
