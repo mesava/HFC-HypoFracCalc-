@@ -160,6 +160,12 @@ Critical P3-C07: direct `resolveRepopulationSelection` accepts deprecated IDs wh
 
 **Текущие 103:** 20 primary numeric, 39 P2, 6 repair, 7 repopulation CI abstracts, 3 repop point, 1 lung approximate/QUANTEC, 7 FAST2020, 3 FAST-Forward2026, 3 BCR other, 1 Hendry secondary, 6 P3.12 exact, 1 rounded, 1 point-only и **5 новых textbook-confirmed** = 103. Записей без принятого источникового уровня **0**, клинических approvals **0**.
 
+### P4-S1 — fail-closed runtime source safety (11.10.2026)
+
+[Отчёт по защитному изменению и пакет независимого клинического ревью](P4_REPOPULATION_RUNTIME_CONTAINMENT_AND_CLINICAL_REVIEW_PACKET_2026-10.md), [Vitest](../tests/p4RepopulationEvidenceSelectionSafety.test.ts). Разрешитель time-loss evidence теперь **отклоняет**, а не только предупреждает, если `status:"deprecated"` (две исторические модели H&N) или если `sourceId:"hinata-2001-medulloblastoma-time"` (две BED-`tBEDmax` модели, несовместимые с текущим EQD₂ workflow). Список для выбора тоже скрывает эти четыре ID. Архивные 14 исходных записей и их численные значения/CI/`basis` остаются неизменными. Старые демонстрационные тесты с 0,8 Gy_EQD2/day и Tk21 переведены на явный **manual** ввод тех же чисел: прежняя арифметика сравнения сохраняется, но утверждение о выборе deprecated evidence больше не создаётся. Сохранённые старые ссылки/аудиты с таким ID нельзя молча пересчитывать как новые клинические результаты; нужна обработка ошибочного выбора, и пользователь должен явно пересмотреть источник.
+
+**Статус блокеров:** P3-C07 `deprecated` **runtime use contained**, но UI/replay compatibility и независимый clinical review не завершены. P3-C03 Hinata **unsafe selection contained**, но полноценной реконструкции `tBEDmax`, перевода BED/EQD₂ и независимого клинического утверждения **нет**, научная проблема открыта. G5 OPEN, G6 PARTIAL, G7 BLOCKED. Это P4 **защитное изменение поведения выбора**, а не математическое исправление Hinata и не выпуск.
+
 ## Release gates (обязательные до вывода P4/RC)
 
 | Gate | Условие снятия | Статус |
