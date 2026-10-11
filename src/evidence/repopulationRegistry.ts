@@ -11,17 +11,38 @@ const UNRESOLVED_TBED_SOURCE_IDS = new Set([
   "hinata-2001-medulloblastoma-time",
 ]);
 
-function assertRuntimeRepopulationSourceUsable(record: RepopulationRateEstimate): void {
+export interface RepopulationSourceBlocker {
+  code: "deprecated" | "incompatible-dose-basis";
+  recordId: string;
+  reason: string;
+}
+
+/** Return the same policy reason for new calculations AND imported audit replay. */
+export function getRepopulationSourceBlocker(
+  recordId: string,
+): RepopulationSourceBlocker | undefined {
+  const record = repopulationRateEstimates.find(x => x.id === recordId);
+  if (!record) return undefined;
   if (record.status === "deprecated") {
-    throw new Error(
-      `Repopulation record ${record.id} is deprecated and cannot be used for a new EQD2 treatment-gap calculation. Historical data remain available for scientific audit; choose a current endpoint-specific source or an explicit, independently justified manual scenario.`,
-    );
+    return {
+      code: "deprecated",
+      recordId,
+      reason: `Repopulation record ${recordId} is deprecated and cannot be used for a new EQD2 treatment-gap calculation. Historical data remain available for scientific audit; choose a current endpoint-specific source or an explicit, independently justified manual scenario.`,
+    };
   }
   if (UNRESOLVED_TBED_SOURCE_IDS.has(record.sourceId)) {
-    throw new Error(
-      `Repopulation record ${record.id} is based on Hinata tBEDmax: the published gamma/alpha is BED Gy/day, not the EQD2 Gy/day needed for Treatment Gap. The source-specific tBED maximum-over-time calculation is not implemented. This evidence selection is blocked until independent model review; do not silently substitute or convert its stored rate.`,
-    );
+    return {
+      code: "incompatible-dose-basis",
+      recordId,
+      reason: `Repopulation record ${recordId} is based on Hinata tBEDmax: the published gamma/alpha is BED Gy/day, not the EQD2 Gy/day needed for Treatment Gap. The source-specific tBED maximum-over-time calculation is not implemented. This evidence selection is blocked until independent model review; do not silently substitute or convert its stored rate.`,
+    };
   }
+  return undefined;
+}
+
+function assertRuntimeRepopulationSourceUsable(record: RepopulationRateEstimate): void {
+  const blocker = getRepopulationSourceBlocker(record.id);
+  if (blocker) throw new Error(blocker.reason);
 }
 
 
