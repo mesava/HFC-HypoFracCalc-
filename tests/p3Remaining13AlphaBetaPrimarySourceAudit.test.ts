@@ -12,7 +12,7 @@ const status={
  exact:"p3_external_primary_abstract_point_CI_exact_matched_full_pdf_pending",
  rounded:"p3_external_primary_abstract_point_CI_rounded_matched_full_pdf_pending",
  point:"p3_external_primary_abstract_point_only_CI_secondary_pending",
- pending:"p3_primary_numeric_and_uncertainty_crosscheck_pending"
+ textbook:"p3_user_secondary_BCR_2025_table10_1_verified_primary_optional"
 };
 const get=(id:string)=>{const a=alphaBetaEstimates.find(x=>x.id===id);if(!a)throw Error("Missing HFC source α/β "+id);return a};
 describe("P3.12 residual 13 alpha/beta provenance and source-specific constraints",()=>{
@@ -22,7 +22,7 @@ describe("P3.12 residual 13 alpha/beta provenance and source-specific constraint
   expect(rows.filter(x=>x.source_audit_tier===status.exact)).toHaveLength(6);
   expect(rows.filter(x=>x.source_audit_tier===status.rounded)).toHaveLength(1);
   expect(rows.filter(x=>x.source_audit_tier===status.point)).toHaveLength(1);
-  expect(rows.filter(x=>x.source_audit_tier===status.pending)).toHaveLength(5);
+  expect(rows.filter(x=>x.source_audit_tier===status.textbook)).toHaveLength(5);
   for(const row of rows){
    const rec=get(row.record_id!);
    expect(rec.valueGy).toBe(Number(row.hfc_alpha_beta_Gy));
@@ -59,13 +59,13 @@ describe("P3.12 residual 13 alpha/beta provenance and source-specific constraint
   expect(Math.round(Number(x.primary_reported_CI95_high_Gy)*10)/10).toBe(get(x.record_id!).ci95!.high);
   expect(get(x.record_id!).defaultEligible).toBe(false);
  });
- it("does not manufacture 95% CI for Dische 1999 or five source-context-only studies",()=>{
+ it("does not manufacture 95% CI for Dische 1999 or five BCR-accepted source-context-only studies",()=>{
   const dische=rows.find(x=>x.record_id==="ab-bowel-various-late-dische1999")!;
   expect(dische.source_audit_tier).toBe(status.point);
   expect(Number(dische.primary_reported_point_Gy)).toBe(4.3);
   expect(dische.primary_reported_CI95_low_Gy).toBe("");
   expect(dische.primary_reported_CI95_high_Gy).toBe("");
-  for(const x of rows.filter(r=>r.source_audit_tier===status.pending)){
+  for(const x of rows.filter(r=>r.source_audit_tier===status.textbook)){
    expect(x.primary_reported_point_Gy).toBe("");
    expect(x.primary_reported_CI95_low_Gy).toBe("");
    expect(x.primary_reported_CI95_high_Gy).toBe("");
