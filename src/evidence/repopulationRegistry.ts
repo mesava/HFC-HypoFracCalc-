@@ -1,6 +1,30 @@
 import type { RepopulationRateEstimate } from "../domain/evidence.js";
 import { repopulationRateEstimates } from "../data/evidence/v0.1/index.js";
 
+/**
+ * Runtime EQD2 source-safety gate. Data remain in the evidence archive for
+ * historical scientific audit, but cannot be applied through Treatment Gap.
+ * Hinata (PMID 11383644) estimates gamma/alpha in a tBEDmax model, not the
+ * EQD2/day linear OTT penalty implemented here. We MUST NOT silently convert.
+ */
+const UNRESOLVED_TBED_SOURCE_IDS = new Set([
+  "hinata-2001-medulloblastoma-time",
+]);
+
+function assertRuntimeRepopulationSourceUsable(record: RepopulationRateEstimate): void {
+  if (record.status === "deprecated") {
+    throw new Error(
+      `Repopulation record ${record.id} is deprecated and cannot be used for a new EQD2 treatment-gap calculation. Historical data remain available for scientific audit; choose a current endpoint-specific source or an explicit, independently justified manual scenario.`,
+    );
+  }
+  if (UNRESOLVED_TBED_SOURCE_IDS.has(record.sourceId)) {
+    throw new Error(
+      `Repopulation record ${record.id} is based on Hinata tBEDmax: the published gamma/alpha is BED Gy/day, not the EQD2 Gy/day needed for Treatment Gap. The source-specific tBED maximum-over-time calculation is not implemented. This evidence selection is blocked until independent model review; do not silently substitute or convert its stored rate.`,
+    );
+  }
+}
+
+
 export interface EvidenceRepopulationSelection {
   selectionMode: "evidence";
   parameterRecordId: string;
@@ -38,7 +62,8 @@ export function getRepopulationEstimates(
   return repopulationRateEstimates.filter(
     (record) =>
       record.endpointId === endpointId &&
-      record.status !== "deprecated",
+      record.status !== "deprecated" &&
+      !UNRESOLVED_TBED_SOURCE_IDS.has(record.sourceId),
   );
 }
 
@@ -49,7 +74,8 @@ export function getPreferredRepopulationEstimate(
     (record) =>
       record.endpointId === endpointId &&
       record.status === "preferred" &&
-      record.defaultEligible,
+      record.defaultEligible &&
+      !UNRESOLVED_TBED_SOURCE_IDS.has(record.sourceId),
   );
 
   if (candidates.length > 1) {
@@ -121,6 +147,7 @@ export function resolveRepopulationSelection(
       `Repopulation record ${record.id} does not belong to endpoint ${endpointId}.`,
     );
   }
+  assertRuntimeRepopulationSourceUsable(record);
   if (record.basis !== "EQD2") {
     throw new Error(
       "Treatment Gap v0.1 accepts EQD2-based Dprolif records only.",

@@ -68,9 +68,9 @@ describe("P3.6 14-record repopulation primary-abstract and dose-basis integrity"
     const row=records.find(r=>r.record_id===id)!;
     const record=idRecord(id);
     expect(row.source_dose_basis_interpretation).toBe("tBED_gamma_over_alpha_BED_per_day_not_EQD2");
-    const resolved=resolveRepopulationSelection(record.endpointId,{selectionMode:"evidence",parameterRecordId:id});
-    expect(resolved.warnings.join(" ")).toMatch(/dose-basis blocker/i);
-    expect(resolved.warnings.join(" ")).toMatch(/BED.*EQD2/i);
+    expect(() =>
+      resolveRepopulationSelection(record.endpointId,{selectionMode:"evidence",parameterRecordId:id})
+    ).toThrow(/Hinata tBEDmax.*BED.*EQD2/i);
     expect(record.defaultEligible).toBe(false);
   }
   // Mathematical dimension check only, NOT an approved update to source parameters:
