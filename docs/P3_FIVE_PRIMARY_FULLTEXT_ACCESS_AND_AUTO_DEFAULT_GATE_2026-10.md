@@ -1,5 +1,7 @@
 # HFC P3.13 — независимая доступность оригинальных PDF пяти исторических α/β и условный release gate
 
+> **Актуальное решение P3.14:** [Basic Clinical Radiobiology 2025 принят как достаточный вторичный численный источник](P3_BCR_2025_ACCEPTED_SECONDARY_AND_OPTIONAL_ORIGINALS_2026-10.md). Пять журнальных оригиналов теперь **«хорошо бы иметь»**, а не обязательные документы для завершения P3 или выпуска HFC. Ниже сохранён исторический отчёт P3.13 о том, какие оригиналы не удалось открыть. Старый первично-архивный blocker **не действует**. Независимая клиническая проверка и другие model safety gates остаются обязательными.
+
 **Дата:** 11 октября 2026. **Scope:** 5/103 alpha-beta records still in `p3_primary_numeric_and_uncertainty_crosscheck_pending`. Scientific dataset `2026.10-v0.2`, release status `draft`. **No original publication full-text model/CI QA**. A publisher PDF *search hit* does not count as the actual article PDF. Secondary BCR 2025 Table 10.1 independently read earlier (provided user source file PDF page 120, printed 105); the 2025 textbook reports the HFC values but is NOT the originating primary fit.
 
 ## Access audit: identifiable original sources, no fabricated full-text claim
@@ -20,11 +22,11 @@ The five original papers are **NOT absent from scientific literature**: their pu
 
 A new **conditional promotion gate** in [Vitest](../tests/p3FiveOriginalPrimarySourceAcquisitionGate.test.ts): so long as these unverified records exist, the clinical evidence manifest must remain `releaseStatus:"draft"`. This is a pre-release automatic regression check, not a clinical study. All five `clinical_release_approved=false`; **G4 and G5 OPEN**.
 
-## Required primary acquisition and independent replication (no invented data)
+## Необязательное углубление первоисточников — «хорошо бы иметь»
 
 1. Obtain **original publisher or author-authorized full PDFs** for DOI above. Verify DOI/title/authors, source file SHA-256, original page number and figure/table and whether any **reanalysis** in the textbook differs from the original study estimate.
 2. Find each source original table with fitted α/β (Gy) and 95% CL: distinguish **patient dose-response vs postmastectomy skin fields vs telecaesium dose-rate**; don't conflate graded endpoints and time dependence.
 3. For Denham, Turesson erythema, Bentzen1990 telangiectasia, Bentzen1991 fibrosis, quantify fitted `point/interval` provenance rather than merely match BCR table. For lung, determine whether `4.0 [2.2,5.8]` is **meta-analytic uncertainty** from review or study-specific and distinguish **pneumonitis** from **fibrosis** and **Dprolif Gy_EQD2/day**.
 4. Add independent clinical reviewer signoff and QA test reconstructing the published definition before promoting any record to primary-verified or supporting automatic default in validated dataset.
 
-**Progress remains five exact-original-CI cases pending out of 103, not zero.** Do not confuse existing BCR secondary reproductions with primary original verification; existing 73/103 user source-file flags refer to separate inventory. No clinical calculations modified.
+**P3.14 supersedes this historical P3.13 count:** five cases are now accepted as numerically verified in BCR 2025 Table 10.1, while exact primary article numerical crosschecks remain optional enhancements. Do not confuse existing BCR secondary reproductions with primary original verification; existing 73/103 user source-file flags refer to separate inventory. No clinical calculations modified.
