@@ -40,6 +40,8 @@ const fastApplicability: ApplicabilityDomain = {
   notes: [
     "Schedules: 50 Gy/25 fractions over 5 weeks, or 30 Gy/5 and 28.5 Gy/5 once-weekly fractions over 5 weeks.",
     "The 5-fraction schedules were once weekly, not daily.",
+    "P3.8 external source audit: original FAST 2020 Table 4 has seven late-NTE alpha/beta entries; breast induration lower 95% limit was truncated at zero, breast edema 1.9 Gy has no published 95% interval, and Table 4 EQD2 results may differ slightly from results recalculated using rounded printed alpha/beta.",
+    "Scientific review is limited to source parameter/table transcription; user-supplied binary PDF verification and independent GEE fit remain outstanding.",
   ],
 };
 
@@ -55,6 +57,8 @@ const fastForwardApplicability: ApplicabilityDomain = {
   notes: [
     "Schedules: 40 Gy/15 fractions over 3 weeks, 27 Gy/5 fractions over 1 week, 26 Gy/5 fractions over 1 week.",
     "Alpha/beta estimates are from the planned 10-year FAST-Forward analysis (Appendix Table D5).",
+    "P3.10 primary supplied appendix audit: file page 21 (printed appendix page 20) Table D5 verified from text and page image. Three record estimates and 95% intervals match; table prints 12 model/regimen EQD2 points across Cox IBR and composite GEE NTE fits. Differences of 0.1 Gy between adjusted/unadjusted NTE EQD2 despite identical displayed alpha/beta 2.1 Gy are due to rounding of fitted coefficients, not an independent discrepancy.",
+    "Scientific provenance status: user source PDF indexed page checked; original binary SHA and independent refitting of Cox/GEE remain unavailable; does not approve clinical release.",
   ],
 };
 
@@ -78,7 +82,9 @@ export const alphaBetaEstimates = [
       population: "Randomized EBRT trials enrolling men with prostate cancer across risk groups.",
       notes: [
         "Substantial heterogeneity was present (I²=70%, P=0.0005).",
+        "The reported narrow 95% CI 1.3–2.0 Gy is the primary pooled meta-analysis interval; the authors' random-effects sensitivity analysis also gives alpha/beta 1.6 Gy but wider 95% CI 0.8–2.4 Gy due to study heterogeneity. The two intervals must not be mixed or presented as a patient-specific CI.",
         "Study-level alpha/beta estimates increased with experimental-arm fraction size (approximately 0.6 Gy per additional Gy/fraction; P=0.017).",
+        "Source figure 2 fitted slope 0.57 Gy/(Gy/fraction), SE 0.19 and P=0.017; this is a study-level association, not proof that tissue alpha/beta itself changes linearly with fraction size.",
         "The authors note that this may reflect non-constant fractionation sensitivity and/or saturation of biochemical control above approximately 80 Gy EQD2.",
         "Use as the preferred pooled estimate, but show an explicit heterogeneity/high-dose caveat.",
       ],

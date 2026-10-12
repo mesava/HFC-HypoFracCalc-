@@ -172,4 +172,46 @@ describe("HyTEC spinal-cord reirradiation guidance", () => {
     );
     expect(cumulative?.observedValue).toBeCloseTo(38.75, 12);
   });
+
+  it("does not pass all four factors merely because a source Table 4 dose example was used", () => {
+    // Conditional source check: IF previous thecal-sac Dmax really was
+    // 50 Gy / 25fx, then source Table 4's 14Gy / 3fx example does not
+    // meet the independently listed 70Gy cumulative EQD2_2 criterion.
+    // Nominal prior prescription does not prove thecal-sac Dmax.
+    const result = assessHytecSpinalCordReirradiation([
+      previousCourse({
+        schedule: {fractions:25,dosePerFractionGy:2},
+        intervalToCurrentMonths:6,
+      }),
+      currentCourse({
+        schedule: {fractions:3,dosePerFractionGy:14/3},
+      }),
+    ],true);
+    expect(result.applicable).toBe(true);
+    expect(result.calculationBasis.structure).toBe("thecal-sac");
+    expect(result.criteria.map(x=>[x.id,x.status])).toEqual([
+      ["cumulative-eqd2-max","not-met"],
+      ["current-sbrt-eqd2-max","met"],
+      ["current-to-cumulative-ratio","met"],
+      ["minimum-interval","met"],
+    ]);
+    expect(result.criteria[0]?.observedValue).toBeCloseTo(73.3333333333,7);
+    expect(result.allAssessableCriteriaMet).toBe(false);
+  });
+
+  it("does not round 25.2Gy EQD2 to 25 and mistakenly pass the current-course factor", () => {
+    // Sahgal PDF p11 Table4: 18Gy/5fx => EQD2_2=25.2Gy.
+    const result = assessHytecSpinalCordReirradiation([
+      previousCourse({
+        schedule: {fractions:5,dosePerFractionGy:4},
+        intervalToCurrentMonths:8,
+      }),
+      currentCourse({schedule: {fractions:5,dosePerFractionGy:3.6}}),
+    ],true);
+    expect(result.criteria.find(x=>x.id==="current-sbrt-eqd2-max")?.observedValue)
+      .toBeCloseTo(25.2,9);
+    expect(result.criteria.find(x=>x.id==="current-sbrt-eqd2-max")?.status)
+      .toBe("not-met");
+    expect(result.allAssessableCriteriaMet).toBe(false);
+  });
 });

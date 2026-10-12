@@ -230,6 +230,7 @@ export const hytecClinicalConstraints = [
       "HyTEC presents model-derived point-maximum limits spanning approximately 1%-5% radiation-myelopathy risk for de novo single-fraction SBRT.",
       "The lower value is from the Sahgal model and the upper value from the Katsoulakis-Gibbs model; this is not a confidence interval.",
       "The model range is preserved and is not collapsed to one default dose.",
+      "At 1 fraction the upper 14 Gy is based on a true spinal cord (myelographic/MRI) Dmax model, while 12.4 Gy is for thecal-sac Dmax; do not transfer either number to the other contour.",
     ],
   },
   {
@@ -249,6 +250,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 17.0 Gy lower value comes from the Sahgal model and 19.3 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -268,6 +270,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 20.3 Gy lower value comes from the Sahgal model and 23.1 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -287,6 +290,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 23.0 Gy lower value comes from the Sahgal model and 26.2 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
   {
@@ -306,6 +310,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "The 25.3 Gy lower value comes from the Sahgal model and 28.8 Gy from the Katsoulakis-Gibbs model.",
       "The interval represents two model-derived limits associated with approximately 1%-5% RM risk; it is not a confidence interval or a universal planning constraint.",
+      "The upper Katsoulakis-Gibbs dose for 2-5 fractions is an LQ extrapolation from the 14 Gy single-fraction true-cord model; HyTEC does not establish that upper figure as an independently clinically validated 2-5-fraction planning recommendation. The lower Sahgal/thecal-sac column is the author's 2-5-fraction recommendation.",
     ],
   },
 
@@ -330,12 +335,15 @@ export const hytecClinicalConstraints = [
       priorRadiotherapy: "yes",
       notes: [
         "Most modelled data were from patients with a prior conventionally fractionated course on the order of 70 Gy and an interval of about 6 months or more.",
+        "The authors recommend nonconsecutive (every-other-day) SBRT reirradiation; carotid encasement, skin necrosis and short interval are important clinical factors.",
       ],
     },
     notes: [
       "HyTEC recommends trying to keep major-vessel D0.5cc below 20 Gy in 5 fractions while keeping the volume exceeding 20-30 Gy as small as possible.",
       "The source explicitly labels the available complication data as limited and suitable for general guidance rather than strong probability conclusions.",
       "Target coverage versus vessel sparing remains a clinical trade-off; this is not an unconditional hard constraint.",
+      "Source Table2 separately fits D0.5cc from 61 cases: TD50=53.7 Gy (95% CI 36.1–191), gamma50=0.5756 (0.14–1.6), P=0.182; D0.5cc<20 Gy is conservative guidance, not validated D0.5cc-based NTCP.",
+      "The pooled Dmax model yields roughly 2% risk at Dmax 20 Gy, but Dmax and D0.5cc are different metrics; never apply that Dmax probability to D0.5cc.",
     ],
   },
   {
@@ -395,6 +403,7 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.10, high: 0.15 },
     riskRelation: "<",
     priorRadiotherapy: "none",
+    population: "Small peripheral lung tumors; observational lung SBRT cohort context; combined bilateral lungs with GTV/IGTV excluded",
     technique: ["lung SBRT"],
     applicability: {
       radiationQuality: "photon",
@@ -403,11 +412,15 @@ export const hytecClinicalConstraints = [
       priorRadiotherapy: "none",
       notes: [
         "Interstitial lung disease is a major susceptibility factor for severe RILT and can invalidate population-average risk expectations.",
+        "The review's clinical objective is scoped to predominantly small peripheral lung tumors in 3-5 fractions, often prescribed at BED10 >100 Gy, and does not automatically extend to ultracentral disease or prior thoracic reirradiation.",
+        "Use both lungs (combined), subtract GTV for controlled breathing or IGTV from 4DCT for free breathing where those study definitions apply; neither ipsilateral-only lung nor PTV-subtracted lung is an interchangeable metric.",
       ],
     },
     notes: [
       "HyTEC states that there is no apparent universal lung tolerance dose-volume threshold.",
       "Most reviewed studies reported symptomatic RILT below approximately 10%-15% when combined-lung mean dose was below 8 Gy in 3-5 fractions.",
+      "The risk endpoint is mainly clinically symptomatic grade 2+ radiation-induced lung toxicity, including pneumonitis and pulmonary fibrosis; 10%-15% is an observed study-level range, not a guaranteed risk upper bound or a calibrated continuous NTCP curve.",
+      "HyTEC Figure 1 illustrates different mean doses from the very same plan: ipsilateral lung minus GTV 7.7 Gy versus combined lungs minus GTV 4.6 Gy; compare only matching contour definitions.",
     ],
   },
   {
@@ -423,17 +436,24 @@ export const hytecClinicalConstraints = [
     estimatedRiskRange: { low: 0.10, high: 0.15 },
     riskRelation: "<",
     priorRadiotherapy: "none",
+    population: "Small peripheral lung tumors; observational lung SBRT cohort context; combined bilateral lungs with GTV/IGTV excluded",
     technique: ["lung SBRT"],
     applicability: {
       radiationQuality: "photon",
       technique: ["lung SBRT"],
       fractionCountRange: { min: 3, max: 5 },
       priorRadiotherapy: "none",
+      notes: [
+        "The dose-volume estimate describes both lungs (combined), with GTV or IGTV subtraction according to respiratory image definition; ipsilateral-only and PTV-subtracted lungs are not equivalent.",
+        "Interstitial lung disease is an important clinical effect modifier; the pooled observational range is not a validated NTCP prediction for ILD, ultracentral tumors or repeat RT.",
+      ],
     },
     notes: [
       "HyTEC states that there is no apparent universal lung tolerance dose-volume threshold.",
       "Most reviewed studies reported symptomatic RILT below approximately 10%-15% when total combined-lung V20 was below approximately 10%-15%.",
       "A more specific pooled comparison suggested V20 below about 12% was associated with grade 2+ pneumonitis below 15%, but HFC preserves the broader conclusion range rather than promoting 12% to a universal limit.",
+      "The reported V20 is the percentage of the combined bilateral lung contour irradiated above 20 Gy, not the percentage of ipsilateral lung, or dose to PTV or an absolute V20 volume in cc.",
+      "This is a study-level association for symptomatic grade 2+ RILT (pneumonitis and fibrosis) in predominantly small peripheral 3-5-fraction SBRT; interstitial lung disease, other contours and altered fractionation prevent a validated patient-level NTCP prediction.",
     ],
   },
 
@@ -457,6 +477,9 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -478,6 +501,9 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -499,6 +525,9 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
   {
@@ -520,6 +549,9 @@ export const hytecClinicalConstraints = [
     notes: [
       "QUANTEC-derived mean-liver-dose objective retained in the HyTEC recommended dose-volume objectives.",
       "HyTEC modelling indicates this objective would likely keep grade 3+ liver-enzyme toxicity below approximately 20%.",
+      "The HyTEC liver-enzyme/MLD probit dose-response fit was not statistically significant (P=0.10; Miften et al., PDF p. 7, Fig. 1). The <20% estimate at QUANTEC MLD objectives is qualified model guidance, not a validated patient-specific NTCP curve.",
+      "Use normal liver minus GTV for MLD; study cohorts pooled primary and metastatic disease rather than validating separate fitted curves.",
+      "Source Table3 fit has 17/288 grade3+ liver-enzyme events, D50=40.8 Gy (95% CI 25.5 to unbounded), gamma50=0.95 (0.58–1.44), P=0.10; liver failure and Child-Pugh decline are different endpoints.",
     ],
   },
 
@@ -545,6 +577,8 @@ export const hytecClinicalConstraints = [
     notes: [
       "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 15 Gy.",
       "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+      "rVdose is the absolute volume of normal liver minus GTV spared to dose <=15/17 Gy; it is not a standard Vx above threshold nor a total liver-inclusive-tumor volume.",
+      "The pooled 11/118 (9.3%) events among studies using 700cc guides were grade3+ GENERAL GI toxicity, not liver enzyme toxicity or a fitted dose-volume NTCP.",
     ],
   },
   {
@@ -568,6 +602,8 @@ export const hytecClinicalConstraints = [
     notes: [
       "Multiple liver-SBRT studies reported using a planning guideline that at least 700 cc of normal liver receive no more than 17 Gy.",
       "HyTEC states that the available dosimetric data were insufficient to formally analyse the 700-cc criterion, so HFC stores this as an observational threshold rather than a validated risk-based limit.",
+      "rVdose is the absolute volume of normal liver minus GTV spared to dose <=15/17 Gy; it is not a standard Vx above threshold nor a total liver-inclusive-tumor volume.",
+      "The pooled 11/118 (9.3%) events among studies using 700cc guides were grade3+ GENERAL GI toxicity, not liver enzyme toxicity or a fitted dose-volume NTCP.",
     ],
   },
 
@@ -596,6 +632,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists bladder V(Rx dose) <5-10 cc among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore stores this as an observational threshold, not a hard planning limit.",
+      "Bladder V(Rx dose) is absolute cc of bladder receiving the prescription-dose isodose, not an absolute 5-10 Gy dose and not Dmax; source treatments were typically 35–40 Gy in 4–5fx.",
     ],
   },
   {
@@ -619,6 +656,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists urethra Dmax <38-42 Gy among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore preserves the reported range and stores it as an observational threshold.",
+      "For urethra, Dmax is distinct from D0.1cc and D1cc; these are example objectives for 35–40 Gy prostate SBRT over 4–5 fractions, not individualized NTCP or reirradiation tolerances.",
     ],
   },
   {
@@ -642,6 +680,7 @@ export const hytecClinicalConstraints = [
     notes: [
       "HyTEC lists rectum Dmax <35-38 Gy among suggested dose constraints.",
       "The authors explicitly state that current data do not offer firm guidance on tolerance doses; HFC therefore preserves the reported range and stores it as an observational threshold.",
+      "For rectum, Dmax is distinct from wall or circumferential dose, and source solid-organ contours depend on filling; this is a suggested objective in 35–40 Gy prostate SBRT, not validated NTCP.",
     ],
   },
 ] satisfies ClinicalConstraint[];

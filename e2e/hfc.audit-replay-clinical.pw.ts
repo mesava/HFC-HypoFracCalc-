@@ -274,3 +274,68 @@ test.describe("HFC audit replay for all current modules", () => {
     );
   }
 });
+
+test.describe("P4 backward-compatible historical audit inspection", () => {
+  for (const [sourceId, reason] of [
+    ["dprolif-hn-various-bcr2025", "историческая запись"],
+    ["dprolif-hn-larynx-bcr2025", "историческая запись"],
+    ["dprolif-medulloblastoma-bcr2025", "Hinata"],
+    ["dprolif-medulloblastoma-tk21-hinata2001", "Hinata"],
+  ] as const) {
+    test(`opens valid signed old audit ${sourceId} but never replays its unsafe source`, async ({ page }) => {
+    await openAuditReplay(page);
+    const old = treatmentGapAudit();
+    old.inputs.repopulationSelection = {
+      selectionMode: "evidence",
+      parameterRecordId: sourceId,
+    };
+    await uploadAudit(page, "old-treatment-gap-"+sourceId+".json", old);
+
+    await expect(page.getByText("SHA-256: целостность подтверждена")).toBeVisible();
+    const alert = page.getByTestId("audit-replay-blocked");
+    await expect(alert).toBeVisible();
+    await expect(alert).toContainText(sourceId);
+    await expect(alert).toContainText(reason);
+    await expect(page.getByTestId("archived-audit-results")).toContainText("Архивные значения");
+    await expect(page.getByTestId("archived-audit-results")).toContainText("НЕ пересчитаны");
+    await expect(page.getByRole("heading",{name:"Сохранённый расчёт воспроизведён"})).not.toBeVisible();
+    await expect(page.getByText("Файл не принят")).not.toBeVisible();
+    });
+  }
+
+  test("shows legacy raw JSON as intact data without claiming a verified digest", async ({page})=>{
+    await openAuditReplay(page);
+    const raw=treatmentGapAudit();
+    raw.inputs.repopulationSelection={
+      selectionMode:"evidence",
+      parameterRecordId:"dprolif-hn-various-bcr2025",
+    };
+    await page.getByLabel("Audit JSON").setInputFiles({
+      name:"old-unsigned-treatment-gap.json",
+      mimeType:"application/json",
+      buffer:Buffer.from(JSON.stringify(raw),"utf8"),
+    });
+    await expect(page.getByText("Legacy audit: целостность не подтверждена")).toBeVisible();
+    await expect(page.getByTestId("audit-replay-blocked")).toContainText("dprolif-hn-various-bcr2025");
+    await expect(page.getByTestId("archived-audit-results")).toBeVisible();
+    await expect(page.getByRole("heading",{name:"Сохранённый расчёт воспроизведён"})).not.toBeVisible();
+  });
+
+  test("rejects SHA-tampered old audit before source policy check", async ({page})=>{
+    await openAuditReplay(page);
+    const old=treatmentGapAudit();
+    old.inputs.repopulationSelection={
+      selectionMode:"evidence",
+      parameterRecordId:"dprolif-medulloblastoma-bcr2025",
+    };
+    const envelope=JSON.parse(await serializeAuditEnvelope(old));
+    envelope.record.baseline.plannedEffectiveEqd2Gy+=1;
+    await page.getByLabel("Audit JSON").setInputFiles({
+      name:"modified-old-signed-audit.json",
+      mimeType:"application/json",
+      buffer:Buffer.from(JSON.stringify(envelope),"utf8"),
+    });
+    await expect(page.getByRole("alert")).toContainText("Проверка SHA-256 не пройдена");
+    await expect(page.getByTestId("audit-replay-blocked")).not.toBeVisible();
+  });
+});

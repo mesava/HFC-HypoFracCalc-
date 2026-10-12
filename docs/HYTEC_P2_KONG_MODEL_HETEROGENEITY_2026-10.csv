@@ -1,0 +1,5 @@
+study,sample,lungContour,clinicalEndpoint,doseDefinition,sourceD50Gy,sourceD50Ci95Gy,sourceGamma50,sourceGamma50Ci95,exampleMldGy,recomputedRiskPercent,recordMeaning
+Ong2010,18/18,combined lungs minus PTV,CTCAE4 G2+ RP,physical MLD,7.9,6.7–9.2,4.85,1.21–unbounded,6,0.17286,"AUDIT_ONLY cohort-specific fit, different contour/endpoints; not HFC published observational risk"
+Ong2010,18/18,combined lungs minus PTV,CTCAE4 G2+ RP,physical MLD,7.9,6.7–9.2,4.85,1.21–unbounded,8,56.11510,"AUDIT_ONLY cohort-specific fit, different contour/endpoints; not HFC published observational risk"
+Borst2010,128/161+ (source table),combined lungs minus GTV,CTC2 G2+ RP,physical MLD,14.9,11.2–29.0,0.82,0.58–1.08,6,10.97718,"AUDIT_ONLY cohort-specific fit, different contour/endpoints; not HFC published observational risk"
+Borst2010,128/161+ (source table),combined lungs minus GTV,CTC2 G2+ RP,physical MLD,14.9,11.2–29.0,0.82,0.58–1.08,8,17.05876,"AUDIT_ONLY cohort-specific fit, different contour/endpoints; not HFC published observational risk"

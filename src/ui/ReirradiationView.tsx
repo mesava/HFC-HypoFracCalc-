@@ -1713,6 +1713,14 @@ export function ReirradiationView({
                           )}
                         </div>
 
+                        <div className="guidance-basis-note">
+                          {tx(
+                            language,
+                            "Важное ограничение Table 4 HyTEC: опубликованные примеры физических доз не означают автоматического выполнения всех четырёх критериев. Например, при условном Dmax предыдущего курса 50 Гр/25 фр и повторных 14 Гр/3 фр суммарная EQD₂₂ составит 73,33 Гр, выше ориентира 70 Гр. Проверяйте фактическую дозу именно в thecal sac, геометрию накопления и каждый критерий отдельно; это не индивидуальный предел безопасности.",
+                            "Important HyTEC Table 4 limitation: its illustrative physical doses do not guarantee that all four criteria are satisfied. For example, IF the prior thecal-sac Dmax is 50 Gy/25 fx, then 14 Gy/3 fx would yield cumulative EQD2_2 of 73.33 Gy, above the 70 Gy lower-risk criterion. Verify actual thecal-sac doses, accumulation geometry and each criterion separately; this is not an individualized safe-dose limit.",
+                          )}
+                        </div>
+
                         <div className="guidance-criteria-list">
                           {hytecSpinalGuidance.criteria.map(
                             (criterion) => (

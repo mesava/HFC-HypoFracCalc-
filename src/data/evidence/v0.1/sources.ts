@@ -476,7 +476,7 @@ export const sources = [
   {
     id: "bender-2012-cns-repair",
     citation:
-      "Bender ET, Tomé WA. Brain necrosis after fractionated radiation therapy: is the halftime for repair longer than we thought? Med Phys. 2012;39(11):7055-7061.",
+      "Bender ET. Brain necrosis after fractionated radiation therapy: is the halftime for repair longer than we thought? Med Phys. 2012;39(11):7055-7061.",
     year: 2012,
     doi: "10.1118/1.4762562",
     pmid: "23127096",

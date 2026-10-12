@@ -1,0 +1,13 @@
+record_id,fit_model,source_variant,clinical_endpoint,source_alpha_beta_Gy,source_95ci_low_Gy,source_95ci_high_Gy,regimen_total_Gy,regimen_fractions,published_EQD2_Gy,original_source_locator,primary_user_file_page_text_and_image_verified,user_PDF_SHA256_verified,independent_patient_level_refit,clinical_release_approved
+ab-breast-ibr-fastforward2026-unadjusted,Cox,unadjusted,ipsilateral_breast_recurrence,3.4,1.6,5.2,40,15,45,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-ibr-fastforward2026-unadjusted,Cox,unadjusted,ipsilateral_breast_recurrence,3.4,1.6,5.2,27,5,44,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-ibr-fastforward2026-unadjusted,Cox,unadjusted,ipsilateral_breast_recurrence,3.4,1.6,5.2,26,5,41.4,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-ibr-fastforward2026-adjusted,Cox,adjusted,ipsilateral_breast_recurrence,3.3,1.9,4.9,40,15,45,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-ibr-fastforward2026-adjusted,Cox,adjusted,ipsilateral_breast_recurrence,3.3,1.9,4.9,27,5,44.3,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-ibr-fastforward2026-adjusted,Cox,adjusted,ipsilateral_breast_recurrence,3.3,1.9,4.9,26,5,41.7,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,unadjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,40,15,46.5,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,unadjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,27,5,49.4,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,unadjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,26,5,46.3,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,adjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,40,15,46.6,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,adjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,27,5,49.5,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false
+ab-breast-chestwall-any-ae-fastforward2026,GEE,adjusted,breast_chestwall_any_moderate_marked_clinician_AE,2.1,1.6,2.6,26,5,46.2,Appendix_Table_D5_file_page21_printed_page20,true,false,false,false

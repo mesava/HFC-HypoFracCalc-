@@ -1,0 +1,8 @@
+record_id,endpoint,source_alpha_beta_Gy,source_CI95_low_Gy,source_CI95_high_Gy,uncertainty_semantics,source_EQD2_30Gy_5fx_Gy,source_EQD2_28p5Gy_5fx_Gy,source_doi,source_table_locator,source_primary_fulltext_access,original_user_PDF_binary_verified,clinical_release_approved,default_eligible
+ab-breast-photo-fast2020,photographic_mild_marked,2.7,1.5,3.9,reported_CI,55.7,51,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,true
+ab-breast-photo-fast2020-adjusted,photographic_size_surgical_adjusted,2.5,1.1,3.9,reported_CI,56.4,51.7,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,false
+ab-breast-any-nte-fast2020,physician_any_moderate_marked_NTE,2.5,1.8,3.3,reported_CI,56.4,51.7,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,true
+ab-breast-shrinkage-fast2020,physician_shrinkage_moderate_marked,2.7,1.9,3.5,reported_CI,55.5,50.9,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,true
+ab-breast-induration-fast2020,physician_induration_moderate_marked,1.6,0,4.4,CI_lower_clipped_at_zero,63.7,58.1,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,false
+ab-breast-telangiectasia-fast2020,physician_telangiectasia_moderate_marked,3.1,2.3,3.9,reported_CI,53.5,49.1,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,true
+ab-breast-edema-fast2020,physician_edema_moderate_marked,1.9,,,no_source_CI,60.3,55.2,10.1200/JCO.19.02750,Table4_print_p3270,publisher_article_PMC_text_and_author_upload_table4,false,false,false

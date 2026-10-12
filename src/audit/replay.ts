@@ -1,6 +1,7 @@
 import {
   evidenceManifest,
 } from "../data/evidence/v0.1/index.js";
+import { getRepopulationSourceBlocker } from "../evidence/repopulationRegistry.js";
 import type {
   EvidenceBasedParameterSelection,
   ManualParameterOverride,
@@ -74,10 +75,23 @@ export interface AuditReplayReport {
   differences: AuditReplayDifference[];
 }
 
+export interface AuditReplayBlocked {
+  code: "deprecated" | "incompatible-dose-basis";
+  parameterRecordId: string;
+  reason: string;
+  /** Signed (or unsigned legacy) saved output, NEVER a current recomputation. */
+  archivedEqd2Snapshot?: {
+    plannedEffectiveEqd2Gy: number;
+    uncompensatedDeltaEffectiveEqd2Gy: number;
+  };
+}
+
 export interface AuditImportInspection {
   integrityStatus: AuditIntegrityStatus;
   header: AuditRecordHeader;
   replaySupported: boolean;
+  /** The file is inspectable and its saved result remains intact, but current replay is unsafe. */
+  replayBlocked?: AuditReplayBlocked;
   replay?: AuditReplayReport;
 }
 
@@ -669,19 +683,54 @@ export function replayParsedAuditDocument(
   );
 }
 
+/** Inspect a preserved Treatment Gap source ID before attempting a new calculation.
+ * SHA-256 envelope verification is performed by parseAuditDocument first.
+ */
+export function blockedSavedTreatmentGapReplay(
+  saved: unknown,
+): AuditReplayBlocked | undefined {
+  if (!isObject(saved) || saved.module !== "treatment-gap") return undefined;
+  const inputs = saved.inputs;
+  if (!isObject(inputs) || !isObject(inputs.repopulationSelection)) return undefined;
+  const selection = inputs.repopulationSelection;
+  if (selection.selectionMode !== "evidence" || typeof selection.parameterRecordId !== "string") {
+    return undefined;
+  }
+  const blocker = getRepopulationSourceBlocker(selection.parameterRecordId);
+  if (!blocker) return undefined;
+  // Read-only copy from original archive, no dose calculation is performed.
+  const baseline = isObject(saved.baseline) ? saved.baseline : undefined;
+  const planned = baseline?.plannedEffectiveEqd2Gy;
+  const delta = baseline?.uncompensatedDeltaEffectiveEqd2Gy;
+  const archivedEqd2Snapshot =
+    typeof planned === "number" && Number.isFinite(planned) &&
+    typeof delta === "number" && Number.isFinite(delta)
+      ? { plannedEffectiveEqd2Gy: planned, uncompensatedDeltaEffectiveEqd2Gy: delta }
+      : undefined;
+  return {
+    code: blocker.code,
+    parameterRecordId: blocker.recordId,
+    reason: blocker.reason,
+    ...(archivedEqd2Snapshot ? { archivedEqd2Snapshot } : {}),
+  };
+}
+
 export async function inspectAuditDocument(
   text: string,
 ): Promise<AuditImportInspection> {
+  // Parse and verify the saved SHA digest before applying source-compatibility policy.
   const parsed = await parseAuditDocument(text);
   const header = parsed.record as AuditRecordHeader;
   const replaySupported =
     isReplaySupportedModule(header.module);
+  const replayBlocked = blockedSavedTreatmentGapReplay(parsed.record);
 
   return {
     integrityStatus: parsed.integrityStatus,
     header,
     replaySupported,
-    ...(replaySupported
+    ...(replayBlocked ? { replayBlocked } : {}),
+    ...(replaySupported && !replayBlocked
       ? {
           replay: replayParsedAuditDocument(parsed),
         }

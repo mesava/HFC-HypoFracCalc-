@@ -101,8 +101,11 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       technique: ["SRS", "fSRS"],
       followUp: "3–5 year tumour control",
       notes: [
-        "The source reports limited analysable data below 11 Gy in one fraction.",
-        "Tumour-control definitions and dosimetric reporting were heterogeneous.",
+        "The source reports no analysable tumor-control outcomes below 11 Gy in one fraction; the 10 Gy modeled probability is an extrapolation.",
+        "The reported 3–5 year tumour-control endpoint pools 3-year control if 5-year control is unavailable, and combines crude control rates with Kaplan-Meier estimates across heterogeneous studies.",
+        "The source LQ Poisson fit uses a baseline TCP(0)=30% pseudo-observation as a weighted input, NOT a forced intercept; fitted TCP(0) is approximately 34.9%.",
+        "Sporadic vestibular schwannoma only for the fitted cohort; NF2-related vestibular schwannomas and repeat SRS were not included in this model.",
+        "The publication separately reports an alternative LQ-L fit (source alpha/beta=2.97 Gy, with transition dose 5.94 Gy) yielding different probabilities; HFC points belong to the LQ fit only.",
       ],
     },
     points: [
@@ -154,7 +157,8 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       },
     ],
     notes: [
-      "The source LQ TCP fit estimated alpha/beta 12.4 Gy (95% CI 9.0–19.3). HFC stores that as source-model provenance only and does not promote it to an endpoint alpha/beta default.",
+      "The source LQ TCP fit estimated alpha/beta 12.4 Gy (95% CI 9.0–19.3), EQD2_50=3.48 Gy (95% CI 3.15–4.08) and gamma50=0.1446 (95% CI 0.122–0.17). HFC stores these as fit provenance and does not promote any to a general endpoint alpha/beta default.",
+      "Source separate LQ-L model: fitted alpha/beta 2.97 Gy (1.72–4.27), and different TCP predictions e.g. 10 Gy/1fx ~89.7% versus LQ ~85.0%; outcomes and model choice are not interchangeable.",
     ],
   },
   {
@@ -259,6 +263,11 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       followUp: "3-year local control",
       notes: [
         "The >100 Gy10 comparison applies to liver metastases; primary liver tumours were analysed separately and did not show a clear dose-response within commonly used schedules.",
+        "These are 3-year Kaplan–Meier strata rather than point values on a 3-year continuous TCP curve; metastases BED10 >100 Gy (141 lesions) versus <=100 Gy (149 lesions) achieved 93% versus 65% 3-year LC, log-rank P<0.001.",
+        "Primary HCC/CCA lesions (431) had 3-year LC about 86% with no detected BED10 >100 versus <=100 group difference (log-rank P=.972); do not use the metastatic grouping as primary liver TCP.",
+        "The paper also publishes a distinct fitted TWO-year TCP logistic model; its TCD50=16 Gy10 and k=74 Gy10 cannot substitute for the 3-year stratified Kaplan–Meier results.",
+        "The published source includes 13 cohorts, 290 metastatic liver lesions with colorectal histology dominant (~56%); tumour volume, histology and competing death risks were not jointly modelled.",
+
       ],
     },
     points: [
@@ -292,7 +301,10 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       },
     ],
     notes: [
-      "These are pooled stratified outcomes, not a fitted continuous TCP curve.",
+      "These are lesion-level 3-year Kaplan–Meier grouped results for BED10 >100 Gy (n=141 lesions, 93% LC) and BED10 <=100 Gy (n=149 lesions, 65% LC), not values from a fitted continuous 3-year TCP curve.",
+      "The same source reports an independent TWO-year logistic fitted TCP(BED10)=1/[1+exp((16-BED10)/74)] and 2-year ~70%/76%/90% at BED10 80/100/180 Gy; do not substitute its continuous predictions for these three-year KM group outcomes.",
+      "A group with BED10 >100 is NOT a biological step-function at exactly 100 Gy10, and the reported separation is not a patient-specific guarantee of 93% control.",
+
     ],
   },
   {
@@ -349,11 +361,17 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The pooled literature contained substantially fewer high-risk patients than low/intermediate-risk patients.",
         "Dose-volume information was insufficient; modelling used prescription dose.",
+        "UNRESOLVED PRIMARY-SOURCE REPRODUCIBILITY DISCREPANCY: Royce 2021 equation (2) and Table 3 low/intermediate parameters D50=20.6 Gy and gamma=0.15 yield about 77.4% at EQD2=71 Gy and 83.9% at EQD2=90 Gy, whereas the authors report 90% and 95%; the high-risk parameters reproduce the reported points. See the 2025 Chen letter (DOI 10.1016/j.ijrobp.2025.06.3898) and author response (DOI 10.1016/j.ijrobp.2025.06.3899); the full response needs review before assigning a cause. Published points are retained with explicit uncertainty, not a validated continuous TCP fit.",
       ],
     },
     points: [
       {
         id: "prostate-lowint-90tcp",
+        extrapolated: true,
+        notes: [
+          "HyTEC Royce et al., PDF pp. 6–7 (Figure 1): the pooled cohorts did not include prescription EQD2 below approximately 80 Gy. The 71 Gy / 90% five-year FFBR point is a fitted extrapolation; no clinical conclusion should be made from that dose region.",
+          "Unresolved source-level discrepancy: Royce 2021 Eq.2/Table 3 published parameters do not reproduce this quoted 90% probability; 2025 Chen letter and author reply require review.",
+        ],
         dose: {
           schedule: { fractions: 5, dosePerFractionGy: 31.7 / 5 },
           biologicalDose: {
@@ -381,6 +399,9 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         probabilityRelation: "≈",
         followUp: "5 years",
         subgroup: "Low/intermediate-risk disease",
+        notes: [
+          "Unresolved source-level discrepancy: Royce 2021 published equation and Table 3 low/intermediate fit do not reproduce this quoted probability. See HFC P2 fitted-model audit and the 2025 correspondence. Do not interpret as an independently validated continuous TCP model.",
+        ],
       },
       {
         id: "prostate-high-90tcp",
@@ -435,7 +456,14 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The primary model uses size-adjusted BED10: sBED = BED10 - 10 × maximum tumour diameter in centimetres.",
         "HFC stores only explicit example predictions published by the source and does not run the continuous sBED TCP formula patient-specifically.",
-        "The model was derived predominantly from 3–8 fraction SBRT and should not be extrapolated outside the published domain.",
+        "The original publication (DOI 10.1016/j.ijrobp.2012.04.040; NIH author manuscript PMC3867931) derived the model from 504 NSCLC tumors in 482 patients with 26 observed local failures and mean 18.4-month follow-up; only a small number of recurrences were available for calibration.",
+        "The published source fitted c=10 Gy/cm, TCD50=0 Gy and k=31 Gy in TCP=logistic((BED10-10*tumour_diameter_cm)/31); BED10 is prescribed PTV BED10, not isocenter dose or maximum PTV dose.",
+        "The published original reports marginal 95% confidence intervals for fitted parameters: c=10 Gy/cm (2–18 Gy/cm), TCD50=0 Gy (−30 to 30 Gy), and k=31 Gy (19–43 Gy). These source intervals are not independent patient-level TCP confidence bands; parameter covariance and fitted-curve 95% bands have not been reconstructed.",
+        "The publication explicitly warns not to interpret sBED=0 / TCD50=0 as 50% untreated control; observations mostly had sBED >=50 Gy, so the logistic tail outside the fit is not calibrated.",
+        "Only about 2% of original tumors received single-fraction SBRT; the source specifically excludes reliable predictions for single-fraction, dose per fraction below 8 Gy, and duration longer than two weeks.",
+        "Source discussion prints 50 Gy/5fx for 1 cm as 93% at 2 years, while rounded published logistic parameters yield 94.8%: unresolved internal numerical example-versus-equation mismatch, NOT independently corrected. The other five examples differ from printed rounded values by <=0.54 percentage points.",
+        "The NIH-author-manuscript original text is externally accessible at PMC3867931 although this source PDF was not supplied in the original 69-file user batch. No local original SHA256 or full figure-by-figure QA has been performed.",
+        "An additional external validation study (Huang et al., Front Oncol 2025, DOI 10.3389/fonc.2024.1431140; NOT in the original user literature bundle) reported Ohri 2-year ROC AUC 0.633 (95% CI 0.552–0.710) among 153 mixed primary/metastatic lung SBRT patients, including only 48 stage-I patients and 60 metastatic cases. This AUC is not a predicted TCP confidence interval, and the mixed population does NOT independently validate stage-I-specific calibration or expand the original model applicability.",
       ],
     },
     points: [
@@ -490,6 +518,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
     ],
     notes: [
       "The later HyTEC stage-I NSCLC review reports model-dependent PTV doses near the asymptotic TCP plateau of approximately 43, 47, and 50 Gy in 3, 4, and 5 fractions for combined T1/T2 disease. HFC registers that HyTEC source separately but does not fabricate a single plateau probability.",
+      "Five of six Ohri 2012 published 2-year LC examples reproduce from rounded fitted parameters within 0.6 percentage points; 50 Gy/5fx, maximum diameter 1 cm, is printed as 93% but gives 94.8% by the printed model. Preserve the source-reported estimate and explicitly flag disagreement pending external scientific review.",
     ],
   },
   {
@@ -619,6 +648,10 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         "The pooled model converts schedules to three-fraction-equivalent dose using alpha/beta = 10 Gy.",
         "Resectability and R0 resection materially modify outcome; resected and unresected results must not be pooled into one universal TCP.",
         "The source emphasizes substantial heterogeneity, short follow-up, target-definition uncertainty, and competing-risk limitations.",
+        "The unresected logistic dose-response fit uses 8 pooled data points from studies with at least 80% unresected patients, published Table 2 and D50=17.6 Gy three-fraction equivalent, gamma50=0.64.",
+        "R0 negative-margin resection points are study-averaged results rather than the unresected logistic curve. Source Table 2 rounds the estimate to 90% while prose states >90%; neither is an independently calibrated continuous R0 response.",
+        "The definition of start time for Kaplan-Meier local-control estimates differs across studies (after diagnosis, SBRT, or other enrollment) and can bias pooled 1-year comparisons.",
+
       ],
     },
     points: [
@@ -668,11 +701,16 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         subgroup: "R0 resection",
         notes: [
           "The source reports >90% 1-year local control with margin-negative resection at or above approximately 28 Gy in three-fraction-equivalent dose.",
+          "In printed Table 2 the estimated R0 1-year LC is rounded to 90% for 33 Gy/5fx, while the article abstract and narrative say >90%, based on a study-averaged R0 subgroup; retain this reporting discrepancy instead of treating >90% as a fitted probability.",
+
         ],
       },
     ],
     notes: [
       "The source reports less than 70% 1-year local control below 24 Gy in three-fraction-equivalent dose, but HFC does not encode that statement as an exact point at 24 Gy.",
+      "Unresected fit: pooled 8 dose-response observations, D50=17.6 Gy (95% CI 8.8–21.5 Gy three-fraction-equivalent), gamma50=0.64 (95% CI 0.27–1.02), logistic TCP=1/(1+(D50/D3eq)^(4 gamma50)).",
+      "The three R0 resection studies gave a high weighted mean of approximately 96%, but the source Table 2 uses 90% as a rounded estimate at 33 Gy/5 fractions and does not fit a comparable R0 dose-response curve.",
+
     ],
   },
 ];
