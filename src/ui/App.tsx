@@ -490,6 +490,27 @@ export function App() {
         ) : null}
       </div>
 
+      <aside className="research-release-banner" aria-label={tx(language, "Статус исследовательской версии", "Research release status")}>
+        <strong>
+          {tx(
+            language,
+            "Исследовательская версия HFC — не утверждена для клинического применения",
+            "HFC research release — not approved for clinical use",
+          )}
+        </strong>
+        <span>
+          {tx(
+            language,
+            "Публичная платформа для учебных расчётов, научной проверки и рецензирования. Не используйте результаты для назначения лечения без независимой проверки и локального клинического утверждения.",
+            "Public platform for educational calculations, scientific testing and review. Do not use its results to prescribe treatment without independent verification and local clinical approval.",
+          )}
+          {" · "}
+          {evidenceManifest.datasetVersion}
+          {" · "}
+          {evidenceManifest.releaseStatus.toUpperCase()}
+        </span>
+      </aside>
+
       {activeModule === "home" ? (
         <SiteHome language={language} onNavigate={navigate} />
       ) : activeModule === "guide" ? (

@@ -112,9 +112,10 @@ describe("audit coverage for HFC core modules", () => {
       rationale: "Regression test",
     };
     const repopulationSelection = {
-      selectionMode: "evidence" as const,
-      parameterRecordId:
-        "dprolif-hn-various-bcr2025",
+      selectionMode: "manual" as const,
+      rateGyPerDay: 0.8,
+      kickOffDays: 21,
+      rationale: "Legacy BCR academic regression scenario; generic HN source is deprecated",
     };
 
     const baseline = buildTreatmentGapBaseline({
@@ -192,9 +193,11 @@ describe("audit coverage for HFC core modules", () => {
     expect(sourceIds).toContain(
       "rcr-2019-timely-delivery",
     );
-    expect(sourceIds).toContain(
-      "bcr-2025-ch10-tables",
-    );
+    // BCR is still cited as general Treatment Gap methodological guidance.
+    // The actual time-loss rate is manual, not a selected deprecated record.
+    expect(sourceIds).toContain("bcr-2025-ch10-tables");
+    expect(audit.inputs.repopulationSelection.selectionMode).toBe("manual");
+    expect(audit.baseline.repopulationRecordId).toBeUndefined();
   });
 
   it("serializes each audit record as valid JSON", () => {

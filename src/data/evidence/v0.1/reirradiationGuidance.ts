@@ -58,6 +58,7 @@ export const reirradiationGuidanceSets = [
       "The limits are suggestions rather than absolute tolerances, reflecting the limitations of the available clinical data.",
       "The cumulative and current-course values are defined in EQD2 with alpha/beta = 2 Gy.",
       "HFC does not apply a user-specified recovery discount when comparing against this published guidance.",
+      "Source Table 4 gives approximate per-fraction illustrative physical Dmax values that should not be treated as simultaneous automatic passes of the four criteria: for a nominal previous 50 Gy/25 fx course, Table 4 lists 14 Gy/3 fx and 11 Gy/2 fx, which give cumulative EQD2_2 of 73.33 and 70.625 Gy respectively if summed directly. Independently evaluate cumulative EQD2, current EQD2, their ratio and course interval for the actual thecal-sac Dmax; this is a documented source-level inconsistency, not proof of a source typo.",
     ],
   },
 ] satisfies ReirradiationGuidanceSet[];

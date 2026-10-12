@@ -5,13 +5,17 @@ import {
   solveDoseCompensationStrategy,
 } from "../src/workflows/treatmentGap.js";
 
+// Historical BCR 2025 demonstration values are a MANUAL toy sensitivity
+// scenario: broad H&N source record is deprecated and no longer resolvable.
 const hnTimeSelection = {
-  selectionMode: "evidence" as const,
-  parameterRecordId: "dprolif-hn-various-bcr2025",
+  selectionMode: "manual" as const,
+  rateGyPerDay: 0.8,
+  kickOffDays: 21,
+  rationale: "Historical BCR toy example only; not a generic HNSCC clinical default",
 };
 
 describe("Treatment Gap workflow", () => {
-  it("calculates uncompensated HNSCC time loss with explicitly selected Dprolif/Tk", () => {
+  it("calculates a historical HNSCC time-loss exercise with explicit manual Dprolif/Tk", () => {
     const baseline = buildTreatmentGapBaseline({
       endpointId: "head-neck-tumour-control",
       plannedSchedule: {

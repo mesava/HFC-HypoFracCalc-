@@ -20,7 +20,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: true,
     support: "supported",
     supportReason:
-      "Direct clinical analysis of human oropharyngeal mucosal reactions; the 2025 textbook identifies 9.3 Gy as a clinical estimate for mucositis.",
+      "Direct clinical analysis of human oropharyngeal mucosal reactions; the 2025 textbook identifies 9.3 Gy as a clinical estimate for mucositis. P3.14: alpha/beta and 95% confidence limits verified in Basic Clinical Radiobiology 2025 Table 10.1; accepted secondary textbook evidence. The original journal article is nice to have for deeper provenance, not a prerequisite. Independent clinical review is still required.",
     applicability: {
       radiationQuality: "photon",
       technique: ["head-and-neck radiotherapy"],
@@ -41,7 +41,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: true,
     support: "supported",
     supportReason:
-      "Human postmastectomy skin fractionation data from Turesson and Thames (1989); the 8.8 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+      "Human postmastectomy skin fractionation data from Turesson and Thames (1989); the 8.8 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025. P3.14: alpha/beta and 95% confidence limits verified in Basic Clinical Radiobiology 2025 Table 10.1; accepted secondary textbook evidence. The original journal article is nice to have for deeper provenance, not a prerequisite. Independent clinical review is still required.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy skin irradiation"],
@@ -64,7 +64,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: true,
     support: "supported",
     supportReason:
-      "Direct graded-response clinical analysis of postmastectomy telangiectasia; the 2.6 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025.",
+      "Direct graded-response clinical analysis of postmastectomy telangiectasia; the 2.6 Gy estimate and 95% interval are reproduced in Basic Clinical Radiobiology 2025. P3.14: alpha/beta and 95% confidence limits verified in Basic Clinical Radiobiology 2025 Table 10.1; accepted secondary textbook evidence. The original journal article is nice to have for deeper provenance, not a prerequisite. Independent clinical review is still required.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy radiotherapy"],
@@ -87,7 +87,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: true,
     support: "supported",
     supportReason:
-      "Clinical postmastectomy fractionation analysis; the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) is reproduced in Basic Clinical Radiobiology 2025.",
+      "Clinical postmastectomy fractionation analysis; the subcutaneous-fibrosis alpha/beta estimate 1.7 Gy (0.6-2.6) is reproduced in Basic Clinical Radiobiology 2025. P3.14: alpha/beta and 95% confidence limits verified in Basic Clinical Radiobiology 2025 Table 10.1; accepted secondary textbook evidence. The original journal article is nice to have for deeper provenance, not a prerequisite. Independent clinical review is still required.",
     applicability: {
       radiationQuality: "photon",
       technique: ["postmastectomy radiotherapy"],
@@ -110,7 +110,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Endpoint-specific historical human estimate summarized in Basic Clinical Radiobiology 2025; the originating Deore et al. analysis has not yet been independently curated to the level required for automatic selection.",
+      "Endpoint-specific historical human estimate summarized in Basic Clinical Radiobiology 2025; the originating Deore et al. analysis has not yet been independently curated to the level required for automatic selection. P3.11: exact 3.9 Gy alpha/beta with textbook 95% CL 2.5–5.3 copied from user-supplied BCR 2025 Chapter 10 Table 10.1 (PDF page 120, printed 105). This is SECONDARY source fidelity only, not Deore 1993 original primary-model reanalysis; no default selection or clinical approval.",
     applicability: photonClinical,
   },
   {
@@ -147,7 +147,7 @@ export const alphaBetaAdditionalEstimates = [
     defaultEligible: false,
     support: "limited",
     supportReason:
-      "Clinical-data synthesis of human lung reactions rather than one independently validated endpoint-specific primary fit; retained for explicit selection but not automatic use.",
+      "Clinical-data synthesis of human lung reactions rather than one independently validated endpoint-specific primary fit; retained for explicit selection but not automatic use. P3.14: alpha/beta and 95% confidence limits verified in Basic Clinical Radiobiology 2025 Table 10.1; accepted secondary textbook evidence. The original journal article is nice to have for deeper provenance, not a prerequisite. Independent clinical review is still required.",
     applicability: {
       radiationQuality: "photon",
       technique: ["thoracic radiotherapy"],
