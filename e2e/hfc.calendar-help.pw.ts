@@ -77,8 +77,10 @@ test.describe("Calendar summary explanations and future module guard", () => {
     await expect(page.locator(".calendar-print-header")).toContainText("T½");
     await expect(page.locator(".editable-calendar-grid .editable-day.multi")).toHaveCount(1);
     await expect(page.locator(".calendar-metrics")).toContainText("36");
-    const printBackground = await page.locator(".editable-day.on").first().evaluate(el=>getComputedStyle(el).backgroundColor);
+    const printBackground = await page.locator(".editable-day.on:not(.edited)").first().evaluate(el=>getComputedStyle(el).backgroundColor);
     expect(printBackground).toBe("rgb(217, 240, 222)");
+    const editedBackground = await page.locator(".editable-day.on.edited").first().evaluate(el=>getComputedStyle(el).backgroundColor);
+    expect(editedBackground).toBe("rgb(192, 230, 204)");
     const printControls = await page.locator(".editable-day-controls").first().evaluate(el=>getComputedStyle(el).display);
     expect(printControls).toBe("none");
   });
