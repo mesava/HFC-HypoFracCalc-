@@ -74,7 +74,7 @@ test.describe("Calendar summary explanations and future module guard", () => {
     await page.emulateMedia({ media: "print" });
     await expect(page.getByRole("heading", { name: "Построенный календарь лучевой терапии" })).toBeVisible();
     await expect(page.locator(".calendar-print-header")).toContainText("Доза за фракцию");
-    await expect(page.locator(".calendar-print-header")).toContainText("Т½");
+    await expect(page.locator(".calendar-print-header")).toContainText("T½");
     await expect(page.locator(".editable-calendar-grid .editable-day.multi")).toHaveCount(1);
     await expect(page.locator(".calendar-metrics")).toContainText("36");
     const printBackground = await page.locator(".editable-day.on").first().evaluate(el=>getComputedStyle(el).backgroundColor);
