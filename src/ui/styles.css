@@ -4140,3 +4140,149 @@ html[data-theme="dark"] .mobile-nav-caption {
 .research-release-banner span {
   color: var(--hfc-muted, #53616b);
 }
+
+
+/* Calendar audit: calmly highlight delivered fractions; empty days stay neutral. */
+.editable-day.on {
+  background: #e8f4e9;
+  border-color: #a7cdb1;
+  color: #1c3d2c;
+}
+
+.editable-day.on.edited {
+  background: #d5eddb;
+  border-color: #739b80;
+}
+
+.editable-day.on .editable-day-head span,
+.editable-day.on .editable-day-dose span {
+  color: #416451;
+}
+
+html[data-theme="dark"] .editable-day.on {
+  background: #234136;
+  border-color: #537f68;
+  color: #e7f7ec;
+}
+
+html[data-theme="dark"] .editable-day.on.edited {
+  background: #295640;
+  border-color: #83bb93;
+}
+
+html[data-theme="dark"] .editable-day.on .editable-day-head span,
+html[data-theme="dark"] .editable-day.on .editable-day-dose span {
+  color: #b7d8c2;
+}
+
+.calendar-print-header { display: none; }
+
+/* Browser print/save-as-PDF: real edited calendar, not the original template. */
+@page { size: A4 landscape; margin: 10mm; }
+
+@media print {
+  body { background: #fff !important; }
+  body * { visibility: hidden !important; }
+  .calendar-page, .calendar-page * { visibility: visible !important; }
+
+  .calendar-page {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+    color: #1a2e24 !important;
+    font-family: Arial, "DejaVu Sans", sans-serif !important;
+  }
+
+  .calendar-print-header {
+    display: block !important;
+    border-bottom: 1px solid #a7cdb1;
+    margin: 0 0 8px;
+    padding: 0 0 6px;
+    break-after: avoid;
+  }
+
+  .calendar-print-header h1 { margin: 0 0 5px; font-size: 15pt; }
+  .calendar-print-header p { margin: 2px 0; font-size: 8pt; line-height: 1.35; }
+  .calendar-page > .calendar-config,
+  .calendar-page > .site-safety,
+  .calendar-page .calendar-legend,
+  .calendar-page .editable-day-controls,
+  .calendar-page .calendar-metric-info,
+  .calendar-page .calendar-metric-popover,
+  .calendar-page .warning-card { display: none !important; }
+
+  .calendar-page .editable-calendar-panel,
+  .calendar-page .calendar-summary {
+    display: block !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 0 9px !important;
+    background: #fff !important;
+    overflow: visible !important;
+    break-inside: avoid;
+  }
+
+  .calendar-page .editable-calendar-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    max-width: none !important;
+  }
+
+  .calendar-page .editable-day {
+    min-height: 51px !important;
+    padding: 4px 6px !important;
+    border: 1px solid #d7e1d8 !important;
+    border-radius: 3px !important;
+    background: #f3f5f4 !important;
+    color: #47564b !important;
+    break-inside: avoid;
+  }
+
+  .calendar-page .editable-day.on {
+    background: #d9f0de !important;
+    border-color: #80b48d !important;
+    color: #173b27 !important;
+  }
+
+  .calendar-page .editable-day.on.edited {
+    background: #c0e6cc !important;
+    border: 2px solid #518263 !important;
+  }
+
+  .calendar-page .editable-day-head span { font-size: 7pt !important; }
+  .calendar-page .editable-day-head strong { font-size: 7pt !important; }
+  .calendar-page .editable-day-dose { margin: 3px 0 0 !important; gap: 3px !important; }
+  .calendar-page .editable-day-dose strong { font-size: 11pt !important; }
+  .calendar-page .editable-day-dose span { font-size: 7pt !important; }
+
+  .calendar-page .calendar-summary .eyebrow { display: none !important; }
+  .calendar-page .calendar-metrics {
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+  }
+  .calendar-page .calendar-metrics .metric {
+    display: block !important;
+    min-width: 0 !important;
+    padding: 6px !important;
+    border: 1px solid #dae5dd !important;
+    background: #f5faf6 !important;
+  }
+  .calendar-page .calendar-metrics .metric strong { font-size: 10pt !important; }
+  .calendar-page .calendar-metric-label { font-size: 7pt !important; }
+  .calendar-page * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
