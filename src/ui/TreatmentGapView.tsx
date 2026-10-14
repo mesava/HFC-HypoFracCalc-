@@ -1202,7 +1202,7 @@ export function TreatmentGapView({
                 "Inputs need review",
               )}
             </strong>
-            <p>{localizeWarning(language, calculation.error)}</p>
+            <p>{localizeWarning(language, calculation.error ?? "Calculation failed.")}</p>
           </div>
         ) : (
           <>
