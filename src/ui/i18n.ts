@@ -309,7 +309,7 @@ export function localizeWarning(
   }
   // Fail visibly but in Russian: no silent loss of scientific constraints.
   // Original study titles and recognized coefficient symbols are kept in citations.
-  if (/[A-Za-z]{4,}/.test(warning)) {
+  if (!/[А-Яа-яЁё]/.test(warning) && /[A-Za-z]{4,}/.test(warning)) {
     return "Ограничение применимости выбранного научного источника требует отдельной проверки по публикации. Подробное пояснение пока не переведено; не применяйте эту оценку без независимого обоснования.";
   }
   return warning;
