@@ -257,6 +257,61 @@ export function localizeWarning(
     return "Для выбранного клинического исхода нет автоматического точечного T½. Выберите точечную опубликованную оценку или явно задайте T½ вручную.";
   }
 
+
+  // Scientific source-specific warnings must never leak English into RU mode.
+  if (warning.startsWith("Patient-data fit from a pooled animal/human analysis")) {
+    return "Оценка получена при объединении данных животных и пациентов. Она существенно отличается от других анализов клинических данных человека и от часто используемого ориентировочного α/β около 2 Гр; применять без отдельного обоснования нельзя.";
+  }
+  if (warning.startsWith("Human cervical-cord dose-response model")) {
+    return "Модель для шейного отдела спинного мозга построена по небольшому числу объединённых клинических точек. Авторы предостерегают от некритичного применения к гиперфракционированию.";
+  }
+  if (warning.startsWith("Clinical Hodgkin-disease fractionation analysis")) {
+    return "Исторический анализ фракционирования при болезни Ходжкина. Доверительный интервал α/β пересекает нуль: автоматическое применение модели не допускается.";
+  }
+  if (warning.startsWith("Cross-study comparison of conventional fractionation")) {
+    return "Оценка α/β получена сравнением исследований с разными режимами. На результат могут влиять репопуляция и гипоксия; необходим явный выбор с проверкой применимости.";
+  }
+  if (warning.startsWith("Historical randomized cervix-radiotherapy dataset")) {
+    return "Исторические данные по поздним кишечным осложнениям после лучевой терапии шейки матки. Конечная точка объединяет разные исходы, а доверительный интервал широк; требуется явный выбор.";
+  }
+  if (warning.startsWith("Quantitative estimate of grade 2+ late normal-tissue effects")) {
+    return "Оценка поздних реакций нормальных тканей степени 2 и выше получена из исследования гиперфракционирования; необходимо учитывать исходную популяцию и конечную точку.";
+  }
+  if (warning.startsWith("The selected alpha/beta estimate has limited model support.")) {
+    return "Выбранная оценка α/β имеет ограниченную доказательную поддержку.";
+  }
+  if (warning.startsWith("The selected alpha/beta estimate comes from a poorly constrained model.")) {
+    return "Параметры выбранной модели α/β определены с высокой неопределённостью.";
+  }
+  if (warning.startsWith("Incomplete-repair correction assumes equally spaced fractions")) {
+    return "Поправка на неполное восстановление предполагает равные интервалы между фракциями в пределах суток и полное восстановление до следующего лечебного дня.";
+  }
+  if (warning.startsWith("Three fractions per day are exposed only as an advanced modelling option")) {
+    return "Три фракции в сутки доступны только для расширенного моделирования. Клиническая применимость требует обоснования конкретным протоколом.";
+  }
+  if (warning.startsWith("Positive interfraction interval and repair half-time are required")) {
+    return "Для расчёта двух или трёх фракций в сутки необходимо задать положительные значения интервала между фракциями и периода полувосстановления.";
+  }
+  if (warning.startsWith("plannedFractions must be a positive integer")) {
+    return "Плановое число фракций должно быть положительным целым числом.";
+  }
+  if (warning.startsWith("dosePerFractionGy must be > 0")) {
+    return "Доза за фракцию должна быть больше нуля.";
+  }
+  if (warning.startsWith("alphaBetaGy must be > 0")) {
+    return "Значение α/β должно быть больше нуля.";
+  }
+  if (warning.startsWith("calendar must contain at least one treatment day")) {
+    return "В календаре должен быть хотя бы один лечебный день.";
+  }
+  if (warning === "Calculation failed.") {
+    return "Не удалось выполнить расчёт. Проверьте введённые параметры.";
+  }
+  // Fail visibly but in Russian: no silent loss of scientific constraints.
+  // Original study titles and recognized coefficient symbols are kept in citations.
+  if (/[A-Za-z]{4,}/.test(warning)) {
+    return "Ограничение применимости выбранного научного источника требует отдельной проверки по публикации. Подробное пояснение пока не переведено; не применяйте эту оценку без независимого обоснования.";
+  }
   return warning;
 }
 
