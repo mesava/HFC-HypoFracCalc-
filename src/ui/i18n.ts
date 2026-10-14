@@ -307,6 +307,136 @@ export function localizeWarning(
   if (warning === "Calculation failed.") {
     return "Не удалось выполнить расчёт. Проверьте введённые параметры.";
   }
+  const scientificExplanationsRu: ReadonlyArray<readonly [string, string]> = [
+    [
+        "Meta-analysis of 14 randomized EBRT trials",
+        "Метаанализ 14 рандомизированных исследований дистанционной лучевой терапии (13 384 пациента) дал оценку α/β = 1,6 Гр с относительно узким объединённым доверительным интервалом."
+    ],
+    [
+        "Bleeding G1+ was a well-calibrated endpoint",
+        "Модель кровотечения степени 1 и выше хорошо согласовывалась с наблюдениями: оценка α/β, основанная на LKB-EQD₂, статистически лучше модели с фиксированным α/β = 4,8 Гр."
+    ],
+    [
+        "Endpoint-specific estimate is reported, but the free-alpha/beta model did not clearly outperform",
+        "Для этой конечной точки опубликована отдельная оценка α/β, однако модель со свободным параметром не показала убедительного преимущества над фиксированным α/β = 3 Гр."
+    ],
+    [
+        "Endpoint was among the better-calibrated models",
+        "Эта конечная точка входила в число лучше согласованных с данными моделей, но фиксированное α/β = 3 Гр не уступало свободно подобранной оценке."
+    ],
+    [
+        "Endpoint-specific estimate has a wide CI",
+        "Опубликованная оценка имеет широкий доверительный интервал; свободная оценка α/β не дала явного улучшения по сравнению с фиксированным значением 3 Гр."
+    ],
+    [
+        "The source explicitly reports very poor constraint of the pain model",
+        "Авторы указывают, что модель боли чрезвычайно плохо определена данными: доверительный интервал α/β очень широк, а зависимость от дозы выражена недостаточно надёжно."
+    ],
+    [
+        "Proctitis G1+ was among the better-calibrated endpoints",
+        "Модель проктита степени 1 и выше хорошо согласовывалась с данными, однако свободная оценка α/β не показала убедительного преимущества над фиксированными 3 Гр."
+    ],
+    [
+        "Endpoint-specific estimate is reported but uncertainty is large",
+        "Для этой конечной точки опубликована оценка, но её неопределённость велика, а фиксированное α/β = 3 Гр не ухудшало согласование."
+    ],
+    [
+        "Direct endpoint-specific estimate with a broad CI",
+        "Прямая оценка для этой конечной точки имеет широкий доверительный интервал; модель со свободным α/β не превосходит однозначно фиксированные 3 Гр."
+    ],
+    [
+        "Direct estimate from a low-event-rate endpoint",
+        "Оценка основана на редких событиях; при малом числе осложнений различия в качестве согласования моделей определяются хуже."
+    ],
+    [
+        "EQD2 correction significantly improved the model over the non-EQD2 model (P=0.0046)",
+        "Введение коррекции EQD₂ статистически значимо улучшило модель по сравнению с вариантом без неё (p = 0,0046)."
+    ],
+    [
+        "The more complex EQD2-corrected model had a worse penalized fit",
+        "Более сложная модель с EQD₂ имела худший показатель качества с учётом сложности, а доверительный интервал α/β был очень широк."
+    ],
+    [
+        "EQD2 correction significantly improved the model over the non-EQD2 model (P=0.034)",
+        "Коррекция EQD₂ статистически значимо улучшила модель (p = 0,034); учёт ранее выполненной трансуретральной резекции улучшил последующую модель без существенного изменения оценки α/β."
+    ],
+    [
+        "EQD2 correction significantly improved the model over the non-EQD2 model (P=0.015)",
+        "Введение коррекции EQD₂ статистически значимо улучшило модель (p = 0,015)."
+    ],
+    [
+        "EQD2 correction had a worse penalized fit",
+        "Модель с EQD₂ имела худший показатель качества с учётом сложности и не подходит для автоматического выбора коэффициента."
+    ],
+    [
+        "No significant model improvement with EQD2 correction (P=0.24)",
+        "Добавление EQD₂ не дало статистически значимого улучшения (p = 0,24); оценка сохранена для прозрачности, но не предназначена для автоматического выбора."
+    ],
+    [
+        "No significant improvement with EQD2 correction",
+        "Добавление коррекции EQD₂ не улучшило модель статистически значимо; параметр оценён с очень большой неопределённостью."
+    ],
+    [
+        "EQD2-corrected model had a worse penalized fit and the estimate is effectively unconstrained",
+        "Модель с EQD₂ имеет худший показатель качества с учётом сложности, а численное значение параметра практически не определено данными."
+    ],
+    [
+        "EQD2-corrected model had a worse penalized fit and the alpha/beta estimate is effectively unconstrained",
+        "Модель с EQD₂ имеет худший показатель качества с учётом сложности, а параметр α/β практически не определён данными."
+    ],
+    [
+        "Primary photographic late-normal-tissue endpoint in the FAST randomized trial",
+        "В рандомизированном исследовании FAST оценка поздних изменений по фотографиям мало изменилась после поправки на сопутствующие факторы."
+    ],
+    [
+        "Alternative estimate adjusted for breast size and surgical deficit",
+        "Альтернативная оценка скорректирована на объём молочной железы и послеоперационный дефект; в публикации изменение по сравнению с нескорректированной оценкой небольшое."
+    ],
+    [
+        "Randomized FAST trial estimate for the composite of shrinkage",
+        "Рандомизированное исследование FAST: комбинированная конечная точка включает уменьшение объёма, уплотнение, телеангиэктазии и отёк."
+    ],
+    [
+        "Endpoint-specific randomized-trial estimate with a relatively narrow CI",
+        "Оценка из рандомизированного исследования для отдельной конечной точки имеет относительно узкий доверительный интервал."
+    ],
+    [
+        "Endpoint-specific estimate is reported, but uncertainty is broad and the lower confidence limit was truncated at zero",
+        "Оценка для отдельной конечной точки имеет большую неопределённость; нижняя граница доверительного интервала ограничена нулём."
+    ],
+    [
+        "The FAST Table 4 point estimate is reported without a 95% CI",
+        "Таблица 4 исследования FAST приводит точечную оценку без 95%-го доверительного интервала; отсутствие оценки неопределённости должно быть явно отражено."
+    ],
+    [
+        "Planned 10-year randomized FAST-Forward analysis",
+        "Запланированный десятилетний анализ рандомизированного исследования FAST-Forward: скорректированная модель местного рецидива в ипсилатеральной молочной железе."
+    ],
+    [
+        "Unadjusted 10-year FAST-Forward model",
+        "Нескорректированная модель по десятилетним данным FAST-Forward сохранена как альтернативная к предпочтительной скорректированной оценке."
+    ],
+    [
+        "Planned 10-year FAST-Forward estimate for a composite",
+        "Оценка по десятилетним результатам FAST-Forward для составной конечной точки клинически оцениваемых поздних реакций молочной железы и грудной стенки."
+    ],
+    [
+        "Joint analysis of five randomized head-and-neck hyperfractionation trials",
+        "Объединённый анализ пяти рандомизированных исследований гиперфракционирования при опухолях головы и шеи: α/β = 10,5 Гр (95% ДИ 6,5–29 Гр) для контроля опухоли."
+    ],
+    [
+        "Systematic overview of heterogeneous preoperative chemoradiotherapy trials",
+        "Систематический обзор разнородных предоперационных исследований химиолучевой терапии: оценка относится к полному патоморфологическому ответу, включает влияние химиотерапии и времени лечения и имеет широкий доверительный интервал; автоматический выбор не допускается."
+    ],
+    [
+        "CHART analysis directly estimated Dprolif for human mucosa",
+        "В анализе CHART непосредственно оценён Dprolif для слизистой человека, однако исходная таблица не задаёт единственного достоверного значения времени начала ускоренной репопуляции Tk."
+    ]
+];
+  for (const [prefix, translation] of scientificExplanationsRu) {
+    if (warning.startsWith(prefix)) return translation;
+  }
+
   // Fail visibly but in Russian: no silent loss of scientific constraints.
   // Original study titles and recognized coefficient symbols are kept in citations.
   if (!/[А-Яа-яЁё]/.test(warning) && /[A-Za-z]{4,}/.test(warning)) {
