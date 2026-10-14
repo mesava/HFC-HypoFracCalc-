@@ -309,7 +309,7 @@ export function InteractiveCalendarView({ language }: { language: Language }) {
         <strong>
           {tx(
             language,
-            "Advanced calendar — инструмент моделирования",
+            "Расширенный календарь — инструмент моделирования",
             "Advanced calendar — modelling tool",
           )}
         </strong>
