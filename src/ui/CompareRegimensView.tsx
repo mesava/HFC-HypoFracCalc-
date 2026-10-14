@@ -959,7 +959,7 @@ export function CompareRegimensView({
                       <th key={regimen.id}>
                         <span>{regimen.label}</span>
                         {regimen.id === comparison.referenceRegimenId ? (
-                          <em>reference</em>
+                          <em>{tx(language, "опорная схема", "reference")}</em>
                         ) : null}
                         <small>
                           {regimen.schedule.fractions} ×{" "}
