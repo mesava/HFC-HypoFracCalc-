@@ -122,7 +122,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
       .click();
 
     await expect(
-      page.getByRole("heading", { name: "α/β + time-loss model" }),
+      page.getByRole("heading", { name: "α/β и модель временных потерь" }),
     ).toBeVisible();
     await expect(
       page.getByText("Выберите опубликованную модель Dprolif/Tk."),
