@@ -4178,14 +4178,16 @@ html[data-theme="dark"] .editable-day.on .editable-day-dose span {
 .calendar-print-header { display: none; }
 
 /* Browser print/save-as-PDF: real edited calendar, not the original template. */
-@page { size: A4 landscape; margin: 10mm; }
+@page hfc-treatment-calendar { size: A4 landscape; margin: 10mm; }
 
 @media print {
-  body { background: #fff !important; }
-  body * { visibility: hidden !important; }
-  .calendar-page, .calendar-page * { visibility: visible !important; }
+  body:has(.calendar-page) { background: #fff !important; }
+  body:has(.calendar-page) * { visibility: hidden !important; }
+  body:has(.calendar-page) .calendar-page,
+  body:has(.calendar-page) .calendar-page * { visibility: visible !important; }
 
   .calendar-page {
+    page: hfc-treatment-calendar;
     position: absolute !important;
     left: 0 !important;
     top: 0 !important;
