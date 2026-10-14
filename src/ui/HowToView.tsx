@@ -110,7 +110,7 @@ export function HowToView({
             <p>
               {tx(
                 language,
-                "Прочитайте предупреждения, скачайте audit JSON или печатный отчёт и при необходимости воспроизведите расчёт в разделе «Проверка аудита».",
+                "Прочитайте предупреждения, скачайте файл аудита JSON или печатный отчёт и при необходимости воспроизведите расчёт в разделе «Проверка аудита».",
                 "Read warnings, download the audit JSON or printable report, and replay the calculation in Audit Replay when needed.",
               )}
             </p>
@@ -179,7 +179,7 @@ export function HowToView({
             <li>
               {tx(
                 language,
-                "RCR preset заполняет схему, но не выбирает α/β.",
+                "Готовый режим из рекомендаций RCR заполняет схему, но не выбирает α/β.",
                 "An RCR preset fills the schedule but does not choose α/β.",
               )}
             </li>
@@ -314,7 +314,7 @@ export function HowToView({
           <p>
             {tx(
               language,
-              "Скачайте audit JSON из поддерживаемого калькулятора, затем загрузите его в «Проверку аудита». HFC проверит SHA-256 envelope, версии engine/evidence и повторно выполнит расчёт.",
+              "Скачайте файл аудита JSON из поддерживаемого калькулятора, затем загрузите его в «Проверку аудита». HFC проверит целостность по SHA-256, версии расчётного ядра и доказательной базы и повторно выполнит расчёт.",
               "Download an audit JSON from a supported calculator and upload it to Audit Replay. HFC verifies the SHA-256 envelope, engine/evidence versions, and recalculates the result.",
             )}
           </p>
@@ -350,7 +350,7 @@ export function HowToView({
         <p className="module-lead">
           {tx(
             language,
-            "Batyan и соавт. (2023) описали семь учебных задач для LQ-модели. HFC использует их как regression/teaching cases, но не переносит устаревшие биологические значения как скрытые defaults.",
+            "Batyan и соавт. (2023) описали семь учебных задач для LQ-модели. HFC использует их как контрольные и учебные примеры, но не переносит устаревшие радиобиологические значения как скрытые параметры по умолчанию.",
             "Batyan et al. (2023) described seven teaching cases for the LQ model. HFC uses them as regression/teaching cases but does not inherit historical biological values as hidden defaults.",
           )}
         </p>
@@ -442,7 +442,7 @@ export function HowToView({
             <p>
               {tx(
                 language,
-                "Исходная статья моделирует переход к 2 фракциям/сут с интервалом 6 ч и отдельно оценивает спинной мозг. HFC использует Thames Hm, но требует явных T½ и Δt; TID доступен только как advanced-моделирование.",
+                "Исходная статья моделирует переход к 2 фракциям/сут с интервалом 6 ч и отдельно оценивает спинной мозг. HFC использует Thames Hm, но требует явных T½ и Δt; TID доступен только в режиме расширенного моделирования.",
                 "The source paper models 2 fractions/day with a 6 h interval and separately evaluates spinal cord effect. HFC uses Thames Hm but requires explicit T½ and Δt; TID is advanced modelling only.",
               )}
             </p>

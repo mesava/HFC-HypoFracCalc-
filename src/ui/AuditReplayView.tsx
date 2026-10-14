@@ -314,13 +314,13 @@ export function AuditReplayView({
                   </dd>
                 </div>
                 <div>
-                  <dt>schemaVersion</dt>
+                  <dt>{tx(language, "Версия схемы файла", "Schema version")}</dt>
                   <dd>
                     {inspection.header.schemaVersion}
                   </dd>
                 </div>
                 <div>
-                  <dt>engineVersion</dt>
+                  <dt>{tx(language, "Версия расчётного ядра", "Engine version")}</dt>
                   <dd>
                     {inspection.header.engineVersion}
                   </dd>
@@ -341,7 +341,7 @@ export function AuditReplayView({
                   </dd>
                 </div>
                 <div>
-                  <dt>generatedAtIso</dt>
+                  <dt>{tx(language, "Дата создания", "Generated at")}</dt>
                   <dd>
                     {inspection.header.generatedAtIso}
                   </dd>
