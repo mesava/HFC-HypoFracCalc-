@@ -175,7 +175,7 @@ export function MethodologyView({
 
         <article className="panel methodology-card">
           <span className="eyebrow">{tx(language, "время", "time")}</span>
-          <h3>Overall treatment time</h3>
+          <h3>{tx(language, "Общая продолжительность лечения", "Overall treatment time")}</h3>
           <p>
             {tx(
               language,
