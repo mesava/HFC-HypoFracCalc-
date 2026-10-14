@@ -507,7 +507,7 @@ export function App() {
           {" · "}
           {evidenceManifest.datasetVersion}
           {" · "}
-          {evidenceManifest.releaseStatus.toUpperCase()}
+          {releaseStatusLabel(language, evidenceManifest.releaseStatus)}
         </span>
       </aside>
 
