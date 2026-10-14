@@ -12,7 +12,7 @@ test.describe("HFC browser acceptance smoke tests", () => {
     await expect(label).toBeVisible();
     await expect(label).toContainText("не утверждена для клинического применения");
     await expect(label).toContainText("2026.10-v0.2");
-    await expect(label).toContainText("DRAFT");
+    await expect(label).toContainText("черновик");
     await page.getByRole("button",{name:"Калькуляторы",exact:true}).click();
     await expect(label).toBeVisible();
     await page.getByRole("button",{name:"EN",exact:true}).click();
