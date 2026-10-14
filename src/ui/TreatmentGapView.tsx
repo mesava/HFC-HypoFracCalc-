@@ -845,7 +845,7 @@ export function TreatmentGapView({
         <div className="section-heading compact">
           <div>
             <span className="eyebrow">{tx(language, "радиобиология", "radiobiology")}</span>
-            <h2>α/β + time-loss model</h2>
+            <h2>{tx(language, "α/β и модель временных потерь", "α/β + time-loss model")}</h2>
           </div>
         </div>
 
@@ -979,7 +979,7 @@ export function TreatmentGapView({
                     )}{" "}
                     {gy}/{tx(language, "день", "day")}
                     {record.kickOffDays !== undefined
-                      ? ` · Tk ${record.kickOffDays} d`
+                      ? ` · Tk ${record.kickOffDays} ${tx(language, "дн.", "d")}`
                       : tx(
                           language,
                           " · Tk не определён",
@@ -1202,7 +1202,7 @@ export function TreatmentGapView({
                 "Inputs need review",
               )}
             </strong>
-            <p>{calculation.error}</p>
+            <p>{localizeWarning(language, calculation.error ?? "Calculation failed.")}</p>
           </div>
         ) : (
           <>
@@ -1223,12 +1223,12 @@ export function TreatmentGapView({
                   {gy}
                 </strong>
                 <small>
-                  raw{" "}
+                  {tx(language, "исходный", "raw")}{" "}
                   {formatUiNumber(
                     language,
                     calculation.baseline.plannedRawEqd2Gy,
                   )}{" "}
-                  − time{" "}
+                  − {tx(language, "временные потери", "time loss")}{" "}
                   {formatUiNumber(
                     language,
                     calculation.baseline.plannedTimePenaltyGy,
@@ -1259,7 +1259,7 @@ export function TreatmentGapView({
                     calculation.baseline
                       .uncompensatedOverallTreatmentDays
                   }{" "}
-                  d
+                  {tx(language, "дн.", "d")}
                 </small>
               </div>
             </div>
@@ -1268,7 +1268,7 @@ export function TreatmentGapView({
               <article className="strategy-card preferred-strategy">
                 <div className="strategy-card-top">
                   <div>
-                    <span className="eyebrow">strategy 1</span>
+                    <span className="eyebrow">{tx(language, "стратегия 1", "strategy 1")}</span>
                     <h3>{tx(language, "Компенсация в выходные", "Weekend recovery")}</h3>
                   </div>
                   <span className="strategy-tag">{tx(language, "приоритет RCR", "RCR first-line")}</span>
@@ -1302,7 +1302,7 @@ export function TreatmentGapView({
               <article className="strategy-card">
                 <div className="strategy-card-top">
                   <div>
-                    <span className="eyebrow">strategy 2</span>
+                    <span className="eyebrow">{tx(language, "стратегия 2", "strategy 2")}</span>
                     <h3>{tx(language, "Компенсация двумя фракциями в сутки", "BID recovery")}</h3>
                   </div>
                   <span className="strategy-tag">{tx(language, "при соблюдении условий", "conditional")}</span>
@@ -1337,7 +1337,7 @@ export function TreatmentGapView({
               <article className="strategy-card">
                 <div className="strategy-card-top">
                   <div>
-                    <span className="eyebrow">strategy 3</span>
+                    <span className="eyebrow">{tx(language, "стратегия 3", "strategy 3")}</span>
                     <h3>{tx(language, "Радиобиологическая компенсация дозой", "Biological dose compensation")}</h3>
                   </div>
                   <span className="strategy-tag">{tx(language, "последний вариант", "last resort")}</span>
@@ -1345,7 +1345,7 @@ export function TreatmentGapView({
 
                 {"error" in calculation.doseCompensation ? (
                   <div className="inline-alert">
-                    {calculation.doseCompensation.error}
+                    {localizeWarning(language, calculation.doseCompensation.error)}
                   </div>
                 ) : (
                   <>

@@ -230,6 +230,50 @@ const warningMapRu = new Map<string, string>([
     "The current SBRT course must contain 1 to 5 fractions for this HyTEC guidance.",
     "Для применения этих данных HyTEC текущий курс SBRT должен содержать от 1 до 5 фракций.",
   ],
+  [
+    "This workflow restores the selected LQ EQD2 target mathematically; it does not prove clinical equivalence or OAR safety.",
+    "Калькулятор математически восстанавливает заданную EQD₂ по LQ-модели. Это не доказывает клиническую эквивалентность или безопасность для органов риска.",
+  ],
+  [
+    "The corrected dose per fraction is higher than planned. Reassess normal-tissue dose metrics and clinical acceptability before use.",
+    "Скорректированная доза за фракцию выше плановой. Перед применением необходимо повторно оценить дозы нормальных тканей и клиническую допустимость.",
+  ],
+  [
+    "The solved dose per fraction exceeds 10 Gy; simple LQ extrapolation requires strong site-specific justification.",
+    "Рассчитанная доза за фракцию превышает 10 Гр. Экстраполяция простой LQ-модели требует убедительного обоснования для конкретной локализации.",
+  ],
+  [
+    "At least one remaining fraction is required.",
+    "Должна оставаться хотя бы одна фракция.",
+  ],
+  [
+    "Delivered biological dose already equals or exceeds the planned EQD2 target.",
+    "Уже доставленная биологическая доза достигла плановой EQD₂ или превысила её. Дополнительный расчёт оставшихся фракций невозможен.",
+  ],
+  [
+    "planned fractions must be a positive integer.",
+    "Плановое число фракций должно быть положительным целым числом.",
+  ],
+  [
+    "alpha/beta must be > 0.",
+    "Параметр α/β должен быть больше нуля.",
+  ],
+  [
+    "planned dose per fraction must be > 0.",
+    "Плановая доза за фракцию должна быть больше нуля.",
+  ],
+  [
+    "delivered dose per fraction must be > 0.",
+    "Фактически доставленная доза за фракцию должна быть больше нуля.",
+  ],
+  [
+    "remaining fractions must be a non-negative integer.",
+    "Число оставшихся фракций должно быть целым неотрицательным числом.",
+  ],
+  [
+    "delivered fractions must be a non-negative integer.",
+    "Число доставленных фракций должно быть целым неотрицательным числом.",
+  ],
 ]);
 
 export function localizeWarning(

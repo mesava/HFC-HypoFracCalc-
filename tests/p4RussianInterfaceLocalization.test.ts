@@ -27,4 +27,15 @@ describe("P4 Russian interface scientific explanation safety", () => {
     expect(t).toContain("Ограничение применимости");
     expect(t).not.toContain("Original study");
   });
+  it("translates course-correction warnings and invalid numerical inputs, preserving the English version",()=>{
+    const caution="This workflow restores the selected LQ EQD2 target mathematically; it does not prove clinical equivalence or OAR safety.";
+    expect(localizeWarning("ru",caution)).toContain("не доказывает клиническую эквивалентность");
+    expect(localizeWarning("en",caution)).toBe(caution);
+    const raised="The corrected dose per fraction is higher than planned. Reassess normal-tissue dose metrics and clinical acceptability before use.";
+    expect(localizeWarning("ru",raised)).toContain("выше плановой");
+    expect(localizeWarning("en",raised)).toBe(raised);
+    expect(localizeWarning("ru","At least one remaining fraction is required.")).toContain("хотя бы одна фракция");
+    expect(localizeWarning("ru","planned fractions must be a positive integer.")).toContain("положительным целым");
+    expect(localizeWarning("ru","Delivered biological dose already equals or exceeds the planned EQD2 target.")).toContain("Уже доставленная");
+  });
 });

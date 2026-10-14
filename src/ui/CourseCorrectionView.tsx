@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { solveCourseCorrection } from "../workflows/courseCorrection.js";
-import { tx } from "./i18n.js";
+import { localizeWarning, tx } from "./i18n.js";
 import { formatUiNumber, type Language } from "./labels.js";
 
 type ExampleKey = "dose-error" | "missed-fraction";
@@ -133,7 +133,7 @@ export function CourseCorrectionView({ language }: { language: Language }) {
         <span className="eyebrow">{tx(language, "результат", "result")}</span>
         <h2>{tx(language, "Оставшаяся часть курса", "Remaining course")}</h2>
         {"error" in calculation ? (
-          <div className="inline-alert">{calculation.error}</div>
+          <div className="inline-alert">{localizeWarning(language, calculation.error)}</div>
         ) : result ? (
           <>
             <div className="metric-grid">
@@ -159,7 +159,7 @@ export function CourseCorrectionView({ language }: { language: Language }) {
             </div>
             <div className="warning-card">
               <strong>{tx(language, "Проверить перед применением", "Check before use")}</strong>
-              <ul>{result.warnings.map((warning) => <li key={warning}>{warning}</li>)}</ul>
+              <ul>{result.warnings.map((warning) => <li key={warning}>{localizeWarning(language, warning)}</li>)}</ul>
             </div>
           </>
         ) : null}
