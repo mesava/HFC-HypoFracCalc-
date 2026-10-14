@@ -61,7 +61,7 @@ const modules: ModuleCase[] = [
     id: "gap",
     section: "calculator",
     label: "Перерывы в лечении",
-    landmark: "α/β + time-loss model",
+    landmark: "α/β и модель временных потерь",
   },
   {
     id: "reirradiation",
