@@ -1223,12 +1223,12 @@ export function TreatmentGapView({
                   {gy}
                 </strong>
                 <small>
-                  raw{" "}
+                  {tx(language, "исходный", "raw")}{" "}
                   {formatUiNumber(
                     language,
                     calculation.baseline.plannedRawEqd2Gy,
                   )}{" "}
-                  − time{" "}
+                  − {tx(language, "временные потери", "time loss")}{" "}
                   {formatUiNumber(
                     language,
                     calculation.baseline.plannedTimePenaltyGy,
@@ -1259,7 +1259,7 @@ export function TreatmentGapView({
                     calculation.baseline
                       .uncompensatedOverallTreatmentDays
                   }{" "}
-                  d
+                  {tx(language, "дн.", "d")}
                 </small>
               </div>
             </div>
