@@ -129,6 +129,19 @@ export function resolveClinicalConstraint(
     throw new Error(`Constraint dataset error: Milano brain Vx contour provenance missing in ${constraint.id}.`);
   }
 
+  // A named Vx threshold without a source-compatible organ contour is
+  // not a comparable OAR measurement, even when its numeric value matches.
+  if (constraint.sourceId === "miften-2021-hytec-liver-toxicity" &&
+    constraint.metric.kind === "VleX" &&
+    constraint.volumeBasis !== "normal-liver-minus-gtv") {
+    throw new Error(`Constraint dataset error: Miften spared liver must exclude GTV in ${constraint.id}.`);
+  }
+  if (constraint.sourceId === "kong-2021-hytec-lung-parenchyma" &&
+    constraint.metric.kind === "Vx" &&
+    constraint.volumeBasis !== "bilateral-lungs-minus-gtv-or-igtv") {
+    throw new Error(`Constraint dataset error: Kong Vx requires bilateral lung with GTV/IGTV subtraction in ${constraint.id}.`);
+  }
+
   if (
     constraint.metric.kind === "custom" &&
     (!constraint.metric.customLabel ||
