@@ -171,6 +171,13 @@ export function MethodologyView({
               "At high doses per fraction, HFC does not silently switch models; it keeps the calculation and adds an applicability warning.",
             )}
           </p>
+          <p>
+            {tx(
+              language,
+              "В совместном письме HyTEC (Grimm и соавт., 2021; DOI 10.1016/j.ijrobp.2021.02.021) отмечено: LQ достаточно хорошо обоснована примерно до 10 Гр за фракцию, а для более высоких доз выбор лучшей BED-модели остаётся открытым. 10 Гр — не жёсткий запрет и не основание для автоматической смены формулы. Расчёт BED/EQD₂ не подтверждает сам по себе индивидуальную TCP/NTCP или клиническую взаимозаменяемость режимов; отдалённая экстраполяция за область опубликованных данных требует независимой проверки.",
+              "The joint HyTEC correspondence (Grimm et al., 2021; DOI 10.1016/j.ijrobp.2021.02.021) states that LQ is reasonably supported up to about 10 Gy per fraction, while the best BED model at higher doses remains unresolved. Ten Gy is not a hard prohibition or an automatic model-switch threshold. BED/EQD₂ arithmetic alone does not validate individual TCP/NTCP or clinical interchangeability; extrapolation far beyond observed regimens requires independent review.",
+            )}
+          </p>
         </article>
 
         <article className="panel methodology-card">
