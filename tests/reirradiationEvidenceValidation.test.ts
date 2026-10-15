@@ -54,6 +54,9 @@ describe("Evidence validation batch 5: reirradiation methods", () => {
     expect(classifyReirradiation(false, false)).toBe(
       "repeat-irradiation",
     );
+    expect(classifyReirradiation(false, false, true)).toBe(
+      "repeat-organ-irradiation",
+    );
   });
 
   it("never infers tissue recovery from elapsed time alone", () => {

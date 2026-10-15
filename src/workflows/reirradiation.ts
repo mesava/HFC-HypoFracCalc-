@@ -154,9 +154,11 @@ function evaluateCourse(
 export function classifyReirradiation(
   geometricOverlap: boolean,
   cumulativeDoseToxicityConcern: boolean,
+  sameOrganTargets?: boolean,
 ): ReirradiationClassification {
   if (geometricOverlap) return "type-I";
   if (cumulativeDoseToxicityConcern) return "type-II";
+  if (sameOrganTargets === true) return "repeat-organ-irradiation";
   return "repeat-irradiation";
 }
 
@@ -264,15 +266,23 @@ export function evaluateReirradiationScenario(
     );
   }
 
+  const classification = classifyReirradiation(
+    context.geometricOverlap,
+    context.cumulativeDoseToxicityConcern,
+    context.sameOrganTargets,
+  );
   if (
-    classifyReirradiation(
-      context.geometricOverlap,
-      context.cumulativeDoseToxicityConcern,
-    ) === "repeat-irradiation"
+    classification === "repeat-irradiation" ||
+    classification === "repeat-organ-irradiation"
   ) {
     warnings.push(
-      "This scenario has neither geometric overlap nor a stated cumulative-dose toxicity concern and therefore does not meet the ESTRO-EORTC reirradiation definition.",
+      "This scenario has neither geometric overlap nor a stated cumulative-dose toxicity concern and therefore does not meet the ESTRO-EORTC type I/type II reirradiation definition.",
     );
+    if (context.sameOrganTargets === undefined) {
+      warnings.push(
+        "Whether the two target volumes are in the same organ was not specified. The repeat irradiation subtype cannot be determined from the available information.",
+      );
+    }
   }
 
   if (context.strategy === "conservative-near-max") {
@@ -282,10 +292,7 @@ export function evaluateReirradiationScenario(
   }
 
   return {
-    classification: classifyReirradiation(
-      context.geometricOverlap,
-      context.cumulativeDoseToxicityConcern,
-    ),
+    classification,
     strategy: context.strategy,
     metric: courses[0]!.metric,
     alphaBetaGy,

@@ -74,6 +74,23 @@ describe("reirradiation classification", () => {
       "repeat-irradiation",
     );
   });
+
+  it("identifies repeat organ irradiation only when same-organ targets are confirmed", () => {
+    expect(classifyReirradiation(false, false, true)).toBe(
+      "repeat-organ-irradiation",
+    );
+    expect(classifyReirradiation(false, false, false)).toBe(
+      "repeat-irradiation",
+    );
+    expect(classifyReirradiation(false, false)).toBe(
+      "repeat-irradiation",
+    );
+  });
+
+  it("does not let same-organ status override type I or II", () => {
+    expect(classifyReirradiation(true, false, true)).toBe("type-I");
+    expect(classifyReirradiation(false, true, true)).toBe("type-II");
+  });
 });
 
 describe("cumulative equieffective dose", () => {
@@ -94,6 +111,23 @@ describe("cumulative equieffective dose", () => {
       166.6666666667,
       9,
     );
+  });
+
+  it("distinguishes repeat organ irradiation without changing cumulative radiobiology", () => {
+    const baseline = evaluateReirradiationScenario(
+      [previousCourse(), currentCourse()], 3,
+      { ...context, geometricOverlap: false, cumulativeDoseToxicityConcern: false },
+    );
+    const sameOrgan = evaluateReirradiationScenario(
+      [previousCourse(), currentCourse()], 3,
+      { ...context, geometricOverlap: false, cumulativeDoseToxicityConcern: false, sameOrganTargets: true },
+    );
+    expect(baseline.classification).toBe("repeat-irradiation");
+    expect(sameOrgan.classification).toBe("repeat-organ-irradiation");
+    expect(sameOrgan.cumulativeEqd2Gy).toBeCloseTo(baseline.cumulativeEqd2Gy, 12);
+    expect(sameOrgan.cumulativeBedGy).toBeCloseTo(baseline.cumulativeBedGy, 12);
+    expect(baseline.warnings.some(w => w.includes("subtype cannot be determined"))).toBe(true);
+    expect(sameOrgan.warnings.some(w => w.includes("subtype cannot be determined"))).toBe(false);
   });
 
   it("does not infer recovery from a long treatment interval", () => {
