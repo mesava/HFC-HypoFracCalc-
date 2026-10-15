@@ -60,6 +60,12 @@ export interface OutcomeDoseDescriptor {
 
 export interface OutcomeProbabilityPoint {
   id: string;
+  /**
+   * A source-reported percentage can be retained for fidelity even when
+   * the numerical fit printed in the same paper fails reproduction.
+   * This is a mandatory visible caveat, not a recalculated probability.
+   */
+  sourceReproducibility?: "unresolved-equation-table-mismatch";
   dose: OutcomeDoseDescriptor;
   probability: number;
   probabilityRelation?: ProbabilityRelation;
