@@ -31,7 +31,7 @@ export const sources = [
     pmid: "30836165",
     kind: "other",
     notes:
-      "Mechanistic discussion of indirect radiation response at high doses per fraction. No universal correction to the clinical LQ or BED/EQD2 formulas is inferred.",
+      "Mechanistic discussion of indirect radiation response at high doses per fraction. Brown/Carlson 2021 DOI 10.1016/j.ijrobp.2020.06.075 challenged vascular-mediated indirect kill as the principal explanation for SBRT benefit; Song/Cho replied DOI 10.1016/j.ijrobp.2020.06.074 (on p252 of the uploaded Brown PDF). This is unresolved scientific mechanism discussion, NOT evidence for a universal correction to LQ or BED/EQD2.",
   },
   {
     id: "marciscano-2021-hytec-immunomodulation",
@@ -179,7 +179,7 @@ export const sources = [
     pmid: "33358561",
     kind: "systematic-review",
     notes:
-      "HyTEC pooled 1-year local-control modelling for pancreatic SBRT. Dose schedules were converted to three-fraction-equivalent doses with alpha/beta = 10 Gy; resection status materially changes the reported outcome.",
+      "HyTEC pooled 1-year local-control modelling for pancreatic SBRT: 3-fraction equivalent with assumed alpha/beta=10 Gy. Appendix Fig A1 demonstrates overlapping neoadjuvant, BRPC and LAPC cohorts; only unresected (8 pooled points from studies >=80% unresected) has the published logistic dose-response fit. R0 results are separately averaged from 3 studies, NOT the same fitted model; Kaplan-Meier start times vary markedly.",
   },
   {
     id: "redmond-2021-hytec-brain-mets-tcp",
@@ -219,7 +219,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2017.12.288",
     kind: "systematic-review",
     notes:
-      "HyTEC pooled analysis of local control after liver SBRT, including a BED10-stratified liver-metastasis analysis.",
+      "HyTEC pooled analysis of liver SBRT local control: for liver metastases, 3-year KM local-control estimates are grouped by BED10 >100 versus <=100 Gy, not individual step-function TCP. Klement et al. (DOI 10.1016/j.ijrobp.2018.02.012) challenged dichotomization and model assumptions; Ohri et al. (DOI 10.1016/j.ijrobp.2018.02.013) acknowledged limitations of study-level data and did not establish a universal dose-response or patient-level prediction.",
   },
   {
     id: "stumpf-2021-hytec-adrenal-tcp",
@@ -229,7 +229,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2020.05.062",
     kind: "modeling-study",
     notes:
-      "HyTEC Poisson TCP model for 1-year local control after SBRT for adrenal metastases.",
+      "HyTEC modelled 1-year local control for adrenal metastases, not overall survival. Source Poisson fit uses EQD2_10, with median source prescription dose adjusted for reported prescription isodose where possible; individual tumour DVHs and histology adjustment unavailable. BED10 about 116.4 Gy is an approximate model point (computed ~94.98% LC), not a universal prescription or guaranteed individual probability.",
   },
   {
     id: "royce-2021-hytec-prostate-tcp",
@@ -239,7 +239,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2020.08.014",
     kind: "systematic-review",
     notes:
-      "HyTEC dose-response TCP modelling of 5-year freedom from biochemical relapse after prostate SBRT, stratified by risk group.",
+      "HyTEC 5-year freedom from biochemical relapse after prostate SBRT, stratified by risk: 5-year fitted plot uses about 1069 low/intermediate versus only 85 high-risk patients, not the 4821 patients in all 25 collected cohorts. CRITICAL SOURCE MISMATCH: low/intermediate Eq(2) plus printed Table3 D50=20.6 Gy EQD2_1.5 and gamma=0.15 gives about 77.44%/83.90% at 71/90 Gy instead of printed ~90%/~95%. Do not treat these as reproduced continuous predictions; 71 Gy is below published cohort range (~80 Gy). Chen et al. 2025 letter and author reply have not been fully reviewed.",
   },
   {
     id: "grimm-2021-hytec-major-vessels",
@@ -279,7 +279,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2020.09.054",
     kind: "systematic-review",
     notes:
-      "HyTEC review of urinary, bowel and sexual toxicity after prostate SBRT. Suggested bladder, urethra and rectum dose constraints are explicitly presented as limited guidance because current data do not establish firm tolerance doses.",
+      "HyTEC review of urinary, bowel and sexual toxicity after prostate SBRT. Three suggested constraints (bladder V(Rx) cc, urethra/rectum Dmax Gy) are NOT the publication's individually fitted LKB/probit curves. Those models use different endpoints: IPSS late urinary flare, CTCAE >=2 urethral GU toxicity, CTCAE >=3 rectal bowel toxicity, or EPIC quality-of-life changes; parameter intervals and dose bases differ (sometimes 68% CI, sometimes 95% CI). Do not combine them into one validated NTCP or convert suggested constraints into risk thresholds.",
   },
   {
     id: "milano-2021-hytec-optic",
