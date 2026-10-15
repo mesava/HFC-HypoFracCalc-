@@ -691,6 +691,90 @@ export function ReirradiationView({
         </p>
       </section>
 
+      <section className="panel">
+        <details>
+          <summary>
+            <strong>
+              {tx(
+                language,
+                "Разобранный пример ReCOG 2026: как получить дозовую цель при повторном облучении",
+                "ReCOG 2026 worked example: deriving a reirradiation dose objective",
+              )}
+            </strong>
+          </summary>
+          <p>
+            {tx(
+              language,
+              "Zhang и соавт., случай 1: повторное облучение области позвоночника после облучения таза. Пример относится к дозе на конский хвост, а НЕ к предписанной дозе на мишень. Для расчётов авторы использовали α/β = 2,5 Гр, 5 фракций и принятое в их учреждении допущение о восстановлении ткани 50%. Кумулятивное ограничение 60 Гр EQD₂ также является локальным допущением этого примера.",
+              "Zhang et al., Case 1: spinal reirradiation after pelvic radiotherapy. The doses below are cauda-equina organ doses, NOT prescribed target doses. The authors used α/β = 2.5 Gy, five fractions, and their institution's 50% tissue-recovery assumption. The cumulative 60 Gy EQD₂ constraint is also institution-specific.",
+            )}
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">
+                  {tx(language, "Способ оценки", "Assessment strategy")}
+                </th>
+                <th scope="col">
+                  {tx(language, "Доза предыдущего курса на орган", "Previous OAR dose")}
+                </th>
+                <th scope="col">
+                  {tx(language, "Новая дозовая цель на орган", "New OAR dose objective")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {tx(language, "1а. Прямое суммирование", "1a. Direct point-dose sum")}
+                </td>
+                <td>20 {gy} / 5</td>
+                <td>26,4 {gy} / 5</td>
+              </tr>
+              <tr>
+                <td>
+                  {tx(language, "1б. Оценка области перекрытия", "1b. Overlap-region estimate")}
+                </td>
+                <td>15,8 {gy} / 5</td>
+                <td>27,9 {gy} / 5</td>
+              </tr>
+              <tr>
+                <td>
+                  {tx(language, "2. Пространственное суммирование", "2. Spatial EQD₂ sum")}
+                </td>
+                <td>
+                  {tx(language, "По трёхмерной карте", "From 3D dose map")}
+                </td>
+                <td>29,7 {gy} / 5</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            {tx(
+              language,
+              "Математическая проверка 1а: прежний D0,1см³ = 20 Гр даёт 28,9 Гр EQD₂; после условного уменьшения на 50% остаётся 14,4 Гр. Доступный бюджет: 60 − 14,4 = 45,6 Гр EQD₂, или примерно 26,4 Гр за 5 фракций. В способе 1б используется оценка Dmax в области перекрытия для получения приближённой цели D0,1см³ — метрики не тождественны. Результат 2 получен авторами на зарегистрированных трёхмерных распределениях; скалярный калькулятор HFC его не воспроизводит.",
+              "Strategy 1a arithmetic: prior D0.1cc = 20 Gy gives 28.9 Gy EQD₂; a 50% illustrative discount leaves 14.4 Gy. The remaining budget is 60 − 14.4 = 45.6 Gy EQD₂, or approximately 26.4 Gy in five fractions. Strategy 1b estimates Dmax in the overlap region to guide an approximate D0.1cc objective; the metrics are not identical. Strategy 2 comes from registered 3D distributions and cannot be reproduced by HFC's scalar calculator.",
+            )}
+          </p>
+          <p>
+            <strong>
+              {tx(
+                language,
+                "Числа служат только для проверки метода по публикации. Коэффициент восстановления и дозовые ограничения не являются универсальными и не выбираются HFC автоматически.",
+                "These values are for reproducing the paper only. Recovery factors and dose limits are not universal and are never selected automatically by HFC.",
+              )}
+            </strong>
+          </p>
+          <a
+            href="https://doi.org/10.1016/j.prro.2026.03.010"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Zhang et al., 2026 — ReCOG
+          </a>
+        </details>
+      </section>
+
       <section className="reirradiation-grid">
         <section className="panel reirradiation-config">
           <div className="section-heading">
