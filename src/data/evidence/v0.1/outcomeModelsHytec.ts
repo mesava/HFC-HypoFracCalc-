@@ -169,7 +169,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
     evidenceForm: "model-derived",
     outcomeKind: "TCP",
     technique: ["spine SBRT"],
-    priorRadiotherapy: "not-reported",
+    priorRadiotherapy: "mixed",
     population:
       "Published spine SBRT series with dose/fractionation and actuarial 2-year local-control data.",
     applicability: {
@@ -179,6 +179,8 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       notes: [
         "The pooled model estimated alpha/beta approximately 6 Gy to combine fractionation schedules.",
         "The source explicitly cautions that data and local-control definitions were heterogeneous.",
+        "The pooled cohorts included both previously irradiated and unirradiated lesions; no independent retreatment-specific TCP should be inferred.",
+        "The nominal prescription dose is not a DVH or PTV/GTV D95: identical dose distributions may receive different labeled prescriptions with different isodoses and target coverage.",
       ],
     },
     points: [
