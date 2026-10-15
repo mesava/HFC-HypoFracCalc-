@@ -369,6 +369,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
     points: [
       {
         id: "prostate-lowint-90tcp",
+        sourceReproducibility: "unresolved-equation-table-mismatch",
         extrapolated: true,
         notes: [
           "HyTEC Royce et al., PDF pp. 6–7 (Figure 1): the pooled cohorts did not include prescription EQD2 below approximately 80 Gy. The 71 Gy / 90% five-year FFBR point is a fitted extrapolation; no clinical conclusion should be made from that dose region.",
@@ -389,6 +390,7 @@ export const hytecOutcomeModels: OutcomeModel[] = [
       },
       {
         id: "prostate-lowint-95tcp",
+        sourceReproducibility: "unresolved-equation-table-mismatch",
         dose: {
           schedule: { fractions: 5, dosePerFractionGy: 36.1 / 5 },
           biologicalDose: {

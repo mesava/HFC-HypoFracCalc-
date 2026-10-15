@@ -624,6 +624,15 @@ export function OutcomeModelsView({
                                   point,
                                 )}
                               </strong>
+                              {point.sourceReproducibility === "unresolved-equation-table-mismatch" ? (
+                                <small className="outcome-extrapolated" role="note">
+                                  {tx(
+                                    language,
+                                    "Не воспроизведено из опубликованных параметров",
+                                    "Not reproduced from published model parameters",
+                                  )}
+                                </small>
+                              ) : null}
                             </td>
                             <td>
                               {followUpLabel(
