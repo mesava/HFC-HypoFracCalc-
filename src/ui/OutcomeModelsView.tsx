@@ -508,6 +508,16 @@ export function OutcomeModelsView({
                   </p>
                 ) : null}
 
+                {model.id === "hytec-spinal-mets-2y-tcp" ? (
+                  <p className="outcome-source-discrepancy" role="note">
+                    {tx(
+                      language,
+                      "HyTEC Soltys — метастазы позвоночника: объединённая двухлетняя модель включает очаги после предыдущего облучения и без него. Доза в модели — предписанная на границу опухоли, пересчитанная в эквивалент трёх фракций при α/β = 6 Гр, а не Dmax или D95 по мишени. В исходном приложении один и тот же DVH имел назначения 20 Гр (90% охват PTV) и 18 Гр (99% охват PTV). Публикация округляет результат 20 Гр × 1 до ≈90%, хотя её объединённая кривая даёт ≈88,3%. Это модельная аппроксимация с неоднородностью назначения и определения локального контроля, а не клинический прогноз для отдельного пациента или отдельная модель повторного облучения.",
+                      "HyTEC Soltys spine metastases: pooled 2-year local control combines previously irradiated and unirradiated lesions. The fit uses a margin prescription transformed to a three-fraction equivalent at α/β = 6 Gy, not tumor Dmax or D95. The supplement shows one identical DVH labeled 20 Gy (90% PTV coverage) or 18 Gy (99% coverage). The source rounds 20 Gy × 1 to ≈90%, while its pooled fit gives ≈88.3%. These are heterogeneous model-based approximations, not individualized predictions or a separate validated retreatment model.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-liver-metastases-bed10-local-control" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
