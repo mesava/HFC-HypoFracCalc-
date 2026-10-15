@@ -498,6 +498,16 @@ export function OutcomeModelsView({
                   </p>
                 ) : null}
 
+                {model.id === "hytec-brain-mets-1y-local-control" ? (
+                  <p className="outcome-source-discrepancy" role="note">
+                    {tx(
+                      language,
+                      "HyTEC Redmond 2021: значения описывают локальный контроль через 1 год по отдельным метастазам, а не вероятность контроля заболевания у пациента. Модель использует эквивалент однократной дозы по α/β = 20 Гр (SFED₂₀), рассчитанный от предписанной дозы на границу мишени, и учитывает размер очага. Для очагов 21–30 мм в объединённой модели 1–5 фракций: TD₅₀ = 12,44 Гр SFED₂₀ (95% ДИ 5,67–14,63), γ₅₀ = 0,7617 (95% ДИ 0,26–1,27), p = 0,188 по проверке Фишера с разделением выборки по медиане. Это не подтверждённая индивидуальная модель TCP. Не подменяйте однолетний исход двухлетним и не используйте обычную физическую сумму доз вместо SFED₂₀.",
+                      "HyTEC Redmond 2021: values represent 1-year per-metastasis local control, not patient-wide disease control. The model uses single-fraction equivalent dose at α/β = 20 Gy (SFED20) based on marginal target prescription, stratified by lesion size. For 21–30 mm lesions in the pooled 1–5-fraction fit: TD50 = 12.44 Gy SFED20 (95% CI 5.67–14.63), γ50 = 0.7617 (95% CI 0.26–1.27); median-split Fisher p = 0.188. This is not a validated individual TCP model. Do not swap 1-year with 2-year outcomes or use unconverted total physical dose in place of SFED20.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "hytec-liver-metastases-bed10-local-control" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
