@@ -46,6 +46,12 @@ export interface NumericalRange {
   high: number;
 }
 
+/** Explicit anatomy/contour semantics for absolute Vx-style quantities. */
+export type DoseVolumeBasis =
+  | "target-inclusive-tissue"
+  | "brain-minus-target"
+  | "normal-liver-minus-gtv";
+
 export interface ClinicalConstraint {
   id: string;
   sourceId: string;
@@ -59,6 +65,12 @@ export interface ClinicalConstraint {
   guidanceKind: ClinicalGuidanceKind;
 
   metric: DoseMetric;
+  /**
+   * This cannot be inferred from Vx alone. The same V12 numeric value on
+   * target-inclusive tissue and on brain-minus-target is NOT interchangeable.
+   * Optional until a primary source has explicitly specified the contour.
+   */
+  volumeBasis?: DoseVolumeBasis;
   relation: ConstraintRelation;
 
   /**
