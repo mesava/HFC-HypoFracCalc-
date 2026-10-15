@@ -50,7 +50,8 @@ export interface NumericalRange {
 export type DoseVolumeBasis =
   | "target-inclusive-tissue"
   | "brain-minus-target"
-  | "normal-liver-minus-gtv";
+  | "normal-liver-minus-gtv"
+  | "bilateral-lungs-minus-gtv-or-igtv";
 
 export interface ClinicalConstraint {
   id: string;
