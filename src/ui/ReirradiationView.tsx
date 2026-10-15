@@ -729,14 +729,14 @@ export function ReirradiationView({
                   {tx(language, "1а. Прямое суммирование", "1a. Direct point-dose sum")}
                 </td>
                 <td>20 {gy} / 5</td>
-                <td>26,4 {gy} / 5</td>
+                <td>{formatUiNumber(language, 26.4, 1)} {gy} / 5</td>
               </tr>
               <tr>
                 <td>
                   {tx(language, "1б. Оценка области перекрытия", "1b. Overlap-region estimate")}
                 </td>
-                <td>15,8 {gy} / 5</td>
-                <td>27,9 {gy} / 5</td>
+                <td>{formatUiNumber(language, 15.8, 1)} {gy} / 5</td>
+                <td>{formatUiNumber(language, 27.9, 1)} {gy} / 5</td>
               </tr>
               <tr>
                 <td>
@@ -745,7 +745,7 @@ export function ReirradiationView({
                 <td>
                   {tx(language, "По трёхмерной карте", "From 3D dose map")}
                 </td>
-                <td>29,7 {gy} / 5</td>
+                <td>{formatUiNumber(language, 29.7, 1)} {gy} / 5</td>
               </tr>
             </tbody>
           </table>
