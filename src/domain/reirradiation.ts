@@ -4,6 +4,7 @@ import type { FractionationSchedule } from "../core/lq.js";
 export type ReirradiationClassification =
   | "type-I"
   | "type-II"
+  | "repeat-organ-irradiation"
   | "repeat-irradiation";
 
 export type CumulativeDoseStrategy =
@@ -70,6 +71,11 @@ export interface ReirradiationCourse {
 export interface ReirradiationScenarioContext {
   geometricOverlap: boolean;
   cumulativeDoseToxicityConcern: boolean;
+  /** Only relevant when there is no overlap or cumulative toxicity concern.
+   *  True means the target volumes of both treatments are in the same organ.
+   *  Undefined preserves uncertainty and legacy audit compatibility.
+   */
+  sameOrganTargets?: boolean;
   previousDoseData: PreviousDoseDataAvailability;
   registrationSuitability: RegistrationSuitability;
   strategy: CumulativeDoseStrategy;

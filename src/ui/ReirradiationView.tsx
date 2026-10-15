@@ -40,6 +40,7 @@ import {
 
 type ParameterMode = "evidence" | "manual";
 type RecoveryMode = "none" | "manual";
+type TargetRelation = "unknown" | "same-organ" | "different-organs";
 
 interface UiPreviousCourse {
   id: string;
@@ -91,7 +92,7 @@ function strategyLabel(
 
 function classificationLabel(
   language: Language,
-  value: "type-I" | "type-II" | "repeat-irradiation",
+  value: "type-I" | "type-II" | "repeat-organ-irradiation" | "repeat-irradiation",
 ): string {
   switch (value) {
     case "type-I":
@@ -106,11 +107,17 @@ function classificationLabel(
         "Повторное облучение типа II",
         "Type II reirradiation",
       );
+    case "repeat-organ-irradiation":
+      return tx(
+        language,
+        "Повторное облучение одного органа (без реиррадиации типа I/II)",
+        "Repeat organ irradiation (not type I/II reirradiation)",
+      );
     case "repeat-irradiation":
       return tx(
         language,
-        "Повторное облучение вне определения ESTRO–EORTC",
-        "Repeat irradiation outside the reirradiation definition",
+        "Повторное облучение вне типов I/II (без подтверждённого совпадения органа)",
+        "Repeat irradiation outside types I/II (same-organ target not confirmed)",
       );
   }
 }
@@ -258,6 +265,7 @@ export function ReirradiationView({
 
   const [geometricOverlap, setGeometricOverlap] =
     useState(true);
+  const [targetRelation, setTargetRelation] = useState<TargetRelation>("unknown");
   const [
     cumulativeDoseToxicityConcern,
     setCumulativeDoseToxicityConcern,
@@ -528,6 +536,9 @@ export function ReirradiationView({
           {
             geometricOverlap,
             cumulativeDoseToxicityConcern,
+            ...(targetRelation !== "unknown"
+              ? { sameOrganTargets: targetRelation === "same-organ" }
+              : {}),
             previousDoseData,
             registrationSuitability,
             strategy,
@@ -576,6 +587,7 @@ export function ReirradiationView({
     currentDosePerFraction,
     geometricOverlap,
     cumulativeDoseToxicityConcern,
+    targetRelation,
     previousDoseData,
     registrationSuitability,
     strategy,
@@ -620,6 +632,9 @@ export function ReirradiationView({
       context: {
         geometricOverlap,
         cumulativeDoseToxicityConcern,
+        ...(targetRelation !== "unknown"
+          ? { sameOrganTargets: targetRelation === "same-organ" }
+          : {}),
         previousDoseData,
         registrationSuitability,
         strategy,
@@ -729,6 +744,34 @@ export function ReirradiationView({
               </span>
             </label>
           </div>
+
+          {!geometricOverlap && !cumulativeDoseToxicityConcern && (
+            <label className="field">
+              <span>
+                {tx(
+                  language,
+                  "Мишени обоих курсов расположены в одном органе?",
+                  "Are both treatment target volumes in the same organ?",
+                )}
+              </span>
+              <select
+                value={targetRelation}
+                onChange={(event) =>
+                  setTargetRelation(event.target.value as TargetRelation)
+                }
+              >
+                <option value="unknown">
+                  {tx(language, "Не установлено", "Not established")}
+                </option>
+                <option value="same-organ">
+                  {tx(language, "Да, в одном органе", "Yes, same organ")}
+                </option>
+                <option value="different-organs">
+                  {tx(language, "Нет, в разных органах", "No, different organs")}
+                </option>
+              </select>
+            </label>
+          )}
 
           <div className="two-columns">
             <label className="field">
