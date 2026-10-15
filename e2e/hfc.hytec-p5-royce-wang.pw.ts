@@ -13,10 +13,7 @@ test.describe("HyTEC P5 Royce/Wang source-verification gates", () => {
     const sourceWarning = page.locator(".outcome-source-discrepancy");
     await expect(sourceWarning).toContainText("уравнения (2)");
     await expect(sourceWarning).toContainText("Table 3");
-    // High-risk points must NOT be labeled as a reproducibility failure.
-    const highRows = page.locator(".outcome-point-table tbody tr")
-      .filter({ hasText: "Высокий риск" });
-    // Table translations can differ, but two low/intermediate labels must exist.
+    // Only the two low/intermediate rows carry numeric verification flags.
     await expect(page.locator(".outcome-point-table tbody tr")).toHaveCount(4);
   });
 
