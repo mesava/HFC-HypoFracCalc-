@@ -67,6 +67,26 @@ function metricLabel(
   return metric.kind;
 }
 
+function volumeBasisLabel(
+  language: Language,
+  basis: ClinicalConstraint["volumeBasis"],
+): string {
+  switch (basis) {
+    case "target-inclusive-tissue":
+      return tx(
+        language,
+        "Весь объём ткани в изодозе, включая мишень (не Brain−GTV/PTV)",
+        "All tissue within the isodose, including target (not brain-minus-GTV/PTV)",
+      );
+    case "brain-minus-target":
+      return tx(language, "Головной мозг за вычетом мишени", "Brain excluding target");
+    case "normal-liver-minus-gtv":
+      return tx(language, "Нормальная печень за вычетом GTV", "Normal liver excluding GTV");
+    default:
+      return "—";
+  }
+}
+
 function unitLabel(
   language: Language,
   unit: ClinicalConstraint["unit"],
@@ -508,23 +528,7 @@ export function ClinicalConstraintsView({
                         {tx(language, "Структура для Vx", "Vx contour definition")}
                       </dt>
                       <dd>
-                        {constraint.volumeBasis === "target-inclusive-tissue"
-                          ? tx(
-                              language,
-                              "Весь объём ткани в изодозе, включая мишень (не Brain−GTV/PTV)",
-                              "All tissue within the isodose, including target (not brain-minus-GTV/PTV)",
-                            )
-                          : constraint.volumeBasis === "brain-minus-target"
-                            ? tx(
-                                language,
-                                "Головной мозг за вычетом мишени",
-                                "Brain excluding target",
-                              )
-                            : tx(
-                                language,
-                                "Нормальная печень за вычетом GTV",
-                                "Normal liver excluding GTV",
-                              )}
+                        {volumeBasisLabel(language, constraint.volumeBasis)}
                       </dd>
                     </div>
                   ) : null}
