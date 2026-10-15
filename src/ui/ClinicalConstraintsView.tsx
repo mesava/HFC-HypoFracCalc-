@@ -502,6 +502,32 @@ export function ClinicalConstraintsView({
                       {constraint.technique?.join(", ") ?? "—"}
                     </dd>
                   </div>
+                  {constraint.volumeBasis ? (
+                    <div>
+                      <dt>
+                        {tx(language, "Структура для Vx", "Vx contour definition")}
+                      </dt>
+                      <dd>
+                        {constraint.volumeBasis === "target-inclusive-tissue"
+                          ? tx(
+                              language,
+                              "Весь объём ткани в изодозе, включая мишень (не Brain−GTV/PTV)",
+                              "All tissue within the isodose, including target (not brain-minus-GTV/PTV)",
+                            )
+                          : constraint.volumeBasis === "brain-minus-target"
+                            ? tx(
+                                language,
+                                "Головной мозг за вычетом мишени",
+                                "Brain excluding target",
+                              )
+                            : tx(
+                                language,
+                                "Нормальная печень за вычетом GTV",
+                                "Normal liver excluding GTV",
+                              )}
+                      </dd>
+                    </div>
+                  ) : null}
                   {constraint.population ? (
                     <div>
                       <dt>
