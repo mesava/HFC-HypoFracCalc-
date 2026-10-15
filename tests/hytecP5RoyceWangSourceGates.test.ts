@@ -54,7 +54,7 @@ describe("Royce 2021: unresolved equation/Table 3 cannot silently become verifie
     expect(roycePoisson(97, 84.2, 4.50)).toBeCloseTo(.8976688945, 9);
     expect(roycePoisson(102, 84.2, 4.50)).toBeCloseTo(.949127082, 9);
     expect(royce.applicability?.notes?.join(" ")).toContain("UNRESOLVED");
-    expect(sources.find(s => s.id === royce.sourceId)?.notes).toContain("HAVE NOT been reviewed");
+    expect(sources.find(s => s.id === royce.sourceId)?.notes).toContain("HAS NOT been reviewed");
   });
 });
 
@@ -88,7 +88,7 @@ describe("Wang 2021: documented 4-to-5 fraction LQ conversion is not a verified 
     const wang = sources.find(s => s.id === "wang-2021-hytec-prostate-toxicity")!;
     expect(wang.notes).toMatch(/alpha\/beta=3 Gy/);
     expect(wang.notes).toMatch(/Figure 1B/);
-    expect(wang.notes).toMatch(/5-fraction equivalent dose/);
+    expect(wang.notes).toMatch(/FIVE-fraction physical-dose equivalents/);
     const guides = hytecClinicalConstraints.filter(c => c.sourceId === wang.id);
     expect(guides).toHaveLength(3);
     expect(guides.every(c => c.guidanceKind === "observational-threshold")).toBe(true);
