@@ -31,13 +31,14 @@ const context: ReirradiationScenarioContext = {
 
 function previousCaudaOarDose(
   totalDoseGy: number,
+  metric: ReirradiationCourse["metric"] = caudaMetric,
 ): ReirradiationCourse {
   return {
     id: "C1",
     label: "Illustrative prior OAR D0.1cc (not PTV Rx)",
     role: "previous",
     schedule: { fractions: 5, dosePerFractionGy: totalDoseGy / 5 },
-    metric: caudaMetric,
+    metric,
     intervalToCurrentMonths: 24,
     recovery: {
       mode: "manual-discount",
@@ -49,13 +50,14 @@ function previousCaudaOarDose(
 
 function currentCaudaOarDose(
   totalDoseGy: number,
+  metric: ReirradiationCourse["metric"] = caudaMetric,
 ): ReirradiationCourse {
   return {
     id: "C2",
     label: "Illustrative current OAR D0.1cc (not PTV Rx)",
     role: "current",
     schedule: { fractions: 5, dosePerFractionGy: totalDoseGy / 5 },
-    metric: caudaMetric,
+    metric,
   };
 }
 
@@ -87,8 +89,12 @@ describe("ReCOG Zhang 2026 published case worked numerical acceptance", () => {
   it("Case 1 strategy 1b reproduces overlap-region OAR calculation", () => {
     // Figure 4: C1 Dmax 15.8 Gy/5fx => 19.9 EQD2_2.5,
     // C2 Dmax 30 Gy/5fx => 56.7 EQD2_2.5 (rounded).
-    const c1 = previousCaudaOarDose(15.8);
-    const c2 = currentCaudaOarDose(30);
+    // Source Fig. 4 uses visually estimated Dmax of the overlap subvolume.
+    // Its later proposal uses a D0.1cc planning objective: these are not
+    // mathematically identical metrics, even if near-max approximates it.
+    const maxMetric = { kind: "Dmax" } as const;
+    const c1 = previousCaudaOarDose(15.8, maxMetric);
+    const c2 = currentCaudaOarDose(30, maxMetric);
     const result = evaluateReirradiationScenario(
       [c1, c2],
       2.5,
@@ -99,7 +105,7 @@ describe("ReCOG Zhang 2026 published case worked numerical acceptance", () => {
     expect(result.cumulativeEqd2Gy).toBeCloseTo(66.7, 0);
 
     const budget = solveRemainingEqd2Budget(
-      [c1], caudaMetric, 60, 5, 2.5,
+      [c1], maxMetric, 60, 5, 2.5,
     );
     expect(budget.remainingEqd2BudgetGy).toBeCloseTo(50, 0);
     expect(budget.maximumTotalPhysicalDoseGy).toBeCloseTo(27.9, 1);
