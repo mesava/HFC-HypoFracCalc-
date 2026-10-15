@@ -1,6 +1,9 @@
 # P2 — 40 исходных HyTEC-документов: контроль полноты постраничного научного аудита
 
-**Дата составления: 9 октября 2026, рабочее дополнение к PR #60.** Машиночитаемый реестр: [HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv). Список **создан из реального `LITERATURE_MASTER_INVENTORY.json`** той же ревизии и содержит 40 исходных объектов: **20 core, 15 supplements, 5 letters**.
+**Дата составления: 9 октября 2026, рабочее дополнение к PR #60.**
+
+> **Исторический снимок на 9 октября; не использовать как текущую оценку SHA-256.** На 15 октября побайтово проверены 40/40 пользовательских оригиналов. Актуальные [40 SHA-256](HYTEC_40_ORIGINAL_SHA256_VERIFIED_2026-10-15.csv), [связка 40 документов с кодом](HYTEC_40_SOURCE_TO_CODE_LEDGER_2026-10-15.csv), [научный итог](HYTEC_MASTER_COVERAGE_AUDIT_2026-10-15_RU.md). Сохранённые ниже поля `uploaded_original_SHA256_verified=NO` — значения старого датированного snapshot; поля `all_pages_figures_tables_verified=NO` и неготовность полного CI/refit сохраняются актуальными.
+ Машиночитаемый реестр: [HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv](HYTEC_P2_COMPLETE_40_DOCUMENT_REVIEW_MATRIX_2026-10.csv). Список **создан из реального `LITERATURE_MASTER_INVENTORY.json`** той же ревизии и содержит 40 исходных объектов: **20 core, 15 supplements, 5 letters**.
 
 ## Принцип достоверности отметок
 
