@@ -146,7 +146,7 @@ export const sources = [
     pmid: "30954520",
     kind: "systematic-review",
     notes:
-      "HyTEC pooled dose-response review for stage I NSCLC. The principal source result is a model-dependent PTV dose associated with the asymptotic TCP plateau (approximately 43, 47, and 50 Gy in 3, 4, and 5 fractions for combined T1/T2 disease); HFC does not convert that plateau guidance into a fabricated single probability point.",
+      "HyTEC pooled dose-response review for stage I NSCLC. Its regrowth-fit alpha/beta near 24.8 Gy (T1) and ~19 Gy (T2) are model-specific fitted estimates, not universal NSCLC tissue parameters. The original fits are statistically imperfect; modeled isocenter doses were converted to nominal PTV-margin prescriptions using a generic 80% isodose and mixed source correction factors. Authors' approximately 43/47/50 Gy for 3/4/5fx are plateau-oriented regimen suggestions, not an individually validated TCP curve. HFC does not encode a continuous Lee TCP predictor or import alpha/beta as a general-purpose tissue coefficient.",
   },
   {
     id: "ohri-2012-nsclc-size-tcp",
