@@ -9,7 +9,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2020.10.039",
     kind: "other",
     notes:
-      "HyTEC programme overview and scope. Contextual evidence only; not a numerical clinical coefficient or a patient-specific prediction.",
+      "HyTEC programme overview and scope. The later joint Grimm/Mahadevan/Brown/Carlson/Brenner/Lo/Song/Cho 2021 letter (DOI 10.1016/j.ijrobp.2021.02.021; IJROBP pp253–254) states that LQ is reasonably experimentally and theoretically validated up to about 10 Gy/fraction; above ~10 Gy the optimal BED model is unresolved, not automatically invalid. HyTEC BED conversions use LQ mainly for local interpolation in regimes with compatible known clinical outcomes; between-study heterogeneity may exceed differences among BED models. Thus 10 Gy/fx is not a strict cutoff or reason for automatic model switching. Contextual evidence only; no general alpha/beta correction, clinical coefficient, guaranteed biological equivalence or patient-specific prediction is inferred.",
   },
   {
     id: "moiseenko-2021-hytec-modeling-primer",
@@ -31,7 +31,7 @@ export const sources = [
     pmid: "30836165",
     kind: "other",
     notes:
-      "Mechanistic discussion of indirect radiation response at high doses per fraction. Brown/Carlson 2021 DOI 10.1016/j.ijrobp.2020.06.075 challenged vascular-mediated indirect kill as the principal explanation for SBRT benefit; Song/Cho replied DOI 10.1016/j.ijrobp.2020.06.074 (on p252 of the uploaded Brown PDF). This is unresolved scientific mechanism discussion, NOT evidence for a universal correction to LQ or BED/EQD2.",
+      "Mechanistic discussion of indirect radiation response at high doses per fraction. Brown/Carlson 2021 DOI 10.1016/j.ijrobp.2020.06.075 challenged vascular-mediated indirect kill as the principal explanation for SBRT benefit; Song/Cho replied DOI 10.1016/j.ijrobp.2020.06.074 (on p252 of the uploaded Brown PDF). The final joint HyTEC letter (DOI 10.1016/j.ijrobp.2021.02.021, pp253–254) explicitly calls the best BED model >10 Gy/fraction an unresolved research question and discourages distant clinical extrapolation. This is unresolved scientific mechanism discussion, NOT evidence for a universal correction to LQ or BED/EQD2.",
   },
   {
     id: "marciscano-2021-hytec-immunomodulation",

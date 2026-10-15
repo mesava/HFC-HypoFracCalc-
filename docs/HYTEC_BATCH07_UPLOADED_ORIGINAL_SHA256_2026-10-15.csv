@@ -1,0 +1,3 @@
+file_name,format,pdf_pages,sha256,source_doi,journal_pages,unique_content_and_overlap,clinical_coefficients_added
+HyTEC_24_Song_2021_Letter_Reply_to_Brown_Carlson(1).pdf,PDF,2,da5a48a5833e6c21047ecfd9886fc111fcd091a4393400a447cd1ba32fcd1ef9,10.1016/j.ijrobp.2020.06.074,252-253,"p252 overlaps prior HyTEC_23 second page; p253 begins Grimm et al joint reply",0
+HyTEC_25_Grimm_2021_Letter_Reply_to_Song_and_Brown(1).pdf,PDF,2,97644a5e56a8e6168dbd60b62ba73fbf84aacfa1614cff2a4aaa915bf6d9c6fd,10.1016/j.ijrobp.2021.02.021,253-254,"p253 overlaps HyTEC_24 second page (text similarity 99.9638 percent); p254 continues and ends Grimm et al joint reply",0
