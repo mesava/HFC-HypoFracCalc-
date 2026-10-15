@@ -82,6 +82,12 @@ function volumeBasisLabel(
       return tx(language, "Головной мозг за вычетом мишени", "Brain excluding target");
     case "normal-liver-minus-gtv":
       return tx(language, "Нормальная печень за вычетом GTV", "Normal liver excluding GTV");
+    case "bilateral-lungs-minus-gtv-or-igtv":
+      return tx(
+        language,
+        "Оба лёгких суммарно, без GTV (или IGTV при 4D-КТ в свободном дыхании); не Lung−PTV",
+        "Both lungs combined, excluding GTV (or IGTV on free-breathing 4DCT); not lung-minus-PTV",
+      );
     default:
       return "—";
   }
