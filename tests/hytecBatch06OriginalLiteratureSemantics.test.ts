@@ -102,7 +102,8 @@ describe("Wang 2021: suggested prostate OAR objectives are not source NTCP curve
       expect(c.estimatedRisk).toBeUndefined();
       expect(c.applicability?.fractionCountRange).toEqual({min:4,max:5});
     }
-    expect(rows[0].metric).toEqual({kind:"custom",customLabel:"V(Rx dose)"});
+    expect(rows.find(x=>x.id==="hytec-prostate-sbrt-bladder-vrx-5to10cc")!.metric)
+      .toEqual({kind:"custom",customLabel:"V(Rx dose)"});
   });
   it("does not silently turn 68%-CI model fits or different endpoint definitions into HFC NTCP",()=>{
     const description=sources.find(s=>s.id==="wang-2021-hytec-prostate-toxicity")?.notes??"";
