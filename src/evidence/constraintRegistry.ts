@@ -13,6 +13,8 @@ export interface ConstraintQuery {
   fractions?: number;
   metricKind?: DoseMetric["kind"];
   priorRadiotherapy?: ClinicalConstraint["priorRadiotherapy"];
+  /** When comparing measured Vx, request the SAME source-defined contour. */
+  volumeBasis?: ClinicalConstraint["volumeBasis"];
 }
 
 export interface ResolvedClinicalConstraint {
@@ -47,6 +49,11 @@ export function queryClinicalConstraints(
     }
 
     if (!sameMetricKind(constraint, query.metricKind)) {
+      return false;
+    }
+
+    if (query.volumeBasis !== undefined &&
+      constraint.volumeBasis !== query.volumeBasis) {
       return false;
     }
 
@@ -107,6 +114,19 @@ export function resolveClinicalConstraint(
     throw new Error(
       `Constraint dataset error: ${constraint.id} uses ${constraint.metric.kind} without a positive xGy.`,
     );
+  }
+
+  if (constraint.volumeBasis !== undefined &&
+    constraint.metric.kind !== "Vx" &&
+    constraint.metric.kind !== "VleX") {
+    throw new Error(`Constraint dataset error: volumeBasis assigned to non-volume metric ${constraint.id}.`);
+  }
+
+  // HyTEC Milano Vx risks are explicitly target-inclusive; treating
+  // missing or brain-minus-target contours as equivalent would be unsafe.
+  if (constraint.sourceId === "milano-2021-hytec-brain" &&
+    constraint.volumeBasis !== "target-inclusive-tissue") {
+    throw new Error(`Constraint dataset error: Milano brain Vx contour provenance missing in ${constraint.id}.`);
   }
 
   if (
