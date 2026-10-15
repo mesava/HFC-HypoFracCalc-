@@ -266,17 +266,14 @@ export function evaluateReirradiationScenario(
     );
   }
 
+  const classification = classifyReirradiation(
+    context.geometricOverlap,
+    context.cumulativeDoseToxicityConcern,
+    context.sameOrganTargets,
+  );
   if (
-    classifyReirradiation(
-      context.geometricOverlap,
-      context.cumulativeDoseToxicityConcern,
-      context.sameOrganTargets,
-    ) === "repeat-irradiation" ||
-    classifyReirradiation(
-      context.geometricOverlap,
-      context.cumulativeDoseToxicityConcern,
-      context.sameOrganTargets,
-    ) === "repeat-organ-irradiation"
+    classification === "repeat-irradiation" ||
+    classification === "repeat-organ-irradiation"
   ) {
     warnings.push(
       "This scenario has neither geometric overlap nor a stated cumulative-dose toxicity concern and therefore does not meet the ESTRO-EORTC type I/type II reirradiation definition.",
@@ -295,11 +292,7 @@ export function evaluateReirradiationScenario(
   }
 
   return {
-    classification: classifyReirradiation(
-      context.geometricOverlap,
-      context.cumulativeDoseToxicityConcern,
-      context.sameOrganTargets,
-    ),
+    classification,
     strategy: context.strategy,
     metric: courses[0]!.metric,
     alphaBetaGy,
