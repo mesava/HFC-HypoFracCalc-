@@ -19,7 +19,7 @@ const parameter = (
  * clinical OutcomeModels or ClinicalConstraints. Source locators are PDF
  * pages counting from 1, supplements named where appropriate.
  */
-export const hytecOtherFitUncertaintyReviews = [
+export const hytecOtherFitUncertaintyReviews: HytecOtherFitUncertaintyReview[] = [
   {
     sourceId:"soltys-2021-hytec-vestibular-tcp",
     endpointId:"vestibular-schwannoma-tumour-control",
