@@ -46,6 +46,22 @@ export interface NumericalRange {
   high: number;
 }
 
+/**
+ * Two values printed as a "range" can instead be results from DIFFERENT
+ * models and dose-reporting contours. Never use either bound as if it were
+ * a confidence interval or a tolerance for the other contour.
+ */
+export interface DoseRangeModelEndpoint {
+  model: "sahgal-2013" | "katsoulakis-gibbs";
+  structure: "thecal-sac" | "true-spinal-cord";
+  derivation: "source-model-lq-rescaling" | "single-fraction-source-model" | "lq-extrapolation-from-1fx";
+}
+
+export interface DoseRangeModelProvenance {
+  low: DoseRangeModelEndpoint;
+  high: DoseRangeModelEndpoint;
+}
+
 /** Explicit anatomy/contour semantics for absolute Vx-style quantities. */
 export type DoseVolumeBasis =
   | "target-inclusive-tissue"
@@ -80,6 +96,8 @@ export interface ClinicalConstraint {
    */
   value?: number;
   valueRange?: NumericalRange;
+  /** Identifies source-model and contour for EACH endpoint of a mixed-model range. */
+  doseRangeModelProvenance?: DoseRangeModelProvenance;
   unit: "Gy" | "cc" | "%" | "probability";
 
   fractionation?: FractionationContext;
