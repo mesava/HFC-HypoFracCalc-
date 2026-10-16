@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   endpoints,
   hytecOutcomeModels,
+  hytecOtherFitUncertaintyReviews,
   hytecPublishedFitParameterReviews,
   sources,
 } from "../data/evidence/v0.1/index.js";
@@ -12,6 +13,7 @@ import type {
   OutcomeProbabilityPoint,
 } from "../domain/outcomeModels.js";
 import { HytecPublishedFitDetails } from "./HytecPublishedFitDetails.js";
+import { HytecOtherFitAuditDetails } from "./HytecOtherFitAuditDetails.js";
 import { tx } from "./i18n.js";
 import {
   endpointLabel,
@@ -516,6 +518,17 @@ export function OutcomeModelsView({
                     fits={hytecPublishedFitParameterReviews.filter(
                       fit => fit.sourceId === model.sourceId,
                     )}
+                  />
+                ) : null}
+
+                {hytecOtherFitUncertaintyReviews.some(
+                  audit => audit.sourceId === model.sourceId,
+                ) ? (
+                  <HytecOtherFitAuditDetails
+                    language={language}
+                    review={hytecOtherFitUncertaintyReviews.find(
+                      audit => audit.sourceId === model.sourceId,
+                    )!}
                   />
                 ) : null}
 

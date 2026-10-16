@@ -22,3 +22,4 @@ export { evidenceValidationInventory } from "./validationInventory.js";
 
 export { hytecOutcomeModels } from "./outcomeModelsHytec.js";
 export { hytecPublishedFitParameterReviews } from "./hytecPublishedFitParameters.js";
+export { hytecOtherFitUncertaintyReviews } from "./hytecOtherFitUncertainty.js";
