@@ -142,6 +142,31 @@ export function resolveClinicalConstraint(
     throw new Error(`Constraint dataset error: Kong Vx requires bilateral lung with GTV/IGTV subtraction in ${constraint.id}.`);
   }
 
+  // Sahgal Table 3 columns represent DIFFERENT models and contoured
+  // structures, not bounds of one validated tolerance or 95% CI.
+  const modelPair = constraint.doseRangeModelProvenance;
+  if (modelPair && (!constraint.valueRange || constraint.metric.kind !== "Dmax")) {
+    throw new Error(`Constraint dataset error: model dose endpoints require Dmax range in ${constraint.id}.`);
+  }
+  if (constraint.sourceId === "sahgal-2021-hytec-spinal-cord") {
+    const n = constraint.fractionation?.fractions;
+    if (
+      !modelPair ||
+      modelPair.low.model !== "sahgal-2013" ||
+      modelPair.low.structure !== "thecal-sac" ||
+      modelPair.high.model !== "katsoulakis-gibbs" ||
+      modelPair.high.structure !== "true-spinal-cord" ||
+      modelPair.low.derivation !== (n === 1
+        ? "single-fraction-source-model"
+        : "source-model-lq-rescaling") ||
+      modelPair.high.derivation !== (n === 1
+        ? "single-fraction-source-model"
+        : "lq-extrapolation-from-1fx")
+    ) {
+      throw new Error(`Constraint dataset error: Sahgal mixed-model/contour provenance is inconsistent in ${constraint.id}.`);
+    }
+  }
+
   if (
     constraint.metric.kind === "custom" &&
     (!constraint.metric.customLabel ||
