@@ -29,7 +29,9 @@ function fitDoseAxis(language:Language, r:HytecOtherFitUncertaintyReview, fit:Hy
     case "soltys-2021-hytec-spinal-mets-tcp":
       return fit.id==="spine-pooled-1to5"
         ?"Физическая доза в эквиваленте 3 фракций (LQ, α/β=6 Гр)"
-        :"Физическая предписанная доза, "+fit.id.split("-")[1];
+        :"Физическая предписанная доза, "+(
+          fit.id==="spine-1fx-only"?"1 фр.":fit.id==="spine-4fx-only"?"4 фр.":"5 фр."
+        );
     case "vargo-2021-hytec-hn-reirradiation-tcp":
       return "Физическая доза в эквиваленте 5 фракций, LQ α/β=10 Гр";
     case "ohri-2021-hytec-liver-local-control":
@@ -66,6 +68,10 @@ export function HytecOtherFitAuditDetails({
       {review.variants.map(variant=>(
         <section className="hytec-fit-variant" key={variant.id}>
           <strong>{language==="ru"?variant.labelRu:variant.labelEn}</strong>
+          {variant.sampleCount !== undefined ? (
+            <p>{tx(language,"Объём исходной выборки","Source cohort size")}: {"n = "}
+              {formatUiNumber(language,variant.sampleCount,0)}</p>
+          ) : null}
           <p>{fitDoseAxis(language,review,variant)}</p>
           <p>{language==="ru"?variant.noteRu:variant.noteEn}</p>
           <div className="hytec-fit-table-scroll">
