@@ -24,11 +24,13 @@ function parameterLabel(
   language: Language,
   value: number,
   ci: {low: number; high: number},
+  valueDigits: number,
+  ciDigits: number,
 ): string {
   return (
-    printedNumber(language, value) + " (" +
-    printedNumber(language, ci.low) + "–" +
-    printedNumber(language, ci.high) + ")"
+    formatUiNumber(language, value, valueDigits) + " (" +
+    formatUiNumber(language, ci.low, ciDigits) + "–" +
+    formatUiNumber(language, ci.high, ciDigits) + ")"
   );
 }
 
@@ -83,8 +85,15 @@ export function HytecPublishedFitDetails({
                 <td>{sampleLabel(language, f)}</td>
                 <td>{f.sourceObservations === undefined
                   ? "—" : printedNumber(language, f.sourceObservations)}</td>
-                <td>{parameterLabel(language, f.midpoint.value, f.midpoint.ci95)}</td>
-                <td>{parameterLabel(language, f.slopeGamma50.value, f.slopeGamma50.ci95)}</td>
+                <td>{parameterLabel(
+                  language, f.midpoint.value, f.midpoint.ci95,
+                  f.midpointName === "TD50" ? 2 : 1,
+                  f.midpointName === "TD50" ? 2 : 1,
+                )}</td>
+                <td>{parameterLabel(
+                  language, f.slopeGamma50.value, f.slopeGamma50.ci95,
+                  f.modelFamily === "log-logistic-sfed" ? 4 : 2, 2,
+                )}</td>
                 <td>{pValueLabel(language, f)}</td>
               </tr>
             ))}
