@@ -86,6 +86,16 @@ export interface OutcomeModel {
   priorRadiotherapy?: "none" | "yes" | "mixed" | "not-reported";
   population?: string;
   applicability?: ApplicabilityDomain;
+  /**
+   * How the original article defines its source dose. PTV-margin prescription
+   * is NOT interchangeable with GTV mean, isocentre or PTV D95 dose.
+   */
+  sourcePrescriptionBasis?: "ptv-margin-prescription";
+  /**
+   * Study-level LQ transform used to pool regimens across fractions.
+   * Does NOT select a general-purpose clinical alpha/beta for this tissue.
+   */
+  sourceFractionEquivalent?: { fractions: 1; alphaBetaGy: number; symbol: "SFED" };
   points: OutcomeProbabilityPoint[];
   notes?: string[];
 }
