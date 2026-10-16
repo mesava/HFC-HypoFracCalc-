@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   endpoints,
   hytecOutcomeModels,
+  hytecPublishedFitParameterReviews,
   sources,
 } from "../data/evidence/v0.1/index.js";
 import type {
@@ -10,6 +11,7 @@ import type {
   OutcomeProbabilityKind,
   OutcomeProbabilityPoint,
 } from "../domain/outcomeModels.js";
+import { HytecPublishedFitDetails } from "./HytecPublishedFitDetails.js";
 import { tx } from "./i18n.js";
 import {
   endpointLabel,
@@ -506,6 +508,15 @@ export function OutcomeModelsView({
                       "HyTEC Redmond 2021: values represent 1-year per-metastasis local control, not patient-wide disease control. The model uses single-fraction equivalent dose at α/β = 20 Gy (SFED20) based on marginal target prescription, stratified by lesion size. For 21–30 mm lesions in the pooled 1–5-fraction fit: TD50 = 12.44 Gy SFED20 (95% CI 5.67–14.63), γ50 = 0.7617 (95% CI 0.26–1.27); median-split Fisher p = 0.188. This is not a validated individual TCP model. Do not swap 1-year with 2-year outcomes or use unconverted total physical dose in place of SFED20. Source dose is prescribed at the PTV/target margin, not GTV Dmax, isocentre dose or TPS D95. Prior or concurrent WBRT and different prescription isodoses are not modeled. The alpha/beta = 20 Gy is a study-specific assumption, not a universal tumour parameter.",
                     )}
                   </p>
+                ) : null}
+
+                {model.sourceId === "redmond-2021-hytec-brain-mets-tcp" ? (
+                  <HytecPublishedFitDetails
+                    language={language}
+                    fits={hytecPublishedFitParameterReviews.filter(
+                      fit => fit.sourceId === model.sourceId,
+                    )}
+                  />
                 ) : null}
 
                 {model.id === "hytec-spinal-mets-2y-tcp" ? (
