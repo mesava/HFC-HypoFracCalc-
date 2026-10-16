@@ -120,7 +120,7 @@ export const hytecOtherFitUncertaintyReviews = [
   },
   {
     sourceId:"grimm-2021-hytec-major-vessels",
-    endpointId:"carotid-major-vessel-bleeding",
+    endpointId:"major-vessel-grade3plus-bleeding",
     sourceDoi:"10.1016/j.ijrobp.2020.12.037",
     variants:[
       {id:"grimm-carotid-pooled-dmax-5fx",labelRu:"Объединённая модель кровотечения G3–5, Dmax",labelEn:"Pooled grade 3–5 bleeding, Dmax",followUp:"not-harmonised",doseAxis:"current SBRT major-vessel Dmax; 5-fraction-equivalent physical Gy",sampleCount:238,sourceLocator:"Main PDF p5 Figure 2, p7 section 6, p8 Table 2 pooled row",modelFamily:"logistic",modelParameters:[
