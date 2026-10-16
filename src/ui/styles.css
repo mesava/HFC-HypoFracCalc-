@@ -2638,6 +2638,43 @@ button.module-card:hover {
   background: #f7f9fa;
 }
 
+.hytec-other-fit-review {
+  margin: 12px 0;
+  border: 1px solid #dce6e8;
+  border-radius: 9px;
+  background: #f9fbfb;
+  padding: 11px 13px;
+  font-size: 0.73rem;
+  color: #4c6167;
+}
+
+.hytec-other-fit-review > summary {
+  cursor: pointer;
+  font-weight: 750;
+  color: #315e64;
+}
+
+.hytec-other-fit-review p {
+  margin: 9px 0;
+  line-height: 1.5;
+}
+
+.hytec-fit-variant {
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid #dce6e8;
+}
+
+.hytec-fit-variant > strong {
+  color: #284f55;
+}
+
+.hytec-fit-variant small {
+  display: block;
+  color: #6b7b81;
+  margin-top: 7px;
+}
+
 .hytec-published-fit-review {
   margin: 12px 0;
   padding: 11px 13px;
