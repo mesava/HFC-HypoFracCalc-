@@ -134,6 +134,33 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
       (r.primary_numeric_check_depth ?? "").includes("PubMed_primary_author_abstract"))).toBe(true);
   });
 
+  it("does not hide three qualitative T-half bounds or nine source OAR value ranges",()=>{
+    for(const id of [
+      "t12-oral-mucositis-bcr2025",
+      "t12-spinal-cord-myelopathy-bcr2025",
+      "t12-temporal-lobe-necrosis-bcr2025",
+    ]){
+      const row=rows.find(r=>r.record_id===id)!;
+      expect(row.parameter_value_or_metric).toContain("h");
+      expect(row.parameter_value_or_metric).not.toContain("=range h");
+    }
+    expect(rows.find(r=>r.record_id==="t12-oral-mucositis-bcr2025")!
+      .parameter_value_or_metric).toContain("2-4 h");
+    const constraints=rows.filter(r=>r.family==="clinical-constraint");
+    expect(constraints).toHaveLength(29);
+    expect(constraints.every(r=>r.parameter_value_or_metric!==
+      "metric=Dmax; value=range Gy")).toBe(true);
+    expect(constraints.every(r=>!r.parameter_value_or_metric?.includes("value=range")))
+      .toBe(true);
+    const sahgal=constraints.filter(r=>r.source_id==="sahgal-2021-hytec-spinal-cord");
+    expect(sahgal).toHaveLength(5);
+    expect(sahgal.every(r=>r.parameter_value_or_metric!.includes(
+      "low=Sahgal thecal sac; high=Katsoulakis-Gibbs true spinal cord")))
+      .toBe(true);
+    expect(rows.find(x=>x.family==="reirradiation-guidance")
+      ?.parameter_value_or_metric).toContain("cumulative EQD2_2 <=70 Gy");
+  });
+
   it("keeps all repopulation values explicitly non-default, with source dose-basis uncertainty and Hinata blocked",()=>{
     expect(repopulationRateEstimates).toHaveLength(14);
     expect(repopulationRateEstimates.every(x=>x.defaultEligible===false)).toBe(true);
