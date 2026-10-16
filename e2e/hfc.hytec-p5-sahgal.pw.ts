@@ -14,7 +14,7 @@ test("Sahgal de novo spine model pairs never appear as interchangeable cord dose
   await expect(single).toContainText("Sahgal (дуральный мешок)");
   await expect(single).toContainText("Katsoulakis–Gibbs (собственно спинной мозг)");
   await expect(single).toContainText("12,4 Гр");
-  await expect(single).toContainText("14 Гр");
+  await expect(single).toContainText("14,0 Гр");
   await expect(single).toContainText("не доверительный интервал");
   await expect(single).toContainText("однофракционная клиническая модель");
 
