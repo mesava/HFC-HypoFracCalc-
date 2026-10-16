@@ -228,6 +228,18 @@ export const hytecClinicalConstraints = [
     metric: { kind: "Dmax" },
     relation: "≈",
     valueRange: { low: 12.4, high: 14.0 },
+    doseRangeModelProvenance: {
+      low: {
+        model: "sahgal-2013",
+        structure: "thecal-sac",
+        derivation: "single-fraction-source-model",
+      },
+      high: {
+        model: "katsoulakis-gibbs",
+        structure: "true-spinal-cord",
+        derivation: "single-fraction-source-model",
+      },
+    },
     unit: "Gy",
     fractionation: { fractions: 1 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -249,6 +261,18 @@ export const hytecClinicalConstraints = [
     metric: { kind: "Dmax" },
     relation: "≈",
     valueRange: { low: 17.0, high: 19.3 },
+    doseRangeModelProvenance: {
+      low: {
+        model: "sahgal-2013",
+        structure: "thecal-sac",
+        derivation: "source-model-lq-rescaling",
+      },
+      high: {
+        model: "katsoulakis-gibbs",
+        structure: "true-spinal-cord",
+        derivation: "lq-extrapolation-from-1fx",
+      },
+    },
     unit: "Gy",
     fractionation: { fractions: 2 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -269,6 +293,18 @@ export const hytecClinicalConstraints = [
     metric: { kind: "Dmax" },
     relation: "≈",
     valueRange: { low: 20.3, high: 23.1 },
+    doseRangeModelProvenance: {
+      low: {
+        model: "sahgal-2013",
+        structure: "thecal-sac",
+        derivation: "source-model-lq-rescaling",
+      },
+      high: {
+        model: "katsoulakis-gibbs",
+        structure: "true-spinal-cord",
+        derivation: "lq-extrapolation-from-1fx",
+      },
+    },
     unit: "Gy",
     fractionation: { fractions: 3 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -289,6 +325,18 @@ export const hytecClinicalConstraints = [
     metric: { kind: "Dmax" },
     relation: "≈",
     valueRange: { low: 23.0, high: 26.2 },
+    doseRangeModelProvenance: {
+      low: {
+        model: "sahgal-2013",
+        structure: "thecal-sac",
+        derivation: "source-model-lq-rescaling",
+      },
+      high: {
+        model: "katsoulakis-gibbs",
+        structure: "true-spinal-cord",
+        derivation: "lq-extrapolation-from-1fx",
+      },
+    },
     unit: "Gy",
     fractionation: { fractions: 4 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
@@ -309,6 +357,18 @@ export const hytecClinicalConstraints = [
     metric: { kind: "Dmax" },
     relation: "≈",
     valueRange: { low: 25.3, high: 28.8 },
+    doseRangeModelProvenance: {
+      low: {
+        model: "sahgal-2013",
+        structure: "thecal-sac",
+        derivation: "source-model-lq-rescaling",
+      },
+      high: {
+        model: "katsoulakis-gibbs",
+        structure: "true-spinal-cord",
+        derivation: "lq-extrapolation-from-1fx",
+      },
+    },
     unit: "Gy",
     fractionation: { fractions: 5 },
     estimatedRiskRange: { low: 0.01, high: 0.05 },
