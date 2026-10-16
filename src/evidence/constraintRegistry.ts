@@ -128,6 +128,19 @@ export function resolveClinicalConstraint(
     constraint.volumeBasis !== "target-inclusive-tissue") {
     throw new Error(`Constraint dataset error: Milano brain Vx contour provenance missing in ${constraint.id}.`);
   }
+  // The 1-fx symptomatic V12 summary harmonises some published
+  // brain-minus-target measurements to tissue-inclusive V12 using study-level
+  // median tumour volume. It is not a contour actually measured for each case.
+  if (constraint.sourceId === "milano-2021-hytec-brain" &&
+    constraint.metric.kind === "Vx" &&
+    constraint.metric.xGy === 12 &&
+    constraint.volumeBasisDerivation !== "mixed-reported-and-estimated") {
+    throw new Error(`Constraint dataset error: Milano V12 source harmonization provenance missing in ${constraint.id}.`);
+  }
+  if (constraint.volumeBasisDerivation && constraint.volumeBasis !== "target-inclusive-tissue") {
+    throw new Error(`Constraint dataset error: reconstructed target-inclusive Vx cannot use another contour in ${constraint.id}.`);
+  }
+
 
   // A named Vx threshold without a source-compatible organ contour is
   // not a comparable OAR measurement, even when its numeric value matches.
