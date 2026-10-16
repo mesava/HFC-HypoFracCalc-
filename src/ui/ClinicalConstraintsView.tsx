@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   endpoints,
   hytecClinicalConstraints,
+  hytecOtherFitUncertaintyReviews,
   hytecPublishedFitParameterReviews,
   sources,
 } from "../data/evidence/v0.1/index.js";
@@ -11,6 +12,7 @@ import type {
   DoseMetric,
 } from "../domain/constraints.js";
 import { HytecPublishedFitDetails } from "./HytecPublishedFitDetails.js";
+import { HytecOtherFitAuditDetails } from "./HytecOtherFitAuditDetails.js";
 import { tx } from "./i18n.js";
 import {
   endpointLabel,
@@ -471,6 +473,18 @@ export function ClinicalConstraintsView({
               fit.sourceId === "milano-2021-hytec-brain" &&
               fit.endpointId === endpointId,
             )}
+          />
+        ) : null}
+
+        {hytecOtherFitUncertaintyReviews.some(
+          audit => audit.sourceId === "grimm-2021-hytec-major-vessels" &&
+                   audit.endpointId === endpointId,
+        ) ? (
+          <HytecOtherFitAuditDetails
+            language={language}
+            review={hytecOtherFitUncertaintyReviews.find(
+              audit => audit.sourceId === "grimm-2021-hytec-major-vessels",
+            )!}
           />
         ) : null}
 
