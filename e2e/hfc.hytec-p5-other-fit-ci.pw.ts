@@ -34,7 +34,7 @@ test.describe("HyTEC P5 remaining source fits — uncertainty context",()=>{
     await details.locator("summary").click();
     await expect(details.locator(".hytec-fit-variant")).toHaveCount(3);
     await expect(details).toContainText("верхняя граница не ограничена");
-    await expect(details).toContainText("−0,09");
+    await expect(details).toContainText(/[-−]0,09/);
   });
 
   test("Ohri original bootstrap 2yr intervals never replace 3yr LC strata",async({page})=>{
