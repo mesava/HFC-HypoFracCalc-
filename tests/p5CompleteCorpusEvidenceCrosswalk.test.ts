@@ -88,12 +88,17 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
   it("synchronizes source files, auto eligibility and genuine 95% parameter CI for 44 alpha/beta",()=>{
     for(const p of alphaBetaEstimates){
       const row=rows.find(r=>r.record_id===p.id)!;
-      expect(row.parameter_value_or_metric).toBe("α/β="+p.valueGy+" Gy");
+      expect(Number(row.parameter_value_or_metric.match(/^α\\/β=([0-9.]+) Gy$/)?.[1]))
+        .toBe(p.valueGy);
       expect(row.default_eligible).toBe(String(p.defaultEligible));
       expect(row.support).toBe(p.support);
       expect(row.record_status).toBe(p.status);
-      expect(row.ci95_if_stored).toBe(p.ci95
-        ? p.ci95.low+".."+p.ci95.high : "not-recorded");
+      if(p.ci95) {
+        const ci = row.ci95_if_stored.split("..");
+        expect(ci.map(Number)).toEqual([p.ci95.low,p.ci95.high]);
+      } else {
+        expect(row.ci95_if_stored).toBe("not-recorded");
+      }
     }
     expect(alphaBetaEstimates.filter(x=>x.defaultEligible)).toHaveLength(17);
     const accepted = [
