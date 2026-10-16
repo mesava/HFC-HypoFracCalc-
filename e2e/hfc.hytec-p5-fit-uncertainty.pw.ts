@@ -11,7 +11,7 @@ test.describe("P5 Redmond/Milano uncertainty: parameter CI are not clinical risk
     await details.locator("summary").click();
     await expect(details.locator("tbody tr")).toHaveCount(3);
     await expect(details).toContainText("11,21");
-    await expect(details).toContainText("10,43–11,9");
+    await expect(details).toContainText("10,43–11,90");
     await expect(details).toContainText("12,44");
     await expect(details).toContainText("5,67–14,63");
     await expect(details).toContainText("0,188");
