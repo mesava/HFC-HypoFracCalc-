@@ -488,17 +488,6 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
-                {model.sourcePrescriptionBasis === "ptv-margin-prescription" &&
-                model.sourceFractionEquivalent ? (
-                  <p className="outcome-source-discrepancy">
-                    {tx(
-                      language,
-                      "HyTEC Redmond: дозовая основа исходной модели — предписанная доза на границе PTV/мишени, не Dmax в GTV, не изоцентрическая доза и не D95. Для объединения режимов авторы использовали SFED₂₀: эквивалент одной фракции по LQ при α/β = 20 Гр. Этот α/β относится только к модели исследования и не является общим коэффициентом радиочувствительности метастазов. Четыре показанные точки — локальный контроль отдельного очага через 1 год; модели 2-летнего контроля, общую выживаемость и влияние предыдущей WBRT нельзя автоматически подменять этими значениями.",
-                      "HyTEC Redmond: the source model uses prescribed PTV/target-margin dose, not GTV maximum, isocentre dose or D95. Regimens were combined using SFED20, the LQ single-fraction equivalent at alpha/beta = 20 Gy. This alpha/beta is a study-specific model assumption, not a universal brain-metastasis radiosensitivity parameter. The four listed points are 1-year local control per lesion; the separate 2-year LC models, overall survival and the effects of prior WBRT cannot be substituted automatically.",
-                    )}
-                  </p>
-                ) : null}
-
                 {model.id === "nsclc-stage-i-size-adjusted-2y-tcp" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
@@ -509,12 +498,12 @@ export function OutcomeModelsView({
                   </p>
                 ) : null}
 
-                {model.id === "hytec-brain-mets-1y-local-control" ? (
+                {model.sourcePrescriptionBasis === "ptv-margin-prescription" && model.sourceFractionEquivalent ? (
                   <p className="outcome-source-discrepancy" role="note">
                     {tx(
                       language,
-                      "HyTEC Redmond 2021: значения описывают локальный контроль через 1 год по отдельным метастазам, а не вероятность контроля заболевания у пациента. Модель использует эквивалент однократной дозы по α/β = 20 Гр (SFED₂₀), рассчитанный от предписанной дозы на границу мишени, и учитывает размер очага. Для очагов 21–30 мм в объединённой модели 1–5 фракций: TD₅₀ = 12,44 Гр SFED₂₀ (95% ДИ 5,67–14,63), γ₅₀ = 0,7617 (95% ДИ 0,26–1,27), p = 0,188 по проверке Фишера с разделением выборки по медиане. Это не подтверждённая индивидуальная модель TCP. Не подменяйте однолетний исход двухлетним и не используйте обычную физическую сумму доз вместо SFED₂₀.",
-                      "HyTEC Redmond 2021: values represent 1-year per-metastasis local control, not patient-wide disease control. The model uses single-fraction equivalent dose at α/β = 20 Gy (SFED20) based on marginal target prescription, stratified by lesion size. For 21–30 mm lesions in the pooled 1–5-fraction fit: TD50 = 12.44 Gy SFED20 (95% CI 5.67–14.63), γ50 = 0.7617 (95% CI 0.26–1.27); median-split Fisher p = 0.188. This is not a validated individual TCP model. Do not swap 1-year with 2-year outcomes or use unconverted total physical dose in place of SFED20.",
+                      "HyTEC Redmond 2021: значения описывают локальный контроль через 1 год по отдельным метастазам, а не вероятность контроля заболевания у пациента. Модель использует эквивалент однократной дозы по α/β = 20 Гр (SFED₂₀), рассчитанный от предписанной дозы на границу мишени, и учитывает размер очага. Для очагов 21–30 мм в объединённой модели 1–5 фракций: TD₅₀ = 12,44 Гр SFED₂₀ (95% ДИ 5,67–14,63), γ₅₀ = 0,7617 (95% ДИ 0,26–1,27), p = 0,188 по проверке Фишера с разделением выборки по медиане. Это не подтверждённая индивидуальная модель TCP. Не подменяйте однолетний исход двухлетним и не используйте обычную физическую сумму доз вместо SFED₂₀. Исходная доза — назначение на границе PTV/мишени, а не Dmax GTV, доза изоцентра или TPS D95. Предшествующая или сопутствующая WBRT и отличия изодоз назначения в этой модели не учтены; α/β = 20 Гр — модельное допущение, а не универсальный опухолевый коэффициент.",
+                      "HyTEC Redmond 2021: values represent 1-year per-metastasis local control, not patient-wide disease control. The model uses single-fraction equivalent dose at α/β = 20 Gy (SFED20) based on marginal target prescription, stratified by lesion size. For 21–30 mm lesions in the pooled 1–5-fraction fit: TD50 = 12.44 Gy SFED20 (95% CI 5.67–14.63), γ50 = 0.7617 (95% CI 0.26–1.27); median-split Fisher p = 0.188. This is not a validated individual TCP model. Do not swap 1-year with 2-year outcomes or use unconverted total physical dose in place of SFED20. Source dose is prescribed at the PTV/target margin, not GTV Dmax, isocentre dose or TPS D95. Prior or concurrent WBRT and different prescription isodoses are not modeled. The alpha/beta = 20 Gy is a study-specific assumption, not a universal tumour parameter.",
                     )}
                   </p>
                 ) : null}
