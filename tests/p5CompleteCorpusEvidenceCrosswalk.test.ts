@@ -81,20 +81,20 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
         "outcome-model":9,
         "reirradiation-guidance":1,
       });
-    expect(rows.every(x=>x.original_phase_review_label.trim()!=="")).toBe(true);
+    expect(rows.every(x=>(x.original_phase_review_label ?? "").trim()!=="")).toBe(true);
     expect(evidenceManifest.releaseStatus).toBe("draft");
   });
 
   it("synchronizes source files, auto eligibility and genuine 95% parameter CI for 44 alpha/beta",()=>{
     for(const p of alphaBetaEstimates){
       const row=rows.find(r=>r.record_id===p.id)!;
-      expect(Number(row.parameter_value_or_metric.replace("α/β=", "").replace(" Gy", "")))
+      expect(Number((row.parameter_value_or_metric ?? "").replace("α/β=", "").replace(" Gy", "")))
         .toBe(p.valueGy);
       expect(row.default_eligible).toBe(String(p.defaultEligible));
       expect(row.support).toBe(p.support);
       expect(row.record_status).toBe(p.status);
       if(p.ci95) {
-        const ci = row.ci95_if_stored.split("..");
+        const ci = (row.ci95_if_stored ?? "").split("..");
         expect(ci.map(Number)).toEqual([p.ci95.low,p.ci95.high]);
       } else {
         expect(row.ci95_if_stored).toBe("not-recorded");
@@ -131,7 +131,7 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
     expect(chart).toHaveLength(3);
     expect(chart.every(r=>
       r.initial_69_user_file_present==="false" &&
-      r.primary_numeric_check_depth.includes("PubMed_primary_author_abstract"))).toBe(true);
+      (r.primary_numeric_check_depth ?? "").includes("PubMed_primary_author_abstract"))).toBe(true);
   });
 
   it("keeps all repopulation values explicitly non-default, with source dose-basis uncertainty and Hinata blocked",()=>{
@@ -157,7 +157,7 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
     expect(hytecClinicalConstraints).toHaveLength(29);
     expect(hytecOutcomeModels).toHaveLength(9);
     expect(reirradiationGuidanceSets).toHaveLength(1);
-    const hytec=rows.filter(x=>["clinical-constraint","outcome-model","reirradiation-guidance"].includes(x.family));
+    const hytec=rows.filter(x=>["clinical-constraint","outcome-model","reirradiation-guidance"].includes(x.family ?? ""));
     expect(hytec).toHaveLength(39);
     expect(hytec.every(r=>r.hytec_p2_number_of_point_or_rule_rows!=="")).toBe(true);
     // 34 HyTEC clinical outcome points + 6 non-HyTEC Ohri 2012 points
