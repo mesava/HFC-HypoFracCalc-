@@ -17,6 +17,8 @@ const poisson=(eqd2:number,d50:number,gamma:number)=>
   2**(-Math.exp(Math.E*gamma*(1-eqd2/d50)));
 const logistic=(d:number,d50:number,g50:number)=>
   1/(1+Math.exp(-4*g50*(d/d50-1)));
+const stumpfPoisson=(eqd2:number,d50:number,gamma:number)=>
+  2**(-Math.exp((2*gamma/Math.log(2))*(1-eqd2/d50)));
 
 describe("P5 remaining HyTEC model fit CI audit, originals 08,09,11,12,15,17,18,19",()=>{
   it("records exactly eight unique primary sources and 16 distinct source-only variants",()=>{
@@ -89,7 +91,7 @@ describe("P5 remaining HyTEC model fit CI audit, originals 08,09,11,12,15,17,18,
   it("Stumpf source LC and OS have different dose-response parameters",()=>{
     expect(param("stumpf-1y-lc","D50")).toEqual({name:"D50",value:34.6,ci95:{low:27.1,high:45.4}});
     expect(param("stumpf-1y-os-not-lc","D50")).toEqual({name:"D50",value:44.7,ci95:{low:33.5,high:60.6}});
-    expect(poisson(97,34.6,.4996)).toBeCloseTo(.949809,5);
+    expect(stumpfPoisson(97,34.6,.4996)).toBeCloseTo(.949809,5);
     expect(variant("stumpf-1y-os-not-lc").noteRu).toContain("не источник клинической вероятности LC");
   });
 
