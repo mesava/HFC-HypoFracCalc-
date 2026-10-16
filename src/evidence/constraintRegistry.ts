@@ -137,8 +137,12 @@ export function resolveClinicalConstraint(
     constraint.volumeBasisDerivation !== "mixed-reported-and-estimated") {
     throw new Error(`Constraint dataset error: Milano V12 source harmonization provenance missing in ${constraint.id}.`);
   }
-  if (constraint.volumeBasisDerivation && constraint.volumeBasis !== "target-inclusive-tissue") {
-    throw new Error(`Constraint dataset error: reconstructed target-inclusive Vx cannot use another contour in ${constraint.id}.`);
+  // Validate as the extensible domain interface, not the compiler's
+  // currently closed literal union inferred from the source data array.
+  const provenanceConstraint = constraint as ClinicalConstraint;
+  if (provenanceConstraint.volumeBasisDerivation &&
+    provenanceConstraint.volumeBasis !== "target-inclusive-tissue") {
+    throw new Error(`Constraint dataset error: reconstructed target-inclusive Vx cannot use another contour in ${provenanceConstraint.id}.`);
   }
 
 
