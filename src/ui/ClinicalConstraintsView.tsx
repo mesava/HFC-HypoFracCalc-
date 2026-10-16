@@ -580,6 +580,20 @@ export function ClinicalConstraintsView({
                       </div>
                     </>
                   ) : null}
+                  {constraint.volumeBasisDerivation === "mixed-reported-and-estimated" ? (
+                    <div>
+                      <dt>
+                        {tx(language, "Происхождение объёма V12", "V12 volume provenance")}
+                      </dt>
+                      <dd>
+                        {tx(
+                          language,
+                          "Объединение исследований: часть Brain−GTV пересчитана в объём с мишенью прибавлением оценённого медианного GTV; не прямое измерение такого контура для каждой мишени",
+                          "Pooled studies: some brain-minus-target V12 values were harmonized by adding estimated median GTV; not a direct target-inclusive contour measurement for every lesion",
+                        )}
+                      </dd>
+                    </div>
+                  ) : null}
                   {constraint.volumeBasis ? (
                     <div>
                       <dt>
@@ -685,8 +699,8 @@ export function ClinicalConstraintsView({
                   <p className="constraint-evidence-note">
                     {tx(
                       language,
-                      "Обратите внимание: для оценки V12/V20/V24 нужен объём ткани, включая мишень. Объём Brain−GTV/PTV не эквивалентен. Частоты любого некроза, симптоматического некроза и некроза с резекцией относятся к разным исходам; оценки HyTEC описательные и не являются индивидуальными предсказаниями NTCP.",
-                      "Important: V12/V20/V24 here uses tissue volume including the target; Brain minus GTV/PTV is not interchangeable. Any necrosis, symptomatic necrosis and necrosis requiring resection are distinct endpoints. These descriptive HyTEC associations are not individualized NTCP predictions.",
+                      "Для оценки V12/V20/V24 нужен объём ткани, включая мишень. Brain−GTV/PTV не эквивалентен; для некоторых исходных V12 авторы восстанавливали объём с мишенью по приблизительному медианному GTV исследования. Любой некроз/отёк, симптоматический некроз и некроз с резекцией — разные исходы. Таблица 3 содержит существенно различающиеся модельные кривые: риск Korytko не заменяет риск других объединённых исследований. Эти оценки не являются индивидуальным NTCP.",
+                      "V12/V20/V24 uses tissue volume including the target; brain-minus-GTV/PTV is not equivalent. For some reported brain V12 studies the authors reconstructed target-inclusive V12 with an estimated cohort median GTV. Any necrosis/edema, symptomatic necrosis and surgically confirmed necrosis are distinct endpoints. Table 3 contains substantially differing fitted curves: the Korytko model must not replace the other pooled studies. These estimates are not individual NTCP.",
                     )}
                   </p>
                 ) : null}
