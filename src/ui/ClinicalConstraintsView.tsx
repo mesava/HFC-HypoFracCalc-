@@ -117,10 +117,11 @@ function constraintValue(
   if (constraint.valueRange && constraint.doseRangeModelProvenance) {
     const { low, high } = constraint.valueRange;
     return (
-      "Sahgal (thecal sac) " + formatUiNumber(language, low, 1) + " " +
+      tx(language, "Sahgal (дуральный мешок)", "Sahgal (thecal sac)") +
+      " " + formatUiNumber(language, low, 1) + " " +
       unitLabel(language, constraint.unit) + " | " +
-      "Katsoulakis–Gibbs (true spinal cord) " +
-      formatUiNumber(language, high, 1) + " " +
+      tx(language, "Katsoulakis–Gibbs (собственно спинной мозг)", "Katsoulakis–Gibbs (true spinal cord)") +
+      " " + formatUiNumber(language, high, 1) + " " +
       unitLabel(language, constraint.unit)
     );
   }
@@ -543,7 +544,7 @@ export function ClinicalConstraintsView({
                     <>
                       <div>
                         <dt>
-                          {tx(language, "Sahgal — оболочка спинного мозга", "Sahgal — thecal sac")}
+                          {tx(language, "Sahgal — дуральный мешок (thecal sac)", "Sahgal — thecal sac")}
                         </dt>
                         <dd>
                           Dmax {formatUiNumber(language, constraint.valueRange.low, 1)}{" "}
