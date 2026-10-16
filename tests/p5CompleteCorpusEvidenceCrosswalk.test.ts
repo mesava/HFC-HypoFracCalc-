@@ -88,7 +88,7 @@ describe("P5: 103 live records and all 61 bibliography sources, strict scientifi
   it("synchronizes source files, auto eligibility and genuine 95% parameter CI for 44 alpha/beta",()=>{
     for(const p of alphaBetaEstimates){
       const row=rows.find(r=>r.record_id===p.id)!;
-      expect(Number(row.parameter_value_or_metric.match(/^α\\/β=([0-9.]+) Gy$/)?.[1]))
+      expect(Number(row.parameter_value_or_metric.replace("α/β=", "").replace(" Gy", "")))
         .toBe(p.valueGy);
       expect(row.default_eligible).toBe(String(p.defaultEligible));
       expect(row.support).toBe(p.support);
