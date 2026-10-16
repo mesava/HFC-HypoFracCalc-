@@ -88,6 +88,12 @@ export interface ClinicalConstraint {
    * Optional until a primary source has explicitly specified the contour.
    */
   volumeBasis?: DoseVolumeBasis;
+  /**
+   * Source-derived summary may have harmonised original brain-minus-target Vx
+   * to tissue-inclusive Vx by adding an estimated median tumour volume.
+   * It is not a directly measured patient-specific contour.
+   */
+  volumeBasisDerivation?: "mixed-reported-and-estimated";
   relation: ConstraintRelation;
 
   /**
