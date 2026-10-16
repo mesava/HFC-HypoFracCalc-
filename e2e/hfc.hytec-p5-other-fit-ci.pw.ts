@@ -15,7 +15,7 @@ test.describe("HyTEC P5 remaining source fits — uncertainty context",()=>{
     await expect(details).toContainText("2,97");
     await expect(details).toContainText("9 – 19,3");
     await expect(details).toContainText("1,72 – 4,27");
-    await expect(details).toContainText("не образуют валидированный прогноз");
+    await expect(details).toContainText("НЕ образуют валидированный прогноз");
   });
 
   test("spinal metastasis E1 and Vargo genuinely unbounded upper CI stay distinct",async({page})=>{
