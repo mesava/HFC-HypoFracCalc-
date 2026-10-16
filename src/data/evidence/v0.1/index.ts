@@ -21,3 +21,4 @@ export { reirradiationGuidanceSets } from "./reirradiationGuidance.js";
 export { evidenceValidationInventory } from "./validationInventory.js";
 
 export { hytecOutcomeModels } from "./outcomeModelsHytec.js";
+export { hytecPublishedFitParameterReviews } from "./hytecPublishedFitParameters.js";

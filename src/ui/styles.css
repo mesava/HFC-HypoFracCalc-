@@ -2638,6 +2638,60 @@ button.module-card:hover {
   background: #f7f9fa;
 }
 
+.hytec-published-fit-review {
+  margin: 12px 0;
+  padding: 11px 13px;
+  border: 1px solid #dce6e8;
+  border-radius: 9px;
+  background: #f9fbfb;
+  color: #4c6167;
+  font-size: 0.73rem;
+}
+
+.hytec-published-fit-review summary {
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 750;
+  color: #315e64;
+}
+
+.hytec-published-fit-review p {
+  margin: 10px 0 0;
+  line-height: 1.5;
+}
+
+.hytec-fit-table-scroll {
+  overflow-x: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #dce6e8;
+}
+
+.hytec-fit-table {
+  min-width: 670px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.70rem;
+  background: #fff;
+}
+
+.hytec-fit-table th,
+.hytec-fit-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #e3e9eb;
+}
+
+.hytec-fit-table th {
+  background: #f1f6f7;
+  color: #456068;
+  font-weight: 750;
+}
+
+.hytec-fit-table tr:last-child td {
+  border-bottom: 0;
+}
+
 .outcome-extrapolated {
   display: block;
   margin-top: 4px;

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   endpoints,
   hytecClinicalConstraints,
+  hytecPublishedFitParameterReviews,
   sources,
 } from "../data/evidence/v0.1/index.js";
 import type {
@@ -9,6 +10,7 @@ import type {
   ClinicalGuidanceKind,
   DoseMetric,
 } from "../domain/constraints.js";
+import { HytecPublishedFitDetails } from "./HytecPublishedFitDetails.js";
 import { tx } from "./i18n.js";
 import {
   endpointLabel,
@@ -458,6 +460,19 @@ export function ClinicalConstraintsView({
             )}
           </span>
         </div>
+
+        {hytecPublishedFitParameterReviews.some(fit =>
+          fit.sourceId === "milano-2021-hytec-brain" &&
+          fit.endpointId === endpointId,
+        ) ? (
+          <HytecPublishedFitDetails
+            language={language}
+            fits={hytecPublishedFitParameterReviews.filter(fit =>
+              fit.sourceId === "milano-2021-hytec-brain" &&
+              fit.endpointId === endpointId,
+            )}
+          />
+        ) : null}
 
         <div className="constraint-card-list">
           {filtered.map((constraint) => {
