@@ -5,6 +5,8 @@ import type {
 export const hytecOutcomeModels: OutcomeModel[] = [
   {
     id: "hytec-brain-mets-1y-local-control",
+    sourcePrescriptionBasis: "ptv-margin-prescription",
+    sourceFractionEquivalent: { fractions: 1, alphaBetaGy: 20, symbol: "SFED" },
     sourceId: "redmond-2021-hytec-brain-mets-tcp",
     endpointId: "brain-metastases-local-control",
     status: "reviewed",
@@ -22,6 +24,9 @@ export const hytecOutcomeModels: OutcomeModel[] = [
         "Necrosis and pseudoprogression can complicate local-control assessment.",
         "Lesion size materially modifies the dose-response relationship.",
         "The pooled literature was heterogeneous and retrospective.",
+        "Data were fitted on PRESCRIPTION DOSE AT PTV/TARGET MARGIN, not central GTV or isocentre dose; target margins varied (0–3 mm).",
+        "Cross-fraction comparison used source SFED20: single-fraction equivalent dose via LQ with alpha/beta=20 Gy as a study assumption, NOT a universal brain-metastasis alpha/beta.",
+        "The fitted 1-year lesion-level local-control models are distinct from separately published 2-year LC models and per-patient OS; many source series included concurrent/prior WBRT with no cumulative-dose adjustment.",
       ],
     },
     points: [

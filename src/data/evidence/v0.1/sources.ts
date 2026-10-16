@@ -189,7 +189,7 @@ export const sources = [
     doi: "10.1016/j.ijrobp.2020.10.034",
     kind: "systematic-review",
     notes:
-      "HyTEC pooled dose-response analysis of 1-year local control after SRS/fSRS for brain metastases, stratified by lesion size.",
+      "HyTEC pooled 1-year LOCAL CONTROL PER METASTASIS by maximum lesion diameter (56 included manuscripts, 13,929 lesions). Study-specific logistic fits use PTV/target MARGIN prescription and LQ SFED20 (alpha/beta=20 Gy MODEL ASSUMPTION, not an established universal brain-metastases value). The 1–5fx 1-year source fit is distinct from the separate 2-year local-control and overall-survival models in supplemental Table EA4. Source authors caution that prior/concurrent WBRT (common) and SRS prescription-isodose/PTV margin variability were not accounted for in the model.",
   },
   {
     id: "soltys-2021-hytec-vestibular-tcp",
@@ -301,7 +301,7 @@ export const sources = [
     pmid: "32921513",
     kind: "systematic-review",
     notes:
-      "HyTEC pooled dose-volume analysis for radionecrosis/edema after SRS/fSRS, with separate risk relationships for single-fraction V12 and fractionated V20/V24.",
+      "HyTEC pooled radionecrosis and edema Vx review after SRS/fSRS. Authors reconstruct some original brain-minus-target V12 to target-inclusive tissue V12 by adding estimated median GTV, an approximation at the study level, not direct contour measurement for every patient. Symptomatic 1fx V12=5/10/>15cc risk summaries are distinct from Table3 modeled ANY necrosis/edema (Chin/Inoue/Peng versus separately fitted Korytko) and surgery-confirmed grade-3 RN; do not merge risk endpoints or the logarithmic and exponential logistic fits into one patient NTCP. V20/3fx and V24/5fx remain separate author associations.",
   },
   {
     id: "sahgal-2021-hytec-spinal-cord",
