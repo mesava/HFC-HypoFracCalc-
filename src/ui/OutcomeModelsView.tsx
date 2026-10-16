@@ -488,6 +488,17 @@ export function OutcomeModelsView({
                   </div>
                 </dl>
 
+                {model.sourcePrescriptionBasis === "ptv-margin-prescription" &&
+                model.sourceFractionEquivalent ? (
+                  <p className="outcome-source-discrepancy">
+                    {tx(
+                      language,
+                      "HyTEC Redmond: дозовая основа исходной модели — предписанная доза на границе PTV/мишени, не Dmax в GTV, не изоцентрическая доза и не D95. Для объединения режимов авторы использовали SFED₂₀: эквивалент одной фракции по LQ при α/β = 20 Гр. Этот α/β относится только к модели исследования и не является общим коэффициентом радиочувствительности метастазов. Четыре показанные точки — локальный контроль отдельного очага через 1 год; модели 2-летнего контроля, общую выживаемость и влияние предыдущей WBRT нельзя автоматически подменять этими значениями.",
+                      "HyTEC Redmond: the source model uses prescribed PTV/target-margin dose, not GTV maximum, isocentre dose or D95. Regimens were combined using SFED20, the LQ single-fraction equivalent at alpha/beta = 20 Gy. This alpha/beta is a study-specific model assumption, not a universal brain-metastasis radiosensitivity parameter. The four listed points are 1-year local control per lesion; the separate 2-year LC models, overall survival and the effects of prior WBRT cannot be substituted automatically.",
+                    )}
+                  </p>
+                ) : null}
+
                 {model.id === "nsclc-stage-i-size-adjusted-2y-tcp" ? (
                   <p className="outcome-source-discrepancy">
                     {tx(
