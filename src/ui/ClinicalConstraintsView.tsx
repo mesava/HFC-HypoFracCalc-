@@ -114,6 +114,17 @@ function constraintValue(
   language: Language,
   constraint: ClinicalConstraint,
 ): string {
+  if (constraint.valueRange && constraint.doseRangeModelProvenance) {
+    const { low, high } = constraint.valueRange;
+    return (
+      tx(language, "Sahgal (дуральный мешок)", "Sahgal (thecal sac)") +
+      " " + formatUiNumber(language, low, 1) + " " +
+      unitLabel(language, constraint.unit) + " | " +
+      tx(language, "Katsoulakis–Gibbs (собственно спинной мозг)", "Katsoulakis–Gibbs (true spinal cord)") +
+      " " + formatUiNumber(language, high, 1) + " " +
+      unitLabel(language, constraint.unit)
+    );
+  }
   if (constraint.valueRange) {
     return (
       relationLabel(constraint.relation) +
@@ -451,6 +462,7 @@ export function ClinicalConstraintsView({
         <div className="constraint-card-list">
           {filtered.map((constraint) => {
             const source = sourceFor(constraint.sourceId);
+            const modelPair = (constraint as ClinicalConstraint).doseRangeModelProvenance;
             return (
               <article
                 className="constraint-card"
@@ -528,6 +540,46 @@ export function ClinicalConstraintsView({
                       {constraint.technique?.join(", ") ?? "—"}
                     </dd>
                   </div>
+                  {modelPair && constraint.valueRange ? (
+                    <>
+                      <div>
+                        <dt>
+                          {tx(language, "Sahgal — дуральный мешок (thecal sac)", "Sahgal — thecal sac")}
+                        </dt>
+                        <dd>
+                          Dmax {formatUiNumber(language, constraint.valueRange.low, 1)}{" "}
+                          {unitLabel(language, constraint.unit)}
+                          {" — "}
+                          {tx(
+                            language,
+                            "отдельная модель; не доверительный интервал",
+                            "separate model; not a confidence interval",
+                          )}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>
+                          {tx(language, "Katsoulakis–Gibbs — собственно спинной мозг", "Katsoulakis–Gibbs — true spinal cord")}
+                        </dt>
+                        <dd>
+                          Dmax {formatUiNumber(language, constraint.valueRange.high, 1)}{" "}
+                          {unitLabel(language, constraint.unit)}
+                          {" — "}
+                          {modelPair.high.derivation === "lq-extrapolation-from-1fx"
+                            ? tx(
+                                language,
+                                "LQ-экстраполяция из однофракционной модели, не самостоятельный клинический предел",
+                                "LQ extrapolation from the single-fraction model, not an independently established clinical limit",
+                              )
+                            : tx(
+                                language,
+                                "однофракционная клиническая модель",
+                                "single-fraction clinical model",
+                              )}
+                        </dd>
+                      </div>
+                    </>
+                  ) : null}
                   {constraint.volumeBasis ? (
                     <div>
                       <dt>
