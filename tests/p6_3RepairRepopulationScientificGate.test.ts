@@ -39,8 +39,12 @@ describe("P6.3: 6 repair and 14 repopulation scientific dose-basis gating",()=>{
     expect(Number(r.code_value)).toBe(v.rateGyPerDay);
     expect(r.code_kickOffDays).toBe(v.kickOffDays===undefined?"":String(v.kickOffDays));
    }
-   expect(r.code_ci95_low).toBe(v.ci95===undefined?"":String(v.ci95.low));
-   expect(r.code_ci95_high).toBe(v.ci95===undefined?"":String(v.ci95.high));
+   if(v.ci95===undefined){
+    expect(r.code_ci95_low).toBe("");expect(r.code_ci95_high).toBe("");
+   } else {
+    expect(Number(r.code_ci95_low)).toBe(v.ci95.low);
+    expect(Number(r.code_ci95_high)).toBe(v.ci95.high);
+   }
    expect(r.independent_primary_full_PDF_checked).toBe("false");
    expect(r.automatic_clinical_release).toBe("false");
   }
