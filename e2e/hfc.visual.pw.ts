@@ -149,7 +149,7 @@ async function assertNoHorizontalOverflow(page: Page) {
 
 async function captureViewport(
   page: Page,
-  viewportName: "desktop" | "mobile",
+  viewportName: "desktop" | "mobile" | "mobile-dark",
   width: number,
   height: number,
 ) {
@@ -197,5 +197,15 @@ test.describe("HFC visual acceptance capture", () => {
 
   test("captures all main modules at mobile width without horizontal overflow", async ({ page }) => {
     await captureViewport(page, "mobile", 390, 844);
+  });
+
+  test("captures all modules in dark clinical mobile layout", async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem("hfc-color-theme", "dark");
+      window.localStorage.setItem("hfc-design-style", "compact");
+    });
+    await captureViewport(page, "mobile-dark", 390, 844);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator("html")).not.toHaveAttribute("data-design", /.+/);
   });
 });
