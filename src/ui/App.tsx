@@ -38,7 +38,6 @@ import { InteractiveCalendarView } from "./InteractiveCalendarView.js";
 import {
   AppearanceControls,
   type ColorTheme,
-  type DesignStyle,
 } from "./AppearanceControls.js";
 
 type ParameterMode = "evidence" | "manual";
@@ -59,13 +58,6 @@ export function App() {
       ? "dark"
       : "light";
   });
-  const [designStyle, setDesignStyle] = useState<DesignStyle>(() => {
-    const stored = window.localStorage.getItem("hfc-design-style");
-    return stored === "journal" || stored === "compact"
-      ? stored
-      : "clinical";
-  });
-
   useEffect(() => {
     document.documentElement.lang = language;
     document.title = "HFC — HypoFracCalc";
@@ -84,10 +76,11 @@ export function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = colorTheme;
-    document.documentElement.dataset.design = designStyle;
+    // Retire the previously persisted layout choice; theme preference stays.
+    delete document.documentElement.dataset.design;
+    window.localStorage.removeItem("hfc-design-style");
     window.localStorage.setItem("hfc-color-theme", colorTheme);
-    window.localStorage.setItem("hfc-design-style", designStyle);
-  }, [colorTheme, designStyle]);
+  }, [colorTheme]);
 
   const availableEndpoints = useMemo(
     () =>
@@ -371,9 +364,7 @@ export function App() {
           <AppearanceControls
             language={language}
             colorTheme={colorTheme}
-            designStyle={designStyle}
             onColorThemeChange={setColorTheme}
-            onDesignStyleChange={setDesignStyle}
           />
           <div className="dataset-chip">
             {tx(language, "Фотонная ДЛТ", "Photon EBRT")}
