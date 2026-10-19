@@ -41,8 +41,8 @@ describe("P6.3b ten source-specific time-loss rates: numeric source != verified 
    expect(v.clinical_release_approved).toBe("false");
    expect(v.current_runtime_policy).toBe("explicit_only");
    expect(v.primary_source_url).toMatch(/^https:\/\//);
-   expect(v.source_tk_semantics.length).toBeGreaterThan(5);
-   expect(v.source_dose_semantics.length).toBeGreaterThan(15);
+   expect((v.source_tk_semantics ?? "").length).toBeGreaterThan(5);
+   expect((v.source_dose_semantics ?? "").length).toBeGreaterThan(15);
    expect(r.defaultEligible).toBe(false);
    expect(defaultRepopulationSelection(r.endpointId)).toBeUndefined();
    expect(getRepopulationEstimates(r.endpointId).some(x=>x.id===r.id)).toBe(true);
