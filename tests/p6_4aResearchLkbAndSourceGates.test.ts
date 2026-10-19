@@ -108,6 +108,6 @@ describe("P6.4a live source classes: not an unqualified clinical TCP/NTCP releas
   expect(brain).toHaveLength(7);
   expect(regimenPresets).toHaveLength(25);expect(complexRegimenPresets).toHaveLength(4);
   expect(new Set([...regimenPresets,...complexRegimenPresets].map(r=>r.id)).size).toBe(29);
-  expect(complexRegimenPresets.every(r=>r.prescription.kind!=="fixed")).toBe(true);
+  expect(new Set(complexRegimenPresets.map(r=>r.prescription.kind))).toEqual(new Set(["dose-range","sequential","sib"]));
  });
 });
