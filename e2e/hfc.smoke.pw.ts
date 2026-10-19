@@ -193,14 +193,24 @@ test.describe("HFC browser acceptance smoke tests", () => {
     ).toBeVisible();
   });
 
-  test("dark theme and design variants are user-selectable", async ({ page }) => {
-    await page.getByLabel("Вариант дизайна").selectOption("journal");
-    await expect(page.locator("html")).toHaveAttribute("data-design", "journal");
-
+  test("clinical layout is the sole design; light/dark theme remains selectable", async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem("hfc-design-style", "journal");
+      localStorage.setItem("hfc-color-theme", "dark");
+    });
+    await page.reload();
     const html = page.locator("html");
-    const initialTheme = await html.getAttribute("data-theme");
+    await expect(html).not.toHaveAttribute("data-design", /.+/);
+    await expect(page.getByLabel("Вариант дизайна")).toHaveCount(0);
+    await expect(page.getByLabel("Design variant")).toHaveCount(0);
+    await expect(html).toHaveAttribute("data-theme", "dark");
+    expect(await page.evaluate(() => localStorage.getItem("hfc-design-style"))).toBeNull();
+
     await page.locator(".theme-toggle").click();
-    await expect(html).not.toHaveAttribute("data-theme", initialTheme ?? "");
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await page.reload();
+    await expect(html).toHaveAttribute("data-theme", "light");
+    await expect(page.locator(".theme-toggle")).toHaveAttribute("aria-label", "Включить тёмную тему");
   });
 
   test("mobile navigation opens and changes module", async ({ page }) => {
