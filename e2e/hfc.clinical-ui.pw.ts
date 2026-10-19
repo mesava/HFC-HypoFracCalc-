@@ -11,11 +11,12 @@ async function useTheme(page: Page, theme: "light" | "dark") {
 async function assertShellColors(page: Page, mobile: boolean, dark: boolean) {
   const values = await page.evaluate((isMobile) => {
     const nav = document.querySelector(isMobile ? ".mobile-nav" : ".site-nav");
-    const trigger = document.querySelector(isMobile ? ".mobile-nav-trigger" : ".module");
+    const trigger = document.querySelector(isMobile ? ".mobile-nav-trigger" : ".site-nav .module:not(.active)");
     const chip = document.querySelector(".dataset-chip");
     if (!nav || !trigger || !chip) throw new Error("Clinical shell missing");
     const body = getComputedStyle(document.body);
     const navStyle = getComputedStyle(nav);
+    // Active navigation uses a deliberate teal accent; inspect an inactive tab instead.
     const triggerStyle = getComputedStyle(trigger);
     const chipStyle = getComputedStyle(chip);
     return {
