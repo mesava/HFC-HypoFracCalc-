@@ -63,7 +63,7 @@ describe("P6.2c original-page alpha/beta primary source numerical gate",()=>{
   }
  });
  it("retains poor-fit/uncertain models and refuses to invent CI or interchangeable FAST schedule",()=>{
-  const row=id=>entries.find(x=>x.record_id===id)!;
+  const row=(id: string)=>entries.find(x=>x.record_id===id)!;
   expect(row("ab-rectum-pain-g1-brand2021").source_ci95_high_gy).toBe("839.6");
   expect(row("ab-rectum-pain-g1-brand2021").auto_select_in_current_HFC).toBe("false");
   expect(row("ab-gu-frequency-g1-brand2023").source_ci95_high_gy).toBe("997.8");
