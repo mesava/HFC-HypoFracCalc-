@@ -20,7 +20,7 @@ function readCsv(raw: string): Record<string,string>[] {
 }
 const entries=readCsv(crosswalk);
 const idsBySource=Object.fromEntries(entries.reduce((m,r)=>{
-  const n=r.primary_filename;const arr=m.get(n)||[];arr.push(r);m.set(n,arr);return m;
+  const n=r.primary_filename ?? "";const arr=m.get(n)||[];arr.push(r);m.set(n,arr);return m;
 },new Map<string,Record<string,string>[]>())) as Record<string,Record<string,string>[]>;
 
 describe("P6.2c original-page alpha/beta primary source numerical gate",()=>{
@@ -29,7 +29,7 @@ describe("P6.2c original-page alpha/beta primary source numerical gate",()=>{
   expect(new Set(entries.map(x=>x.record_id)).size).toBe(30);
   const live=new Map(alphaBetaEstimates.map(x=>[x.id,x]));
   for(const row of entries){
-    const x=live.get(row.record_id);
+    const x=live.get(row.record_id ?? "");
     expect(x, row.record_id).toBeDefined();
     expect(x!.sourceId).toBe(row.source_id);
     expect(x!.valueGy).toBe(Number(row.source_alpha_beta_gy));
@@ -49,7 +49,7 @@ describe("P6.2c original-page alpha/beta primary source numerical gate",()=>{
  });
  it("preserves all source page/table coverage and endpoint-specific provenance",()=>{
   expect(Object.keys(idsBySource)).toHaveLength(5);
-  const group=(part:string)=>entries.filter(x=>x.primary_filename.includes(part));
+  const group=(part:string)=>entries.filter(x=>(x.primary_filename ?? "").includes(part));
   expect(group("Vogelius")).toHaveLength(1);
   expect(group("Brand_2021")).toHaveLength(9);
   expect(group("Brand_2022")).toHaveLength(10);
@@ -57,8 +57,8 @@ describe("P6.2c original-page alpha/beta primary source numerical gate",()=>{
   expect(group("FAST-Forward")).toHaveLength(3);
   for(const x of entries){
     expect(Number(x.source_pdf_page_1based)).toBeGreaterThan(0);
-    expect(x.source_table_or_figure.length).toBeGreaterThan(12);
-    expect(x.source_model_applicability.length).toBeGreaterThan(20);
+    expect((x.source_table_or_figure ?? "").length).toBeGreaterThan(12);
+    expect((x.source_model_applicability ?? "").length).toBeGreaterThan(20);
   }
  });
  it("retains poor-fit/uncertain models and refuses to invent CI or interchangeable FAST schedule",()=>{
