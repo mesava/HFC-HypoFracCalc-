@@ -27,13 +27,13 @@ describe("P6.2d secondary BCR2025 Table10.1 α/β provenance",()=>{
   const originalMissing=entries.filter(x=>x.verified_tier==="original_not_in_current_upload_and_not_direct_BCR_table_row");
   expect(verified).toHaveLength(12);expect(originalMissing).toHaveLength(2);
   for(const r of entries){
-    const live=byId.get(r.record_id)!;
+    const live=byId.get(r.record_id ?? "")!;
     expect(r.source_id).toBe(live.sourceId);
     expect(r.defaultEligible_in_current_HFC).toBe(String(live.defaultEligible));
     expect(r.primary_original_model_reproduced).toBe("false");
     expect(r.primary_source_in_uploaded_batch).toBe("false");
     expect(r.source_textbook_sha256).toMatch(/^[0-9a-f]{64}$/);
-    if(r.verified_tier.startsWith("accepted_secondary")){
+    if((r.verified_tier ?? "").startsWith("accepted_secondary")){
       expect(Number(r.source_alpha_beta_gy)).toBe(live.valueGy);
       expect(Number(r.source_ci95_low_gy)).toBe(live.ci95?.low);
       expect(Number(r.source_ci95_high_gy)).toBe(live.ci95?.high);
