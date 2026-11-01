@@ -41,7 +41,7 @@ describe("P6.2b actual re-uploaded 69-entry source-of-truth audit",()=>{
  });
  it("contains real SHA256, metadata, valid CRC claims and rechecks 40/40 historical HyTEC identities",()=>{
    const present=old.filter(x=>x.status_2026_11_01==="AVAILABLE_BYTES_VERIFIED");
-   expect(present.filter(x=>x.original_filename.startsWith("HyTEC_"))).toHaveLength(40);
+   expect(present.filter(x=>(x.original_filename ?? "").startsWith("HyTEC_"))).toHaveLength(40);
    for(const row of present){
      expect(row.uploaded_sha256).toMatch(/^[a-f0-9]{64}$/);
      expect(Number(row.uploaded_size_bytes)).toBeGreaterThan(0);
