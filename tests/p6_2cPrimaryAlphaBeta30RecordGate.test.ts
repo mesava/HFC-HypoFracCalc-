@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import crosswalk from "../docs/P6_2C_30_PRIMARY_ALPHA_BETA_SOURCE_CODE_RECONCILIATION_2026-11-01.csv?raw";
-import { alphaBetaEstimates } from "../src/data/evidence/v0.1/alphaBeta.js";
-import { evidenceManifest } from "../src/data/evidence/v0.1/index.js";
+import { alphaBetaEstimates, evidenceManifest } from "../src/data/evidence/v0.1/index.js";
 
 function readCsv(raw: string): Record<string,string>[] {
  const rr:string[][]=[]; let parts:string[]=[],cell="",quoted=false;
