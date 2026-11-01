@@ -65,12 +65,12 @@ describe("P6.2e/f supplied BCR2025 Tables10.2/10.3 source specificity",()=>{
     ["t12-laryngeal-edema-chart1999","4.9"],
     ["t12-skin-telangiectasia-chart1999","3.8"],
     ["t12-subcutis-fibrosis-chart1999","4.4"]
-  ])expect(row(id).source_reported_value).toBe(v);
+  ] as const)expect(row(id).source_reported_value).toBe(v);
   expect(row("t12-oral-mucositis-bcr2025").source_classification).toBe("qualitative_range_no_CI");
   expect(row("t12-oral-mucositis-bcr2025").source_reported_value).toBe("2–4");
   expect(row("t12-spinal-cord-myelopathy-bcr2025").source_reported_value).toBe(">5");
   expect(row("t12-temporal-lobe-necrosis-bcr2025").source_reported_value).toBe(">4");
-  for(const r of half.filter(x=>x.source_classification.includes("lower_bound"))){
+  for(const r of half.filter(x=>(x.source_classification ?? "").includes("lower_bound"))){
    expect(r.hfc_status).toBe("deprecated");
    expect(r.hfc_default_eligible).toBe("false");
    expect(r.source_reported_ci95_low).toBe("");
