@@ -74,9 +74,9 @@ describe("P6.2h 9 OutcomeModel source groups / 40 published probability points",
   const liver=hytecOutcomeModels.find(x=>x.id==="hytec-liver-metastases-bed10-local-control")!;
   expect(liver.evidenceForm).toBe("stratified-observation");
   expect(liver.points).toHaveLength(2);
-  expect(rows.filter(x=>x.model_id===liver.id).every(x=>x.source_context.includes("liver_metastases_only_not_HCC"))).toBe(true);
+  expect(rows.filter(x=>x.model_id===liver.id).every(x=>(x.source_context??"").includes("liver_metastases_only_not_HCC"))).toBe(true);
   const pancreas=rows.filter(x=>x.model_id==="hytec-pancreas-1y-local-control");
   expect(pancreas).toHaveLength(3);
-  expect(pancreas.every(x=>x.source_specific_caveat.includes("Resected R0"))).toBe(true);
+  expect(pancreas.every(x=>(x.source_specific_caveat??"").includes("Resected R0"))).toBe(true);
  });
 });
