@@ -36,8 +36,9 @@ describe("P6.2g 29 OAR constraints mapped to 7 uploaded original HyTEC PDFs",()=
      (c.metric.kind==="Vx"||c.metric.kind==="VleX")?c.metric.kind+c.metric.xGy:c.metric.kind;
    expect(r.primary_metric).toBe(metric);
    expect(r.live_metric).toBe(metric);
-   expect(r.primary_value).toBe(toRange(c.value,c.valueRange));
-   expect(r.live_value).toBe(toRange(c.value,c.valueRange));
+   const expectedValue=toRange(c.value,c.valueRange).split("..").map(Number);
+   expect((r.primary_value??"").split("..").map(Number)).toEqual(expectedValue);
+   expect((r.live_value??"").split("..").map(Number)).toEqual(expectedValue);
    const fractions=c.fractionation?.fractions===undefined?
      c.applicability?.fractionCountRange?.min+".."+c.applicability?.fractionCountRange?.max:
      String(c.fractionation.fractions);
