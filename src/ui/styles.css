@@ -4396,6 +4396,29 @@ html[data-theme="dark"] .reirradiation-course-table small {
   color: #e3afa5;
 }
 
+/* Recurring source miniatures and selected parameters must not fall back
+   to the original white styling after the clinical contrast pass. */
+html[data-theme="dark"] .evidence-mini {
+  border-color: var(--hfc-border);
+  background: var(--hfc-surface-muted);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .evidence-mini strong,
+html[data-theme="dark"] .reference-radio {
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .evidence-mini :is(span, small) {
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .segmented button {
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .segmented button.selected {
+  background: var(--hfc-accent-soft);
+  color: var(--hfc-text);
+  box-shadow: none;
+}
+
 /* Preserve visual hierarchy without imposing white report cards on dark UI. */
 html[data-theme="dark"] .outcome-evidence-warning,
 html[data-theme="dark"] .outcome-source-discrepancy {
