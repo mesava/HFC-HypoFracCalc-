@@ -4260,6 +4260,173 @@ html[data-theme="dark"] .editable-day.on .editable-day-dose span {
   color: #b7d8c2;
 }
 
+/* P6.5 RC2 visual-acceptance fix: readable scientific content in the dark theme.
+   Only presentation changes; preserve the clinical values, meanings, and print rules.
+   The GitHub Actions 45-image acceptance artifact exposed legacy light-only cards. */
+html[data-theme="dark"] :is(
+  .methodology-hero,
+  .constraints-hero,
+  .reirradiation-hero
+) h2 {
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] :is(
+  .methodology-hero,
+  .constraints-hero,
+  .reirradiation-hero
+) > p,
+html[data-theme="dark"] .reirradiation-hero p {
+  color: var(--hfc-muted);
+}
+
+/* These are source/evidence headings, not disabled/secondary actions. */
+html[data-theme="dark"] .methodology-card h3,
+html[data-theme="dark"] .constraints-caution strong,
+html[data-theme="dark"] .constraints-context-line strong,
+html[data-theme="dark"] .constraint-card-top > div:first-child > strong,
+html[data-theme="dark"] .constraint-risk strong,
+html[data-theme="dark"] .metric-context-card strong,
+html[data-theme="dark"] .remaining-budget-card strong,
+html[data-theme="dark"] .reirradiation-guidance-heading h3,
+html[data-theme="dark"] .guidance-criterion strong,
+html[data-theme="dark"] .reirradiation-method-note strong,
+html[data-theme="dark"] .prior-course-heading > input {
+  color: var(--hfc-text);
+}
+
+html[data-theme="dark"] .dataset-stat-grid > div,
+html[data-theme="dark"] .constraint-card,
+html[data-theme="dark"] .reirradiation-checkboxes label,
+html[data-theme="dark"] .metric-context-card,
+html[data-theme="dark"] .prior-course-card,
+html[data-theme="dark"] .regimen-editor,
+html[data-theme="dark"] .compare-endpoint-editor,
+html[data-theme="dark"] .reirradiation-guidance-card,
+html[data-theme="dark"] .guidance-criterion,
+html[data-theme="dark"] .remaining-budget-card > div,
+html[data-theme="dark"] .endpoint-evidence-line,
+html[data-theme="dark"] .guidance-confirmation,
+html[data-theme="dark"] .hytec-other-fit-review,
+html[data-theme="dark"] .methodology-card code,
+html[data-theme="dark"] .site-safety,
+html[data-theme="dark"] .secondary-button,
+html[data-theme="dark"] .icon-button {
+  border-color: var(--hfc-border);
+  background: var(--hfc-surface-muted);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .regimen-editor.reference {
+  border-color: #527d83;
+  background: var(--hfc-accent-soft);
+}
+html[data-theme="dark"] :is(.secondary-button, .icon-button):hover:not(:disabled) {
+  border-color: var(--hfc-accent);
+  background: var(--hfc-accent-soft);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .constraint-guidance-kind,
+html[data-theme="dark"] .support-dot.supported {
+  background: var(--hfc-accent-soft);
+  color: #b6d9d7;
+}
+html[data-theme="dark"] .support-dot.limited {
+  background: #39321e;
+  color: #e9d4a2;
+}
+html[data-theme="dark"] .inline-alert {
+  border-color: #6c5c37;
+  background: #30281c;
+  color: #ebd8ad;
+}
+
+html[data-theme="dark"] .methodology-card p,
+html[data-theme="dark"] .dataset-stat-grid span,
+html[data-theme="dark"] .constraint-risk span,
+html[data-theme="dark"] .constraint-meta dt,
+html[data-theme="dark"] .constraint-meta dd,
+html[data-theme="dark"] .constraint-evidence-note,
+html[data-theme="dark"] .constraint-source,
+html[data-theme="dark"] .constraint-card p,
+html[data-theme="dark"] .constraints-caution,
+html[data-theme="dark"] .constraints-context-line,
+html[data-theme="dark"] .reirradiation-checkboxes label,
+html[data-theme="dark"] .metric-context-card span,
+html[data-theme="dark"] .remaining-budget-card span,
+html[data-theme="dark"] .guidance-criterion small,
+html[data-theme="dark"] .reirradiation-method-note p,
+html[data-theme="dark"] .recovery-note,
+html[data-theme="dark"] .site-safety p,
+html[data-theme="dark"] .endpoint-evidence-line small {
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .dataset-stat-grid strong {
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .constraint-meta > div,
+html[data-theme="dark"] .reirradiation-method-note,
+html[data-theme="dark"] .outcome-point-table-scroll,
+html[data-theme="dark"] .reirradiation-course-table-wrap {
+  border-color: var(--hfc-border);
+}
+html[data-theme="dark"] .prior-course-heading > input {
+  border-bottom-color: var(--hfc-border);
+}
+
+/* Keep cumulative dose and outcome tables legible instead of white-on-white. */
+html[data-theme="dark"] .outcome-point-table,
+html[data-theme="dark"] .reirradiation-course-table {
+  background: var(--hfc-surface-muted);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .outcome-point-table :is(th, td),
+html[data-theme="dark"] .reirradiation-course-table :is(th, td) {
+  border-color: var(--hfc-border);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .outcome-point-table th,
+html[data-theme="dark"] .reirradiation-course-table thead th {
+  background: var(--hfc-surface);
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .reirradiation-course-table tbody th,
+html[data-theme="dark"] .hytec-other-fit-review > summary {
+  color: #b6d9d7;
+}
+html[data-theme="dark"] .reirradiation-course-table small {
+  color: #e3afa5;
+}
+
+/* Recurring source miniatures and selected parameters must not fall back
+   to the original white styling after the clinical contrast pass. */
+html[data-theme="dark"] .evidence-mini {
+  border-color: var(--hfc-border);
+  background: var(--hfc-surface-muted);
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .evidence-mini strong,
+html[data-theme="dark"] .reference-radio {
+  color: var(--hfc-text);
+}
+html[data-theme="dark"] .evidence-mini :is(span, small) {
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .segmented button {
+  color: var(--hfc-muted);
+}
+html[data-theme="dark"] .segmented button.selected {
+  background: var(--hfc-accent-soft);
+  color: var(--hfc-text);
+  box-shadow: none;
+}
+
+/* Preserve visual hierarchy without imposing white report cards on dark UI. */
+html[data-theme="dark"] .outcome-evidence-warning,
+html[data-theme="dark"] .outcome-source-discrepancy {
+  border-color: #6c5c37;
+  background: #30281c;
+  color: #ebd8ad;
+}
+
 .calendar-print-header { display: none; }
 
 /* Browser print/save-as-PDF: real edited calendar, not the original template. */
