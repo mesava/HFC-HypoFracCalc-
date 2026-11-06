@@ -56,6 +56,17 @@ PMID: 41318002
 
 ## ReCOG 2026
 
+**Проверка 06.11.2026:** теперь доступен полный 10-страничный оригинальный PDF *Paradis, Appelt, Bentzen et al.*, DOI `10.1016/S1470-2045(25)00562-5`. Его SHA-256: `95da5699b2eae39c2dde89ba8c01ae46454ac330d3db6ef9be6c50a2c2c1ba88`. Данные сверены с PDF pp.2–6, включая Figure 1, таблицу рекомендаций и Figure 2. Подробный [постраничный научный аудит с 25 требованиями](P6_RECOG_2026_APPELT_PARADIS_PRIMARY_PDF_AUDIT_2026-11-06_RU.md) и [матрица требований → HFC](P6_RECOG_2026_25_STANDARD_TO_HFC_CROSSWALK_2026-11-06.csv).
+
+**Этот консенсус не является источником универсальных коэффициентов восстановления или клинических дозовых ограничений.** Важно различать его с отдельным техническим документом `Appelt et al., Radiotherapy and Oncology 2026;214:111313`.
+
+Из оригинала следуют ограничения реализации:
+
+- PDF p.3/e103: отдельная биологическая конверсия последовательных фаз и совместная суточная доза при одновременном наложении планов в одном вокселе. **HFC не реализует full voxel-wise simultaneous multi-plan dose accounting**.
+- PDF p.4–5/e104–e105: решение о точечной или пространственной аккумуляции учитывает клиническую обеспокоенность токсичностью, наличие DICOM и регистрацию; пригодность регистрации должна быть комиссионирована, а не выбрана только по выпадающему списку.
+- PDF p.6/e106: *ReCOG Figure 2* требует существенно больше данных отчёта, чем текущий JSON-аудит HFC: даты и детали всех курсов, точность/метод регистрации, неопределённости, OAR-specific physical and cumulative equieffective metrics, informed consent и совместное принятие решения. **HFC не должен называться полностью ReCOG-compliant clinical reporting tool** до закрытия [задачи №107](https://github.com/mesava/HFC-HypoFracCalc-/issues/107). 
+
+
 Paradis KC, Appelt AL, Bentzen SM, et al. *Reirradiation Collaborative Group (ReCOG) consensus on standards for dose evaluation and reporting in patients with multiple courses of radiation therapy*. Lancet Oncol. 2026;27(2):e101–e110.
 
 DOI: 10.1016/S1470-2045(25)00562-5  
