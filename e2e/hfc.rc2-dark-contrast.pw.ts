@@ -80,12 +80,18 @@ test.describe("Release visual gate: dark clinical science content is readable",(
   await gotoDark(page);await navigate(page,"Калькуляторы","Повторное облучение");
   await assertReadableHeading(page,".reirradiation-hero h2");
   for(const selector of [".reirradiation-checkboxes label",".metric-context-card",".prior-course-card",
-    ".secondary-button"]) await assertDarkCard(page,selector);
+    ".secondary-button",".evidence-mini",".segmented button.selected"]) await assertDarkCard(page,selector);
+  await assertReadableHeading(page,".evidence-mini strong");
   await assertReadableHeading(page,".metric-context-card strong");
  });
  test("Compare Regimens: editor backgrounds, OAR cards and buttons do not have bright light-only surfaces",async({page})=>{
   await gotoDark(page);await navigate(page,"Калькуляторы","Сравнение режимов");
   for(const selector of [".regimen-editor",".regimen-editor.reference",
-    ".compare-endpoint-editor",".secondary-button",".icon-button"]) await assertDarkCard(page,selector);
+    ".compare-endpoint-editor",".secondary-button",".icon-button",".endpoint-evidence-line"]) await assertDarkCard(page,selector);
+  const labelColors=await page.locator(".reference-radio").first().evaluate(node=>({
+    foreground:getComputedStyle(node).color,
+    background:getComputedStyle(node.closest(".regimen-editor")!).backgroundColor
+  }));
+  expect(contrastRatio(labelColors.foreground,labelColors.background)).toBeGreaterThanOrEqual(4.5);
  });
 });
