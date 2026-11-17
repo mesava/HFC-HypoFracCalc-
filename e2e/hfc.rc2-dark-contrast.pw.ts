@@ -60,6 +60,11 @@ async function navigate(page:Page,tab:"Методология"|"Калькуля
 }
 
 test.describe("Release visual gate: dark clinical science content is readable",()=>{
+ test("home calculator titles are readable against dark card surfaces",async({page})=>{
+  await gotoDark(page);
+  await assertDarkCard(page,".module-card");
+  await assertReadableHeading(page,".module-card strong");
+ });
  test("methodology: 8 evidence statistics are dark and header contrast is accessible",async({page})=>{
   await gotoDark(page);await navigate(page,"Методология");
   await assertReadableHeading(page,".methodology-hero h2");
