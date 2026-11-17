@@ -1,0 +1,11 @@
+evidence_point_id,paper,doi,source_locator,endpoint,subgroup,eqd2_gy,fractions,gy_per_fraction,max_diameter_cm,model_d50_gy,model_gamma,model_c_gy_per_cm,model_k_gy,model_tcd50_gy,source_text_pct,independent_model_pct,model_minus_source_pp,p6_review_status
+prostate-lowint-90tcp,Royce2021,10.1016/j.ijrobp.2020.08.014,PDFp6 Eq2 Table3,5y FFBR,low-intermediate,71,,,,20.6,0.15,,,,90,77.44426617,-12.555734,blocked_source_model_mismatch
+prostate-lowint-95tcp,Royce2021,10.1016/j.ijrobp.2020.08.014,PDFp6 Eq2 Table3,5y FFBR,low-intermediate,90,,,,20.6,0.15,,,,95,83.90451565,-11.095484,blocked_source_model_mismatch
+prostate-high-90tcp,Royce2021,10.1016/j.ijrobp.2020.08.014,PDFp6 Eq2 Table3,5y FFBR,high,97,,,,84.2,4.5,,,,90,89.76688945,-0.233111,arithmetic_reproduced_not_clinical_validation
+prostate-high-95tcp,Royce2021,10.1016/j.ijrobp.2020.08.014,PDFp6 Eq2 Table3,5y FFBR,high,102,,,,84.2,4.5,,,,95,94.9127082,-0.087292,arithmetic_reproduced_not_clinical_validation
+nsclc-50gy-5fx-1cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,5,10,1,,,10,31,0,93,94.80056699,1.800567,text_confirmed_equation_mismatch_open
+nsclc-50gy-5fx-3cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,5,10,3,,,10,31,0,90,90.53438973,0.53439,source_rounded_model_point
+nsclc-50gy-5fx-5cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,5,10,5,,,10,31,0,83,83.38140711,0.381407,source_rounded_model_point
+nsclc-54gy-3fx-1cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,3,18,1,,,10,31,0,99,98.95932432,-0.040676,source_rounded_model_point
+nsclc-54gy-3fx-3cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,3,18,3,,,10,31,0,98,98.03470159,0.034702,source_rounded_model_point
+nsclc-54gy-3fx-5cm-2y,Ohri2012,10.1016/j.ijrobp.2012.04.040,PMC Discussion and Methods,2y local control,stage-I NSCLC,,3,18,5,,,10,31,0,96,96.31912403,0.319124,source_rounded_model_point
