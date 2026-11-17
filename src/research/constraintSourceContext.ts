@@ -6,19 +6,19 @@ import type { ClinicalConstraint, DoseMetric, DoseVolumeBasis } from "../domain/
  * prove clinical suitability or authorize a treatment decision.
  */
 export interface ConstraintSourceContext {
-  metric?: DoseMetric;
-  unit?: ClinicalConstraint["unit"];
-  fractions?: number;
-  radiationQuality?: "photon" | "proton" | "heavy-ion" | "brachytherapy" | "mixed";
-  technique?: string;
-  priorRadiotherapy?: "none" | "yes";
-  volumeBasis?: DoseVolumeBasis;
+  metric?: DoseMetric | undefined;
+  unit?: ClinicalConstraint["unit"] | undefined;
+  fractions?: number | undefined;
+  radiationQuality?: "photon" | "proton" | "heavy-ion" | "brachytherapy" | "mixed" | undefined;
+  technique?: string | undefined;
+  priorRadiotherapy?: "none" | "yes" | undefined;
+  volumeBasis?: DoseVolumeBasis | undefined;
   /** Explicit selection of one original dose-reporting contour for a mixed-model range. */
-  sourceModelContour?: "thecal-sac" | "true-spinal-cord";
+  sourceModelContour?: "thecal-sac" | "true-spinal-cord" | undefined;
   /** Required to interpret prescription-relative V(Rx dose), not itself a dose comparison. */
-  prescriptionDoseGy?: number;
+  prescriptionDoseGy?: number | undefined;
   /** Human source-population assessment only, never automatic patient eligibility. */
-  populationReviewed?: boolean;
+  populationReviewed?: boolean | undefined;
 }
 
 export type ConstraintSourceStatus =
