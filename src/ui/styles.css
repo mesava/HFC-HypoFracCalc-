@@ -4260,6 +4260,11 @@ html[data-theme="dark"] .editable-day.on .editable-day-dose span {
   color: #b7d8c2;
 }
 
+/* Home calculator titles use <strong>, not <h3>; protect their contrast too. */
+html[data-theme="dark"] .module-card strong {
+  color: var(--hfc-text);
+}
+
 /* P6.5 RC2 visual-acceptance fix: readable scientific content in the dark theme.
    Only presentation changes; preserve the clinical values, meanings, and print rules.
    The GitHub Actions 45-image acceptance artifact exposed legacy light-only cards. */
