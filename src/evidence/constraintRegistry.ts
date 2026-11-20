@@ -118,8 +118,9 @@ export function resolveClinicalConstraint(
 
   if (constraint.volumeBasis !== undefined &&
     constraint.metric.kind !== "Vx" &&
-    constraint.metric.kind !== "VleX") {
-    throw new Error(`Constraint dataset error: volumeBasis assigned to non-volume metric ${constraint.id}.`);
+    constraint.metric.kind !== "VleX" &&
+    constraint.metric.kind !== "mean-dose") {
+    throw new Error(`Constraint dataset error: volumeBasis assigned to metric without contour-aware semantics ${constraint.id}.`);
   }
 
   // HyTEC Milano Vx risks are explicitly target-inclusive; treating
@@ -146,17 +147,17 @@ export function resolveClinicalConstraint(
   }
 
 
-  // A named Vx threshold without a source-compatible organ contour is
-  // not a comparable OAR measurement, even when its numeric value matches.
+  // Volume-threshold AND mean-organ-dose metrics require their original
+  // source reporting contour, not a similarly named organ/other subtraction.
   if (constraint.sourceId === "miften-2021-hytec-liver-toxicity" &&
-    constraint.metric.kind === "VleX" &&
+    (constraint.metric.kind === "VleX" || constraint.metric.kind === "mean-dose") &&
     constraint.volumeBasis !== "normal-liver-minus-gtv") {
-    throw new Error(`Constraint dataset error: Miften spared liver must exclude GTV in ${constraint.id}.`);
+    throw new Error(`Constraint dataset error: Miften normal liver (MLD or spared volume) must exclude GTV in ${constraint.id}.`);
   }
   if (constraint.sourceId === "kong-2021-hytec-lung-parenchyma" &&
-    constraint.metric.kind === "Vx" &&
+    (constraint.metric.kind === "Vx" || constraint.metric.kind === "mean-dose") &&
     constraint.volumeBasis !== "bilateral-lungs-minus-gtv-or-igtv") {
-    throw new Error(`Constraint dataset error: Kong Vx requires bilateral lung with GTV/IGTV subtraction in ${constraint.id}.`);
+    throw new Error(`Constraint dataset error: Kong lung DVH (Vx or MLD) requires bilateral lung with GTV/IGTV subtraction in ${constraint.id}.`);
   }
 
   // Sahgal Table 3 columns represent DIFFERENT models and contoured
