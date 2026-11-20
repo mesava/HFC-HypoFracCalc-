@@ -117,7 +117,10 @@ describe("P7: research-only source applicability, never automatic clinical accep
     const wrongMetric = matched(id, { metric: { kind: "Vx", xGy: 5 }, prescriptionDoseGy: 40 });
     expect(wrongMetric.status).toBe("incompatible");
     const withPrescription = matched(id, { prescriptionDoseGy: 40 });
-    expect(withPrescription.status).toBe("source-metadata-compatible");
+    // Source publications use heterogeneous prostate bladder contours;
+    // knowing Rx allows V(Rx) interpretation but cannot remove that uncertainty.
+    expect(withPrescription.status).toBe("indeterminate");
+    expect(withPrescription.reasons).toContain("source-contour-study-heterogeneity");
     expect(withPrescription.canAutoEnforce).toBe(false);
   });
 
