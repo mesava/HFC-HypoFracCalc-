@@ -1,0 +1,583 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mesava/HFC-HypoFracCalc-/blob/develop/docs/contracts/hfc-dvh-context-v0.1.0.schema.json",
+  "title": "HFC-BioRT synthetic DVH source-context research contract 0.1.0",
+  "description": "Research context/provenance only. No patient data, numerical DVHs, clinical constraints or risk estimates. Passing validation is not treatment acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractVersion",
+    "dataClass",
+    "producer",
+    "constraintId",
+    "endpointId",
+    "roi",
+    "geometry",
+    "measurement",
+    "treatment"
+  ],
+  "properties": {
+    "contractVersion": {
+      "const": "hfc-dvh-context/0.1.0"
+    },
+    "dataClass": {
+      "const": "synthetic"
+    },
+    "producer": {
+      "type": "string",
+      "enum": [
+        "BioRT",
+        "synthetic-test"
+      ]
+    },
+    "constraintId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "endpointId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "roi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "number",
+        "name",
+        "reportingContour",
+        "volumeBasis",
+        "sourceModelContour",
+        "definitionReviewed"
+      ],
+      "properties": {
+        "number": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reportingContour": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "optic-nerve-or-chiasm",
+                "brain-tissue-including-target",
+                "model-dependent-spinal-cord",
+                "carotid-major-vessel",
+                "both-lungs-minus-gtv-igtv",
+                "normal-liver-minus-gtv",
+                "bladder-source-defined",
+                "urethra-source-defined",
+                "rectum-source-defined"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "volumeBasis": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "target-inclusive-tissue",
+                "brain-minus-target",
+                "normal-liver-minus-gtv",
+                "bilateral-lungs-minus-gtv-or-igtv"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceModelContour": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "thecal-sac",
+                "true-spinal-cord"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "definitionReviewed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rtdoseFrameOfReferenceUid",
+        "rtstructFrameOfReferenceUid",
+        "frameMatchQa",
+        "maskQa",
+        "registration"
+      ],
+      "properties": {
+        "rtdoseFrameOfReferenceUid": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rtstructFrameOfReferenceUid": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frameMatchQa": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "unknown"
+          ]
+        },
+        "maskQa": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "unknown"
+          ]
+        },
+        "registration": {
+          "type": "string",
+          "enum": [
+            "same-frame",
+            "registered-reviewed",
+            "unregistered",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "unit",
+        "doseBasis",
+        "thresholdSide",
+        "dvh"
+      ],
+      "properties": {
+        "metric": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "Dmax"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "D0.03cc"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "D0.1cc"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "D0.5cc"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "D1cc"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "D2cc"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "mean-dose"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "xGy"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "Vx"
+                },
+                "xGy": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "xGy"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "VleX"
+                },
+                "xGy": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "customLabel"
+              ],
+              "properties": {
+                "kind": {
+                  "const": "custom"
+                },
+                "customLabel": {
+                  "const": "V(Rx dose)"
+                }
+              }
+            }
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "Gy",
+            "cc",
+            "%",
+            "probability"
+          ]
+        },
+        "doseBasis": {
+          "type": "string",
+          "enum": [
+            "physical-total-gy",
+            "physical-per-fraction-gy",
+            "BED",
+            "EQD2",
+            "unknown"
+          ]
+        },
+        "thresholdSide": {
+          "type": "string",
+          "enum": [
+            "at-or-above",
+            "at-or-below",
+            "not-applicable"
+          ]
+        },
+        "dvh": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "curve",
+            "volumeNormalization",
+            "doseBinWidthGy",
+            "interpolation",
+            "maxDefinition",
+            "maxDefinitionReviewed",
+            "sampledVolumeCc"
+          ],
+          "properties": {
+            "curve": {
+              "type": "string",
+              "enum": [
+                "cumulative",
+                "differential",
+                "unknown"
+              ]
+            },
+            "volumeNormalization": {
+              "type": "string",
+              "enum": [
+                "absolute-cc",
+                "relative-percent",
+                "unknown"
+              ]
+            },
+            "doseBinWidthGy": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interpolation": {
+              "type": "string",
+              "enum": [
+                "linear",
+                "step",
+                "none",
+                "unknown"
+              ]
+            },
+            "maxDefinition": {
+              "type": "string",
+              "enum": [
+                "point-maximum",
+                "sampled-voxel-maximum",
+                "unknown"
+              ]
+            },
+            "maxDefinitionReviewed": {
+              "type": "boolean"
+            },
+            "sampledVolumeCc": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "treatment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fractions",
+        "technique",
+        "priorRadiotherapy",
+        "population",
+        "populationReviewed",
+        "fractionDeliveryPattern",
+        "prescriptionTargets",
+        "selectedPrescriptionTargetId",
+        "phaseCount",
+        "simultaneousPhaseDoseSum",
+        "interCourseAccumulation"
+      ],
+      "properties": {
+        "fractions": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "technique": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "priorRadiotherapy": {
+          "type": "string",
+          "enum": [
+            "none",
+            "yes",
+            "unknown"
+          ]
+        },
+        "population": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "lesions-near-optic-pathways",
+                "brain-metastases",
+                "de-novo-spine-sbrt",
+                "head-neck-reirradiation",
+                "small-peripheral-lung-sbrt",
+                "primary-hepatic-sbrt",
+                "liver-metastasis-sbrt",
+                "prostate-sbrt"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "populationReviewed": {
+          "type": "boolean"
+        },
+        "fractionDeliveryPattern": {
+          "type": "string",
+          "enum": [
+            "consecutive",
+            "nonconsecutive",
+            "other",
+            "unknown"
+          ]
+        },
+        "prescriptionTargets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "targetId",
+              "physicalTotalDoseGy"
+            ],
+            "properties": {
+              "targetId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "physicalTotalDoseGy": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        },
+        "selectedPrescriptionTargetId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phaseCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "simultaneousPhaseDoseSum": {
+          "type": "string",
+          "enum": [
+            "not-applicable",
+            "verified-per-voxel",
+            "unknown"
+          ]
+        },
+        "interCourseAccumulation": {
+          "type": "string",
+          "enum": [
+            "none",
+            "registered-reviewed",
+            "unverified"
+          ]
+        }
+      }
+    }
+  }
+}
