@@ -4,6 +4,7 @@ import {
   assessConstraintSourceContext,
   type ConstraintSourceContext,
 } from "../src/research/constraintSourceContext.js";
+import { hytecOarSourceProfiles } from "../src/research/hytecOarSourceProfiles.js";
 
 const get = (id: string) => {
   const constraint = hytecClinicalConstraints.find(item => item.id === id);
@@ -13,6 +14,8 @@ const get = (id: string) => {
 
 const matched = (id: string, overrides: Partial<ConstraintSourceContext> = {}) => {
   const c = get(id);
+  const profile = hytecOarSourceProfiles[id];
+  if (!profile) throw new Error("Missing HyTEC research profile: " + id);
   const base: ConstraintSourceContext = {
     metric: c.metric,
     unit: c.unit,
@@ -22,6 +25,10 @@ const matched = (id: string, overrides: Partial<ConstraintSourceContext> = {}) =
     technique: c.technique?.[0] ?? c.applicability?.technique?.[0],
     volumeBasis: c.volumeBasis,
     populationReviewed: true,
+    endpointId: c.endpointId,
+    patientPopulation: profile.populations[0],
+    reportingContour: profile.contour,
+    fractionDeliveryPattern: "nonconsecutive",
   };
   return assessConstraintSourceContext(c, { ...base, ...overrides });
 };
@@ -50,7 +57,10 @@ describe("P7: research-only source applicability, never automatic clinical accep
 
   it("does not replace target-inclusive brain V12 with brain-minus-target V12", () => {
     const id = "hytec-brain-v12-5cc-symptomatic-rn";
-    expect(matched(id).status).toBe("source-metadata-compatible");
+    // The source pooled target-inclusive V12 partly using estimated volumes;
+    // matching the listed contour is NOT proof of directly measured DVH equivalence.
+    expect(matched(id).status).toBe("indeterminate");
+    expect(matched(id).reasons).toContain("source-volume-harmonisation-uncertain");
     const wrongContour = matched(id, { volumeBasis: "brain-minus-target" });
     expect(wrongContour.status).toBe("incompatible");
     expect(wrongContour.reasons).toContain("contour-basis-mismatch");
@@ -107,16 +117,22 @@ describe("P7: research-only source applicability, never automatic clinical accep
     const wrongMetric = matched(id, { metric: { kind: "Vx", xGy: 5 }, prescriptionDoseGy: 40 });
     expect(wrongMetric.status).toBe("incompatible");
     const withPrescription = matched(id, { prescriptionDoseGy: 40 });
-    expect(withPrescription.status).toBe("source-metadata-compatible");
+    // Source publications use heterogeneous prostate bladder contours;
+    // knowing Rx allows V(Rx) interpretation but cannot remove that uncertainty.
+    expect(withPrescription.status).toBe("indeterminate");
+    expect(withPrescription.reasons).toContain("source-contour-study-heterogeneity");
     expect(withPrescription.canAutoEnforce).toBe(false);
   });
 
-  it("flags unstructured normal-liver mean-dose contours instead of pretending a match", () => {
+  it("requires source-defined normal-liver-minus-GTV contour for MLD", () => {
     const id = "hytec-liver-primary-mld-3fx-13gy";
     const a = matched(id);
-    expect(a.status).toBe("indeterminate");
-    expect(a.reasons).toContain("source-mean-dose-contour-not-structured");
+    expect(a.status).toBe("source-metadata-compatible");
+    expect(matched(id, { volumeBasis: "target-inclusive-tissue" }).reasons)
+      .toContain("contour-basis-mismatch");
     expect(matched(id, { fractions: 6 }).status).toBe("incompatible");
+    expect(matched(id, { patientPopulation: "liver-metastasis-sbrt" }).reasons)
+      .toContain("source-cohort-mismatch");
   });
 
   it("requires source-population review when source records describe a selected cohort", () => {

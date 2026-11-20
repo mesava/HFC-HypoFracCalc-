@@ -62,7 +62,9 @@ export interface DoseRangeModelProvenance {
   high: DoseRangeModelEndpoint;
 }
 
-/** Explicit anatomy/contour semantics for absolute Vx-style quantities. */
+/** Contour/volume definition required for Vx, VleX AND mean-dose (MLD) comparisons.
+ * Not a patient-specific segmentation validator. Missing basis must stay unknown.
+ */
 export type DoseVolumeBasis =
   | "target-inclusive-tissue"
   | "brain-minus-target"

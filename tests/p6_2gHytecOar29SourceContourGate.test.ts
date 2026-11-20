@@ -45,6 +45,8 @@ describe("P6.2g 29 OAR constraints mapped to 7 uploaded original HyTEC PDFs",()=
    expect(r.primary_fractionation).toBe(fractions);
    expect(r.live_fractionation).toBe(fractions);
    expect(r.primary_evidence_role).toBe(c.guidanceKind);
+   // Source audit columns must agree with *structured* contour metadata, including MLD.
+   expect(r.live_volume_basis).toBe(c.volumeBasis ?? "");
    expect(r.independent_source_vs_code_metadata_match).toBe("true");
    expect(r.full_source_cohort_statistical_refit).toBe("false");
    expect(r.patient_specific_NTCP_validated).toBe("false");
