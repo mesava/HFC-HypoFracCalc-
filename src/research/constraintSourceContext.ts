@@ -1,4 +1,9 @@
 import type { ClinicalConstraint, DoseMetric, DoseVolumeBasis } from "../domain/constraints.js";
+import {
+  hytecOarSourceProfiles,
+  type HytecOarPopulation,
+  type HytecReportingContour,
+} from "./hytecOarSourceProfiles.js";
 
 /**
  * Research-only comparison of SOURCE CONTEXT, not a DVH pass/fail gate.
@@ -19,6 +24,14 @@ export interface ConstraintSourceContext {
   prescriptionDoseGy?: number | undefined;
   /** Human source-population assessment only, never automatic patient eligibility. */
   populationReviewed?: boolean | undefined;
+  /** Evidence endpoint, never inferred from organ or prescription alone. */
+  endpointId?: string | undefined;
+  /** Source cohort category; still requires expert review. */
+  patientPopulation?: HytecOarPopulation | undefined;
+  /** Explicit reporting contour. Names alone do not establish correct segmentation. */
+  reportingContour?: HytecReportingContour | undefined;
+  /** Scheduling information for source-specific nonconsecutive-day guidance. */
+  fractionDeliveryPattern?: "consecutive" | "nonconsecutive" | "other" | undefined;
 }
 
 export type ConstraintSourceStatus =
@@ -92,7 +105,7 @@ export function assessConstraintSourceContext(
     if (!context.volumeBasis) missing("contour-basis-not-provided");
     else if (context.volumeBasis !== constraint.volumeBasis) incompatible.push("contour-basis-mismatch");
   } else if (constraint.metric.kind === "mean-dose") {
-    // For liver/lung MLD a free-text note is NOT machine-readable contour provenance.
+    // A source note alone cannot establish the DVH contour; report unknown rather than infer.
     missing("source-mean-dose-contour-not-structured");
   }
 
@@ -102,7 +115,38 @@ export function assessConstraintSourceContext(
       incompatible.push("prescription-dose-invalid");
   }
 
-  if (constraint.population && context.populationReviewed !== true)
+  const profile = hytecOarSourceProfiles[constraint.id];
+  if (profile) {
+    if (context.endpointId === undefined) missing("endpoint-not-provided");
+    else if (context.endpointId !== constraint.endpointId) incompatible.push("endpoint-mismatch");
+
+    if (!context.patientPopulation) missing("source-cohort-not-provided");
+    else if (!profile.populations.includes(context.patientPopulation))
+      incompatible.push("source-cohort-mismatch");
+
+    if (!context.reportingContour) missing("source-reporting-contour-not-provided");
+    else if (context.reportingContour !== profile.contour)
+      incompatible.push("source-reporting-contour-mismatch");
+
+    if (profile.schedule === "nonconsecutive-advised") {
+      if (!context.fractionDeliveryPattern) missing("fraction-delivery-pattern-not-provided");
+      else if (context.fractionDeliveryPattern !== "nonconsecutive")
+        missing("fraction-schedule-differs-from-guidance");
+    }
+
+    // Some source syntheses estimate target-inclusive V12 from mixed contours.
+    if (constraint.volumeBasisDerivation === "mixed-reported-and-estimated")
+      missing("source-volume-harmonisation-uncertain");
+
+    // Prostate OAR definitions and pooled carotid Dmax contours vary by source
+    // study: a matching contour label never establishes measurement equivalence.
+    if (profile.contourComparability === "mixed-or-uncertain" &&
+        profile.contour !== "model-dependent-spinal-cord" &&
+        profile.contour !== "brain-tissue-including-target")
+      missing("source-contour-study-heterogeneity");
+  }
+
+  if ((constraint.population || profile) && context.populationReviewed !== true)
     missing("source-population-not-reviewed");
 
   if (constraint.doseRangeModelProvenance) {
