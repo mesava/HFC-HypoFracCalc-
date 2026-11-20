@@ -239,7 +239,7 @@ export function assessDvhResearchContext(input: unknown): DvhResearchAssessment 
       (metric.kind === "custom" && metric.customLabel === "V(Rx dose)")) {
     if (h.curve !== "cumulative") uncertain.push("cumulative-dvh-provenance-unverified");
     if (h.volumeNormalization === "unknown") uncertain.push("dvh-volume-normalization-unknown");
-    if (h.volumeNormalization !== (c.measurement.unit === "%" ? "relative-percent" : "absolute-cc"))
+    else if (h.volumeNormalization !== (c.measurement.unit === "%" ? "relative-percent" : "absolute-cc"))
       incompatible.push("dvh-volume-unit-mismatch");
     if (h.doseBinWidthGy === null || h.interpolation === "unknown")
       uncertain.push("dvh-binning-or-interpolation-unknown");
