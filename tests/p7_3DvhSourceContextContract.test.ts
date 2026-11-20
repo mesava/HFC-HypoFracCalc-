@@ -151,6 +151,47 @@ describe("P7.3 BioRT–HFC research-only DVH-context contract", () => {
     hasReason(u.reasons, "cumulative-dvh-provenance-unverified");
   });
 
+  it("keeps unknown histogram normalization indeterminate, not a false incompatibility", () => {
+    const c = hytecClinicalConstraints.find(v => v.id === "hytec-lung-rilt-v20-10to15pct")!;
+    const p = hytecOarSourceProfiles[c.id]!;
+    const x = clone();
+    x.constraintId = c.id;
+    x.endpointId = c.endpointId;
+    x.roi.reportingContour = p.contour;
+    x.roi.volumeBasis = c.volumeBasis ?? null;
+    x.measurement.metric = c.metric;
+    x.measurement.unit = c.unit;
+    x.measurement.thresholdSide = "at-or-above";
+    x.measurement.dvh.volumeNormalization = "unknown";
+    x.treatment.population = p.populations[0]!;
+    x.treatment.technique = "lung SBRT";
+    x.treatment.fractions = 3;
+    const result = assessDvhResearchContext(x);
+    expect(result.status).toBe("indeterminate");
+    hasReason(result.reasons, "dvh-volume-normalization-unknown");
+    expect(result.reasons).not.toContain("dvh-volume-unit-mismatch");
+  });
+
+  it("does not use D0.5cc without an adequately sampled ROI volume and cumulative DVH", () => {
+    const c = hytecClinicalConstraints.find(v => v.id === "hytec-major-vessel-d0p5cc-5fx-20gy")!;
+    const p = hytecOarSourceProfiles[c.id]!;
+    const x = clone();
+    x.constraintId = c.id;
+    x.endpointId = c.endpointId;
+    x.roi.reportingContour = p.contour;
+    x.measurement.metric = c.metric;
+    x.treatment.population = p.populations[0]!;
+    x.treatment.priorRadiotherapy = "yes";
+    x.treatment.technique = "head-and-neck SBRT reirradiation";
+    x.treatment.fractions = 5;
+    x.treatment.fractionDeliveryPattern = "nonconsecutive";
+    expect(assessDvhResearchContext(x).status).toBe("source-metadata-compatible");
+    x.measurement.dvh.sampledVolumeCc = 0.3;
+    const small = assessDvhResearchContext(x);
+    expect(small.status).toBe("indeterminate");
+    hasReason(small.reasons, "near-max-dcc-dvh-provenance-insufficient");
+  });
+
   it("requires explicit prescription target for V(Rx dose), never guesses for two targets", () => {
     const c = hytecClinicalConstraints.find(v => v.id === "hytec-prostate-sbrt-bladder-vrx-5to10cc")!;
     const p = hytecOarSourceProfiles[c.id]!;
