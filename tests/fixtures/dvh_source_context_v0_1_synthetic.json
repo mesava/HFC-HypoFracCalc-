@@ -1,0 +1,57 @@
+{
+  "contractVersion": "hfc-dvh-context/0.1.0",
+  "dataClass": "synthetic",
+  "producer": "synthetic-test",
+  "constraintId": "hytec-optic-dmax-1fx-10gy",
+  "endpointId": "optic-pathway-radiation-neuropathy",
+  "roi": {
+    "number": 7,
+    "name": "Synthetic_OpticNerve",
+    "reportingContour": "optic-nerve-or-chiasm",
+    "volumeBasis": null,
+    "sourceModelContour": null,
+    "definitionReviewed": true
+  },
+  "geometry": {
+    "rtdoseFrameOfReferenceUid": "1.2.826.0.1.3680043.10.543.1",
+    "rtstructFrameOfReferenceUid": "1.2.826.0.1.3680043.10.543.1",
+    "frameMatchQa": "pass",
+    "maskQa": "pass",
+    "registration": "same-frame"
+  },
+  "measurement": {
+    "metric": {
+      "kind": "Dmax"
+    },
+    "unit": "Gy",
+    "doseBasis": "physical-total-gy",
+    "thresholdSide": "not-applicable",
+    "dvh": {
+      "curve": "cumulative",
+      "volumeNormalization": "absolute-cc",
+      "doseBinWidthGy": 0.1,
+      "interpolation": "linear",
+      "maxDefinition": "point-maximum",
+      "maxDefinitionReviewed": true,
+      "sampledVolumeCc": 1.1
+    }
+  },
+  "treatment": {
+    "fractions": 1,
+    "technique": "SRS",
+    "priorRadiotherapy": "none",
+    "population": "lesions-near-optic-pathways",
+    "populationReviewed": true,
+    "fractionDeliveryPattern": "other",
+    "prescriptionTargets": [
+      {
+        "targetId": "synthetic-target-a",
+        "physicalTotalDoseGy": 20
+      }
+    ],
+    "selectedPrescriptionTargetId": "synthetic-target-a",
+    "phaseCount": 1,
+    "simultaneousPhaseDoseSum": "not-applicable",
+    "interCourseAccumulation": "none"
+  }
+}
